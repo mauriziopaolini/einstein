@@ -1,0 +1,39 @@
+I find quite intriguing the possibility of an infinite sequence of
+hats corresponding to the "same-color" arrays of hexagons in figure 2.2
+of the arxiv paper.
+
+Indeed, by looking at the subdivision rule based on the two H_7 and H_8
+supertiles it turns out that there exists a complete alignment of such tiles in the
+subdivided tiles running along a slightly decreasing alignment of small H_7 and
+H_8 tiles after a number of subdivision steps starting from H_7 or H_8.
+
+As a result, if we perform blow-ups about a point in that alignment we shall
+obtain an infinite "worm".
+
+This is *very* reminiscent of the bi-infinite worms that can be present in a
+Penrose tiling (there are two of them in the cartwheel) and indeed we can find
+a striking similarity by using the "Conway signature" construction associated to
+a supertile of a complete tiling.
+
+After a suitable numbering from 0 to 5 of the pieces of the subdivision of H_7
+and from 0 to 6 of the pieces in the subdivision of H_8, precisely:
+
+The single H_7 tile in both subdivision is numbered "0";
+the rest are numbered 1 to 4 for the H_8 tiles adjacent to the H_7 (counter-clockwise);
+the remaining H_8 tile in the subdivision of H_7 is numbered 5;
+the corresponding H_8 tile in the subdivision of H_8 is also numbered 5;
+the remaining tile in the subdivision of H_8 is numbered 6.
+
+Then the Conway signature of a supertile in a tiling is an "infinite-to-the-left"
+sequence of symbols in {0,...,6} where the pair "...06..." is forbidden since a tile
+cannot have numbering 6 if resulting from a subdivision of an H_7.
+
+This can be done for each supertile of any given tiling.
+
+An infinite worm arises whenever such a signature (definitely) contains only
+symbols in the smaller set {0,2,6} with the forbidden sequence "...06..."
+
+[to be continued]
+
+
+
