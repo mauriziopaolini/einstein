@@ -18,8 +18,6 @@ haty=[0, ap/2, ap, ap, ap/2, ap, ap/2, 0, 0, -ap, -3/2*ap, -ap, -ap, 0]
 
 tahx=[-x for x in hatx]
 
-#plt.fill(tahx,haty,color='#00aa0088')
-
 def H7(c1,c2,c3):
     h=[]
     h.append([trasf([tahx,haty],120,0,0),c1])
@@ -34,6 +32,18 @@ def H7(c1,c2,c3):
 def H8(c1,c2,c3):
     h=H7(c1,c2,c3)
     h.append([trasf([hatx,haty],60,-3,2*ap),c3])
+    return h
+
+def H7worm(c1,c2):
+    h=[]
+    h.append([trasf([tahx,haty],120,0,0),c1])
+    h.append([trasf([hatx,haty],60,3/2,ap),c2])
+    h.append([trasf([hatx,haty],60,-3/2,ap),c2])
+    return h
+
+def H8worm(c1,c2):
+    h=H7worm(c1,c2)
+    h.append([trasf([hatx,haty],60,-3,2*ap),c2])
     return h
 
 c71=(1,0,1)
@@ -112,7 +122,48 @@ def h8rec(depth):
             g.append([trasf(l[0],-60,-3/2*fibo(2*d+4), ap*(2*fibo(2*d+2)+lucas(2*d+2))),l[1]])
         return g
 
+
+w71=(0,1,1)
+w72=(0,1,0.5)
+w81=(0.5,1,1)
+w82=(0.5,1,0.5)
+
+def h7worm(depth):
+    d = depth-1
+    g=[]
+    if depth == 0:
+        for l in H7worm(w71,w72):
+            g.append([trasf(l[0],0,0,0),l[1]])
+        return g
+    else:
+        for l in h7worm(d):
+            g.append([trasf(l[0],0,0,0),l[1]])
+        for l in h8worm(d):
+            g.append([trasf(l[0],0,-3/2*lucas(2*d+2),ap*fibo(2*d+1)),l[1]])
+        return g
+
+def h8worm(depth):
+    d = depth-1
+    g=[]
+    if depth == 0:
+        for l in H8worm(w81,w82):
+            g.append([trasf(l[0],0,0,0),l[1]])
+        return g
+    else:
+        for l in h7worm(d):
+            g.append([trasf(l[0],0,0,0),l[1]])
+        for l in h8worm(d):
+            g.append([trasf(l[0],0,-3/2*lucas(2*d+2),ap*fibo(2*d+1)),l[1]])
+        for l in h8worm(d):
+            g.append([trasf(l[0],0,-3/2*lucas(2*d+4),ap*fibo(2*d+3)),l[1]])
+        return g
+
 for l in h8rec(3):
+    plt.fill(l[0][0],l[0][1],color=l[1])
+#    plt.plot(l[0][0],l[0][1],color=l[1])
+    plt.plot(l[0][0],l[0][1],'k',linewidth=.1)
+
+for l in h8worm(3):
     plt.fill(l[0][0],l[0][1],color=l[1])
 #    plt.plot(l[0][0],l[0][1],color=l[1])
     plt.plot(l[0][0],l[0][1],'k',linewidth=.1)
