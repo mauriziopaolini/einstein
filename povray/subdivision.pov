@@ -160,8 +160,8 @@ camera {
 light_source { 5*<20, 20, -20> color 0.5*White }
 light_source { 10*pradius*<-1, 1, 1> color White }
 
-#declare h7pos=<-5,0,-1.3>;
-#declare h8pos=<14,0,-1.3>;
+#declare h7pos=<-7,0,-1.3>;
+#declare h8pos=<12,0,-1.3>;
 
 /* percorso di riferimento che connette <0,0,0> a <1,1,1> */
 
@@ -272,9 +272,11 @@ light_source { 10*pradius*<-1, 1, 1> color White }
   }
 #end
 
-object {
-  h7m
-  //texture{T_kite}
+#declare seet_h7 = color rgbt <1, 0.5, 0.5, 0.7>;
+#declare seet_h8 = color rgbt <0.5, 1, 0.5, 0.7>;
+
+union {
+  h7list (seet_h7, seet_h7, seet_h7)
   scale pradius
   translate h7pos
 }
@@ -289,9 +291,8 @@ object {
   }
 #end
 
-object {
-  h8m
-  //texture{T_dart}
+union {
+  h8list (seet_h8, seet_h8, seet_h8)
   scale pradius
   translate h8pos
 }

@@ -111,20 +111,22 @@ object {hat
   }
 #end
 
-#declare h7m = union {
-  h7list (h7c1, h7c2, h7c3)
-
-}
-
-#declare h8m = union {
-  h7list (h8c1, h8c2, h8c3)
-
+#macro h8list (c1, c2, c3)
+  h7list (c1, c2, c3)
   object {hat
     rotate -60*y
     translate -3*x
     translate 2*ap*z
-    pigment {color h8c3}
+    pigment {color c3}
   }
+#end
+
+#declare h7m = union {
+  h7list (h7c1, h7c2, h7c3)
+}
+
+#declare h8m = union {
+  h8list (h8c1, h8c2, h8c3)
 }
 
 #declare h7worm = union {
@@ -132,14 +134,14 @@ object {hat
 }
 
 #declare h8worm = union {
-  h7list (Blue, h8c1, h8c2)
+  h8list (Blue, h8c1, h8c2)
 
-  object {hat
-    rotate -60*y
-    translate -3*x
-    translate 2*ap*z
-    pigment {color h8c2}
-  }
+//  object {hat
+//    rotate -60*y
+//    translate -3*x
+//    translate 2*ap*z
+//    pigment {color h8c2}
+//  }
 }
 
 #ifndef (sambient)
