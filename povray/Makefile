@@ -13,3 +13,14 @@ $(deflated_png_H7):einstein_H7_d%.png: einstein.pov shapes.inc subdivision.inc
 $(deflated_png_H8):einstein_H8_d%.png: einstein.pov shapes.inc subdivision.inc
 	povray +a -D $< Declare=htile=8 Declare=depth=$* +O$@
 
+subdivision_frames: frames/subdivision/subdivision0000.png
+
+frames:
+	mkdir frames
+
+frames/subdivision: frames
+	mkdir frames/subdivision
+
+frames/subdivision/subdivision0000.png: subdivision.pov frames/subdivision
+	povray +a subdivision.pov Declare=AspectWide=1 +W1280 +H720 +ki0 +kf2 +kfi0 +kff1000 +Oframes/subdivision/
+
