@@ -4,11 +4,13 @@
 #include "colors.inc"
 
 #declare phi = (sqrt(5)-1)/2;
+#declare Phi = (sqrt(5)+1)/2;
 #declare ap = sqrt(3)/2;
 
 #local n = 13;
 #local tile_eps=0.05;  /* svaso in cima */
 #local tile_f=0.5;     /* pendenza svaso in cima */
+#declare tile_thick = (h + tile_eps*tile_f);
 
 #local pointshat=array[n]
 {<0,0>, <3/4,ap/2>, <1/2,ap>, <-1/2,ap>, <-3/4,ap/2>,
