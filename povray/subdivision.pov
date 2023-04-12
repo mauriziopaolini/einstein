@@ -39,6 +39,11 @@ global_settings { assumed_gamma 1.0 }
 /*
  * sfortunatamente pare che VeraMono.ttf manchi del cirillico
  */
+
+#ifdef (debug)
+  #declare withscritta = 1;
+#end
+
 #declare paperthick=0.005;
 //#if (Lang = LangRU)
 //  #declare tfont="arial.ttf";
@@ -54,12 +59,14 @@ object { tavolo2 }
  * foglio di carta
  */
 
-box {
-  <-2,0,8>
-  <18,paperthick,17>
-  pigment{White}
-  finish {tile_Finish}
-}
+#ifdef (withscritta)
+  box {
+    <-2,0,8>
+    <18,paperthick,17>
+    pigment{White}
+    finish {tile_Finish}
+  }
+#end
 
 #declare scrittah = 14.0;
 #declare scrittal = 0;
@@ -106,17 +113,19 @@ box {
 #declare rscrittatr = (scrittar - scrittal - clock*scrittavel)*x;
 #declare lscrittatr = (scrittar - scrittal - (clock-1)*scrittavel)*x;
 
-object {rscrittaobj
-  translate rscrittatr
-  //bounded_by {clipwindow}
-  //clipped_by {bounded_by}
-}
+#ifdef (withscritta)
+  object {rscrittaobj
+    translate rscrittatr
+    //bounded_by {clipwindow}
+    //clipped_by {bounded_by}
+  }
 
-object {lscrittaobj
-  translate lscrittatr
-  //bounded_by {clipwindow}
-  //clipped_by {bounded_by}
-}
+  object {lscrittaobj
+    translate lscrittatr
+    //bounded_by {clipwindow}
+    //clipped_by {bounded_by}
+  }
+#end
 
 background{Black}
 
