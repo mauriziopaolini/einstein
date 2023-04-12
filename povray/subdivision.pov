@@ -264,11 +264,13 @@ light_source { 10*pradius*<-1, 1, 1> color White }
   #declare tileid = tileid + 1;
 #end
 
-sphere {
-  endpos[0] + pradius*tile_thick*y
-  0.3
-  pigment {color Blue}
-}
+#ifdef (debug)
+  sphere {
+    endpos[0] + pradius*tile_thick*y
+    0.3
+    pigment {color Blue}
+  }
+#end
 
 object {
   h7m
@@ -277,13 +279,15 @@ object {
   translate h7pos
 }
 
-sphere {
-  <0,0,0>
-  0.2
-  pigment {color Black}
-  scale pradius
-  translate h7pos
-}
+#ifdef (debug)
+  sphere {
+    <0,0,0>
+    0.2
+    pigment {color Black}
+    scale pradius
+    translate h7pos
+  }
+#end
 
 object {
   h8m
