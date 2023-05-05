@@ -24,6 +24,10 @@ global_settings { assumed_gamma 1.0 }
 #include "subdivision.inc"
 #include "ambiente.inc"
 
+#ifndef (depth)
+  #declare depth=0;
+#end
+
 #declare LangIT=1;
 #declare LangEN=2;
 #declare LangFUR=3;
@@ -82,7 +86,9 @@ object { tavolo2 }
 #end
 
 //#declare k = -0.1;
-#declare pradius=Phi*Phi;
+#declare magstep = Phi*Phi;
+#declare mag = pow (magstep, depth);
+#declare pradius=magstep;
 
 #declare clipwindow = 
 box {
@@ -176,15 +182,24 @@ light_source { 10*pradius*<-1, 1, 1> color White }
 }
 
 /*
- * ci sono per cinque semitasselli che formano
- * un mezzo kite (rkite) e un mezzo rdart
- * altri cinque per ricoprire le meta' di sinistra
  */
+
+#if (depth <= 0)
+  #declare h7 = h7m;
+  #declare h8 = h8m;
+#else
+  #declare h7 = 
+    union {h7rec (transform{scale 1/magstep}, depth)}
+  #declare h8 =
+    union {h8rec (transform{scale 1/magstep}, depth)}
+#end
 
 #declare numtiles = 13;
 #declare stiles = 
-  array[numtiles] {h7m,h8m,h8m,h8m,h8m,h8m,
-                   h7m,h8m,h8m,h8m,h8m,h8m,h8m}
+//  array[numtiles] {h7m,h8m,h8m,h8m,h8m,h8m,
+//                   h7m,h8m,h8m,h8m,h8m,h8m,h8m}
+  array[numtiles] {h7,h8,h8,h8,h8,h8,
+                   h7,h8,h8,h8,h8,h8,h8}
 #declare h7sp = <-10,paperthick,12>;
 #declare h8sp = <2,paperthick,12>;
 //#declare ksp = <2.91,paperthick,2.20>;
@@ -207,9 +222,10 @@ light_source { 10*pradius*<-1, 1, 1> color White }
 
 #declare startangle = 
   array[numtiles] {20,13,21,22,12,15, 24,18,9,4,18,21,20}
+#declare trni = array[7] {trn0[depth]/mag,trn1[depth]/mag,trn2[depth]/mag,trn3[depth]/mag,trn4[depth]/mag,trn5[depth]/mag,trn6[depth]/mag}
 #declare endpos = 
-  array[numtiles] {trn0[0]+h7pos,trn1[0]+h7pos,trn2[0]+h7pos,trn3[0]+h7pos,trn4[0]+h7pos,trn5[0]+h7pos,
-                   trn0[0]+h8pos,trn1[0]+h8pos,trn2[0]+h8pos,trn3[0]+h8pos,trn4[0]+h8pos,trn5[0]+h8pos,trn6[0]+h8pos}
+  array[numtiles] {trni[0]+h7pos,trni[1]+h7pos,trni[2]+h7pos,trni[3]+h7pos,trni[4]+h7pos,trni[5]+h7pos,
+                   trni[0]+h8pos,trni[1]+h8pos,trni[2]+h8pos,trni[3]+h8pos,trni[4]+h8pos,trni[5]+h8pos,trni[6]+h8pos}
 #declare endangle = 
   array[numtiles] {rot0,rot1,rot2,rot3,rot4,rot5,
                    rot0,rot1,rot2,rot3,rot4,rot5,rot6}
@@ -275,11 +291,17 @@ light_source { 10*pradius*<-1, 1, 1> color White }
 #declare seet_h7 = color rgbt <1, 0.5, 0.5, 0.7>;
 #declare seet_h8 = color rgbt <0.5, 1, 0.5, 0.7>;
 
-union {
-  h7list (seet_h7, seet_h7, seet_h7)
-  scale pradius
-  translate h7pos
-}
+#declare seet = seet_h7;
+
+#if (depth <= 0)
+  union {
+    h7list (seet_h7, seet_h7, seet_h7)
+    scale pradius
+    translate h7pos
+  }
+#else
+  h7rec (transform {scale pradius/magstep translate h7pos}, depth)
+#end
 
 #ifdef (debug)
   sphere {
@@ -291,9 +313,15 @@ union {
   }
 #end
 
-union {
-  h8list (seet_h8, seet_h8, seet_h8)
-  scale pradius
-  translate h8pos
-}
+#declare seet = seet_h8;
+
+#if (depth <= 0)
+  union {
+    h8list (seet_h8, seet_h8, seet_h8)
+    scale pradius
+    translate h8pos
+  }
+#else
+  h8rec (transform {scale pradius/magstep translate h8pos}, depth)
+#end
 
