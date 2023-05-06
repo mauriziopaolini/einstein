@@ -88,7 +88,7 @@ object { tavolo2 }
 //#declare k = -0.1;
 #declare magstep = Phi*Phi;
 #declare mag = pow (magstep, depth);
-#declare pradius=magstep;
+//#declare pradius=magstep;
 
 #declare clipwindow = 
 box {
@@ -135,8 +135,8 @@ box {
 
 background{Black}
 
-#declare camerapos=3*pradius*<0, 14, 1>;
-#declare lookatpos=pradius*<0, 0, 1>;
+#declare camerapos=3*magstep*<0, 14, 1>;
+#declare lookatpos=magstep*<0, 0, 1>;
 #declare eyeshift=0*x;
 #declare eyedist=0.5;
 #declare eyedir=vnormalize(vcross(lookatpos-camerapos,-y));
@@ -164,7 +164,7 @@ camera {
 }
 
 light_source { 5*<20, 20, -20> color 0.5*White }
-light_source { 10*pradius*<-1, 1, 1> color White }
+light_source { 10*magstep*<-1, 1, 1> color White }
 
 #declare h7pos=<-7,0,-1.3>;
 #declare h8pos=<12,0,-1.3>;
@@ -189,9 +189,9 @@ light_source { 10*pradius*<-1, 1, 1> color White }
   #declare h8 = h8m;
 #else
   #declare h7 = 
-    union {h7rec (transform{scale 1/magstep}, depth)}
+    union {h7rec (transform{scale 1/mag}, depth)}
   #declare h8 =
-    union {h8rec (transform{scale 1/magstep}, depth)}
+    union {h8rec (transform{scale 1/mag}, depth)}
 #end
 
 #declare numtiles = 13;
@@ -271,7 +271,7 @@ light_source { 10*pradius*<-1, 1, 1> color White }
   #if (lltime < 0) #declare lltime = 0; #end
   #if (lltime > 1) #declare lltime = 1; #end
   #declare ang = lltime*endangle[tileid] + (1-lltime)*startangle[tileid];
-  calcpos (ltime, startpos[tileid], endpos[tileid] + pradius*tile_thick*y)
+  calcpos (ltime, startpos[tileid], endpos[tileid] + magstep*tile_thick*y)
   object {
     stiles[tileid]
     rotate ang*y
@@ -282,7 +282,7 @@ light_source { 10*pradius*<-1, 1, 1> color White }
 
 #ifdef (debug)
   sphere {
-    endpos[0] + pradius*tile_thick*y
+    endpos[0] + magstep*tile_thick*y
     0.3
     pigment {color Blue}
   }
@@ -296,11 +296,12 @@ light_source { 10*pradius*<-1, 1, 1> color White }
 #if (depth <= 0)
   union {
     h7list (seet_h7, seet_h7, seet_h7)
-    scale pradius
+    scale magstep
     translate h7pos
   }
 #else
-  h7rec (transform {scale pradius/magstep translate h7pos}, depth)
+//  h7rec (transform {scale magstep/magstep translate h7pos}, depth)
+  h7rec (transform {scale magstep/mag translate h7pos}, depth)
 #end
 
 #ifdef (debug)
@@ -308,7 +309,7 @@ light_source { 10*pradius*<-1, 1, 1> color White }
     <0,0,0>
     0.2
     pigment {color Black}
-    scale pradius
+    scale magstep
     translate h7pos
   }
 #end
@@ -318,10 +319,11 @@ light_source { 10*pradius*<-1, 1, 1> color White }
 #if (depth <= 0)
   union {
     h8list (seet_h8, seet_h8, seet_h8)
-    scale pradius
+    scale magstep
     translate h8pos
   }
 #else
-  h8rec (transform {scale pradius/magstep translate h8pos}, depth)
+//  h8rec (transform {scale 1 translate h8pos}, depth)
+  h8rec (transform {scale magstep/mag translate h8pos}, depth)
 #end
 
