@@ -13,23 +13,20 @@ $(deflated_png_H7):einstein_H7_d%.png: einstein.pov shapes.inc subdivision.inc
 $(deflated_png_H8):einstein_H8_d%.png: einstein.pov shapes.inc subdivision.inc
 	povray +a -D $< Declare=htile=8 Declare=depth=$* +O$@
 
-subdivision_frames: frames/subdivision/subdivision0000.png
+#subdivision_frames: frames/subdivision/subdivision000.png
 
 frames:
 	mkdir $@
 
-frames/subdivision%: frames
+dirs = $(depths:%=frames/subdivision_d%)
+frames000 = $(dirs:%=%/subdivision000.png)
+
+$(dirs):frames/subdivision_d%: frames
 	mkdir $@
 
-frames/subdivision/subdivision0000.png: subdivision.pov frames/subdivision
-	povray -D +a subdivision.pov Declare=AspectWide=1 +W1280 +H720 +ki0 +kf2 +kfi0 +kff1000 +Oframes/subdivision/
+$(frames000):frames/subdivision_d%/subdivision000.png: subdivision.pov frames/subdivision_d%
+	povray -D +a subdivision.pov Declare=AspectWide=1 Declare=depth=$* +W1280 +H720 +ki0 +kf2 +kfi0 +kff500 +Oframes/subdivision_d$*/
 
-frames/subdivision_d1/subdivision0000.png: subdivision.pov frames/subdivision_d1
-	povray -D +a subdivision.pov Declare=AspectWide=1 Declare=depth=1 +W1280 +H720 +ki0 +kf2 +kfi0 +kff1000 +Oframes/subdivision_d1/
-
-subdivision.mp4: frames/subdivision/subdivision0000.png
-	ffmpeg -framerate 25 -pattern_type glob -i 'frames/subdivision/subdivision????.png' -c:v libx264 -pix_fmt yuv420p $@
-
-subdivision%.mp4: frames/subdivision%/subdivision0000.png
-	ffmpeg -framerate 25 -pattern_type glob -i 'frames/subdivision$*/subdivision????.png' -c:v libx264 -pix_fmt yuv420p $@
+subdivision%.mp4: frames/subdivision%/subdivision000.png
+	ffmpeg -framerate 25 -pattern_type glob -i 'frames/subdivision$*/subdivision???.png' -c:v libx264 -pix_fmt yuv420p $@
 
