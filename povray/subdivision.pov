@@ -167,7 +167,7 @@ light_source { 5*<20, 20, -20> color 0.5*White }
 light_source { 10*magstep*<-1, 1, 1> color White }
 
 #declare h7pos=<-7,0,-1.3>;
-#declare h8pos=<12,0,-1.3>;
+#declare h8pos=<13,0,-1.3>;
 
 /* percorso di riferimento che connette <0,0,0> a <1,1,1> */
 
@@ -201,7 +201,7 @@ light_source { 10*magstep*<-1, 1, 1> color White }
   array[numtiles] {h7,h8,h8,h8,h8,h8,
                    h7,h8,h8,h8,h8,h8,h8}
 #declare h7sp = <-10,paperthick,12>;
-#declare h8sp = <2,paperthick,12>;
+#declare h8sp = <11,paperthick,12>;
 //#declare ksp = <2.91,paperthick,2.20>;
 //#declare dsp = <-0.16,paperthick,2.20>;
 #declare startpos =
