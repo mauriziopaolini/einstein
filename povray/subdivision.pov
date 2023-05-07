@@ -1,18 +1,28 @@
 /*
  * animazione con clock tra 0 e 2
+ *
+ * valori superiori di clock provocano l'aumento di depth:
+ *   depth = int (clock/2)
+ *   clock = clock - 2*depth
+ *
+ * la massima profondita' sopportata e' depth = 4, corrispondente
+ * ad un clock tra 0 e 10
+ *
  * esempio di comando di compilazione, risoluzione 640x480 con antialiasing,
- * costruzione di 1000 fotogrammi con clock che varia tra 0 e 2:
+ * costruzione di 500 fotogrammi con clock che varia tra 0 e 2:
  *
- *   povray subdivision.pov +w640 +h480 +a +ki0 +kf2 +kfi0 +kff1000
+ *   povray subdivision.pov +w640 +h480 +a +ki0 +kf2 +kfi0 +kff500
  *
+ * [legacy: la scritta NON e' al momento supportata; eredita' del
+ *          sorgente rubato da "penrose"]
  * e' possibile selezionare la lingua (default: italiano) tramite
  * la dichiarazione "Lang=n" (n=1: italiano, n=2: inglese) ad esempio:
  *   povray ... Declare=Lang=2
  */
 /*
-#finalclock 2
-#numseconds 40
-#durata 45
+#finalclock 12
+#numseconds 100
+#durata 105
 #coda 5
 #titolo 5
  */
@@ -24,8 +34,17 @@ global_settings { assumed_gamma 1.0 }
 #include "subdivision.inc"
 #include "ambiente.inc"
 
+#declare subtime = 2;
+
 #ifndef (depth)
-  #declare depth=0;
+  #declare depth = int (clock/subtime);
+  #declare subclock = clock - subtime*depth;
+  #if (depth > 0 & subclock = 0) /* semicontinuita' temporale dal passato */
+    #declare depth = depth - 1;
+    #declare subclock = subclock + subtime;
+  #end
+#else
+  #declare subclock = clock;
 #end
 
 #declare LangIT=1;
@@ -232,6 +251,17 @@ light_source { 10*magstep*<-1, 1, 1> color White }
 #declare starttime = 
   array[numtiles] {0.1,0.3,0.4,0.5,0.6,0.7,
                    1.1,1.2,1.3,1.4,1.5,1.6,1.7}
+
+#declare liftstart = subclock/0.05;
+#if (liftstart >= 1) #declare liftstart = 1; #end
+#declare pushdownstart = (1 - liftstart)*12.01;
+
+#declare liftend = (subtime - subclock)/0.05;
+#if (liftend >= 1) #declare liftend = 1; #end
+#declare pushdownend = (1 - liftend)*magstep*1.01;
+
+#debug concat("pushdownend: ", str(pushdownend,0,-1), "\n")
+
 #declare traveltime = 0.2;
 #declare lifttime = 0.15;
 #declare liftamount = 0.3;
@@ -264,7 +294,7 @@ light_source { 10*magstep*<-1, 1, 1> color White }
 
 #declare tileid = 0;
 #while (tileid < numtiles)
-  #declare ltime = (clock - starttime[tileid])/traveltime;
+  #declare ltime = (subclock - starttime[tileid])/traveltime;
   #if (ltime < 0) #declare ltime = 0; #end
   #if (ltime > 1) #declare ltime = 1; #end
   #declare lltime = (ltime - lifttime)/(1 - 2*lifttime);
@@ -276,6 +306,8 @@ light_source { 10*magstep*<-1, 1, 1> color White }
     stiles[tileid]
     rotate ang*y
     translate tpos
+    translate -pushdownstart*tile_thick*y
+    translate -pushdownend*tile_thick*y
   }
   #declare tileid = tileid + 1;
 #end
@@ -298,10 +330,11 @@ light_source { 10*magstep*<-1, 1, 1> color White }
     h7list (seet_h7, seet_h7, seet_h7)
     scale magstep
     translate h7pos
+    translate -pushdownend*tile_thick*y
   }
 #else
 //  h7rec (transform {scale magstep/magstep translate h7pos}, depth)
-  h7rec (transform {scale magstep/mag translate h7pos}, depth)
+  h7rec (transform {scale magstep/mag translate h7pos - pushdownend*tile_thick*y}, depth)
 #end
 
 #ifdef (debug)
@@ -321,9 +354,10 @@ light_source { 10*magstep*<-1, 1, 1> color White }
     h8list (seet_h8, seet_h8, seet_h8)
     scale magstep
     translate h8pos
+    translate -pushdownend*tile_thick*y
   }
 #else
 //  h8rec (transform {scale 1 translate h8pos}, depth)
-  h8rec (transform {scale magstep/mag translate h8pos}, depth)
+  h8rec (transform {scale magstep/mag translate h8pos - pushdownend*tile_thick*y}, depth)
 #end
 

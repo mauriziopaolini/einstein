@@ -15,7 +15,19 @@ $(deflated_png_H8):einstein_H8_d%.png: einstein.pov shapes.inc subdivision.inc
 
 #subdivision_frames: frames/subdivision/subdivision000.png
 
+subdivision.mp4: frames/subdivision/subdivision0000.png
+	ffmpeg -framerate 25 -pattern_type glob -i 'frames/subdivision/subdivision????.png' -c:v libx264 -pix_fmt yuv420p $@
+
+frames/subdivision/subdivision0000.png: subdivision.pov frames/subdivision
+	povray -D +a subdivision.pov Declare=AspectWide=1 Declare=depth=$* +W1280 +H720 +ki0 +kf10 +kfi0 +kff2500 +Oframes/subdivision/
+
+# comando di concatenazione, se serve:
+#	ffmpeg -f concat -safe 0 -i subdivisionlist.txt -c copy subdivision.mp4
+
 frames:
+	mkdir $@
+
+frames/subdivision: frames
 	mkdir $@
 
 dirs = $(depths:%=frames/subdivision_d%)
@@ -32,5 +44,3 @@ subdivision_d%.mp4: frames/subdivision_d%/subdivision000.png
 
 subdepths = 0 1 2 3 4
 
-#subdivision.mp4: $(subdepths:%=subdivision_d%.mp4)
-#	ffmpeg -f concat -safe 0 -i subdivisionlist.txt -c copy subdivision.mp4
