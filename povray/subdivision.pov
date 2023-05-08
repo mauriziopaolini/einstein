@@ -208,9 +208,9 @@ light_source { 10*magstep*<-1, 1, 1> color White }
   #declare h8 = h8m;
 #else
   #declare h7 = 
-    union {h7rec (transform{scale 1/mag}, depth)}
+    union {h7rec (transform{scale <1/mag, 1, 1/mag>}, depth)}
   #declare h8 =
-    union {h8rec (transform{scale 1/mag}, depth)}
+    union {h8rec (transform{scale <1/mag, 1, 1/mag>}, depth)}
 #end
 
 #declare numtiles = 13;

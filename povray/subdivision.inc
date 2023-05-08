@@ -9,19 +9,28 @@
 #declare fibo = array[maxfibo]
 #declare lucas = array[maxfibo]
 #declare lucas31 = array[maxfibo]
-
+#declare areaH7 = array[maxdepth]
+#declare areaH8 = array[maxdepth]
 #declare fibo[0] = 1;
 #declare fibo[1] = 1;
 #declare lucas[0] = 2;
 #declare lucas[1] = 1;
 #declare lucas31[0] = 3;
 #declare lucas31[1] = 1;
+#declare areaH7[0] = 7;
+#declare areaH8[0] = 8;
 
 #local i = 2;
 #while (i < maxfibo)
   #declare fibo[i] = fibo[i-1] + fibo[i-2];
   #declare lucas[i] = lucas[i-1] + lucas[i-2];
   #declare lucas31[i] = lucas31[i-1] + lucas31[i-2];
+  #local i = i + 1;
+#end
+#local i = 1;
+#while (i < maxdepth)
+  #declare areaH7[i] = areaH7[i-1] + 5*areaH8[i-1];
+  #declare areaH8[i] = areaH7[i-1] + 6*areaH8[i-1];
   #local i = i + 1;
 #end
 
