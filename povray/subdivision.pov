@@ -255,12 +255,12 @@ light_source { 10*magstep*<-1, 1, 1> color White }
 #declare liftstart = subclock/0.05;
 #if (liftstart >= 1) #declare liftstart = 1; #end
 #declare pushdownstart = (1 - liftstart)*12.01;
+#if (depth = 0) #declare pushdownstart = 0; #end
 
 #declare liftend = (subtime - subclock)/0.05;
 #if (liftend >= 1) #declare liftend = 1; #end
 #declare pushdownend = (1 - liftend)*magstep*1.01;
-
-#debug concat("pushdownend: ", str(pushdownend,0,-1), "\n")
+#if (depth >= 4) #declare pushdownend = 0; #end
 
 #declare traveltime = 0.2;
 #declare lifttime = 0.15;
