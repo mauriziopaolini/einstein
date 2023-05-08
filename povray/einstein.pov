@@ -36,6 +36,7 @@ global_settings { assumed_gamma 1.0 }
   h8rec (transform {scale 1.0 translate gtras + h*y}, depth)
 #end
 
+#ifdef (debug)
 #if (depth = 0)
   sphere {
     <0,0,0>
@@ -43,6 +44,7 @@ global_settings { assumed_gamma 1.0 }
     pigment {color Black}
     translate gtras
   }
+#end
 #end
 
 #declare lookatpos = <0,0,0>;
