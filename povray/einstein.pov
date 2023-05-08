@@ -69,3 +69,7 @@ camera {
 
 light_source { zoomfactor*<20, 20, -20> color White }
 //light_source { 2*20*<1, 1, 1> color White }
+
+#ifdef (sfondobianco)
+  background {White}
+#end
