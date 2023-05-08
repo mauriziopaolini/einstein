@@ -62,7 +62,12 @@
       #ifdef (onlyworm)
         object {h7worm transform {trsf}}
       #else
-        object {h7m transform {trsf}}
+        #ifdef (seet)
+          union { h7list (seet, seet, seet)
+            transform {trsf} }
+        #else
+          object {h7m transform {trsf}}
+        #end
       #end
     #break
 
@@ -86,7 +91,12 @@
       #ifdef (onlyworm)
         object {h8worm transform {trsf}}
       #else
-        object {h8m transform {trsf}}
+        #ifdef (seet)
+          union { h8list (seet, seet, seet)
+            transform {trsf} }
+        #else
+          object {h8m transform {trsf}}
+        #end
       #end
     #break
 

@@ -1,24 +1,26 @@
 I find quite intriguing the possibility of an infinite sequence of
 hats corresponding to the "same-color" arrays of hexagons in figure 2.2
-of the arxiv paper.
+of the arxiv paper https://arxiv.org/pdf/2303.10798.pdf .
 
 Indeed, by looking at the subdivision rule based on the two H_7 and H_8
-supertiles it turns out that there exists a complete alignment of such tiles in the
+clusters it turns out that there exists a complete alignment of such tiles in the
 subdivided tiles running along a slightly decreasing alignment of small H_7 and
-H_8 tiles after a number of subdivision steps starting from H_7 or H_8.
+H_8 clusters after a number of subdivision steps starting from H_7 or H_8.
+This alignment is highlighted in http://dmf.unicatt.it/paolini/einstein/
 
 As a result, if we perform blow-ups about a point in that alignment we shall
-obtain an infinite "worm".
+obtain an infinite "worm" in the tiling of the plane obtained in the limit.
 
 This is *very* reminiscent of the bi-infinite worms that can be present in a
 Penrose tiling (there are two of them in the cartwheel) and indeed we can find
 a striking similarity by using the "Conway signature" construction associated to
 a supertile of a complete tiling.
 
-After a suitable numbering from 0 to 5 of the pieces of the subdivision of H_7
-and from 0 to 6 of the pieces in the subdivision of H_8, precisely:
+After a suitable numbering from 0 to 5 of the pieces of the subdivision of a 'super'
+H_7 (see Figure 2.11, drawing with 6 clusters) and from 0 to 6 of the pieces in the
+subdivision of a 'super' H_8 (drawing with 7 clusters), precisely:
 
-The single H_7 tile in both subdivision is numbered "0";
+The single H_7 cluster in both subdivisions is numbered "0";
 the rest are numbered 1 to 4 for the H_8 tiles adjacent to the H_7 (counter-clockwise);
 the remaining H_8 tile in the subdivision of H_7 is numbered 5;
 the corresponding H_8 tile in the subdivision of H_8 is also numbered 5;
@@ -27,11 +29,32 @@ the remaining tile in the subdivision of H_8 is numbered 6.
 Then the Conway signature of a supertile in a tiling is an "infinite-to-the-left"
 sequence of symbols in {0,...,6} where the pair "...06..." is forbidden since a tile
 cannot have numbering 6 if resulting from a subdivision of an H_7.
+Such signature can be recovered provided the tiling by clusters H7 and H8 can be
+indefinitely "inflated", which is the reverse of a subdivision (deflation) process.
+I am assuming that this is the case.
 
-This can be done for each supertile of any given tiling.
+This can be done for each cluster of any given tiling.
 
 An infinite worm arises whenever such a signature (definitely) contains only
-symbols in the smaller set {0,2,6} with the forbidden sequence "...06..."
+symbols in the smaller set {0,2,6} with the forbidden pair "...06..."
+
+If we denote by 'A' and 'B' the H7 and H8 (respectively) clusters along a worm and
+read them from left to right we get a word with letters in {A,B} where the subdivision
+rules now read as rewriting rules:
+
+  A -> BA
+  B -> BBA
+
+As an example if we start with a single H8 cluster (string "B") and perform some
+subdivision steps we obtain:
+
+  B -> BBA -> BBABBABA -> BBABBABABBABBABABBABA -> ...
+
+If we see this as a string growing to the right, substitute 1 for B and 0 for A and remove the
+leading B we surprisingly obtain the well known 'rabbit' sequence, see e.g.
+https://r-knott.surrey.ac.uk/Fibonacci/fibrab.html .
+
+The rabbit sequence can be actually obtained using the (simpler) substitution rules 0 -> 1; 1 -> 10
 
 [to be continued]
 

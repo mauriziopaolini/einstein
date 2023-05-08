@@ -1,18 +1,28 @@
 /*
  * animazione con clock tra 0 e 2
+ *
+ * valori superiori di clock provocano l'aumento di depth:
+ *   depth = int (clock/2)
+ *   clock = clock - 2*depth
+ *
+ * la massima profondita' sopportata e' depth = 4, corrispondente
+ * ad un clock tra 0 e 10
+ *
  * esempio di comando di compilazione, risoluzione 640x480 con antialiasing,
- * costruzione di 1000 fotogrammi con clock che varia tra 0 e 2:
+ * costruzione di 500 fotogrammi con clock che varia tra 0 e 2:
  *
- *   povray subdivision.pov +w640 +h480 +a +ki0 +kf2 +kfi0 +kff1000
+ *   povray subdivision.pov +w640 +h480 +a +ki0 +kf2 +kfi0 +kff500
  *
+ * [legacy: la scritta NON e' al momento supportata; eredita' del
+ *          sorgente rubato da "penrose"]
  * e' possibile selezionare la lingua (default: italiano) tramite
  * la dichiarazione "Lang=n" (n=1: italiano, n=2: inglese) ad esempio:
  *   povray ... Declare=Lang=2
  */
 /*
-#finalclock 2
-#numseconds 40
-#durata 45
+#finalclock 12
+#numseconds 100
+#durata 105
 #coda 5
 #titolo 5
  */
@@ -23,6 +33,19 @@ global_settings { assumed_gamma 1.0 }
 #include "shapes.inc"
 #include "subdivision.inc"
 #include "ambiente.inc"
+
+#declare subtime = 2;
+
+#ifndef (depth)
+  #declare depth = int (clock/subtime);
+  #declare subclock = clock - subtime*depth;
+  #if (depth > 0 & subclock = 0) /* semicontinuita' temporale dal passato */
+    #declare depth = depth - 1;
+    #declare subclock = subclock + subtime;
+  #end
+#else
+  #declare subclock = clock;
+#end
 
 #declare LangIT=1;
 #declare LangEN=2;
@@ -82,7 +105,9 @@ object { tavolo2 }
 #end
 
 //#declare k = -0.1;
-#declare pradius=Phi*Phi;
+#declare magstep = Phi*Phi;
+#declare mag = pow (magstep, depth);
+//#declare pradius=magstep;
 
 #declare clipwindow = 
 box {
@@ -129,8 +154,8 @@ box {
 
 background{Black}
 
-#declare camerapos=3*pradius*<0, 14, 1>;
-#declare lookatpos=pradius*<0, 0, 1>;
+#declare camerapos=3*magstep*<0, 14, 1>;
+#declare lookatpos=magstep*<0, 0, 1>;
 #declare eyeshift=0*x;
 #declare eyedist=0.5;
 #declare eyedir=vnormalize(vcross(lookatpos-camerapos,-y));
@@ -158,10 +183,10 @@ camera {
 }
 
 light_source { 5*<20, 20, -20> color 0.5*White }
-light_source { 10*pradius*<-1, 1, 1> color White }
+light_source { 10*magstep*<-1, 1, 1> color White }
 
 #declare h7pos=<-7,0,-1.3>;
-#declare h8pos=<12,0,-1.3>;
+#declare h8pos=<13,0,-1.3>;
 
 /* percorso di riferimento che connette <0,0,0> a <1,1,1> */
 
@@ -176,17 +201,26 @@ light_source { 10*pradius*<-1, 1, 1> color White }
 }
 
 /*
- * ci sono per cinque semitasselli che formano
- * un mezzo kite (rkite) e un mezzo rdart
- * altri cinque per ricoprire le meta' di sinistra
  */
+
+#if (depth <= 0)
+  #declare h7 = h7m;
+  #declare h8 = h8m;
+#else
+  #declare h7 = 
+    union {h7rec (transform{scale 1/mag}, depth)}
+  #declare h8 =
+    union {h8rec (transform{scale 1/mag}, depth)}
+#end
 
 #declare numtiles = 13;
 #declare stiles = 
-  array[numtiles] {h7m,h8m,h8m,h8m,h8m,h8m,
-                   h7m,h8m,h8m,h8m,h8m,h8m,h8m}
+//  array[numtiles] {h7m,h8m,h8m,h8m,h8m,h8m,
+//                   h7m,h8m,h8m,h8m,h8m,h8m,h8m}
+  array[numtiles] {h7,h8,h8,h8,h8,h8,
+                   h7,h8,h8,h8,h8,h8,h8}
 #declare h7sp = <-10,paperthick,12>;
-#declare h8sp = <2,paperthick,12>;
+#declare h8sp = <11,paperthick,12>;
 //#declare ksp = <2.91,paperthick,2.20>;
 //#declare dsp = <-0.16,paperthick,2.20>;
 #declare startpos =
@@ -207,15 +241,27 @@ light_source { 10*pradius*<-1, 1, 1> color White }
 
 #declare startangle = 
   array[numtiles] {20,13,21,22,12,15, 24,18,9,4,18,21,20}
+#declare trni = array[7] {trn0[depth]/mag,trn1[depth]/mag,trn2[depth]/mag,trn3[depth]/mag,trn4[depth]/mag,trn5[depth]/mag,trn6[depth]/mag}
 #declare endpos = 
-  array[numtiles] {trn0[0]+h7pos,trn1[0]+h7pos,trn2[0]+h7pos,trn3[0]+h7pos,trn4[0]+h7pos,trn5[0]+h7pos,
-                   trn0[0]+h8pos,trn1[0]+h8pos,trn2[0]+h8pos,trn3[0]+h8pos,trn4[0]+h8pos,trn5[0]+h8pos,trn6[0]+h8pos}
+  array[numtiles] {trni[0]+h7pos,trni[1]+h7pos,trni[2]+h7pos,trni[3]+h7pos,trni[4]+h7pos,trni[5]+h7pos,
+                   trni[0]+h8pos,trni[1]+h8pos,trni[2]+h8pos,trni[3]+h8pos,trni[4]+h8pos,trni[5]+h8pos,trni[6]+h8pos}
 #declare endangle = 
   array[numtiles] {rot0,rot1,rot2,rot3,rot4,rot5,
                    rot0,rot1,rot2,rot3,rot4,rot5,rot6}
 #declare starttime = 
   array[numtiles] {0.1,0.3,0.4,0.5,0.6,0.7,
                    1.1,1.2,1.3,1.4,1.5,1.6,1.7}
+
+#declare liftstart = subclock/0.05;
+#if (liftstart >= 1) #declare liftstart = 1; #end
+#declare pushdownstart = (1 - liftstart)*12.01;
+
+#declare liftend = (subtime - subclock)/0.05;
+#if (liftend >= 1) #declare liftend = 1; #end
+#declare pushdownend = (1 - liftend)*magstep*1.01;
+
+#debug concat("pushdownend: ", str(pushdownend,0,-1), "\n")
+
 #declare traveltime = 0.2;
 #declare lifttime = 0.15;
 #declare liftamount = 0.3;
@@ -248,25 +294,27 @@ light_source { 10*pradius*<-1, 1, 1> color White }
 
 #declare tileid = 0;
 #while (tileid < numtiles)
-  #declare ltime = (clock - starttime[tileid])/traveltime;
+  #declare ltime = (subclock - starttime[tileid])/traveltime;
   #if (ltime < 0) #declare ltime = 0; #end
   #if (ltime > 1) #declare ltime = 1; #end
   #declare lltime = (ltime - lifttime)/(1 - 2*lifttime);
   #if (lltime < 0) #declare lltime = 0; #end
   #if (lltime > 1) #declare lltime = 1; #end
   #declare ang = lltime*endangle[tileid] + (1-lltime)*startangle[tileid];
-  calcpos (ltime, startpos[tileid], endpos[tileid] + pradius*tile_thick*y)
+  calcpos (ltime, startpos[tileid], endpos[tileid] + magstep*tile_thick*y)
   object {
     stiles[tileid]
     rotate ang*y
     translate tpos
+    translate -pushdownstart*tile_thick*y
+    translate -pushdownend*tile_thick*y
   }
   #declare tileid = tileid + 1;
 #end
 
 #ifdef (debug)
   sphere {
-    endpos[0] + pradius*tile_thick*y
+    endpos[0] + magstep*tile_thick*y
     0.3
     pigment {color Blue}
   }
@@ -275,25 +323,41 @@ light_source { 10*pradius*<-1, 1, 1> color White }
 #declare seet_h7 = color rgbt <1, 0.5, 0.5, 0.7>;
 #declare seet_h8 = color rgbt <0.5, 1, 0.5, 0.7>;
 
-union {
-  h7list (seet_h7, seet_h7, seet_h7)
-  scale pradius
-  translate h7pos
-}
+#declare seet = seet_h7;
+
+#if (depth <= 0)
+  union {
+    h7list (seet_h7, seet_h7, seet_h7)
+    scale magstep
+    translate h7pos
+    translate -pushdownend*tile_thick*y
+  }
+#else
+//  h7rec (transform {scale magstep/magstep translate h7pos}, depth)
+  h7rec (transform {scale magstep/mag translate h7pos - pushdownend*tile_thick*y}, depth)
+#end
 
 #ifdef (debug)
   sphere {
     <0,0,0>
     0.2
     pigment {color Black}
-    scale pradius
+    scale magstep
     translate h7pos
   }
 #end
 
-union {
-  h8list (seet_h8, seet_h8, seet_h8)
-  scale pradius
-  translate h8pos
-}
+#declare seet = seet_h8;
+
+#if (depth <= 0)
+  union {
+    h8list (seet_h8, seet_h8, seet_h8)
+    scale magstep
+    translate h8pos
+    translate -pushdownend*tile_thick*y
+  }
+#else
+//  h8rec (transform {scale 1 translate h8pos}, depth)
+  h8rec (transform {scale magstep/mag translate h8pos - pushdownend*tile_thick*y}, depth)
+#end
 
