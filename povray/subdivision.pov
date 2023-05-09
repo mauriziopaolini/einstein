@@ -235,9 +235,9 @@ light_source { 10*magstep*<-1, 1, 1> color White }
                    h8sp+5*tile_thick*y-0.05*x, // H8 che ricopre H8
                    h8sp+4*tile_thick*y+0.05*x, // H8 che ricopre H8
                    h8sp+3*tile_thick*y+0.01*x, // H8 che ricopre H8
-                   h8sp+2*tile_thick*y+0.11*x, // H8 che ricopre H8
-                   h8sp+1*tile_thick*y-0.11*x, // H8 che ricopre H8
-                   h8sp+0.11*x}                // H8 che ricopre H8
+                   h8sp+2*tile_thick*y+0.15*x, // H8 che ricopre H8
+                   h8sp+0*tile_thick*y-0.41*x, // H8 che ricopre H8
+                   h8sp+1*tile_thick*y-0.05*x} // H8 che ricopre H8
 
 #declare startangle = 
   array[numtiles] {20,13,21,22,12,15, 24,18,9,4,18,21,20}
@@ -250,7 +250,7 @@ light_source { 10*magstep*<-1, 1, 1> color White }
                    rot0,rot1,rot2,rot3,rot4,rot5,rot6}
 #declare starttime = 
   array[numtiles] {0.1,0.3,0.4,0.5,0.6,0.7,
-                   1.1,1.2,1.3,1.4,1.5,1.6,1.7}
+                   1.1,1.2,1.3,1.4,1.5,1.7,1.6}
 
 #declare liftstart = subclock/0.05;
 #if (liftstart >= 1) #declare liftstart = 1; #end
