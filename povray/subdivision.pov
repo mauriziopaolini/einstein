@@ -225,19 +225,20 @@ light_source { 10*magstep*<-1, 1, 1> color White }
 //#declare dsp = <-0.16,paperthick,2.20>;
 #declare startpos =
   array[numtiles] {h7sp+1*tile_thick*y+0.06*x,  // H7 che ricopre H7
-                   h8sp+10*tile_thick*y-0.26*x,// H8 che ricopre H7
-                   h8sp+9*tile_thick*y-0.16*x, // H8 che ricopre H7
-                   h8sp+8*tile_thick*y,        // H8 che ricopre H7
-                   h8sp+7*tile_thick*y+0.09*x, // H8 che ricopre H7
-                   h8sp+6*tile_thick*y+0.14*x, // H8 che ricopre H7
+                   h8sp+10*tile_thick*y+3.30*x,// H8 che ricopre H7
+                   h8sp+9*tile_thick*y+2.9*x,  // H8 che ricopre H7
+                   h8sp+8*tile_thick*y+2.5*x,  // H8 che ricopre H7
+                   h8sp+7*tile_thick*y+1.99*x, // H8 che ricopre H7
+                   h8sp+6*tile_thick*y+1.40*x, // H8 che ricopre H7
 
                    h7sp+0*tile_thick*y-0.31*x, // H7 che ricopre H8
-                   h8sp+5*tile_thick*y-0.05*x, // H8 che ricopre H8
-                   h8sp+4*tile_thick*y+0.05*x, // H8 che ricopre H8
-                   h8sp+3*tile_thick*y+0.01*x, // H8 che ricopre H8
-                   h8sp+2*tile_thick*y+0.15*x, // H8 che ricopre H8
-                   h8sp+0*tile_thick*y-0.41*x, // H8 che ricopre H8
-                   h8sp+1*tile_thick*y-0.05*x} // H8 che ricopre H8
+                   h8sp+5*tile_thick*y+0.70*x, // H8 che ricopre H8
+                   h8sp+4*tile_thick*y-0.01*x, // H8 che ricopre H8
+                   h8sp+3*tile_thick*y-0.50*x, // H8 che ricopre H8
+                   h8sp+2*tile_thick*y-1.05*x, // H8 che ricopre H8
+                   // h8sp+0*tile_thick*y-0.41*x, // H8 che ricopre H8
+                   h8sp+0*tile_thick*y-2.00*x, // H8 che ricopre H8
+                   h8sp+1*tile_thick*y-1.55*x} // H8 che ricopre H8
 
 #declare startangle = 
   array[numtiles] {20,13,21,22,12,15, 24,18,9,4,18,21,20}
@@ -250,7 +251,7 @@ light_source { 10*magstep*<-1, 1, 1> color White }
                    rot0,rot1,rot2,rot3,rot4,rot5,rot6}
 #declare starttime = 
   array[numtiles] {0.1,0.3,0.4,0.5,0.6,0.7,
-                   1.1,1.2,1.3,1.4,1.5,1.7,1.6}
+                   1.1,1.16,1.3,1.4,1.5,1.7,1.6}
 
 #declare liftstart = subclock/0.05;
 #if (liftstart >= 1) #declare liftstart = 1; #end
@@ -333,18 +334,7 @@ light_source { 10*magstep*<-1, 1, 1> color White }
     translate -pushdownend*tile_thick*y
   }
 #else
-//  h7rec (transform {scale magstep/magstep translate h7pos}, depth)
   h7rec (transform {scale magstep/mag translate h7pos - pushdownend*tile_thick*y}, depth)
-#end
-
-#ifdef (debug)
-  sphere {
-    <0,0,0>
-    0.2
-    pigment {color Black}
-    scale magstep
-    translate h7pos
-  }
 #end
 
 #declare seet = seet_h8;
@@ -357,7 +347,45 @@ light_source { 10*magstep*<-1, 1, 1> color White }
     translate -pushdownend*tile_thick*y
   }
 #else
-//  h8rec (transform {scale 1 translate h8pos}, depth)
   h8rec (transform {scale magstep/mag translate h8pos - pushdownend*tile_thick*y}, depth)
+#end
+
+#declare textfont = "LiberationMono-Regular.ttf"
+#declare sub = transform {scale 0.7 translate <0.6,-0.2,0>}
+#declare h7text = union {
+  text {ttf textfont "H" 0.02, 0}
+  text {ttf textfont "7" 0.02, 0
+    transform {sub}
+  }
+}
+#declare h8text = union {
+  text {ttf textfont "H" 0.02, 0}
+  text {ttf textfont "8" 0.02, 0
+    transform {sub}
+  }
+}
+
+object {h7text
+  rotate 90*x
+  scale 4
+  translate h7sp+<4,0,-3>
+  pigment {color Black}
+}
+
+object {h8text
+  rotate 90*x
+  scale 4
+  translate h8sp+<-10,0,-2>
+  pigment {color Black}
+}
+
+#ifdef (debug)
+  sphere {
+    <0,0,0>
+    0.2
+    pigment {color Black}
+    scale magstep
+    translate h7pos
+  }
 #end
 
