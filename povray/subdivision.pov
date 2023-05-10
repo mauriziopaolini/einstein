@@ -36,16 +36,28 @@ global_settings { assumed_gamma 1.0 }
 
 #declare subtime = 2;
 
+#declare preambletime = 0;
+#declare rclock = clock - preambletime;
+
 #ifndef (depth)
-  #declare depth = int (clock/subtime);
-  #declare subclock = clock - subtime*depth;
+  #declare depth = int (rclock/subtime);
+  #declare subclock = rclock - subtime*depth;
   #if (depth > 0 & subclock = 0) /* semicontinuita' temporale dal passato */
     #declare depth = depth - 1;
     #declare subclock = subclock + subtime;
   #end
 #else
-  #declare subclock = clock;
+  #declare subclock = rclock;
 #end
+
+#if (final_clock > 0)
+  #declare final_depth = int ((final_clock - 0.001 - preambletime)/subtime);
+#else
+  #declare final_depth = 5;
+#end
+
+#debug concat ("final clock: ", str(final_clock, 0, -1), "\n")
+#debug concat ("final depth: ", str(final_depth, 0, -1), "\n")
 
 #declare LangIT=1;
 #declare LangEN=2;
@@ -59,13 +71,7 @@ global_settings { assumed_gamma 1.0 }
   #declare Lang=LangEN;
 #end
 
-/*
- * sfortunatamente pare che VeraMono.ttf manchi del cirillico
- */
-
-#ifdef (debug)
-  #declare withscritta = 1;
-#end
+#declare withscritta = 1;
 
 #declare paperthick=0.005;
 //#if (Lang = LangRU)
@@ -84,22 +90,23 @@ object { tavolo2 }
 
 #ifdef (withscritta)
   box {
-    <-2,0,8>
-    <18,paperthick,17>
+    <-19,0,8>
+    <19,paperthick,17>
     pigment{White}
     finish {tile_Finish}
   }
 #end
 
 #declare scrittah = 14.0;
-#declare scrittal = 0;
+#declare scrittal = -18;
 #declare scrittar = 18;
-
+#declare rscritta = array[final_depth+1]
+#declare lscritta = array[final_depth+1]
 #switch (Lang)
 
   #case (LangEN)
-  #declare rscritta = "6 or 7 clusters cover an enlarged "
-  #declare lscritta = "version of H7 and H8"
+  #declare rscritta[0] = "6 or 7 clusters cover an enlarged "
+  #declare lscritta[0] = "version of H7 and H8"
   #break
 
 #end
@@ -111,12 +118,15 @@ object { tavolo2 }
 
 #declare clipwindow = 
 box {
-  <scrittal, paperthick-0.01, scrittah-0.1>
-  <scrittar, paperthick+0.5, 4.8>
+  <scrittal, paperthick-0.01, scrittah-1.0>
+  <scrittar, paperthick+0.5, scrittah+3>
 }
 
-#declare rscrittaobj = 
-  text {ttf tfont rscritta 0.02, 0
+#declare rscrittaobj = array[6];
+#declare lscrittaobj = array[6];
+
+#declare rscrittaobj[0] = 
+  text {ttf tfont rscritta[0] 0.02, 0
   //text {ttf "cyrvetic.ttf" rscritta 0.02, 0
   finish {tile_Finish}
   translate -0.06*z
@@ -125,8 +135,8 @@ box {
   translate <scrittal, paperthick, scrittah>
 }
 
-#declare lscrittaobj = 
-  text {ttf tfont lscritta 0.02, 0
+#declare lscrittaobj[0] = 
+  text {ttf tfont lscritta[0] 0.02, 0
   finish {tile_Finish}
   translate -0.06*z
   scale 2
@@ -134,22 +144,26 @@ box {
   translate <scrittal, paperthick, scrittah>
 }
 
-#declare scrittavel = 20;
-#declare rscrittatr = (scrittar - scrittal - clock*scrittavel)*x;
-#declare lscrittatr = (scrittar - scrittal - (clock-1)*scrittavel)*x;
+#declare scrittavel = 50;
+#declare rscrittatr = (scrittar - scrittal - subclock*scrittavel)*x;
+#declare lscrittatr = (scrittar - scrittal - (subclock-1)*scrittavel)*x;
 
 #ifdef (withscritta)
-  object {rscrittaobj
-    translate rscrittatr
-    //bounded_by {clipwindow}
-    //clipped_by {bounded_by}
-  }
+  #ifdef (rscrittaobj[depth])
+    object {rscrittaobj[depth]
+      translate rscrittatr
+      bounded_by {clipwindow}
+      clipped_by {bounded_by}
+    }
+  #end
 
-  object {lscrittaobj
-    translate lscrittatr
-    //bounded_by {clipwindow}
-    //clipped_by {bounded_by}
-  }
+  #ifdef (lscrittaobj[depth])
+    object {lscrittaobj[depth]
+      translate lscrittatr
+      bounded_by {clipwindow}
+      clipped_by {bounded_by}
+    }
+  #end
 #end
 
 background{Black}
@@ -261,7 +275,7 @@ light_source { 10*magstep*<-1, 1, 1> color White }
 #declare liftend = (subtime - subclock)/0.05;
 #if (liftend >= 1) #declare liftend = 1; #end
 #declare pushdownend = (1 - liftend)*magstep*1.01;
-#if (depth >= 4) #declare pushdownend = 0; #end
+#if (depth >= final_depth) #declare pushdownend = 0; #end
 
 #declare traveltime = 0.2;
 #declare lifttime = 0.15;
@@ -353,29 +367,37 @@ light_source { 10*magstep*<-1, 1, 1> color White }
 #declare textfont = "LiberationMono-Regular.ttf"
 #declare sub = transform {scale 0.7 translate <0.6,-0.2,0>}
 #declare h7text = union {
-  text {ttf textfont "H" 0.02, 0}
-  text {ttf textfont "7" 0.02, 0
+  text {ttf textfont "H" 0.05, 0}
+  text {ttf textfont "7" 0.05, 0
     transform {sub}
   }
+  rotate 90*x
+  translate 0.05*y
 }
 #declare h8text = union {
-  text {ttf textfont "H" 0.02, 0}
-  text {ttf textfont "8" 0.02, 0
+  text {ttf textfont "H" 0.05, 0}
+  text {ttf textfont "8" 0.05, 0
     transform {sub}
   }
+  rotate 90*x
+  translate 0.05*y
 }
 
 object {h7text
-  rotate 90*x
   scale 4
-  translate h7sp+<4,0,-3>
+  translate h7sp + <4,0,-3>
+#ifdef (withscritta)
+  translate paperthick*y
+#end
   pigment {color Black}
 }
 
 object {h8text
-  rotate 90*x
   scale 4
-  translate h8sp+<-10,0,-2>
+  translate h8sp + <-10,0,-2>
+#ifdef (withscritta)
+  translate paperthick*y
+#end
   pigment {color Black}
 }
 
