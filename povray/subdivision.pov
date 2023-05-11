@@ -71,7 +71,9 @@ global_settings { assumed_gamma 1.0 }
   #declare Lang=LangEN;
 #end
 
-#declare withscritta = 1;
+#ifdef (debug)
+  #declare withscritta = 1;
+#end
 
 #declare paperthick=0.005;
 //#if (Lang = LangRU)
@@ -90,8 +92,10 @@ object { tavolo2 }
 
 #ifdef (withscritta)
   box {
-    <-19,0,8>
-    <19,paperthick,17>
+    //<-19,0,8>
+    <-19,0,13>
+    //<19,paperthick,17>
+    <19,paperthick,16>
     pigment{White}
     finish {tile_Finish}
   }
@@ -100,13 +104,21 @@ object { tavolo2 }
 #declare scrittah = 14.0;
 #declare scrittal = -18;
 #declare scrittar = 18;
-#declare rscritta = array[final_depth+1]
-#declare lscritta = array[final_depth+1]
+
+/*
+ * scritta7[d] e' la scritta che compare nella suddivisione di H7 a livello d
+ * scritta8[d] analogamente per la suddivisione di H8
+ */
+#declare scritta7 = array[6]
+#declare scritta8 = array[6]
 #switch (Lang)
 
   #case (LangEN)
-  #declare rscritta[0] = "6 or 7 clusters cover an enlarged "
-  #declare lscritta[0] = "version of H7 and H8"
+  #declare scritta7[0] = "6 or 7 clusters cover an enlarged version of themselves"
+  // #declare scritta8[0] = "UNDEFINED"
+  #declare scritta7[1] = "Repeat using the new superclusters H7 and H8"
+  #declare scritta7[2] = "Repeat again to get the level-2 superclusters"
+  #declare scritta7[4] = "The tiled region is increasingly large"
   #break
 
 #end
@@ -122,44 +134,52 @@ box {
   <scrittar, paperthick+0.5, scrittah+3>
 }
 
-#declare rscrittaobj = array[6];
-#declare lscrittaobj = array[6];
+#declare scritta7obj = array[6];
+#declare scritta8obj = array[6];
 
-#declare rscrittaobj[0] = 
-  text {ttf tfont rscritta[0] 0.02, 0
-  //text {ttf "cyrvetic.ttf" rscritta 0.02, 0
-  finish {tile_Finish}
-  translate -0.06*z
-  scale 2
-  rotate 90*x
-  translate <scrittal, paperthick, scrittah>
-}
+#declare i = 0;
+#while (i < 6)
+  #ifdef (scritta7[i])
+    #declare scritta7obj[i] = 
+      text {ttf tfont scritta7[i] 0.02, 0
+      //text {ttf "cyrvetic.ttf" scritta7 0.02, 0
+      finish {tile_Finish}
+      translate -0.06*z
+      scale 2
+      rotate 90*x
+      translate <scrittal, paperthick, scrittah>
+    }
+  #end
 
-#declare lscrittaobj[0] = 
-  text {ttf tfont lscritta[0] 0.02, 0
-  finish {tile_Finish}
-  translate -0.06*z
-  scale 2
-  rotate 90*x
-  translate <scrittal, paperthick, scrittah>
-}
+  #ifdef (scritta8[i])
+    #declare scritta8obj[i] = 
+      text {ttf tfont scritta8[i] 0.02, 0
+      finish {tile_Finish}
+      translate -0.06*z
+      scale 2
+      rotate 90*x
+      translate <scrittal, paperthick, scrittah>
+    }
+  #end
+  #declare i = i + 1;
+#end
 
 #declare scrittavel = 50;
-#declare rscrittatr = (scrittar - scrittal - subclock*scrittavel)*x;
-#declare lscrittatr = (scrittar - scrittal - (subclock-1)*scrittavel)*x;
+#declare scritta7tr = (scrittar - scrittal - subclock*scrittavel)*x;
+#declare scritta8tr = (scrittar - scrittal - (subclock-1)*scrittavel)*x;
 
 #ifdef (withscritta)
-  #ifdef (rscrittaobj[depth])
-    object {rscrittaobj[depth]
-      translate rscrittatr
+  #ifdef (scritta7obj[depth])
+    object {scritta7obj[depth]
+      translate scritta7tr
       bounded_by {clipwindow}
       clipped_by {bounded_by}
     }
   #end
 
-  #ifdef (lscrittaobj[depth])
-    object {lscrittaobj[depth]
-      translate lscrittatr
+  #ifdef (scritta8obj[depth])
+    object {scritta8obj[depth]
+      translate scritta8tr
       bounded_by {clipwindow}
       clipped_by {bounded_by}
     }
@@ -367,20 +387,20 @@ light_source { 10*magstep*<-1, 1, 1> color White }
 #declare textfont = "LiberationMono-Regular.ttf"
 #declare sub = transform {scale 0.7 translate <0.6,-0.2,0>}
 #declare h7text = union {
-  text {ttf textfont "H" 0.05, 0}
-  text {ttf textfont "7" 0.05, 0
+  text {ttf textfont "H" 0.02, 0}
+  text {ttf textfont "7" 0.02, 0
     transform {sub}
   }
   rotate 90*x
-  translate 0.05*y
+  translate 0.02*y
 }
 #declare h8text = union {
-  text {ttf textfont "H" 0.05, 0}
-  text {ttf textfont "8" 0.05, 0
+  text {ttf textfont "H" 0.02, 0}
+  text {ttf textfont "8" 0.02, 0
     transform {sub}
   }
   rotate 90*x
-  translate 0.05*y
+  translate 0.02*y
 }
 
 object {h7text
