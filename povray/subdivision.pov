@@ -123,7 +123,7 @@ object { tavolo2 }
   #declare scritta7[0] = "6 or 7 clusters cover an enlarged version of themselves"
   // #declare scritta8[0] = "UNDEFINED"
   #declare scritta7[1] = "Repeat using the new superclusters H7 and H8"
-  #declare scritta7[2] = "Repeat again to get the level-2 superclusters"
+  #declare scritta7[2] = "Repeat again to get the level-3 superclusters"
   #declare scritta7[4] = "The tiled region is increasingly large"
   #break
 
