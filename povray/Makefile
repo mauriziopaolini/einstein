@@ -17,13 +17,13 @@ subdivision.mp4: frames/subdivision/subdivision0000.png
 	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/subdivision/subdivision????.png' -c:v libx264 -pix_fmt yuv420p $@
 
 frames/subdivision/subdivision0000.png: subdivision.pov frames/subdivision
-	povray -D +a subdivision.pov Declare=AspectWide=1 +W1280 +H720 +ki0 +kf10 +kfi0 +kff2500 +Oframes/subdivision/
+	povray -D +a subdivision.pov Declare=AspectWide=1 +W1280 +H720 +ki0 +kf10.5 +kfi0 +kff2625 +Oframes/subdivision/
 
 subdivision_ws.mp4: frames/subdivision_ws/subdivision0000.png
 	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/subdivision_ws/subdivision????.png' -c:v libx264 -pix_fmt yuv420p $@
 
 frames/subdivision_ws/subdivision0000.png: subdivision.pov frames/subdivision_ws
-	povray -D +a subdivision.pov Declare=AspectWide=1 Declare=withscritta=1 +W1280 +H720 +ki0 +kf10 +kfi0 +kff2500 +Oframes/subdivision_ws/
+	povray -D +a subdivision.pov Declare=AspectWide=1 Declare=withscritta=1 +W1280 +H720 +ki0 +kf10.5 +kfi0 +kff2625 +Oframes/subdivision_ws/
 
 # comando di concatenazione, se serve:
 #	ffmpeg -f concat -safe 0 -i subdivisionlist.txt -c copy subdivision.mp4

@@ -20,7 +20,7 @@
  *   povray ... Declare=Lang=2
  */
 /*
-#finalclock 12
+#finalclock 10.5
 #numseconds 100
 #durata 105
 #coda 5
@@ -39,6 +39,14 @@ global_settings { assumed_gamma 1.0 }
 #declare preambletime = 0;
 #declare rclock = clock - preambletime;
 
+//#if (final_clock > 0)
+//  #declare final_depth = int ((final_clock - 0.001 - preambletime)/subtime);
+//#else
+  #declare final_depth = 4;
+//#end
+#declare rclockend = subtime*(final_depth+1);
+#declare zoomclock = rclock - rclockend;
+
 #ifndef (depth)
   #declare depth = int (rclock/subtime);
   #declare subclock = rclock - subtime*depth;
@@ -46,14 +54,12 @@ global_settings { assumed_gamma 1.0 }
     #declare depth = depth - 1;
     #declare subclock = subclock + subtime;
   #end
+  #if (depth > final_depth)
+    #declare depth = final_depth;
+    #declare subclock = subtime;
+  #end
 #else
   #declare subclock = rclock;
-#end
-
-#if (final_clock > 0)
-  #declare final_depth = int ((final_clock - 0.001 - preambletime)/subtime);
-#else
-  #declare final_depth = 5;
 #end
 
 #debug concat ("final clock: ", str(final_clock, 0, -1), "\n")
@@ -188,8 +194,17 @@ box {
 
 background{Black}
 
+#declare h7pos=<-7,0,-1.3>;
+#declare h8pos=<13,0,-1.3>;
+
 #declare camerapos=3*magstep*<0, 14, 1>;
 #declare lookatpos=magstep*<0, 0, 1>;
+#if (zoomclock > 0)
+  #declare zoomtarget = h8pos + 0.1*(h7pos - h8pos);
+  #declare zoomfactor = exp(-5*zoomclock);
+  #declare camerapos = zoomfactor*camerapos + (1 - zoomfactor)*zoomtarget;
+  #declare lookatpos = zoomfactor*lookatpos + (1 - zoomfactor)*zoomtarget;
+#end
 #declare eyeshift=0*x;
 #declare eyedist=0.5;
 #declare eyedir=vnormalize(vcross(lookatpos-camerapos,-y));
@@ -218,9 +233,6 @@ camera {
 
 light_source { 5*<20, 20, -20> color 0.5*White }
 light_source { 10*magstep*<-1, 1, 1> color White }
-
-#declare h7pos=<-7,0,-1.3>;
-#declare h8pos=<13,0,-1.3>;
 
 /* percorso di riferimento che connette <0,0,0> a <1,1,1> */
 
