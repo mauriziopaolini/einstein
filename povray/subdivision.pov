@@ -20,9 +20,9 @@
  *   povray ... Declare=Lang=2
  */
 /*
-#finalclock 10.5
-#numseconds 100
-#durata 105
+#finalclock 11
+#numseconds 110
+#durata 115
 #coda 5
 #titolo 5
  */
@@ -200,6 +200,7 @@ background{Black}
 #declare camerapos=3*magstep*<0, 14, 1>;
 #declare lookatpos=magstep*<0, 0, 1>;
 #if (zoomclock > 0)
+  #if (zoomclock > 0.5) #declare zoomclock = 0.5; #end
   #declare zoomtarget = h8pos + 0.1*(h7pos - h8pos);
   #declare zoomfactor = exp(-5*zoomclock);
   #declare camerapos = zoomfactor*camerapos + (1 - zoomfactor)*zoomtarget;
