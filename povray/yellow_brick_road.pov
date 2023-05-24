@@ -39,21 +39,38 @@ global_settings { assumed_gamma 1.0 }
 #end
 
 #declare yellowroadstart = <0,0,0>;
-#declare yellowroadend = <-1,0,0.5>;
+/*
+ * this is the end of the worm in case depth=5
+ */
+#declare yellowroadend = <-775.5, 0, 200.051868>;
 #declare yellowroaddir = vnormalize(yellowroadend - yellowroadstart);
+#ifndef (dorothyspeed) #declare dorothyspeed = 4; #end
 
-#declare zoomfactor = 20;
+#declare meters = 10;
 
-#declare startpos = yellowroadstart - zoomfactor*yellowroaddir + zoomfactor*0.5*y;
-#declare lookatpos = yellowroadstart;
-#declare faraway = yellowroadstart - 20*zoomfactor*yellowroaddir + 5*zoomfactor*y;
+//#declare behind = -1*meters*yellowroaddir + 1*meters*y;
+#declare behind = -6*meters*yellowroaddir + 2*meters*y;
+#declare ahead = 4*meters*yellowroaddir;
+#declare dorothystartpos = yellowroadstart;
+#declare lookatpos = yellowroadstart + ahead;
+#declare faraway = yellowroadstart - 40*meters*yellowroaddir + 10*meters*y;
 
 #declare eyeshift = 0*x;
 #declare skycam = y;
-#declare camerapos = startpos;
+#declare dorothypos = dorothystartpos;
 
 #ifndef (depth) #declare depth = 5; #end
 #ifndef (htile) #declare htile = 8; #end
+
+#declare h7worm = union {
+  h7list (Yellow, <1,0,0>, <1,0.5,0.5>)
+}
+
+#declare h8worm = union {
+  h8list (Yellow, <0,1,0>, <0.5,1,0.5>)
+} 
+
+#declare MaxPosLeft = <0,0,0>;
 
 #if (htile = 7)
   h7rec (transform {scale 1.0}, depth)
@@ -65,21 +82,37 @@ global_settings { assumed_gamma 1.0 }
   h8rec (transform {scale 1.0 + h*y}, depth)
 #end
 
+#debug concat ("MaxPosLeft.x = ", str(MaxPosLeft.x,0,-1), "\n")
+#debug concat ("MaxPosLeft.z = ", str(MaxPosLeft.z,0,-1), "\n")
+/*
+ * this gives <-775.5, 0, 200.051868> for depth = 5
+ */
+
 #switch (clock)
   #range (0,preambletime)
     #declare smoothtime = smoothp(clock/preambletime).x;
-    #declare camerapos = (1-smoothtime)*faraway + smoothtime*startpos;
+    #declare camerapos = (1-smoothtime)*faraway + smoothtime*dorothystartpos + behind;
     #debug concat ("smoothtime = ", str(smoothtime,0,-1), "\n")
 
   #break
 
   #range (preambletime,endtime)
-    #debug concat ("REGULAR TIME!", "\n")
 
-    #declare camerapos = startpos;  // for now!
+    #declare dorothypos = dorothystartpos + dorothyspeed*time*yellowroaddir;
+    #declare camerapos = dorothypos + behind;
+    #declare lookatpos = dorothypos + ahead;
+
+    #debug concat ("REGULAR TIME! camera.y is", str(camerapos.y,0,-1),"\n")
 
   #break
 #end
+
+cylinder {
+  dorothypos,
+  dorothypos+0.5*y,
+  1
+  pigment {color Black}
+}
 
 camera {
   #ifdef (AspectWide)

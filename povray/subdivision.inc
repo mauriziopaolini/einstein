@@ -1,3 +1,5 @@
+#include "transforms.inc"
+
 //#declare scalefactor = phi*phi;   // approx 0.381977
 #declare scalefactor = 1;
 #declare scalefactor1 = 0.45;
@@ -69,6 +71,12 @@
   #switch (depth)
     #case (0)
       #ifdef (onlyworm)
+        #ifdef (MaxPosLeft)
+          #local h7pos = vtransform (<0,0,0>, transform {trsf});
+          #if (h7pos.x < MaxPosLeft.x)
+            #declare MaxPosLeft = h7pos;
+          #end
+        #end
         object {h7worm transform {trsf}}
       #else
         #ifdef (seet)
@@ -98,6 +106,12 @@
   #switch (depth)
     #case (0)
       #ifdef (onlyworm)
+        #ifdef (MaxPosLeft)
+          #local h8pos = vtransform (<0,0,0>, transform {trsf});
+          #if (h8pos.x < MaxPosLeft.x)
+            #declare MaxPosLeft = h8pos;
+          #end
+        #end
         object {h8worm transform {trsf}}
       #else
         #ifdef (seet)
