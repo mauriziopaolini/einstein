@@ -376,7 +376,7 @@ light_source { 10*magstep*<-1, 1, 1> color White }
 #if (depth <= 0)
   union {
     h7list (seet_h7, seet_h7, seet_h7)
-    scale magstep
+    scale magstep*<1, mag, 1>
     translate h7pos
     translate -pushdownend*tile_thick*y
   }
@@ -389,7 +389,7 @@ light_source { 10*magstep*<-1, 1, 1> color White }
 #if (depth <= 0)
   union {
     h8list (seet_h8, seet_h8, seet_h8)
-    scale magstep
+    scale magstep*<1, mag, 1>
     translate h8pos
     translate -pushdownend*tile_thick*y
   }
