@@ -63,11 +63,11 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (htile) #declare htile = 8; #end
 
 #declare h7worm = union {
-  h7list (Yellow, <1,0,0>, <1,0.5,0.5>)
+  h7list (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>)
 }
 
 #declare h8worm = union {
-  h8list (Yellow, <0,1,0>, <0.5,1,0.5>)
+  h8list (<1,1,0>, <0.5,1,0>, <0.6,1,0.2>)
 } 
 
 #declare MaxPosLeft = <0,0,0>;
