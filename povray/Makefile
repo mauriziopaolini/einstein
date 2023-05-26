@@ -13,7 +13,7 @@ $(deflated_png_H7):einstein_H7_d%.png: einstein.pov shapes.inc subdivision.inc
 $(deflated_png_H8):einstein_H8_d%.png: einstein.pov shapes.inc subdivision.inc
 	povray +a -D $< Declare=htile=8 Declare=depth=$* +O$@
 
-mp4list=five_deflations yellow_brick_road
+mp4list=five_deflations five_deflations_ws yellow_brick_road yellow_brick_road_aug
 
 $(mp4list:%=%.mp4): %.mp4: frames/%/frame0000.png
 	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/$*/frame????.png' -c:v libx264 -pix_fmt yuv420p $@
@@ -26,8 +26,9 @@ frames/five_deflations/frame0000.png: five_deflations.pov frames/five_deflations
 
 frames/yellow_brick_road/frame0000.png: yellow_brick_road.pov frames/yellow_brick_road
 	povray -D +a $< Declare=AspectWide=1 +W1280 +H720 +ki0 +kf200 +kfi0 +kff5000 +Oframes/yellow_brick_road/frame
-#	povray -D +a $< Declare=AspectWide=1 +W1280 +H720 +ki0 +kf10 +kfi0 +kff250 +Oframes/yellow_brick_road/frame0
-#	povray -D +a $< Declare=AspectWide=1 +W1280 +H720 +ki0 +kf100 +kfi0 +kff2500 +Oframes/yellow_brick_road/frame
+
+frames/yellow_brick_road_aug/frame0000.png: yellow_brick_road.pov frames/yellow_brick_road_aug
+	povray -D +a $< Declare=AspectWide=1 Declare=augmented=1 +W1280 +H720 +ki0 +kf200 +kfi0 +kff5000 +Oframes/yellow_brick_road_aug/frame
 
 five_deflations_ws.mp4: frames/five_deflations_ws/frame0000.png
 	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/five_deflations_ws/five_deflations????.png' -c:v libx264 -pix_fmt yuv420p $@

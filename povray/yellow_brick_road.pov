@@ -101,8 +101,10 @@ build_wormAB (depth)
  * this gives <-775.5, 0, 200.051868> for depth = 5
  */
 
-#declare textinfo = "";
-#declare bricktype = "?"
+#ifdef (augmented)
+  #declare textinfo = "";
+  #declare bricktype = "?"
+#end
 
 #switch (clock)
   #range (0,preambletime)
@@ -119,17 +121,19 @@ build_wormAB (depth)
     #declare camerapos = dorothypos + behind;
     #declare lookatpos = dorothypos + ahead;
 
-    #declare brick_number_r = time*bricks_speed+1.5;
-    #declare brick_number = int(brick_number_r);
-    #if (brick_number_r - brick_number < 0.8)
-      #declare bricktype = substr (wormB[depth], brick_number, 1);
-      #declare textinfo = concat ("#", str(brick_number,0,0), ": ", bricktype);
+    #ifdef (augmented)
+      #declare brick_number_r = time*bricks_speed+1.5;
+      #declare brick_number = int(brick_number_r);
+      #if (brick_number_r - brick_number < 0.8)
+        #declare bricktype = substr (wormB[depth], brick_number, 1);
+        #declare textinfo = concat ("#", str(brick_number,0,0), ": ", bricktype);
+        #debug concat ("At time ", str(time,0,-1), " Dorothy is on brick number ", str(brick_number,0,0), " (", str(brick_number_r,0,-1), ") of type ", bricktype, "\n")
+      #end
     #end
 
     #debug concat ("REGULAR TIME! camera.y is", str(camerapos.y,0,-1),"\n")
     #debug concat ("bricks_speed ", str(bricks_speed,0,-1),"\n")
 
-    #debug concat ("At time ", str(time,0,-1), " Dorothy is on brick number ", str(brick_number,0,0), " (", str(brick_number_r,0,-1), ") of type ", bricktype, "\n")
   #break
 #end
 
@@ -140,17 +144,19 @@ cylinder {
   texture {pigment {color Black} finish {tile_Finish}}
 }
 
-text {ttf textfont textinfo 0.1 0
-  rotate -78*y
-  scale 2
-  translate tile_thick*y
-  translate dorothypos
-  translate 20*yellowroaddir
-  texture {
-    pigment {color Blue}
-    finish {tile_Finish}
+#ifdef (augmented)
+  text {ttf textfont textinfo 0.1 0
+    rotate -78*y
+    scale 2
+    translate tile_thick*y
+    translate dorothypos
+    translate 20*yellowroaddir
+    texture {
+      pigment {color Blue}
+      finish {tile_Finish}
+    }
   }
-}
+#end
 
 camera {
   #ifdef (AspectWide)
