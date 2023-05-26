@@ -20,19 +20,12 @@ global_settings { assumed_gamma 1.0 }
 #include "shapes.inc"
 #include "subdivision.inc"
 #include "ambiente.inc"
+#include "yellow_brick_road_include.inc"
 
 #ifndef (preambletime) #declare preambletime = 4; #end
 #declare endtime = 10000;
 
 #declare time = clock;
-
-#declare smoothp = spline {
-  cubic_spline
-  -1, 1*x
-  0, 0*x
-  1, 1*x
-  2, 0*x
-}
 
 #if (clock >= preambletime)
   #declare time = clock - preambletime;
@@ -44,6 +37,8 @@ global_settings { assumed_gamma 1.0 }
  */
 #declare yellowroadend = <-775.5, 0, 200.051868>;
 #declare yellowroaddir = vnormalize(yellowroadend - yellowroadstart);
+//#declare yellowroaddirrot90 = vtransform (yellowroaddir, -90*y);
+
 #ifndef (dorothyspeed) #declare dorothyspeed = 4; #end
 
 #declare meters = 10;
@@ -54,6 +49,7 @@ global_settings { assumed_gamma 1.0 }
 #declare dorothystartpos = yellowroadstart;
 #declare lookatpos = yellowroadstart + ahead;
 #declare faraway = yellowroadstart - 40*meters*yellowroaddir + 10*meters*y;
+#declare textfont = "LiberationMono-Regular.ttf"
 
 #declare eyeshift = 0*x;
 #declare skycam = y;
@@ -61,6 +57,21 @@ global_settings { assumed_gamma 1.0 }
 
 #ifndef (depth) #declare depth = 5; #end
 #ifndef (htile) #declare htile = 8; #end
+
+build_wormAB (depth)
+
+/*
+ * se non ho sbagliato i conti Dorothy impiega 0.7 secondi per avanzare di un
+ * cluster, avanzando a velocita' 4
+ */
+
+//#declare bricks_speed = 0.7/4*dorothyspeed*(138/133)*(144.5/146.763158)*(144.5/144.523131); // adjusted may 25, 2023
+#declare bricks_speed = 0.7/4*dorothyspeed*1.021430283490544; // adjusted may 25, 2023
+
+#ifdef (debug)
+  #debug concat ("wormB[depth] = ", wormB[depth], "\n")
+  #debug concat ("  last element: ", substr(wormB[depth], 144, 1), "\n")
+#end
 
 #declare h7worm = union {
   h7list (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>)
@@ -88,11 +99,15 @@ global_settings { assumed_gamma 1.0 }
  * this gives <-775.5, 0, 200.051868> for depth = 5
  */
 
+#declare textinfo = "";
+#declare bricktype = "?"
+
 #switch (clock)
   #range (0,preambletime)
     #declare smoothtime = smoothp(clock/preambletime).x;
     #declare camerapos = (1-smoothtime)*faraway + smoothtime*dorothystartpos + behind;
     #debug concat ("smoothtime = ", str(smoothtime,0,-1), "\n")
+    #declare bricktype = "A";
 
   #break
 
@@ -102,8 +117,17 @@ global_settings { assumed_gamma 1.0 }
     #declare camerapos = dorothypos + behind;
     #declare lookatpos = dorothypos + ahead;
 
-    #debug concat ("REGULAR TIME! camera.y is", str(camerapos.y,0,-1),"\n")
+    #declare brick_number_r = time*bricks_speed+1.5;
+    #declare brick_number = int(brick_number_r);
+    #if (brick_number_r - brick_number < 0.8)
+      #declare bricktype = substr (wormB[depth], brick_number, 1);
+      #declare textinfo = concat ("#", str(brick_number,0,0), ": ", bricktype);
+    #end
 
+    #debug concat ("REGULAR TIME! camera.y is", str(camerapos.y,0,-1),"\n")
+    #debug concat ("bricks_speed ", str(bricks_speed,0,-1),"\n")
+
+    #debug concat ("At time ", str(time,0,-1), " Dorothy is on brick number ", str(brick_number,0,0), " (", str(brick_number_r,0,-1), ") of type ", bricktype, "\n")
   #break
 #end
 
@@ -111,6 +135,15 @@ cylinder {
   dorothypos,
   dorothypos+0.5*y,
   1
+  pigment {color Black}
+}
+
+text {ttf textfont textinfo 0.1 0
+  rotate -78*y
+  scale 2
+  translate tile_thick*y
+  translate dorothypos
+  translate 20*yellowroaddir
   pigment {color Black}
 }
 
