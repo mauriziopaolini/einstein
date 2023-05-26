@@ -18,20 +18,17 @@ mp4list=five_deflations five_deflations_ws yellow_brick_road yellow_brick_road_a
 $(mp4list:%=%.mp4): %.mp4: frames/%/frame0000.png
 	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/$*/frame????.png' -c:v libx264 -pix_fmt yuv420p $@
 
-#five_deflations.mp4: frames/five_deflations/five_deflations0000.png
-#	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/five_deflations/five_deflations????.png' -c:v libx264 -pix_fmt yuv420p $@
-
-frames/five_deflations/frame0000.png: five_deflations.pov frames/five_deflations
+frames/five_deflations/frame0000.png: five_deflations.pov
 	povray -D +a five_deflations.pov Declare=AspectWide=1 +W1280 +H720 +ki0 +kf11 +kfi0 +kff2750 +Oframes/five_deflations/frame
 
-frames/yellow_brick_road/frame0000.png: yellow_brick_road.pov frames/yellow_brick_road
+frames/yellow_brick_road/frame0000.png: yellow_brick_road.pov
 	povray -D +a $< Declare=AspectWide=1 +W1280 +H720 +ki0 +kf200 +kfi0 +kff5000 +Oframes/yellow_brick_road/frame
 
-frames/yellow_brick_road_aug/frame0000.png: yellow_brick_road.pov frames/yellow_brick_road_aug
+frames/yellow_brick_road_aug/frame0000.png: yellow_brick_road.pov
 	povray -D +a $< Declare=AspectWide=1 Declare=augmented=1 +W1280 +H720 +ki0 +kf200 +kfi0 +kff5000 +Oframes/yellow_brick_road_aug/frame
 
-five_deflations_ws.mp4: frames/five_deflations_ws/frame0000.png
-	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/five_deflations_ws/five_deflations????.png' -c:v libx264 -pix_fmt yuv420p $@
+#five_deflations_ws.mp4: frames/five_deflations_ws/frame0000.png
+#	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/five_deflations_ws/five_deflations????.png' -c:v libx264 -pix_fmt yuv420p $@
 
 frames/five_deflations_ws/frame0000.png: five_deflations.pov frames/five_deflations_ws
 	povray -D +a five_deflations.pov Declare=AspectWide=1 Declare=withscritta=1 +W1280 +H720 +ki0 +kf11 +kfi0 +kff2750 +Oframes/five_deflations_ws/frame
@@ -39,12 +36,9 @@ frames/five_deflations_ws/frame0000.png: five_deflations.pov frames/five_deflati
 # comando di concatenazione, se serve:
 #	ffmpeg -f concat -safe 0 -i subdivisionlist.txt -c copy subdivision.mp4
 
-frames:
-	mkdir $@
-
-frames/five_deflations: frames
-	mkdir $@
-
-frames/five_deflations_ws: frames
-	mkdir $@
+#frames:
+#	mkdir -p $@
+#
+#$(mp4list:%=frames/%): frames/%: frames
+#	mkdir -p $@
 
