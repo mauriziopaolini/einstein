@@ -156,6 +156,18 @@ cylinder {
       finish {tile_Finish}
     }
   }
+  text {ttf textfont "Oz" 0.02 0
+    rotate 45*x
+    rotate -78*y
+    scale 80
+    translate 30*tile_thick*y
+    translate 50*z
+    translate -120*x
+    texture {
+      White_Marble scale 20
+      finish {tile_Finish}
+    }
+  }
 #end
 
 camera {
