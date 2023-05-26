@@ -102,6 +102,9 @@ build_wormAB (depth)
  */
 
 #ifdef (augmented)
+  #declare historythickness = 0.1;
+  #declare raythickness = 0.07;
+  #declare axisthickness = 0.06;
   #declare textinfo = "";
   #declare bricktype = "?"
 #end
@@ -129,6 +132,44 @@ build_wormAB (depth)
         #declare textinfo = concat ("#", str(brick_number,0,0), ": ", bricktype);
         #debug concat ("At time ", str(time,0,-1), " Dorothy is on brick number ", str(brick_number,0,0), " (", str(brick_number_r,0,-1), ") of type ", bricktype, "\n")
       #end
+      // #ifdef (test)
+      #local i = 0; #local j = 0;
+      #if (brick_number >= 2)
+        #local k = 0;
+        #declare history = union {
+          #while (k < brick_number - 1)
+            #local k = k + 1;
+            sphere { <i, j, 0>, historythickness }
+            cylinder {
+              <i, j, 0>
+              #if (substr (wormB[depth], k, 1) = "A")
+                // upword segment
+                #local j = j + 1;
+              #else
+                // horizontal segment
+                #local i = i + 1;
+              #end
+              <i, j, 0>
+              historythickness
+            }
+          #end
+        }
+      #end
+      #declare present = union {
+        #local k = k + 1;
+        cylinder {
+          <i, j, 0>
+          #if (substr (wormB[depth], k, 1) = "A")
+            #local j = j + (brick_number_r - brick_number);
+          #else
+            #local i = i + (brick_number_r - brick_number);
+          #end
+          <i, j, 0>
+          historythickness
+        }
+        sphere {<i, j, 0> 1.3*historythickness}
+      }
+      // #end
     #end
 
     #debug concat ("REGULAR TIME! camera.y is", str(camerapos.y,0,-1),"\n")
@@ -150,12 +191,39 @@ cylinder {
     scale 2
     translate tile_thick*y
     translate dorothypos
-    translate 20*yellowroaddir
+    translate 10*yellowroaddir
     texture {
       pigment {color Blue}
       finish {tile_Finish}
     }
   }
+  // #ifdef (test)
+  #declare grid = union {
+    #ifdef (history) object {history} #end
+    #ifdef (present) object {present} #end
+    sphere {<-1,0,0>, raythickness}
+    cylinder {<-1,0,0>, <100*Phi, 100, 0>, raythickness}
+    cylinder {<-2,0,0>, <100*Phi, 0, 0>, axisthickness}
+    cylinder {<0,-2,0>, <0, 100, 0>, axisthickness}
+  }
+  #ifdef (grid)
+    object {grid
+      translate -1.0*20*x
+      rotate -78*y
+      translate (tile_thick+4*axisthickness)*y
+      scale 0.4
+      translate dorothypos
+      translate 0*20*x
+      translate 20*yellowroaddir
+      texture {
+        pigment {color Black}
+        // Blue_Agate scale 2
+        finish {tile_Finish}
+      }
+      no_shadow
+    }
+  #end
+  // #end
   text {ttf textfont "Oz" 0.02 0
     rotate 45*x
     rotate -78*y
