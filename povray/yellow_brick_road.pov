@@ -75,10 +75,12 @@ build_wormAB (depth)
 
 #declare h7worm = union {
   h7list (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>)
+  texture {finish {tile_Finish}}
 }
 
 #declare h8worm = union {
   h8list (<1,1,0>, <0.5,1,0>, <0.6,1,0.2>)
+  texture {finish {tile_Finish}}
 } 
 
 #declare MaxPosLeft = <0,0,0>;
@@ -135,7 +137,7 @@ cylinder {
   dorothypos,
   dorothypos+0.5*y,
   1
-  pigment {color Black}
+  texture {pigment {color Black} finish {tile_Finish}}
 }
 
 text {ttf textfont textinfo 0.1 0
@@ -144,7 +146,10 @@ text {ttf textfont textinfo 0.1 0
   translate tile_thick*y
   translate dorothypos
   translate 20*yellowroaddir
-  pigment {color Black}
+  texture {
+    pigment {color Blue}
+    finish {tile_Finish}
+  }
 }
 
 camera {

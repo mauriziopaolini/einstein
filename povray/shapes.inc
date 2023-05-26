@@ -61,6 +61,20 @@ object {hat
   scale <-1,1,1>
 }
 
+#ifndef (sambient)
+  #declare sambient=0.2;
+#end
+#ifndef (sdiffuse)
+  #declare sdiffuse=0.5;
+#end
+
+#declare tile_Finish =
+finish {
+        ambient sambient diffuse sdiffuse
+        specular 0.5 roughness 0.05
+        phong .75
+}
+
 #local h7c1 = <1,0,0>;
 #local h7c2 = <1,0.5,0.5>;
 #local h7c3 = <1,0.75,0.75>;
@@ -71,43 +85,43 @@ object {hat
 #macro h7list (c1, c2, c3)
   object {hatr
     rotate -120*y
-    pigment {color c1}
+    texture { pigment {color c1} finish {tile_Finish} }
   }
   object {hat
     rotate -60*y
     translate 1.5*x
     translate ap*z
-    pigment {color c2}
+    texture { pigment {color c2} finish {tile_Finish} }
   }
   object {hat
     rotate -60*y
     translate -1.5*x
     translate ap*z
-    pigment {color c2}
+    texture { pigment {color c2} finish {tile_Finish} }
   }
   object {hat
     rotate 60*y
     translate 0*x
     translate 2*ap*z
-    pigment {color c2}
+    texture { pigment {color c2} finish {tile_Finish} }
   }
   object {hat
     rotate 0*y
     translate -1.5*x
     translate 3*ap*z
-    pigment {color c3}
+    texture { pigment {color c3} finish {tile_Finish} }
   }
   object {hat
     rotate -120*y
     translate -1.5*x
     translate -ap*z
-    pigment {color c3}
+    texture { pigment {color c3} finish {tile_Finish} }
   }
   object {hat
     rotate 180*y
     translate 0*x
     translate -2*ap*z
-    pigment {color c3}
+    texture { pigment {color c3} finish {tile_Finish} }
   }
 #end
 
@@ -117,39 +131,29 @@ object {hat
     rotate -60*y
     translate -3*x
     translate 2*ap*z
-    pigment {color c3}
+    texture { pigment {color c3} finish {tile_Finish} }
   }
 #end
 
 #declare h7m = union {
   h7list (h7c1, h7c2, h7c3)
+  //finish {tile_Finish}
 }
 
 #declare h8m = union {
   h8list (h8c1, h8c2, h8c3)
+  //finish {tile_Finish}
 }
 
 #declare h7worm = union {
   h7list (Blue, h7c1, h7c2)
+  //finish {tile_Finish}
 }
 
 #declare h8worm = union {
   h8list (Blue, h8c1, h8c2)
-
-//  object {hat
-//    rotate -60*y
-//    translate -3*x
-//    translate 2*ap*z
-//    pigment {color h8c2}
-//  }
+  //finish {tile_Finish}
 }
-
-#ifndef (sambient)
-  #declare sambient=0.3;
-#end
-#ifndef (sdiffuse)
-  #declare sdiffuse=1;
-#end
 
 #ifndef (T_hat)
   #declare T_hat = texture {White_Marble}
@@ -158,13 +162,6 @@ object {hat
 #ifndef (T_hatr)
   #declare T_hatr = texture {Blue_Agate}
 #end
-
-#declare tile_Finish =
-finish {
-        ambient sambient diffuse sdiffuse
-        specular 0.5 roughness 0.05
-        phong .75
-}
 
 #declare hatm =
 object { hat
