@@ -32,7 +32,7 @@ frames/yellow_brick_road/frame0000.png: yellow_brick_road.pov frames/yellow_bric
 five_deflations_ws.mp4: frames/five_deflations_ws/frame0000.png
 	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/five_deflations_ws/five_deflations????.png' -c:v libx264 -pix_fmt yuv420p $@
 
-frames/five_deflations_ws/five_deflations0000.png: five_declarions.pov frames/five_deflations_ws
+frames/five_deflations_ws/frame0000.png: five_deflations.pov frames/five_deflations_ws
 	povray -D +a five_deflations.pov Declare=AspectWide=1 Declare=withscritta=1 +W1280 +H720 +ki0 +kf11 +kfi0 +kff2750 +Oframes/five_deflations_ws/frame
 
 # comando di concatenazione, se serve:
