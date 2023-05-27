@@ -144,34 +144,45 @@ build_wormAB (depth)
       // #ifdef (test)
       #local i = 0; #local j = 0;
       #local k = 0;
-      #if (brick_number >= 2)
+      #if (brick_number >= 1)
         #declare history = union {
+
+          /* first square, it is always present */
+          cylinder {<i,j,0>, <i,j+1,0>, historythickness}
+          sphere { <i, j+1, 0>, historythickness }
+          cylinder {<i,j+1,0>, <i+1,j+1,0>, historythickness}
+          sphere { <i+1, j+1, 0>, historythickness }
+          cylinder {<i+1,j+1,0>, <i+1,j,0>, historythickness}
+          sphere { <i+1, j, 0>, historythickness }
+          cylinder {<i+1,j,0>, <i,j,0>, historythickness}
+          sphere { <i, j, 0>, historythickness }
+
           #while (k < brick_number - 1)
             #local k = k + 1;
-            /*
-             * here we draw all sides of a grid square
-             * which leads to the superposition of a side
-             */
-            cylinder {<i,j,0>, <i,j+1,0>, historythickness}
-            sphere { <i, j+1, 0>, historythickness }
-            cylinder {<i,j+1,0>, <i+1,j+1,0>, historythickness}
-            sphere { <i+1, j+1, 0>, historythickness }
-            cylinder {<i+1,j+1,0>, <i+1,j,0>, historythickness}
-            sphere { <i+1, j, 0>, historythickness }
-            cylinder {<i+1,j,0>, <i,j,0>, historythickness}
-            sphere { <i, j, 0>, historythickness }
             #if (substr (wormB[depth], k, 1) = "A")
               #local j = j + 1;
+              cylinder {<i,j,0>, <i,j+1,0>, historythickness}
+              sphere { <i, j+1, 0>, historythickness }
+              cylinder {<i,j+1,0>, <i+1,j+1,0>, historythickness}
+              sphere { <i+1, j+1, 0>, historythickness }
+              cylinder {<i+1,j+1,0>, <i+1,j,0>, historythickness}
+              //sphere { <i+1, j, 0>, historythickness }
             #else
               #local i = i + 1;
+              cylinder {<i,j,0>, <i+1,j,0>, historythickness}
+              sphere { <i+1, j, 0>, historythickness }
+              cylinder {<i+1,j,0>, <i+1,j+1,0>, historythickness}
+              sphere { <i+1, j+1, 0>, historythickness }
+              cylinder {<i+1,j+1,0>, <i,j+1,0>, historythickness}
             #end
           #end
         }
       #end
+      #local k = k + 1;
       #if (substr (wormB[depth], k, 1) = "A")
-        #local j = j - 1 + (brick_number_r - brick_number);
+        #local j = j + (brick_number_r - brick_number);
       #else
-        #local i = i - 1 + (brick_number_r - brick_number);
+        #local i = i + (brick_number_r - brick_number);
       #end
       #declare present = box {<i,j,-0.5*historythickness>,<i+1,j+1,0.5*historythickness>}
       #local k = k + 1;
