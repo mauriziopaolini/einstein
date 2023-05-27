@@ -107,6 +107,8 @@ build_wormAB (depth)
   #declare axisthickness = 0.06;
   #declare textinfo = "";
   #declare bricktype = "?"
+  #declare tgridleft = 0;
+  #declare tgriddown = 0;
 #end
 
 #switch (clock)
@@ -137,8 +139,6 @@ build_wormAB (depth)
         #end
         #debug concat ("At time ", str(time,0,-1), " Dorothy is on brick number ", str(brick_number,0,0), " (", str(brick_number_r,0,-1), ") of type ", bricktype, "\n")
       #end
-      #declare tgridleft = 0;
-      #declare tgriddown = 0;
       // #ifdef (test)
       #local i = 0; #local j = 0;
       #if (brick_number >= 2)
