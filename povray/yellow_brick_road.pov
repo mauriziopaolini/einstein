@@ -141,8 +141,8 @@ build_wormAB (depth)
       #end
       // #ifdef (test)
       #local i = 0; #local j = 0;
+      #local k = 0;
       #if (brick_number >= 2)
-        #local k = 0;
         #declare history = union {
           #while (k < brick_number - 1)
             #local k = k + 1;
