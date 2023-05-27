@@ -127,11 +127,18 @@ build_wormAB (depth)
     #ifdef (augmented)
       #declare brick_number_r = time*bricks_speed+1.5;
       #declare brick_number = int(brick_number_r);
-      #if (brick_number_r - brick_number < 0.8)
+      #if (brick_number_r - brick_number < 0.9)
         #declare bricktype = substr (wormB[depth], brick_number, 1);
-        #declare textinfo = concat ("#", str(brick_number,0,0), ": ", bricktype);
+        //#declare textinfo = concat ("#", str(brick_number,0,0), ": ", bricktype);
+        #if (bricktype = "A")
+          #declare textinfo = "H7:up";
+        #else
+          #declare textinfo = "H8:right";
+        #end
         #debug concat ("At time ", str(time,0,-1), " Dorothy is on brick number ", str(brick_number,0,0), " (", str(brick_number_r,0,-1), ") of type ", bricktype, "\n")
       #end
+      #declare tgridleft = 0;
+      #declare tgriddown = 0;
       // #ifdef (test)
       #local i = 0; #local j = 0;
       #if (brick_number >= 2)
@@ -168,6 +175,8 @@ build_wormAB (depth)
           historythickness
         }
         sphere {<i, j, 0> 1.3*historythickness}
+        #if (i > 55) #declare tgridleft = (i - 55); #end
+        #if (j > 34) #declare tgriddown = (j - 34); #end
       }
       // #end
     #end
@@ -187,11 +196,12 @@ cylinder {
 
 #ifdef (augmented)
   text {ttf textfont textinfo 0.1 0
+    translate 1*x
     rotate -78*y
     scale 2
-    translate tile_thick*y
+    translate (tile_thick+0.6)*y
     translate dorothypos
-    translate 10*yellowroaddir
+    translate 0*yellowroaddir
     texture {
       pigment {color Blue}
       finish {tile_Finish}
@@ -208,7 +218,7 @@ cylinder {
   }
   #ifdef (grid)
     object {grid
-      translate -1.0*20*x
+      translate -1.0*20*x - tgridleft*x - tgriddown*y
       rotate -78*y
       translate (tile_thick+4*axisthickness)*y
       scale 0.4
