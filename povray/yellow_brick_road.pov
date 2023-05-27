@@ -17,6 +17,8 @@
 
 global_settings { assumed_gamma 1.0 }
 
+#include "colors.inc"
+#include "skies.inc"
 #include "shapes.inc"
 #include "subdivision.inc"
 #include "ambiente.inc"
@@ -146,38 +148,35 @@ build_wormAB (depth)
         #declare history = union {
           #while (k < brick_number - 1)
             #local k = k + 1;
+            /*
+             * here we draw all sides of a grid square
+             * which leads to the superposition of a side
+             */
+            cylinder {<i,j,0>, <i,j+1,0>, historythickness}
+            sphere { <i, j+1, 0>, historythickness }
+            cylinder {<i,j+1,0>, <i+1,j+1,0>, historythickness}
+            sphere { <i+1, j+1, 0>, historythickness }
+            cylinder {<i+1,j+1,0>, <i+1,j,0>, historythickness}
+            sphere { <i+1, j, 0>, historythickness }
+            cylinder {<i+1,j,0>, <i,j,0>, historythickness}
             sphere { <i, j, 0>, historythickness }
-            cylinder {
-              <i, j, 0>
-              #if (substr (wormB[depth], k, 1) = "A")
-                // upword segment
-                #local j = j + 1;
-              #else
-                // horizontal segment
-                #local i = i + 1;
-              #end
-              <i, j, 0>
-              historythickness
-            }
+            #if (substr (wormB[depth], k, 1) = "A")
+              #local j = j + 1;
+            #else
+              #local i = i + 1;
+            #end
           #end
         }
       #end
-      #declare present = union {
-        #local k = k + 1;
-        cylinder {
-          <i, j, 0>
-          #if (substr (wormB[depth], k, 1) = "A")
-            #local j = j + (brick_number_r - brick_number);
-          #else
-            #local i = i + (brick_number_r - brick_number);
-          #end
-          <i, j, 0>
-          historythickness
-        }
-        sphere {<i, j, 0> 1.3*historythickness}
-        #if (i > 55) #declare tgridleft = (i - 55); #end
-        #if (j > 34) #declare tgriddown = (j - 34); #end
-      }
+      #if (substr (wormB[depth], k, 1) = "A")
+        #local j = j - 1 + (brick_number_r - brick_number);
+      #else
+        #local i = i - 1 + (brick_number_r - brick_number);
+      #end
+      #declare present = box {<i,j,-0.5*historythickness>,<i+1,j+1,0.5*historythickness>}
+      #local k = k + 1;
+      #if (i > 55) #declare tgridleft = (i - 55); #end
+      #if (j > 34) #declare tgriddown = (j - 34); #end
       // #end
     #end
 
@@ -186,6 +185,12 @@ build_wormAB (depth)
 
   #break
 #end
+
+sky_sphere {S_Cloud1}
+
+plane {y, 0
+  texture {pigment {color DarkGreen}}
+}
 
 cylinder {
   dorothypos,
@@ -212,7 +217,7 @@ cylinder {
     #ifdef (history) object {history} #end
     #ifdef (present) object {present} #end
     sphere {<-1,0,0>, raythickness}
-    cylinder {<-1,0,0>, <100*Phi, 100, 0>, raythickness}
+    cylinder {<0,1,0>, <100*Phi, 100+1, 0>, raythickness}
     cylinder {<-2,0,0>, <100*Phi, 0, 0>, axisthickness}
     cylinder {<0,-2,0>, <0, 100, 0>, axisthickness}
   }
