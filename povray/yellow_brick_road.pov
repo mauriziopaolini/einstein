@@ -184,7 +184,7 @@ build_wormAB (depth)
       #else
         #local i = i + (brick_number_r - brick_number);
       #end
-      #declare present = box {<i,j,-0.5*historythickness>,<i+1,j+1,0.5*historythickness>}
+      #declare present = box {<i,j,-1.1*historythickness>,<i+1,j+1,1.1*historythickness>}
       #local k = k + 1;
       #if (i > 55) #declare tgridleft = (i - 55); #end
       #if (j > 34) #declare tgriddown = (j - 34); #end
@@ -223,7 +223,6 @@ cylinder {
       finish {tile_Finish}
     }
   }
-  // #ifdef (test)
   #declare grid = union {
     #ifdef (history) object {history} #end
     #ifdef (present) object {present} #end
@@ -232,24 +231,21 @@ cylinder {
     cylinder {<-2,0,0>, <100*Phi, 0, 0>, axisthickness}
     cylinder {<0,-2,0>, <0, 100, 0>, axisthickness}
   }
-  #ifdef (grid)
-    object {grid
-      translate -1.0*20*x - tgridleft*x - tgriddown*y
-      rotate -78*y
-      translate (tile_thick+4*axisthickness)*y
-      scale 0.4
-      translate dorothypos
-      translate 0*20*x
-      translate 20*yellowroaddir
-      texture {
-        pigment {color Black}
-        // Blue_Agate scale 2
-        finish {tile_Finish}
-      }
-      no_shadow
+  object {grid
+    translate -1.0*20*x - tgridleft*x - tgriddown*y
+    rotate -78*y
+    translate (tile_thick+4*axisthickness)*y
+    scale 0.4
+    translate dorothypos
+    translate 0*20*x
+    translate 20*yellowroaddir
+    texture {
+      pigment {color Red}
+      // Blue_Agate scale 2
+      finish {tile_Finish}
     }
-  #end
-  // #end
+    no_shadow
+  }
   text {ttf textfont "Oz" 0.02 0
     rotate 45*x
     rotate -78*y
