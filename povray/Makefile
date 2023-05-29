@@ -26,6 +26,7 @@ frames/yellow_brick_road/frame0000.png: yellow_brick_road.pov
 
 frames/yellow_brick_road_aug/frame0000.png: yellow_brick_road.pov
 	povray -D +a $< Declare=AspectWide=1 Declare=augmented=1 +W1280 +H720 +ki0 +kf200 +kfi0 +kff5000 +Oframes/yellow_brick_road_aug/frame
+	for i in `seq 5001 5025`; do cp frames/yellow_brick_road_aug/frame5000.png frames/yellow_brick_road_aug/frame$${i}.png; done
 
 #five_deflations_ws.mp4: frames/five_deflations_ws/frame0000.png
 #	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/five_deflations_ws/five_deflations????.png' -c:v libx264 -pix_fmt yuv420p $@
