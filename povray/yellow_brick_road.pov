@@ -4,6 +4,7 @@
  * H7 = 0, H8 = 1
  *
  * clock is in seconds
+ * per depth=6 Dorothy raggiungerebbe la fine al clock=329 (time = 325)
  */
 /*
 #finalclock 11
@@ -36,8 +37,10 @@ global_settings { assumed_gamma 1.0 }
 #declare yellowroadstart = <0,0,0>;
 /*
  * this is the end of the worm in case depth=5
+ * (trovato con trial and error)
+ * depth = 5, htile=8: #declare yellowroadend = <-775.5, 0, 200.051868>;
  */
-#declare yellowroadend = <-775.5, 0, 200.051868>;
+#declare yellowroadend = <-1258.79, 0, 324.724>;
 #declare yellowroaddir = vnormalize(yellowroadend - yellowroadstart);
 //#declare yellowroaddirrot90 = vtransform (yellowroaddir, -90*y);
 
@@ -46,7 +49,7 @@ global_settings { assumed_gamma 1.0 }
 #declare meters = 10;
 
 //#declare behind = -1*meters*yellowroaddir + 1*meters*y;
-#declare behind = -6*meters*yellowroaddir + 2*meters*y;
+#declare behind = -7*meters*yellowroaddir + 2*meters*y;
 #declare ahead = 4*meters*yellowroaddir;
 #declare dorothystartpos = yellowroadstart;
 #declare lookatpos = yellowroadstart + ahead;
@@ -58,23 +61,34 @@ global_settings { assumed_gamma 1.0 }
 #declare dorothypos = dorothystartpos;
 
 #ifndef (depth) #declare depth = 5; #end
-#ifndef (htile) #declare htile = 8; #end
+#ifndef (htile)
+  #if (depth > 5)
+    #declare htile = 7;
+  #else
+    #declare htile = 8;
+  #end
+#end
 
 build_wormAB (depth)
 #declare worm = wormB;
+#if (depth > 5) #declare worm = wormA; #end
 
 /*
- * se non ho sbagliato i conti Dorothy impiega 0.7 secondi per avanzare di un
+ * se non ho sbagliato i conti Dorothy impiega 1/0.7 secondi per avanzare di un
  * cluster, avanzando a velocita' 4
  */
 
 //#declare bricks_speed = 0.7/4*dorothyspeed*(138/133)*(144.5/146.763158)*(144.5/144.523131); // adjusted may 25, 2023
 #declare bricks_speed = 0.7/4*dorothyspeed*1.021430283490544; // adjusted may 25, 2023
+#if (depth > 5)
+  #declare bricks_speed = 233.5/233.875389*bricks_speed; // adjusted for depth=6 may 29, 2023
+#end
 
 #ifdef (debug)
   #debug concat ("worm = ", worm, "\n")
   #debug concat ("  last element: ", substr(worm, 144, 1), "\n")
 #end
+#debug concat ("\n=========\nnumber of H clusters in the yellow brick road = ", str(strlen(worm),0,0), "\n")
 
 #declare h7worm = union {
   h7list (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>)
@@ -98,11 +112,13 @@ build_wormAB (depth)
   h8rec (transform {scale 1.0 + h*y}, depth)
 #end
 
-#debug concat ("MaxPosLeft.x = ", str(MaxPosLeft.x,0,-1), "\n")
-#debug concat ("MaxPosLeft.z = ", str(MaxPosLeft.z,0,-1), "\n")
-/*
- * this gives <-775.5, 0, 200.051868> for depth = 5
- */
+#ifdef (debug)
+  #debug concat ("MaxPosLeft.x = ", str(MaxPosLeft.x,0,-1), "\n")
+  #debug concat ("MaxPosLeft.z = ", str(MaxPosLeft.z,0,-1), "\n")
+  /*
+   * this gives <-775.5, 0, 200.051868> for depth = 5
+   */
+#end
 
 #ifdef (augmented)
   #declare historythickness = 0.1;
@@ -118,7 +134,11 @@ build_wormAB (depth)
   #range (0,preambletime)
     #declare smoothtime = smoothp(clock/preambletime).x;
     #declare camerapos = (1-smoothtime)*faraway + smoothtime*dorothystartpos + behind;
-    #debug concat ("smoothtime = ", str(smoothtime,0,-1), "\n")
+    #declare reltime = (preambletime - clock)/preambletime;
+    #declare lookatpos = dorothystartpos + (4*reltime + 1)*ahead;
+    #ifdef (debug)
+      #debug concat ("smoothtime = ", str(smoothtime,0,-1), "\n")
+    #end
     #declare bricktype = "A";
 
   #break
@@ -140,7 +160,8 @@ build_wormAB (depth)
         #else
           #declare textinfo = "H8:right";
         #end
-        #debug concat ("At time ", str(time,0,-1), " Dorothy is on brick number ", str(brick_number,0,0), " (", str(brick_number_r,0,-1), ") of type ", bricktype, "\n")
+        #debug concat ("\n\nAt time ", str(time,0,-1), " Dorothy is on brick number ", str(brick_number,0,0), " (", str(brick_number_r,0,-1), ") of type ", bricktype, "\n")
+        #debug concat ("  she is positioned at (", str(dorothypos.x,0,-1), ",", str(dorothypos.z,0,-1), ")\n=========\n\n")
       #end
       // #ifdef (test)
       #local i = 0; #local j = 0;
@@ -192,8 +213,10 @@ build_wormAB (depth)
       // #end
     #end
 
-    #debug concat ("REGULAR TIME! camera.y is", str(camerapos.y,0,-1),"\n")
-    #debug concat ("bricks_speed ", str(bricks_speed,0,-1),"\n")
+    #ifdef (debug)
+      #debug concat ("REGULAR TIME! camera.y is ", str(camerapos.y,0,-1),"\n")
+      #debug concat ("bricks_speed ", str(bricks_speed,0,-1),"\n")
+    #end
 
   #break
 #end
@@ -233,13 +256,12 @@ cylinder {
     cylinder {<0,-2,0>, <0, 100, 0>, axisthickness}
   }
   object {grid
-    translate -1.0*20*x - tgridleft*x - tgriddown*y
+    translate -1.3*20*x - tgridleft*x - tgriddown*y
     rotate -78*y
     translate (tile_thick+4*axisthickness)*y
-    scale 0.4
+    scale 0.35
     translate dorothypos
-    translate 0*20*x
-    translate 20*yellowroaddir
+    translate 5*yellowroaddir
     texture {
       pigment {color Red}
       // Blue_Agate scale 2
@@ -247,7 +269,12 @@ cylinder {
     }
     no_shadow
   }
+#if (depth > 5)
+  text {ttf textfont concat("Oz d",str(depth,0,0)) 0.02 0
+    translate -1.63*x
+#else
   text {ttf textfont "Oz" 0.02 0
+#end
     rotate 45*x
     rotate -78*y
     scale 80

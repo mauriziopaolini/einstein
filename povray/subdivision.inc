@@ -36,8 +36,10 @@
   #local i = i + 1;
 #end
 
-#debug concat("fibo[29] = ", str(fibo[29],0,-1), "\n")
-#debug concat("lucas[29] = ", str(lucas[29],0,-1), "\n")
+#ifdef (debug)
+  #debug concat("fibo[29] = ", str(fibo[29],0,-1), "\n")
+  #debug concat("lucas[29] = ", str(lucas[29],0,-1), "\n")
+#end
 
 #declare rot0 = 0;
 #declare rot1 = 120;
