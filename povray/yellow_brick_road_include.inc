@@ -17,9 +17,6 @@
   #local i = 0;
   #while (i < depth)
     #local i = i + 1;
-    // #declare wormBold = wormB;
-    // #declare wormA = concat (wormA, wormBold);
-    // #declare wormB = concat (wormA, wormBold);
     #declare wormA = concat (wormA, wormB);
     #declare wormB = concat (wormA, wormB);
   #end
