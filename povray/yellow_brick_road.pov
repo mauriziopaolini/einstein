@@ -71,8 +71,8 @@ build_wormAB (depth)
 #declare bricks_speed = 0.7/4*dorothyspeed*1.021430283490544; // adjusted may 25, 2023
 
 #ifdef (debug)
-  #debug concat ("wormB[depth] = ", wormB[depth], "\n")
-  #debug concat ("  last element: ", substr(wormB[depth], 144, 1), "\n")
+  #debug concat ("wormB = ", wormB, "\n")
+  #debug concat ("  last element: ", substr(wormB, 144, 1), "\n")
 #end
 
 #declare h7worm = union {
@@ -132,7 +132,7 @@ build_wormAB (depth)
       #declare brick_number_r = time*bricks_speed+1.5;
       #declare brick_number = int(brick_number_r);
       #if (brick_number_r - brick_number < 0.9)
-        #declare bricktype = substr (wormB[depth], brick_number, 1);
+        #declare bricktype = substr (wormB, brick_number, 1);
         //#declare textinfo = concat ("#", str(brick_number,0,0), ": ", bricktype);
         #if (bricktype = "A")
           #declare textinfo = "H7:up";
@@ -159,7 +159,7 @@ build_wormAB (depth)
 
           #while (k < brick_number - 1)
             #local k = k + 1;
-            #if (substr (wormB[depth], k, 1) = "A")
+            #if (substr (wormB, k, 1) = "A")
               #local j = j + 1;
               cylinder {<i,j,0>, <i,j+1,0>, historythickness}
               sphere { <i, j+1, 0>, historythickness }
@@ -179,7 +179,7 @@ build_wormAB (depth)
         }
       #end
       #local k = k + 1;
-      #if (substr (wormB[depth], k, 1) = "A")
+      #if (substr (wormB, k, 1) = "A")
         #local j = j + (brick_number_r - brick_number);
       #else
         #local i = i + (brick_number_r - brick_number);
