@@ -23,6 +23,7 @@ frames/five_deflations/frame0000.png: five_deflations.pov
 
 frames/yellow_brick_road/frame0000.png: yellow_brick_road.pov
 	povray -D +a $< Declare=AspectWide=1 +W1280 +H720 +ki0 +kf200 +kfi0 +kff5000 +Oframes/yellow_brick_road/frame
+	for i in `seq 5001 5025`; do cp frames/yellow_brick_road/frame5000.png frames/yellow_brick_road/frame$${i}.png; done
 
 frames/yellow_brick_road_aug/frame0000.png: yellow_brick_road.pov
 	povray -D +a $< Declare=AspectWide=1 Declare=augmented=1 +W1280 +H720 +ki0 +kf200 +kfi0 +kff5000 +Oframes/yellow_brick_road_aug/frame
