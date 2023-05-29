@@ -36,9 +36,11 @@ global_settings { assumed_gamma 1.0 }
 
 #declare yellowroadstart = <0,0,0>;
 /*
- * this is the end of the worm in case depth=5
+ * this is the end of the worm in case depth=5 type B
  * (trovato con trial and error)
  * depth = 5, htile=8: #declare yellowroadend = <-775.5, 0, 200.051868>;
+ */
+/* questo invece si riferisce a depth=6, type A
  */
 #declare yellowroadend = <-1258.79, 0, 324.724>;
 #declare yellowroaddir = vnormalize(yellowroadend - yellowroadstart);
@@ -62,27 +64,27 @@ global_settings { assumed_gamma 1.0 }
 
 #ifndef (depth) #declare depth = 5; #end
 #ifndef (htile)
-  #if (depth > 5)
-    #declare htile = 7;
-  #else
-    #declare htile = 8;
-  #end
+  #declare htile = 7;
 #end
 
 build_wormAB (depth)
-#declare worm = wormB;
-#if (depth > 5) #declare worm = wormA; #end
+
+#declare worm = wormA;
+#if (htile = 8)
+  #declare worm = wormB;
+#end
 
 /*
  * se non ho sbagliato i conti Dorothy impiega 1/0.7 secondi per avanzare di un
  * cluster, avanzando a velocita' 4
  */
 
-//#declare bricks_speed = 0.7/4*dorothyspeed*(138/133)*(144.5/146.763158)*(144.5/144.523131); // adjusted may 25, 2023
-#declare bricks_speed = 0.7/4*dorothyspeed*1.021430283490544; // adjusted may 25, 2023
-#if (depth > 5)
-  #declare bricks_speed = 233.5/233.875389*bricks_speed; // adjusted for depth=6 may 29, 2023
+#declare bricks_speed = 0.7/4*dorothyspeed*1.021430283490544*233.5/233.875389; // adjusted may 29, 2023
+//#declare bricks_speed = 233.5/233.875389*bricks_speed; // adjusted for depth=6 may 29, 2023
+#if (depth = 5 & htile = 8)
+  #declare bricks_speed = 0.7/4*dorothyspeed*1.021430283490544; // adjusted may 25, 2023
 #end
+
 
 #ifdef (debug)
   #debug concat ("worm = ", worm, "\n")
@@ -269,12 +271,8 @@ cylinder {
     }
     no_shadow
   }
-#if (depth > 5)
   text {ttf textfont concat("Oz d",str(depth,0,0)) 0.02 0
     translate -1.63*x
-#else
-  text {ttf textfont "Oz" 0.02 0
-#end
     rotate 45*x
     rotate -78*y
     scale 80
