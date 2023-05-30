@@ -56,7 +56,7 @@ global_settings { assumed_gamma 1.0 }
 //#declare behind = -1*meters*yellowroaddir + 1*meters*y;
 #declare behind = -7*meters*yellowroaddir + 2*meters*y;
 #declare ahead = 4*meters*yellowroaddir;
-#declare dorothystartpos = yellowroadstart;
+#declare dorothystartpos = yellowroadstart + 2*tile_thick*y;
 #declare lookatpos = yellowroadstart + ahead;
 #declare faraway = yellowroadstart - 40*meters*yellowroaddir + 10*meters*y;
 #declare textfont = "LiberationMono-Regular.ttf"
@@ -134,11 +134,11 @@ build_wormAB (depth)
 #if (htile = 7)
   h7rec (transform {scale 1.0}, depth)
   #declare onlyworm = 1;
-  h7rec (transform {scale 1.0 + h*y}, depth)
+  h7rec (transform {translate tile_thick*y}, depth)
 #else
   h8rec (transform {scale 1.0}, depth)
   #declare onlyworm = 1;
-  h8rec (transform {scale 1.0 + h*y}, depth)
+  h8rec (transform {translate tile_thick*y}, depth)
 #end
 
 #ifdef (debug)
@@ -150,9 +150,9 @@ build_wormAB (depth)
 #end
 
 #ifdef (augmented)
-  #declare historythickness = 0.1;
-  #declare raythickness = 0.07;
-  #declare axisthickness = 0.06;
+  #declare historythickness = 0.2;
+  #declare raythickness = 0.14;
+  #declare axisthickness = 0.12;
   #declare textinfo = "";
   #declare bricktype = "?"
   #declare tgridleft = 0;
@@ -303,8 +303,8 @@ cylinder {
   object {grid
     translate -1.3*20*x - tgridleft*x - tgriddown*y
     rotate -78*y
-    translate (tile_thick+4*axisthickness)*y
     scale 0.35
+    translate (tile_thick+4*axisthickness)*y
     translate dorothypos
     translate 5*yellowroaddir
     texture {
