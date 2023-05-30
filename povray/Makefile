@@ -30,8 +30,9 @@ frames/yellow_brick_road_aug5B/frame0000.png: yellow_brick_road.pov
 	for i in `seq 5001 5025`; do cp frames/yellow_brick_road_aug5B/frame5000.png frames/yellow_brick_road_aug5B/frame$${i}.png; done
 
 frames/yellow_brick_road_aug6/frame0000.png: yellow_brick_road.pov
-	povray -D +a $< Declare=AspectWide=1 Declare=depth=6 Declare=augmented=1 +W1280 +H720 +ki0 +kf240 +kfi0 +kff6000 +Oframes/yellow_brick_road_aug6/frame
-	for i in `seq 6001 6025`; do cp frames/yellow_brick_road_aug6/frame6000.png frames/yellow_brick_road_aug6/frame$${i}.png; done
+	povray -D +a $< Declare=AspectWide=1 Declare=depth=6 Declare=augmented=1 +W1280 +H720 +ki0 +kf164 +kfi0 +kff4100 +Oframes/yellow_brick_road_aug6/frame
+	for i in `seq 4101 4125`; do cp frames/yellow_brick_road_aug6/frame4100.png frames/yellow_brick_road_aug6/frame$${i}.png; done
+	touch frames/yellow_brick_road_aug6/DONE
 
 #five_deflations_ws.mp4: frames/five_deflations_ws/frame0000.png
 #	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/five_deflations_ws/five_deflations????.png' -c:v libx264 -pix_fmt yuv420p $@
