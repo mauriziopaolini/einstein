@@ -17,6 +17,11 @@
  <-3/2,ap>, <-9/4,ap/2>, <-2,0>, <-3/2,0>,
  <-3/2,-ap>, <-3/4,-3/2*ap>, <-1/2,-ap>, <0,-ap>}
 
+#local pointstile11=array[n]
+{<0,0>, <-ap,-1/2>, <-ap+1/2,-1/2-ap>, <-ap+1/2+2,-1/2-ap>, <-ap+1/2+2+1/2,-1/2>, <3,-1>, <3+ap,-1/2>,
+ <3+ap-1/2,-1/2+ap>, <3+ap-1/2-1,-1/2+ap>, <3+ap-1/2-1,-1/2+ap+1>, <3+ap-1/2-1-ap,-1/2+ap+1+1/2>,
+ <1,1>, <0,1>}
+
 #local ttx = 3/4;
 #local tty = 0;
 #local tt = <ttx,tty>;
@@ -53,7 +58,7 @@ union {
     scale <1,tile_f,1>
     translate h*y
   }
-  translate -ttx*x - tty*y
+  translate -ttx*x - tty*z
 }
 
 #declare hatr =
@@ -174,6 +179,74 @@ object { hat
 object { hatr
   texture {T_hatr
     finish {tile_Finish}
+  }
+}
+
+#local ttx11 = 2;
+#local tty11 = 0;
+#local tt11 = <ttx11,tty11>;
+
+#declare tile11 =
+union {
+  prism {
+    linear_sweep
+    linear_spline
+    0, // sweep the following shape from here ...
+    h, // ... up through here
+    n+1, // the number of points making up the shape ...
+    #local i = 0;
+    #while (i < n)
+      pointstile11[i]-tt11,
+      #local i = i + 1;
+    #end
+    pointstile11[0]-tt11
+  }
+  prism {
+    conic_sweep
+    linear_spline
+    1-tile_eps,
+    1,
+    n+1,
+    #local i = 0;
+    #while (i < n)
+      pointstile11[i]-tt11,
+      #local i = i + 1;
+    #end
+    pointstile11[0]-tt11
+    scale <1,-1,1>
+    translate y
+    scale <1,tile_f,1>
+    translate h*y
+  }
+  translate ttx11*x + tty11*z
+  scale <-1,1,1>
+  rotate 90*y
+}
+
+#ifndef (T_spectre) #declare T_spectre = texture {White_Marble} #end
+#ifndef (T_mystic) #declare T_mystic = texture {Aluminum} #end
+#ifndef (T_mysticb) #declare T_mysticb = texture {Blue_Agate} #end
+
+#declare spectre =
+object { tile11
+  texture {T_spectre
+    finish {tile_Finish}
+  }
+}
+
+#declare mystic = union {
+  object { tile11
+    texture {T_mystic
+      finish {tile_Finish}
+    }
+  }
+  object { tile11
+    translate <1/2,0,ap-3>
+    rotate 30*y
+    translate <1,0,0>
+    texture {T_mysticb
+      finish {tile_Finish}
+    }
   }
 }
 
