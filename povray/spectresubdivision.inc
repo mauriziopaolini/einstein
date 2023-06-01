@@ -42,14 +42,32 @@
   #debug concat("lucas[29] = ", str(lucas[29],0,-1), "\n")
 #end
 
-#declare rot0 = 0;
-#declare rot1 = 90;
-#declare rot2 = 30;
-#declare rot3 = -30;
-#declare rot4 = -90;
-#declare rot5 = -150;
-#declare rot6 = rot2;
-#declare rot7 = rot4;
+#declare rot0 = array[maxdepth];
+#declare rot1 = array[maxdepth];
+#declare rot2 = array[maxdepth];
+#declare rot3 = array[maxdepth];
+#declare rot4 = array[maxdepth];
+#declare rot5 = array[maxdepth];
+#declare rot6 = array[maxdepth];
+#declare rot7 = array[maxdepth];
+
+#declare rot0[0] = 0;
+#declare rot1[0] = 90;
+#declare rot2[0] = 30;
+#declare rot3[0] = -30;
+#declare rot4[0] = -90;
+#declare rot5[0] = -150;
+#declare rot6[0] = rot2[0];
+#declare rot7[0] = rot4[0];
+
+#declare rot0[1] = 0;
+#declare rot1[1] = 120;
+#declare rot2[1] = 60;
+#declare rot3[1] = 0;
+#declare rot4[1] = -60;
+#declare rot5[1] = -120;
+#declare rot6[1] = rot2[1];
+#declare rot7[1] = rot4[1];
 
 #declare trn0 = array[maxdepth];
 #declare trn1 = array[maxdepth];
@@ -78,6 +96,24 @@
   #declare i = i + 1;
 #end
 
+#declare trn0[0] = <0,0,0>;
+#declare trn1[0] = <1/2+ap, 0, 1/2-ap>;
+#declare trn2[0] = <1/2+ap, 0, 1/2-ap+2>;
+#declare trn3[0] = <1/2+ap, 0, 3+1/2+ap>;
+#declare trn4[0] = <1/2-ap, 0, 2+1/2+ap>;
+#declare trn5[0] = <-1-2*ap, 0, 2>;
+#declare trn6[0] = <1/2+ap+3/2+ap, 0, 1/2-ap+2+ap-3/2>;
+#declare trn7[0] = <1/2-ap+ap-3/2, 0, 2+1/2+ap+3/2+ap>;
+
+#declare trn0[1] = <0,0,0>;
+#declare trn1[1] = <4.5+3*ap,0,4.5-3*ap>;
+#declare trn2[1] = <3.5-ap,0,4.5+3*ap>;
+#declare trn3[1] = <3-4*ap,0,6+10*ap>;
+#declare trn4[1] = <-1-2*ap,0,3+6*ap>;
+#declare trn5[1] = <-6-2*ap,0,2*ap>;
+#declare trn6[1] = <9+1/2+3*ap,0,7+1/2+ap>;
+#declare trn7[1] = <-2-1/2-7*ap,0,4+1/2+13*ap>;
+
 #macro spectrerec (trsf, depth)
   #local d = depth-1;
   #switch (depth)
@@ -101,16 +137,16 @@
     #break
 
     #range (1,maxdepth)
-      mysticrec (transform {scale <-1,1,1> rotate rot0*y translate trn0[d] scale scalefactor trsf}, d)
+      mysticrec (transform {scale <-1,1,1> rotate rot0[d]*y translate trn0[d] scale scalefactor trsf}, d)
       //h8rec (transform {rotate rot2*y translate trn2[d] scale scalefactor trsf}, d)
       //#ifndef (onlyworm)
-        spectrerec (transform {scale <-1,1,1> rotate rot1*y translate trn1[d] scale scalefactor trsf}, d)
-        spectrerec (transform {scale <-1,1,1> rotate rot2*y translate trn2[d] scale scalefactor trsf}, d)
-        spectrerec (transform {scale <-1,1,1> rotate rot3*y translate trn3[d] scale scalefactor trsf}, d)
-        spectrerec (transform {scale <-1,1,1> rotate rot4*y translate trn4[d] scale scalefactor trsf}, d)
-        spectrerec (transform {scale <-1,1,1> rotate rot5*y translate trn5[d] scale scalefactor trsf}, d)
-        spectrerec (transform {scale <-1,1,1> rotate rot6*y translate trn6[d] scale scalefactor trsf}, d)
-        spectrerec (transform {scale <-1,1,1> rotate rot7*y translate trn7[d] scale scalefactor trsf}, d)
+        spectrerec (transform {scale <-1,1,1> rotate rot1[d]*y translate trn1[d] scale scalefactor trsf}, d)
+        spectrerec (transform {scale <-1,1,1> rotate rot2[d]*y translate trn2[d] scale scalefactor trsf}, d)
+        spectrerec (transform {scale <-1,1,1> rotate rot3[d]*y translate trn3[d] scale scalefactor trsf}, d)
+        spectrerec (transform {scale <-1,1,1> rotate rot4[d]*y translate trn4[d] scale scalefactor trsf}, d)
+        spectrerec (transform {scale <-1,1,1> rotate rot5[d]*y translate trn5[d] scale scalefactor trsf}, d)
+        spectrerec (transform {scale <-1,1,1> rotate rot6[d]*y translate trn6[d] scale scalefactor trsf}, d)
+        spectrerec (transform {scale <-1,1,1> rotate rot7[d]*y translate trn7[d] scale scalefactor trsf}, d)
       //#end
     #break
   #end
@@ -139,16 +175,16 @@
     #break
 
     #range (1,maxdepth)
-      mysticrec (transform {scale <-1,1,1> rotate rot0*y translate trn0[d] scale scalefactor trsf}, d)
+      mysticrec (transform {scale <-1,1,1> rotate rot0[d]*y translate trn0[d] scale scalefactor trsf}, d)
       //h8rec (transform {rotate rot2*y translate trn2[d] scale scalefactor trsf}, d)
       //h8rec (transform {rotate rot6*y translate trn6[d] scale scalefactor trsf}, d)
       //#ifndef (onlyworm)
-        spectrerec (transform {scale <-1,1,1> rotate rot1*y translate trn1[d] scale scalefactor trsf}, d)
-        spectrerec (transform {scale <-1,1,1> rotate rot2*y translate trn2[d] scale scalefactor trsf}, d)
-        spectrerec (transform {scale <-1,1,1> rotate rot3*y translate trn3[d] scale scalefactor trsf}, d)
-        spectrerec (transform {scale <-1,1,1> rotate rot4*y translate trn4[d] scale scalefactor trsf}, d)
-        spectrerec (transform {scale <-1,1,1> rotate rot5*y translate trn5[d] scale scalefactor trsf}, d)
-        spectrerec (transform {scale <-1,1,1> rotate rot6*y translate trn6[d] scale scalefactor trsf}, d)
+        spectrerec (transform {scale <-1,1,1> rotate rot1[d]*y translate trn1[d] scale scalefactor trsf}, d)
+        spectrerec (transform {scale <-1,1,1> rotate rot2[d]*y translate trn2[d] scale scalefactor trsf}, d)
+        spectrerec (transform {scale <-1,1,1> rotate rot3[d]*y translate trn3[d] scale scalefactor trsf}, d)
+        spectrerec (transform {scale <-1,1,1> rotate rot4[d]*y translate trn4[d] scale scalefactor trsf}, d)
+        spectrerec (transform {scale <-1,1,1> rotate rot5[d]*y translate trn5[d] scale scalefactor trsf}, d)
+        spectrerec (transform {scale <-1,1,1> rotate rot6[d]*y translate trn6[d] scale scalefactor trsf}, d)
       //#end
     #break
   #end

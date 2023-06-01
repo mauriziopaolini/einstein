@@ -24,14 +24,24 @@ global_settings { assumed_gamma 1.0 }
 #debug concat ("zoomfactor = ", str(zoomfactor,0,-1), "\n")
 #debug concat ("zoomfactor2 = ", str(zoomfactor2,0,-1), "\n")
 
-#declare gtras = zoomfactor/2.62*(4*x-0.2*z);
+#declare gtras = zoomfactor/2.62*(0*x-0*z);
+
+#ifdef (zoom) #declare zoomfactor = 1/zoom*zoomfactor; #end
+
+#declare prerot = array[maxdepth];
+#declare prerot[0] = 0;
+#declare prerot[1] = 30;
+#declare prerot[2] = 30;
+
+#declare pretransform = transform {scale 1.0};
+#ifdef (fig22) #declare pretransform = transform {scale <-1,1,1> rotate 90*y rotate prerot[depth]*y}; #end
 
 #if (htile = 1)
-  spectrerec (transform {scale 1.0 translate gtras}, depth)
+  spectrerec (transform {transform {pretransform} translate gtras}, depth)
 //  #declare onlyworm = 1;
 //  h7rec (transform {scale 1.0 translate gtras + h*y}, depth)
 #else
-  mysticrec (transform {scale 1.0 translate gtras}, depth)
+  mysticrec (transform {transform {pretransform} translate gtras}, depth)
 //  #declare onlyworm = 1;
 //  h8rec (transform {scale 1.0 translate gtras + h*y}, depth)
 #end
@@ -62,6 +72,22 @@ global_settings { assumed_gamma 1.0 }
     #declare mylocation = mylocation - 3*zoomfactor*x;
   #end
 #end
+
+#ifdef (panup)
+  #declare lookatpos = +0.4*zoomfactor*z;
+  #if (panup >= 2)
+    #declare lookatpos = +1.2*zoomfactor*z;
+  #end
+  //#declare zoomfactor = zoomfactor/3;
+  #declare mylocation = 0.8*zoomfactor*<0,10,0>;
+  #if (panup >= 2)
+    #declare mylocation = mylocation + 3*zoomfactor*z;
+  #end
+#end
+
+plane {y, 0 
+  texture {pigment {color <0,0,0>}}
+}
 
 camera {
   location mylocation
