@@ -1,3 +1,4 @@
+
 import matplotlib.pyplot as plt
 import math
 
@@ -82,7 +83,7 @@ def h7rec(depth):
     if depth == 0:
         for l in H7(c71,c72,c73):
             g.append([trasf(l[0],0,0,0),l[1]])
-        return g
+#        return g
     else:
         for l in h7rec(d):
             g.append([trasf(l[0],0,0,0),l[1]])
@@ -96,7 +97,7 @@ def h7rec(depth):
             g.append([trasf(l[0],120,3/2*fibo(2*d),-ap*(fibo(2*d+2)+lucas(2*d+2))),l[1]])
         for l in h8rec(d):
             g.append([trasf(l[0],-60,-3/2*fibo(2*d+4),ap*(2*fibo(2*d+2)+lucas(2*d+2))),l[1]])
-        return g
+    return g
 
 def h8rec(depth):
     d = depth-1
@@ -104,7 +105,7 @@ def h8rec(depth):
     if depth == 0:
         for l in H8(c81,c82,c83):
             g.append([trasf(l[0],0,0,0),l[1]])
-        return g
+#        return g
     else:
         for l in h7rec(d):
             g.append([trasf(l[0],0,0,0),l[1]])
@@ -120,7 +121,7 @@ def h8rec(depth):
             g.append([trasf(l[0],120,3/2*fibo(2*d),-ap*(fibo(2*d+2)+lucas(2*d+2))),l[1]])
         for l in h8rec(d):
             g.append([trasf(l[0],-60,-3/2*fibo(2*d+4), ap*(2*fibo(2*d+2)+lucas(2*d+2))),l[1]])
-        return g
+    return g
 
 
 w71=(0,1,1)
@@ -158,15 +159,44 @@ def h8worm(depth):
             g.append([trasf(l[0],0,-3/2*lucas(2*d+4),ap*fibo(2*d+3)),l[1]])
         return g
 
-for l in h8rec(3):
+'''
+for i in range(0,6):
+    for l in h7rec(i):
+        plt.axis('off')
+        plt.gca().set_aspect('equal')
+        plt.fill(l[0][0],l[0][1],color=l[1])
+        #    plt.plot(l[0][0],l[0][1],color=l[1])
+        plt.plot(l[0][0],l[0][1],'k',linewidth=.1)
+    nome='H7-'+str(i)+'.png'
+    plt.savefig(nome,format='png',dpi=300)
+    plt.clf()
+
+    for l in h8rec(i):
+        plt.axis('off')
+        plt.gca().set_aspect('equal')
+        plt.fill(l[0][0],l[0][1],color=l[1])
+        #    plt.plot(l[0][0],l[0][1],color=l[1])
+        plt.plot(l[0][0],l[0][1],'k',linewidth=.1)
+    nome='H8-'+str(i)+'.png'
+    plt.savefig(nome,format='png',dpi=300)
+    plt.close()        
+
+'''
+
+plt.axis('off')
+plt.gca().set_aspect('equal')
+for l in h8rec(6):
     plt.fill(l[0][0],l[0][1],color=l[1])
 #    plt.plot(l[0][0],l[0][1],color=l[1])
     plt.plot(l[0][0],l[0][1],'k',linewidth=.1)
+plt.savefig('H8-6.png',format='png',dpi=300)
 
-for l in h8worm(3):
+'''
+for l in h8worm(4):
     plt.fill(l[0][0],l[0][1],color=l[1])
 #    plt.plot(l[0][0],l[0][1],color=l[1])
     plt.plot(l[0][0],l[0][1],'k',linewidth=.1)
+'''
 
+#plt.show()
 
-plt.show()
