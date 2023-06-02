@@ -28,14 +28,25 @@ global_settings { assumed_gamma 1.0 }
 
 #ifdef (zoom) #declare zoomfactor = 1/zoom*zoomfactor; #end
 
-#declare prerot = array[maxdepth];
-#declare prerot[0] = 0;
-#declare prerot[1] = 30;
-#declare prerot[2] = 30;
-#declare prerot[3] = 30;
+#declare prerotA1 = array[maxdepth];
+#declare i = 0;
+#while (i < maxdepth)
+  #declare prerotA1[i] = 0;
+  #declare i = i + 1;
+#end
+#declare prerotA1[1] = -60;
+
+#declare prerot22 = array[maxdepth];
+#declare prerot22[0] = 90;
+#declare i = 1;
+#while (i < maxdepth)
+  #declare prerot22[i] = 90 + 150 - prerot22[i-1];
+  #declare i = i + 1;
+#end
 
 #declare pretransform = transform {scale 1.0};
-#ifdef (fig22) #declare pretransform = transform {scale <-1,1,1> rotate 90*y rotate prerot[depth]*y}; #end
+#ifdef (fig22) #declare pretransform = transform {scale <-1,1,1> rotate prerot22[depth]*y}; #end
+#ifdef (figA1) #declare pretransform = transform {rotate 30*y rotate prerotA1[depth]*y}; #end
 
 #if (htile = 1)
   spectrerec (transform {transform {pretransform} translate gtras}, depth)

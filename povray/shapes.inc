@@ -236,14 +236,17 @@ object { tile11
 
 #declare mystic = union {
   object { tile11
+    translate <-1,0,0>
+    rotate -30*y
+    translate -<1/2,0,ap-3>
     texture {T_mystic
       finish {tile_Finish}
     }
   }
   object { tile11
-    translate <1/2,0,ap-3>
-    rotate 30*y
-    translate <1,0,0>
+    //translate <1/2,0,ap-3>
+    //rotate 30*y
+    //translate <1,0,0>
     texture {T_mysticb
       finish {tile_Finish}
     }
