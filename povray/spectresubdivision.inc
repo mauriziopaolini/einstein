@@ -69,6 +69,15 @@
 #declare rot6[1] = rot2[1];
 #declare rot7[1] = rot4[1];
 
+#declare rot0[2] = 0;
+#declare rot1[2] = 120;
+#declare rot2[2] = 60;
+#declare rot3[2] = 0;
+#declare rot4[2] = -60;
+#declare rot5[2] = -120;
+#declare rot6[2] = rot2[1];
+#declare rot7[2] = rot4[1];
+
 #declare trn0 = array[maxdepth];
 #declare trn1 = array[maxdepth];
 #declare trn2 = array[maxdepth];
@@ -113,6 +122,15 @@
 #declare trn5[1] = <-6-2*ap,0,2*ap>;
 #declare trn6[1] = <9+1/2+3*ap,0,7+1/2+ap>;
 #declare trn7[1] = <-2-1/2-7*ap,0,4+1/2+13*ap>;
+
+#declare trn0[2] = <0,0,0>;
+#declare trn1[2] = <18,0,-1>;
+#declare trn2[2] = <9,0,16>;
+#declare trn3[2] = <0,-10,0>;
+#declare trn4[2] = <0,-10,0>;
+#declare trn5[2] = <0,-10,0>;
+#declare trn6[2] = <0,-10,0>;
+#declare trn7[2] = <0,-10,0>;
 
 #macro spectrerec (trsf, depth)
   #local d = depth-1;

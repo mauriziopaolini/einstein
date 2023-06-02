@@ -32,6 +32,7 @@ global_settings { assumed_gamma 1.0 }
 #declare prerot[0] = 0;
 #declare prerot[1] = 30;
 #declare prerot[2] = 30;
+#declare prerot[3] = 30;
 
 #declare pretransform = transform {scale 1.0};
 #ifdef (fig22) #declare pretransform = transform {scale <-1,1,1> rotate 90*y rotate prerot[depth]*y}; #end
