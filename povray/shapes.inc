@@ -223,7 +223,8 @@ union {
   rotate 90*y
 }
 
-#ifndef (T_spectre) #declare T_spectre = texture {White_Marble} #end
+//#ifndef (T_spectre) #declare T_spectre = texture {White_Marble} #end
+#ifndef (T_spectre) #declare T_spectre = texture {pigment {Pink}} #end
 #ifndef (T_mystic) #declare T_mystic = texture {Aluminum} #end
 #ifndef (T_mysticb) #declare T_mysticb = texture {Blue_Agate} #end
 
