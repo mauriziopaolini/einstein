@@ -28,6 +28,86 @@ global_settings { assumed_gamma 1.0 }
 
 #ifdef (zoom) #declare zoomfactor = 1/zoom*zoomfactor; #end
 
+#ifdef (fig22)
+  #switch (depth)
+    #case (0)
+      #declare gtras = gtras + 1.0*z - 2.0*x;
+      #declare zoomfactor = zoomfactor/1.5;
+    #break
+
+    #case (1)
+      #declare gtras = gtras + 1.7*z - 4.0*x;
+      #declare zoomfactor = zoomfactor/1.8;
+    #break
+
+    #case (2)
+      #declare gtras = gtras -6*x + 6*z;
+      #declare zoomfactor = zoomfactor/1.5;
+    #break
+
+    #case (3)
+      #declare gtras = gtras -15*x + 6*z;
+      #declare zoomfactor = zoomfactor/1.3;
+    #break
+
+    #case (4)
+      #declare gtras = gtras -28*x + 40*z;
+      #declare zoomfactor = zoomfactor/1.3;
+    #break
+
+    #case (5)
+      #declare gtras = gtras -35*x + 40*z;
+      #declare zoomfactor = zoomfactor/1.2;
+    #break
+
+    #case (6)
+      #declare gtras = gtras -200*x + 300*z;
+      #declare zoomfactor = zoomfactor/1.1;
+    #break
+  #end
+#end
+
+#ifdef (figA1)
+  #switch (depth)
+    #case (0)
+      #declare gtras = gtras - 2*z + 0.5*x;
+      #declare zoomfactor = zoomfactor/1.5;
+    #break
+
+    #case (1)
+      #declare gtras = gtras -4*z;
+      #declare zoomfactor = zoomfactor/1.7;
+    #break
+
+    #case (2)
+      #declare gtras = gtras -8*z;
+      #declare zoomfactor = zoomfactor/1.7;
+    #break
+
+    #case (3)
+      #declare gtras = gtras -20*x-5*z;
+      #declare zoomfactor = zoomfactor/1.4;
+    #break
+
+    #case (4)
+      #declare gtras = gtras -0*x-50*z;
+      #declare zoomfactor = zoomfactor/1.3;
+    #break
+
+    #case (5)
+      #declare gtras = gtras -0*x-50*z;
+      #declare zoomfactor = zoomfactor/1.2;
+    #break
+
+    #case (6)
+      #declare gtras = gtras -0*x-400*z;
+      #declare zoomfactor = zoomfactor/1.2;
+    #break
+  #end
+#end
+
+
+
 #declare prerotA1 = array[maxdepth];
 #declare i = 0;
 #while (i < maxdepth)
@@ -86,19 +166,12 @@ global_settings { assumed_gamma 1.0 }
 #end
 
 #ifdef (panup)
-  #declare lookatpos = +0.4*zoomfactor*z;
-  #if (panup >= 2)
-    #declare lookatpos = +1.2*zoomfactor*z;
-  #end
-  //#declare zoomfactor = zoomfactor/3;
-  #declare mylocation = 0.8*zoomfactor*<0,10,0>;
-  #if (panup >= 2)
-    #declare mylocation = mylocation + 3*zoomfactor*z;
-  #end
+  #declare lookatpos = lookatpos+panup*z;
+  #declare mylocation = mylocation+panup*z;
 #end
 
 plane {y, 0 
-  texture {pigment {color <0,0,0>}}
+  texture {pigment {color DarkGreen} finish {tile_Finish}}
 }
 
 camera {
@@ -107,7 +180,7 @@ camera {
   look_at lookatpos
 }
 
-light_source { zoomfactor*<20, 20, -20> color White }
+light_source { zoomfactor*<20, 20, -50> color White }
 //light_source { 2*20*<1, 1, 1> color White }
 
 #ifdef (sfondobianco)

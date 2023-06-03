@@ -43,20 +43,30 @@
   #local i = i + 1;
 #end
 
+#macro quadm (A, B, C, D, r)
+  union {
+    sphere {A, r}
+    sphere {B, r}
+    sphere {C, r}
+    sphere {D, r}
+    cylinder {A, B, r}
+    cylinder {B, C, r}
+    cylinder {C, D, r}
+    cylinder {D, A, r}
+  }
+#end
 
 #macro spectrerec (trsf, depth)
   #local d = depth-1;
   #switch (depth)
     #case (0)
       object {spectre transform {trsf}}
-      #ifdef (debug)
-      union {
-        sphere {QA[0], 0.2}
-        sphere {QB[0], 0.2}
-        sphere {QC[0], 0.2}
-        sphere {QD[0], 0.2}
+      #ifdef (quadrilateral)
+      object {quadm (QA[0], QB[0], QC[0], QD[0], 0.1)
         transform {trsf}
+        translate tile_thick*y
         pigment {rgb <1,0,0>}
+        finish {tile_Finish}
       }
       #end
     #break
@@ -70,14 +80,12 @@
       spectrerec (transform {Strs5[d] trsf}, d)
       spectrerec (transform {Strs6[d] trsf}, d)
       spectrerec (transform {Strs7[d] trsf}, d)
-      #ifdef (debug)
-      union {
-        sphere {QA[depth], depth*0.3}
-        sphere {QB[depth], depth*0.3}
-        sphere {QC[depth], depth*0.3}
-        sphere {QD[depth], depth*0.3}
+      #ifdef (quadrilateral)
+      object {quadm (QA[depth], QB[depth], QC[depth], QD[depth], depth*0.15)
         transform {trsf}
-        pigment {rgb 1/depth*<1,1,0>}
+        translate tile_thick*y
+        pigment {rgb 1/depth*<1,0.5,0>}
+        finish {tile_Finish}
       }
       #end
     #break
@@ -89,14 +97,12 @@
   #switch (depth)
     #case (0)
       object {mystic transform {trsf}}
-      #ifdef (debug)
-      union {
-        sphere {QA[0], 0.2}
-        sphere {QB[0], 0.2}
-        sphere {QC[0], 0.2}
-        sphere {QD[0], 0.2}
+      #ifdef (quadrilateral)
+      object {quadm (QA[0], QB[0], QC[0], QD[0], 0.1)
         transform {trsf}
-        pigment {rgb <1,0,0>}
+        translate tile_thick*y
+        pigment {rgb <0,0,1>}
+        finish {tile_Finish}
       }
       #end
     #break
@@ -113,14 +119,12 @@
       spectrerec (transform {Strs5[d] trsf}, d)
       spectrerec (transform {Strs6[d] trsf}, d)
       spectrerec (transform {Strs7[d] trsf}, d)
-      #ifdef (debug)
-      union {
-        sphere {QA[depth], depth*0.3}
-        sphere {QB[depth], depth*0.3}
-        sphere {QC[depth], depth*0.3}
-        sphere {QD[depth], depth*0.3}
+      #ifdef (quadrilateral)
+      object {quadm (QA[depth], QB[depth], QC[depth], QD[depth], depth*0.15)
         transform {trsf}
-        pigment {rgb 1/depth*<1,1,0>}
+        translate tile_thick*y
+        pigment {rgb 1/depth*<0,0.5,1>}
+        finish {tile_Finish}
       }
       #end
     #break
