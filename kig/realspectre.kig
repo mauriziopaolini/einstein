@@ -1,0 +1,1108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE KigDocument>
+<KigDocument grid="1" axes="1" Version="22.12.3" CompatibilityVersion="0.7.0">
+ <CoordinateSystem>Euclidean</CoordinateSystem>
+ <Hierarchy>
+  <Data type="int" id="1">3</Data>
+  <Data type="int" id="2">3</Data>
+  <Data type="int" id="3">2</Data>
+  <Data type="int" id="4">1</Data>
+  <Data type="int" id="5">3</Data>
+  <Data type="int" id="6">2</Data>
+  <Data type="int" id="7">0</Data>
+  <Data type="int" id="8">1</Data>
+  <Data type="int" id="9">2</Data>
+  <Data type="int" id="10">0</Data>
+  <Data type="int" id="11">0</Data>
+  <Data type="int" id="12">1</Data>
+  <Data type="int" id="13">3</Data>
+  <Data type="int" id="14">1</Data>
+  <Data type="int" id="15">0</Data>
+  <Data type="int" id="16">1</Data>
+  <Data type="int" id="17">2</Data>
+  <Data type="int" id="18">3</Data>
+  <Data type="int" id="19">3</Data>
+  <Data type="int" id="20">1</Data>
+  <Data type="int" id="21">0</Data>
+  <Data type="int" id="22">0</Data>
+  <Data type="int" id="23">3</Data>
+  <Data type="int" id="24">1</Data>
+  <Data type="int" id="25">2</Data>
+  <Data type="int" id="26">0</Data>
+  <Data type="int" id="27">0</Data>
+  <Data type="int" id="28">0</Data>
+  <Data type="int" id="29">2</Data>
+  <Data type="int" id="30">2</Data>
+  <Data type="int" id="31">1</Data>
+  <Data type="int" id="32">1</Data>
+  <Data type="int" id="33">0</Data>
+  <Data type="int" id="34">2</Data>
+  <Data type="int" id="35">0</Data>
+  <Data type="int" id="36">1</Data>
+  <Data type="int" id="37">0</Data>
+  <Data type="int" id="38">3</Data>
+  <Data type="int" id="39">2</Data>
+  <Data type="int" id="40">3</Data>
+  <Data type="int" id="41">2</Data>
+  <Data type="int" id="42">1</Data>
+  <Data type="double" id="43">0.623854</Data>
+  <Data type="double" id="44">0.670229</Data>
+  <Data type="int" id="45">2</Data>
+  <Data type="int" id="46">3</Data>
+  <Data type="int" id="47">1</Data>
+  <Data type="int" id="48">2</Data>
+  <Data type="int" id="49">3</Data>
+  <Data type="int" id="50">3</Data>
+  <Data type="int" id="51">2</Data>
+  <Data type="int" id="52">1</Data>
+  <Data type="double" id="53">0</Data>
+  <Data type="string" id="54">A</Data>
+  <Data type="string" id="55">C</Data>
+  <Data type="int" id="56">-1</Data>
+  <Data type="double" id="57">1</Data>
+  <Data type="double" id="58">0</Data>
+  <Object type="FixedPoint" id="59">
+   <Parent id="58"/>
+   <Parent id="57"/>
+  </Object>
+  <Data type="int" id="60">3</Data>
+  <Data type="int" id="61">0</Data>
+  <Data type="double" id="62">-0.143341</Data>
+  <Object type="FixedPoint" id="63">
+   <Parent id="62"/>
+   <Parent id="44"/>
+  </Object>
+  <Data type="double" id="64">0</Data>
+  <Data type="int" id="65">1</Data>
+  <Data type="int" id="66">1</Data>
+  <Data type="int" id="67">-1</Data>
+  <Data type="int" id="68">-1</Data>
+  <Data type="int" id="69">1</Data>
+  <Data type="double" id="70">0</Data>
+  <Data type="int" id="71">-1</Data>
+  <Data type="double" id="72">0</Data>
+  <Data type="string" id="73">&lt;unnamed object></Data>
+  <Data type="int" id="74">-1</Data>
+  <Data type="double" id="75">-4</Data>
+  <Data type="int" id="76">-1</Data>
+  <Data type="double" id="77">-3</Data>
+  <Object type="FixedPoint" id="78">
+   <Parent id="77"/>
+   <Parent id="70"/>
+  </Object>
+  <Data type="int" id="79">6</Data>
+  <Data type="double" id="80">0</Data>
+  <Object type="FixedPoint" id="81">
+   <Parent id="80"/>
+   <Parent id="64"/>
+  </Object>
+  <Object type="SegmentAB" id="82">
+   <Parent id="81"/>
+   <Parent id="59"/>
+  </Object>
+  <Object type="ConstrainedPoint" id="83">
+   <Parent id="43"/>
+   <Parent id="82"/>
+  </Object>
+  <Property id="84" which="mid-point">
+   <Parent id="82"/>
+  </Property>
+  <Object type="LinePerpend" id="85">
+   <Parent id="82"/>
+   <Parent id="84"/>
+  </Object>
+  <Object type="LineReflection" id="86">
+   <Parent id="63"/>
+   <Parent id="85"/>
+  </Object>
+  <Object type="PointReflection" id="87">
+   <Parent id="83"/>
+   <Parent id="84"/>
+  </Object>
+  <Object type="PolygonBNP" id="88">
+   <Parent id="83"/>
+   <Parent id="63"/>
+   <Parent id="86"/>
+   <Parent id="87"/>
+  </Object>
+  <Object type="CircleBPR" id="89">
+   <Parent id="59"/>
+   <Parent id="82"/>
+  </Object>
+  <Object type="CircleBPR" id="90">
+   <Parent id="81"/>
+   <Parent id="82"/>
+  </Object>
+  <Data type="int" id="91">-1</Data>
+  <Data type="int" id="92">1</Data>
+  <Data type="int" id="93">5</Data>
+  <Data type="int" id="94">1</Data>
+  <Data type="int" id="95">1</Data>
+  <Data type="int" id="96">3</Data>
+  <Data type="int" id="97">4</Data>
+  <Data type="int" id="98">-1</Data>
+  <Data type="int" id="99">0</Data>
+  <Data type="int" id="100">2</Data>
+  <Data type="int" id="101">1</Data>
+  <Data type="int" id="102">5</Data>
+  <Data type="int" id="103">-1</Data>
+  <Data type="int" id="104">-1</Data>
+  <Data type="int" id="105">4</Data>
+  <Data type="int" id="106">3</Data>
+  <Data type="int" id="107">1</Data>
+  <Data type="int" id="108">-1</Data>
+  <Data type="int" id="109">0</Data>
+  <Data type="int" id="110">1</Data>
+  <Data type="double" id="111">-1</Data>
+  <Data type="string" id="112">B</Data>
+  <Data type="int" id="113">2</Data>
+  <Data type="int" id="114">1</Data>
+  <Data type="int" id="115">1</Data>
+  <Data type="int" id="116">1</Data>
+  <Data type="double" id="117">-1</Data>
+  <Data type="string" id="118">%1</Data>
+  <Data type="int" id="119">0</Data>
+  <Data type="string" id="120">l1</Data>
+  <Data type="double" id="121">0.810612</Data>
+  <Data type="double" id="122">0</Data>
+  <Object type="ConstrainedRelativePoint" id="123">
+   <Parent id="53"/>
+   <Parent id="122"/>
+   <Parent id="121"/>
+   <Parent id="82"/>
+  </Object>
+  <Object type="Label" id="124">
+   <Parent id="119"/>
+   <Parent id="123"/>
+   <Parent id="118"/>
+   <Parent id="120"/>
+  </Object>
+  <Object type="FixedPoint" id="125">
+   <Parent id="75"/>
+   <Parent id="72"/>
+  </Object>
+  <Object type="PoligonBCV" id="126">
+   <Parent id="125"/>
+   <Parent id="78"/>
+   <Parent id="79"/>
+  </Object>
+  <Property id="127" which="polygon-center-of-mass">
+   <Parent id="126"/>
+  </Property>
+  <Object type="PolygonVertex" id="128">
+   <Parent id="126"/>
+   <Parent id="99"/>
+  </Object>
+  <Object type="PolygonVertex" id="129">
+   <Parent id="126"/>
+   <Parent id="101"/>
+  </Object>
+  <Object type="PolygonVertex" id="130">
+   <Parent id="126"/>
+   <Parent id="100"/>
+  </Object>
+  <Object type="PolygonVertex" id="131">
+   <Parent id="126"/>
+   <Parent id="102"/>
+  </Object>
+  <Object type="PolygonSide" id="132">
+   <Parent id="126"/>
+   <Parent id="94"/>
+  </Object>
+  <Property id="133" which="mid-point">
+   <Parent id="132"/>
+  </Property>
+  <Object type="SegmentAB" id="134">
+   <Parent id="133"/>
+   <Parent id="127"/>
+  </Object>
+  <Object type="SegmentAB" id="135">
+   <Parent id="129"/>
+   <Parent id="133"/>
+  </Object>
+  <Object type="LineParallel" id="136">
+   <Parent id="135"/>
+   <Parent id="59"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="137">
+   <Parent id="89"/>
+   <Parent id="136"/>
+   <Parent id="104"/>
+  </Object>
+  <Object type="SegmentAB" id="138">
+   <Parent id="137"/>
+   <Parent id="59"/>
+  </Object>
+  <Object type="CircleBPR" id="139">
+   <Parent id="137"/>
+   <Parent id="82"/>
+  </Object>
+  <Object type="Angle" id="140">
+   <Parent id="81"/>
+   <Parent id="59"/>
+   <Parent id="137"/>
+  </Object>
+  <Object type="Rotation" id="141">
+   <Parent id="88"/>
+   <Parent id="59"/>
+   <Parent id="140"/>
+  </Object>
+  <Object type="PolygonVertex" id="142">
+   <Parent id="141"/>
+   <Parent id="40"/>
+  </Object>
+  <Object type="PolygonVertex" id="143">
+   <Parent id="141"/>
+   <Parent id="45"/>
+  </Object>
+  <Object type="PolygonVertex" id="144">
+   <Parent id="141"/>
+   <Parent id="8"/>
+  </Object>
+  <Object type="PolygonVertex" id="145">
+   <Parent id="141"/>
+   <Parent id="7"/>
+  </Object>
+  <Object type="PolygonSide" id="146">
+   <Parent id="126"/>
+   <Parent id="113"/>
+  </Object>
+  <Object type="PolygonSide" id="147">
+   <Parent id="126"/>
+   <Parent id="96"/>
+  </Object>
+  <Property id="148" which="mid-point">
+   <Parent id="147"/>
+  </Property>
+  <Object type="SegmentAB" id="149">
+   <Parent id="127"/>
+   <Parent id="148"/>
+  </Object>
+  <Object type="LineParallel" id="150">
+   <Parent id="149"/>
+   <Parent id="81"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="151">
+   <Parent id="90"/>
+   <Parent id="150"/>
+   <Parent id="56"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="152">
+   <Parent id="90"/>
+   <Parent id="150"/>
+   <Parent id="92"/>
+  </Object>
+  <Object type="SegmentAB" id="153">
+   <Parent id="81"/>
+   <Parent id="152"/>
+  </Object>
+  <Object type="CircleBPR" id="154">
+   <Parent id="152"/>
+   <Parent id="82"/>
+  </Object>
+  <Object type="PolygonSide" id="155">
+   <Parent id="126"/>
+   <Parent id="97"/>
+  </Object>
+  <Object type="PolygonSide" id="156">
+   <Parent id="126"/>
+   <Parent id="93"/>
+  </Object>
+  <Property id="157" which="mid-point">
+   <Parent id="156"/>
+  </Property>
+  <Object type="SegmentAB" id="158">
+   <Parent id="131"/>
+   <Parent id="157"/>
+  </Object>
+  <Object type="PolygonVertex" id="159">
+   <Parent id="126"/>
+   <Parent id="105"/>
+  </Object>
+  <Object type="SegmentAB" id="160">
+   <Parent id="148"/>
+   <Parent id="159"/>
+  </Object>
+  <Object type="LineParallel" id="161">
+   <Parent id="160"/>
+   <Parent id="152"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="162">
+   <Parent id="154"/>
+   <Parent id="161"/>
+   <Parent id="69"/>
+  </Object>
+  <Object type="SegmentAB" id="163">
+   <Parent id="152"/>
+   <Parent id="162"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="164">
+   <Parent id="154"/>
+   <Parent id="161"/>
+   <Parent id="91"/>
+  </Object>
+  <Object type="PolygonVertex" id="165">
+   <Parent id="126"/>
+   <Parent id="106"/>
+  </Object>
+  <Object type="PolygonSide" id="166">
+   <Parent id="126"/>
+   <Parent id="109"/>
+  </Object>
+  <Object type="LineReflection" id="167">
+   <Parent id="127"/>
+   <Parent id="166"/>
+  </Object>
+  <Object type="LineReflection" id="168">
+   <Parent id="133"/>
+   <Parent id="166"/>
+  </Object>
+  <Object type="SegmentAB" id="169">
+   <Parent id="167"/>
+   <Parent id="168"/>
+  </Object>
+  <Object type="SegmentAB" id="170">
+   <Parent id="168"/>
+   <Parent id="129"/>
+  </Object>
+  <Object type="LineParallel" id="171">
+   <Parent id="170"/>
+   <Parent id="137"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="172">
+   <Parent id="139"/>
+   <Parent id="171"/>
+   <Parent id="67"/>
+  </Object>
+  <Object type="SegmentAB" id="173">
+   <Parent id="137"/>
+   <Parent id="172"/>
+  </Object>
+  <Object type="LineParallel" id="174">
+   <Parent id="169"/>
+   <Parent id="172"/>
+  </Object>
+  <Object type="CircleBPR" id="175">
+   <Parent id="172"/>
+   <Parent id="82"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="176">
+   <Parent id="175"/>
+   <Parent id="174"/>
+   <Parent id="98"/>
+  </Object>
+  <Object type="SegmentAB" id="177">
+   <Parent id="176"/>
+   <Parent id="172"/>
+  </Object>
+  <Object type="CircleBPR" id="178">
+   <Parent id="176"/>
+   <Parent id="82"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="179">
+   <Parent id="175"/>
+   <Parent id="174"/>
+   <Parent id="107"/>
+  </Object>
+  <Object type="Angle" id="180">
+   <Parent id="59"/>
+   <Parent id="137"/>
+   <Parent id="172"/>
+  </Object>
+  <Object type="Rotation" id="181">
+   <Parent id="141"/>
+   <Parent id="137"/>
+   <Parent id="180"/>
+  </Object>
+  <Object type="PolygonVertex" id="182">
+   <Parent id="181"/>
+   <Parent id="13"/>
+  </Object>
+  <Object type="PolygonVertex" id="183">
+   <Parent id="181"/>
+   <Parent id="41"/>
+  </Object>
+  <Object type="PolygonVertex" id="184">
+   <Parent id="181"/>
+   <Parent id="4"/>
+  </Object>
+  <Object type="PolygonVertex" id="185">
+   <Parent id="181"/>
+   <Parent id="61"/>
+  </Object>
+  <Object type="Rotation" id="186">
+   <Parent id="181"/>
+   <Parent id="172"/>
+   <Parent id="140"/>
+  </Object>
+  <Object type="PolygonVertex" id="187">
+   <Parent id="186"/>
+   <Parent id="49"/>
+  </Object>
+  <Object type="PolygonVertex" id="188">
+   <Parent id="186"/>
+   <Parent id="34"/>
+  </Object>
+  <Object type="PolygonVertex" id="189">
+   <Parent id="186"/>
+   <Parent id="12"/>
+  </Object>
+  <Object type="PolygonVertex" id="190">
+   <Parent id="186"/>
+   <Parent id="11"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="191">
+   <Parent id="139"/>
+   <Parent id="171"/>
+   <Parent id="115"/>
+  </Object>
+  <Object type="LineReflection" id="192">
+   <Parent id="157"/>
+   <Parent id="166"/>
+  </Object>
+  <Object type="SegmentAB" id="193">
+   <Parent id="192"/>
+   <Parent id="167"/>
+  </Object>
+  <Object type="LineParallel" id="194">
+   <Parent id="193"/>
+   <Parent id="176"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="195">
+   <Parent id="178"/>
+   <Parent id="194"/>
+   <Parent id="108"/>
+  </Object>
+  <Object type="SegmentAB" id="196">
+   <Parent id="195"/>
+   <Parent id="176"/>
+  </Object>
+  <Object type="CircleBPR" id="197">
+   <Parent id="195"/>
+   <Parent id="82"/>
+  </Object>
+  <Object type="Angle" id="198">
+   <Parent id="172"/>
+   <Parent id="176"/>
+   <Parent id="195"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="199">
+   <Parent id="178"/>
+   <Parent id="194"/>
+   <Parent id="110"/>
+  </Object>
+  <Object type="LineReflection" id="200">
+   <Parent id="128"/>
+   <Parent id="193"/>
+  </Object>
+  <Object type="SegmentAB" id="201">
+   <Parent id="200"/>
+   <Parent id="192"/>
+  </Object>
+  <Object type="LineParallel" id="202">
+   <Parent id="201"/>
+   <Parent id="195"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="203">
+   <Parent id="197"/>
+   <Parent id="202"/>
+   <Parent id="68"/>
+  </Object>
+  <Object type="Angle" id="204">
+   <Parent id="176"/>
+   <Parent id="195"/>
+   <Parent id="203"/>
+  </Object>
+  <Object type="SegmentAB" id="205">
+   <Parent id="203"/>
+   <Parent id="195"/>
+  </Object>
+  <Object type="CircleBPR" id="206">
+   <Parent id="203"/>
+   <Parent id="82"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="207">
+   <Parent id="197"/>
+   <Parent id="202"/>
+   <Parent id="116"/>
+  </Object>
+  <Object type="LineReflection" id="208">
+   <Parent id="167"/>
+   <Parent id="201"/>
+  </Object>
+  <Object type="SegmentAB" id="209">
+   <Parent id="157"/>
+   <Parent id="208"/>
+  </Object>
+  <Object type="LineReflection" id="210">
+   <Parent id="157"/>
+   <Parent id="193"/>
+  </Object>
+  <Object type="SegmentAB" id="211">
+   <Parent id="208"/>
+   <Parent id="210"/>
+  </Object>
+  <Object type="SegmentAB" id="212">
+   <Parent id="210"/>
+   <Parent id="200"/>
+  </Object>
+  <Object type="LineParallel" id="213">
+   <Parent id="212"/>
+   <Parent id="203"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="214">
+   <Parent id="206"/>
+   <Parent id="213"/>
+   <Parent id="74"/>
+  </Object>
+  <Object type="SegmentAB" id="215">
+   <Parent id="214"/>
+   <Parent id="203"/>
+  </Object>
+  <Object type="LineParallel" id="216">
+   <Parent id="211"/>
+   <Parent id="214"/>
+  </Object>
+  <Object type="CircleBPR" id="217">
+   <Parent id="214"/>
+   <Parent id="82"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="218">
+   <Parent id="217"/>
+   <Parent id="216"/>
+   <Parent id="76"/>
+  </Object>
+  <Object type="SegmentAB" id="219">
+   <Parent id="218"/>
+   <Parent id="214"/>
+  </Object>
+  <Object type="LineParallel" id="220">
+   <Parent id="209"/>
+   <Parent id="218"/>
+  </Object>
+  <Object type="CircleBPR" id="221">
+   <Parent id="218"/>
+   <Parent id="82"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="222">
+   <Parent id="221"/>
+   <Parent id="220"/>
+   <Parent id="103"/>
+  </Object>
+  <Object type="SegmentAB" id="223">
+   <Parent id="222"/>
+   <Parent id="218"/>
+  </Object>
+  <Object type="LineParallel" id="224">
+   <Parent id="158"/>
+   <Parent id="222"/>
+  </Object>
+  <Object type="CircleBPR" id="225">
+   <Parent id="222"/>
+   <Parent id="82"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="226">
+   <Parent id="225"/>
+   <Parent id="224"/>
+   <Parent id="71"/>
+  </Object>
+  <Object type="SegmentAB" id="227">
+   <Parent id="226"/>
+   <Parent id="222"/>
+  </Object>
+  <Object type="SegmentAB" id="228">
+   <Parent id="162"/>
+   <Parent id="226"/>
+  </Object>
+  <Property id="229" which="mid-point">
+   <Parent id="228"/>
+  </Property>
+  <Object type="ConicLineIntersection" id="230">
+   <Parent id="225"/>
+   <Parent id="224"/>
+   <Parent id="66"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="231">
+   <Parent id="221"/>
+   <Parent id="220"/>
+   <Parent id="95"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="232">
+   <Parent id="217"/>
+   <Parent id="216"/>
+   <Parent id="65"/>
+  </Object>
+  <Object type="ConicLineIntersection" id="233">
+   <Parent id="206"/>
+   <Parent id="213"/>
+   <Parent id="114"/>
+  </Object>
+  <Object type="FixedPoint" id="234">
+   <Parent id="117"/>
+   <Parent id="111"/>
+  </Object>
+  <Object type="LineAB" id="235">
+   <Parent id="234"/>
+   <Parent id="81"/>
+  </Object>
+  <Object type="Rotation" id="236">
+   <Parent id="186"/>
+   <Parent id="176"/>
+   <Parent id="198"/>
+  </Object>
+  <Object type="PolygonVertex" id="237">
+   <Parent id="236"/>
+   <Parent id="1"/>
+  </Object>
+  <Object type="PolygonVertex" id="238">
+   <Parent id="236"/>
+   <Parent id="9"/>
+  </Object>
+  <Object type="PolygonVertex" id="239">
+   <Parent id="236"/>
+   <Parent id="52"/>
+  </Object>
+  <Object type="PolygonVertex" id="240">
+   <Parent id="236"/>
+   <Parent id="26"/>
+  </Object>
+  <Object type="Rotation" id="241">
+   <Parent id="236"/>
+   <Parent id="195"/>
+   <Parent id="204"/>
+  </Object>
+  <Object type="PolygonVertex" id="242">
+   <Parent id="241"/>
+   <Parent id="38"/>
+  </Object>
+  <Object type="PolygonVertex" id="243">
+   <Parent id="241"/>
+   <Parent id="39"/>
+  </Object>
+  <Object type="PolygonVertex" id="244">
+   <Parent id="241"/>
+   <Parent id="31"/>
+  </Object>
+  <Object type="PolygonVertex" id="245">
+   <Parent id="241"/>
+   <Parent id="21"/>
+  </Object>
+  <Object type="Rotation" id="246">
+   <Parent id="241"/>
+   <Parent id="203"/>
+   <Parent id="198"/>
+  </Object>
+  <Object type="PolygonVertex" id="247">
+   <Parent id="246"/>
+   <Parent id="19"/>
+  </Object>
+  <Object type="PolygonVertex" id="248">
+   <Parent id="246"/>
+   <Parent id="6"/>
+  </Object>
+  <Object type="PolygonVertex" id="249">
+   <Parent id="246"/>
+   <Parent id="14"/>
+  </Object>
+  <Object type="PolygonVertex" id="250">
+   <Parent id="246"/>
+   <Parent id="15"/>
+  </Object>
+  <Object type="Rotation" id="251">
+   <Parent id="246"/>
+   <Parent id="214"/>
+   <Parent id="140"/>
+  </Object>
+  <Object type="PolygonVertex" id="252">
+   <Parent id="251"/>
+   <Parent id="18"/>
+  </Object>
+  <Object type="PolygonVertex" id="253">
+   <Parent id="251"/>
+   <Parent id="48"/>
+  </Object>
+  <Object type="PolygonVertex" id="254">
+   <Parent id="251"/>
+   <Parent id="47"/>
+  </Object>
+  <Object type="PolygonVertex" id="255">
+   <Parent id="251"/>
+   <Parent id="28"/>
+  </Object>
+  <Object type="Rotation" id="256">
+   <Parent id="251"/>
+   <Parent id="218"/>
+   <Parent id="198"/>
+  </Object>
+  <Object type="PolygonVertex" id="257">
+   <Parent id="256"/>
+   <Parent id="23"/>
+  </Object>
+  <Object type="PolygonVertex" id="258">
+   <Parent id="256"/>
+   <Parent id="25"/>
+  </Object>
+  <Object type="PolygonVertex" id="259">
+   <Parent id="256"/>
+   <Parent id="20"/>
+  </Object>
+  <Object type="PolygonVertex" id="260">
+   <Parent id="256"/>
+   <Parent id="27"/>
+  </Object>
+  <Object type="Rotation" id="261">
+   <Parent id="256"/>
+   <Parent id="222"/>
+   <Parent id="204"/>
+  </Object>
+  <Object type="PolygonVertex" id="262">
+   <Parent id="261"/>
+   <Parent id="2"/>
+  </Object>
+  <Object type="PolygonVertex" id="263">
+   <Parent id="261"/>
+   <Parent id="30"/>
+  </Object>
+  <Object type="PolygonVertex" id="264">
+   <Parent id="261"/>
+   <Parent id="24"/>
+  </Object>
+  <Object type="PolygonVertex" id="265">
+   <Parent id="261"/>
+   <Parent id="37"/>
+  </Object>
+  <Object type="Rotation" id="266">
+   <Parent id="261"/>
+   <Parent id="226"/>
+   <Parent id="198"/>
+  </Object>
+  <Object type="PolygonVertex" id="267">
+   <Parent id="266"/>
+   <Parent id="60"/>
+  </Object>
+  <Object type="PolygonVertex" id="268">
+   <Parent id="266"/>
+   <Parent id="29"/>
+  </Object>
+  <Object type="PolygonVertex" id="269">
+   <Parent id="266"/>
+   <Parent id="42"/>
+  </Object>
+  <Object type="PolygonVertex" id="270">
+   <Parent id="266"/>
+   <Parent id="10"/>
+  </Object>
+  <Object type="PointReflection" id="271">
+   <Parent id="266"/>
+   <Parent id="229"/>
+  </Object>
+  <Object type="PolygonVertex" id="272">
+   <Parent id="271"/>
+   <Parent id="50"/>
+  </Object>
+  <Object type="PolygonVertex" id="273">
+   <Parent id="271"/>
+   <Parent id="17"/>
+  </Object>
+  <Object type="PolygonVertex" id="274">
+   <Parent id="271"/>
+   <Parent id="32"/>
+  </Object>
+  <Object type="PolygonVertex" id="275">
+   <Parent id="271"/>
+   <Parent id="33"/>
+  </Object>
+  <Object type="Rotation" id="276">
+   <Parent id="271"/>
+   <Parent id="162"/>
+   <Parent id="198"/>
+  </Object>
+  <Object type="PolygonVertex" id="277">
+   <Parent id="276"/>
+   <Parent id="5"/>
+  </Object>
+  <Object type="PolygonVertex" id="278">
+   <Parent id="276"/>
+   <Parent id="51"/>
+  </Object>
+  <Object type="PolygonVertex" id="279">
+   <Parent id="276"/>
+   <Parent id="36"/>
+  </Object>
+  <Object type="PolygonVertex" id="280">
+   <Parent id="276"/>
+   <Parent id="35"/>
+  </Object>
+  <Object type="Rotation" id="281">
+   <Parent id="276"/>
+   <Parent id="152"/>
+   <Parent id="140"/>
+  </Object>
+  <Object type="PolygonVertex" id="282">
+   <Parent id="281"/>
+   <Parent id="46"/>
+  </Object>
+  <Object type="PolygonVertex" id="283">
+   <Parent id="281"/>
+   <Parent id="3"/>
+  </Object>
+  <Object type="PolygonVertex" id="284">
+   <Parent id="281"/>
+   <Parent id="16"/>
+  </Object>
+  <Object type="PolygonVertex" id="285">
+   <Parent id="281"/>
+   <Parent id="22"/>
+  </Object>
+  <Object type="PolygonBNP" id="286">
+   <Parent id="214"/>
+   <Parent id="250"/>
+   <Parent id="249"/>
+   <Parent id="248"/>
+   <Parent id="247"/>
+   <Parent id="203"/>
+   <Parent id="242"/>
+   <Parent id="243"/>
+   <Parent id="244"/>
+   <Parent id="245"/>
+   <Parent id="195"/>
+   <Parent id="240"/>
+   <Parent id="239"/>
+   <Parent id="238"/>
+   <Parent id="237"/>
+   <Parent id="176"/>
+   <Parent id="187"/>
+   <Parent id="188"/>
+   <Parent id="189"/>
+   <Parent id="190"/>
+   <Parent id="172"/>
+   <Parent id="185"/>
+   <Parent id="184"/>
+   <Parent id="183"/>
+   <Parent id="182"/>
+   <Parent id="137"/>
+   <Parent id="142"/>
+   <Parent id="143"/>
+   <Parent id="144"/>
+   <Parent id="145"/>
+   <Parent id="59"/>
+   <Parent id="83"/>
+   <Parent id="63"/>
+   <Parent id="86"/>
+   <Parent id="87"/>
+   <Parent id="81"/>
+   <Parent id="282"/>
+   <Parent id="283"/>
+   <Parent id="284"/>
+   <Parent id="285"/>
+   <Parent id="152"/>
+   <Parent id="280"/>
+   <Parent id="279"/>
+   <Parent id="278"/>
+   <Parent id="277"/>
+   <Parent id="162"/>
+   <Parent id="272"/>
+   <Parent id="273"/>
+   <Parent id="274"/>
+   <Parent id="275"/>
+   <Parent id="229"/>
+   <Parent id="270"/>
+   <Parent id="269"/>
+   <Parent id="268"/>
+   <Parent id="267"/>
+   <Parent id="226"/>
+   <Parent id="262"/>
+   <Parent id="263"/>
+   <Parent id="264"/>
+   <Parent id="265"/>
+   <Parent id="222"/>
+   <Parent id="260"/>
+   <Parent id="259"/>
+   <Parent id="258"/>
+   <Parent id="257"/>
+   <Parent id="218"/>
+   <Parent id="252"/>
+   <Parent id="253"/>
+   <Parent id="254"/>
+   <Parent id="255"/>
+  </Object>
+ </Hierarchy>
+ <View>
+  <Draw shown="false" width="-1" object="278" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="63" style="SolidLine" color="#0000ff" point-style="RoundEmpty" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="184" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="247" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="241" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="141" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="181" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="271" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="128" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="112"/>
+  <Draw shown="false" width="-1" object="179" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="147" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="207" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="129" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="230" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="132" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="152" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="155" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="156" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="191" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="131" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="130" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="162" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="166" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="146" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="232" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="165" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="159" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="231" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="233" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="199" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="197" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="177" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="126" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="125" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="221" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="174" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="139" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="176" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="216" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="218" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="220" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="151" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="206" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="78" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="55"/>
+  <Draw shown="false" width="-1" object="136" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="201" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="134" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="192" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="73"/>
+  <Draw shown="false" width="-1" object="212" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="195" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="210" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="172" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="200" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="211" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="81" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="223" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="89" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="161" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="127" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="54"/>
+  <Draw shown="false" width="-1" object="133" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="208" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="59" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="149" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="160" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="167" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="153" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="193" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="169" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="194" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="178" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="205" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="150" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="82" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="120"/>
+  <Draw shown="false" width="-1" object="158" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="137" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="170" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="135" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="168" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="148" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="163" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="209" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="225" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="157" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="164" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="171" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="138" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="173" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="203" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="215" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="214" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="217" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="196" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="175" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="219" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="202" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="222" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="228" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="90" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="226" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="213" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="227" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="224" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="154" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="124" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="235" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="234" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="180" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="140" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="198" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="229" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="187" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="279" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="240" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="true" width="-1" object="286" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="144" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="263" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="143" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="249" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="269" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="145" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="259" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="248" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="242" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="189" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="183" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="238" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="188" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="272" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="282" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="255" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="239" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="268" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="283" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="270" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="280" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="142" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="237" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="245" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="274" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="257" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="284" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="264" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="252" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="260" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="253" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="273" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="244" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="182" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="267" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="258" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="254" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="277" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="243" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="262" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="87" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="85" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="204" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="186" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="88" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="266" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="86" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="83" style="SolidLine" color="#0000ff" point-style="RoundEmpty" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="84" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="246" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="265" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="261" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="276" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="256" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="236" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="251" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="281" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="285" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="185" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="275" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="190" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+  <Draw shown="false" width="-1" object="250" style="SolidLine" color="#0000ff" point-style="Round" font="Noto Sans,10,-1,5,50,0,0,0,0,0" namecalcer="none"/>
+ </View>
+</KigDocument>
