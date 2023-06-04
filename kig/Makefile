@@ -31,6 +31,9 @@ scale = 10
 
 all: realspectre.stl
 
+erode: erode.c
+	cc -Wall $< -o $@ -lm
+
 %.list: %.asy asy2list.sh
 	./asy2list.sh <$< >$@
 
