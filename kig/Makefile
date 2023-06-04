@@ -34,6 +34,9 @@ all: realspectre.stl
 erode: erode.c
 	cc -Wall $< -o $@ -lm
 
+msh2off: msh2off.c
+	cc -Wall $< -o $@
+
 %.list: %.asy asy2list.sh
 	./asy2list.sh <$< >$@
 
