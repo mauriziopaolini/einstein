@@ -2,9 +2,9 @@
  *
  * sample call:
  *
- * povray +a einstein.pov Declare=htile=<htile> Declare=depth=<depth>
+ * povray +a spectre.pov Declare=htile=<SPid> Declare=depth=<depth>
  *
- * where <htile> = either 7 or 8
+ * where <SPid> = 0 (mystic), 1, 2, 3, 4, 5, 6, 7 (spectre)
  *
  */
 
@@ -15,7 +15,7 @@ global_settings { assumed_gamma 1.0 }
 #include "spectresubdivision.inc"
 
 #ifndef (depth) #declare depth = 2; #end
-#ifndef (htile) #declare htile = 2; #end
+#ifndef (SPid) #declare SPid = 1; #end
 
 #declare zoomfactor = 1/phi/phi;
 #declare zoomfactor2 = 2.62;
@@ -128,15 +128,17 @@ global_settings { assumed_gamma 1.0 }
 #ifdef (fig22) #declare pretransform = transform {scale <-1,1,1> rotate prerot22[depth]*y}; #end
 #ifdef (figA1) #declare pretransform = transform {rotate 30*y rotate prerotA1[depth]*y}; #end
 
-#if (htile = 1)
-  spectrerec (transform {transform {pretransform} translate gtras}, depth)
+//#if (htile = 1)
+  //spectrerec (transform {transform {pretransform} translate gtras}, depth)
+SPrec (SPid, transform {transform {pretransform} translate gtras}, depth)
 //  #declare onlyworm = 1;
 //  h7rec (transform {scale 1.0 translate gtras + h*y}, depth)
-#else
-  mysticrec (transform {transform {pretransform} translate gtras}, depth)
+//#else
+  //mysticrec (transform {transform {pretransform} translate gtras}, depth)
+//  SPrec (0, transform {transform {pretransform} translate gtras}, depth)
 //  #declare onlyworm = 1;
 //  h8rec (transform {scale 1.0 translate gtras + h*y}, depth)
-#end
+//#end
 
 #ifdef (debug)
 //#if (depth = 0)

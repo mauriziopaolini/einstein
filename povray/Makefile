@@ -29,23 +29,25 @@ $(deflated_png_H8):einstein_H8_d%.png: einstein.pov shapes.inc subdivision.inc
 	povray $(povoptspng) $< Declare=htile=8 Declare=depth=$* +O$@
 
 $(deflated_png_S):spectre_d%.png: spectre.pov shapes.inc spectresubdivision.inc
-	povray $(povoptspng) $< Declare=htile=1 Declare=depth=$* Declare=fig22=1 +O$@
+	povray $(povoptspng) $< Declare=SPid=1 Declare=depth=$* Declare=fig22=1 +O$@
 
 $(deflated_png_M):mystic_d%.png: spectre.pov shapes.inc spectresubdivision.inc
-	povray $(povoptspng) $< Declare=htile=2 Declare=depth=$* Declare=fig22=1 +O$@
+	povray $(povoptspng) $< Declare=SPid=0 Declare=depth=$* Declare=fig22=1 +O$@
 
 $(deflatedq_png_S):spectreq_d%.png: spectre.pov shapes.inc spectresubdivision.inc
-	povray $(povoptspng) $< Declare=htile=1 Declare=depth=$* Declare=quadrilateral=1 Declare=figA1=1 +O$@
+	povray $(povoptspng) $< Declare=SPid=1 Declare=depth=$* Declare=quadrilateral=1 Declare=figA1=1 +O$@
 
 $(deflatedq_png_M):mysticq_d%.png: spectre.pov shapes.inc spectresubdivision.inc
-	povray $(povoptspng) $< Declare=htile=2 Declare=depth=$* Declare=quadrilateral=1 Declare=figA1=1 +O$@
+	povray $(povoptspng) $< Declare=SPid=0 Declare=depth=$* Declare=quadrilateral=1 Declare=figA1=1 +O$@
 
 
 #
 # mp4 animations
 #
 
-mp4list=five_deflations five_deflations_ws yellow_brick_road5B yellow_brick_road_aug5B yellow_brick_road6  yellow_brick_road_aug6 
+mp4lista=five_deflations five_deflations_ws yellow_brick_road5B yellow_brick_road_aug5B yellow_brick_road6  yellow_brick_road_aug6 
+mp4listb=spectre_desert_walk5 
+mp4list = $(mp4lista) $(mp4listb)
 
 $(mp4list:%=%.mp4): %.mp4: frames/%/DONE
 	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/$*/frame????.png' -c:v libx264 -pix_fmt yuv420p $@
@@ -102,6 +104,11 @@ frames/yellow_brick_road6/DONE: frames/%/DONE: yellow_brick_road.pov
 frames/yellow_brick_road_aug6/DONE: frames/%/DONE: yellow_brick_road.pov
 	povray $< $(povoptsani) Declare=depth=6 Declare=augmented=1 +kf164 +kff4100 +Oframes/$*/frame
 	for i in `seq 4101 4125`; do cp frames/$*/frame4100.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/spectre_desert_walk5/DONE: frames/%/DONE: spectre_desert_walk.pov
+	povray $< $(povoptsani) Declare=depth=5 +kf120 +kff3000 +Oframes/$*/frame
+	for i in `seq 3001 3025`; do cp frames/$*/frame3000.png frames/$*/frame$${i}.png; done
 	touch $@
 
 #frames/yellow_brick_road_aug6/DONE: yellow_brick_road.pov
