@@ -46,7 +46,7 @@ $(deflatedq_png_M):mysticq_d%.png: spectre.pov shapes.inc spectresubdivision.inc
 #
 
 mp4lista=five_deflations five_deflations_ws yellow_brick_road5B yellow_brick_road_aug5B yellow_brick_road6  yellow_brick_road_aug6 
-mp4listb=spectre_desert_walk5 spectre_desert_walk6
+mp4listb=spectre_deflations spectre_deflations_ws spectre_desert_walk5 spectre_desert_walk6
 
 mp4list = $(mp4lista) $(mp4listb)
 
@@ -56,13 +56,11 @@ $(mp4list:%=%.mp4): %.mp4: frames/%/DONE
 povoptsani = -D +a Declare=AspectWide=1 +W1280 +H720 +ki0 +kfi0
 
 frames/five_deflations/DONE: frames/%/DONE: five_deflations.pov
-#	povray -D +a $< Declare=AspectWide=1 +W1280 +H720 +ki0 +kf11 +kfi0 +kff2750 +Oframes/$*/frame
 	povray $< $(povoptsani) +kf11 +kff2750 +Oframes/$*/frame
 	for i in `seq 2751 2775`; do cp frames/$*/frame2750.png frames/$*/frame$${i}.png; done
 	touch $@
 
 frames/five_deflations_ws/DONE: frames/%/DONE: five_deflations.pov
-#	povray -D +a $< Declare=AspectWide=1 Declare=withscritta=1 +W1280 +H720 +ki0 +kf11 +kfi0 +kff2750 +Oframes/$*/frame
 	povray $< $(povoptsani) Declare=withscritta=1 +kf11 +kff2750 +Oframes/$*/frame
 	for i in `seq 2751 2775`; do cp frames/$*/frame2750.png frames/$*/frame$${i}.png; done
 	touch $@
@@ -105,6 +103,16 @@ frames/yellow_brick_road6/DONE: frames/%/DONE: yellow_brick_road.pov
 frames/yellow_brick_road_aug6/DONE: frames/%/DONE: yellow_brick_road.pov
 	povray $< $(povoptsani) Declare=depth=6 Declare=augmented=1 +kf164 +kff4100 +Oframes/$*/frame
 	for i in `seq 4101 4125`; do cp frames/$*/frame4100.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/spectre_deflations/DONE: frames/%/DONE: spectre_deflations.pov
+	povray $< $(povoptsani) +kf11 +kff2750 +Oframes/$*/frame
+	for i in `seq 2751 2775`; do cp frames/$*/frame2750.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/spectre_deflations_ws/DONE: frames/%/DONE: spectre_deflations.pov
+	povray $< $(povoptsani) Declare=withscritta=1 +kf11 +kff2750 +Oframes/$*/frame
+	for i in `seq 2751 2775`; do cp frames/$*/frame2750.png frames/$*/frame$${i}.png; done
 	touch $@
 
 frames/spectre_desert_walk5/DONE: frames/%/DONE: spectre_desert_walk.pov
