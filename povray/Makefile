@@ -46,7 +46,8 @@ $(deflatedq_png_M):mysticq_d%.png: spectre.pov shapes.inc spectresubdivision.inc
 #
 
 mp4lista=five_deflations five_deflations_ws yellow_brick_road5B yellow_brick_road_aug5B yellow_brick_road6  yellow_brick_road_aug6 
-mp4listb=spectre_desert_walk5 
+mp4listb=spectre_desert_walk5 spectre_desert_walk6
+
 mp4list = $(mp4lista) $(mp4listb)
 
 $(mp4list:%=%.mp4): %.mp4: frames/%/DONE
@@ -108,6 +109,11 @@ frames/yellow_brick_road_aug6/DONE: frames/%/DONE: yellow_brick_road.pov
 
 frames/spectre_desert_walk5/DONE: frames/%/DONE: spectre_desert_walk.pov
 	povray $< $(povoptsani) Declare=depth=5 +kf120 +kff3000 +Oframes/$*/frame
+	for i in `seq 3001 3025`; do cp frames/$*/frame3000.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/spectre_desert_walk6/DONE: frames/%/DONE: spectre_desert_walk.pov
+	povray $< $(povoptsani) Declare=depth=6 +kf120 +kff3000 +Oframes/$*/frame
 	for i in `seq 3001 3025`; do cp frames/$*/frame3000.png frames/$*/frame$${i}.png; done
 	touch $@
 
