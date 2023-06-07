@@ -199,7 +199,7 @@ background{Black}
 #declare lookatpos=magstep*<0, 0, 1>;
 #if (zoomclock > 0)
   #if (zoomclock > 0.5) #declare zoomclock = 0.5; #end
-  #declare zoomtarget = h8pos + 0.1*(h7pos - h8pos);
+  #declare zoomtarget = mysticpos + 0.1*(spectrepos - mysticpos);
   #declare zoomfactor = exp(-5*zoomclock);
   #declare camerapos = zoomfactor*camerapos + (1 - zoomfactor)*zoomtarget;
   #declare lookatpos = zoomfactor*lookatpos + (1 - zoomfactor)*zoomtarget;
