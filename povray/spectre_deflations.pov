@@ -253,20 +253,19 @@ light_source { 10*magstep*<-1, 1, 1> color White }
   1.0, 1*x
 }
 
-#if (depth <= 0)
-  #declare mysp = SPobj[1];
-  #declare mymy = SPobj[0];
-#else
-  #declare mysp = 
-    union {SPrec (1, transform{scale <1/mag, 1, 1/mag>}, depth)}
-  #declare mymy =
-    union {SPrec (0, transform{scale <1/mag, 1, 1/mag>}, depth)}
-#end
+#declare mymy = union {SPrec (0, transform{scale <1/mag, 1, 1/mag>}, depth)}
+#declare mysp1 = union {SPrec (1, transform{scale <1/mag, 1, 1/mag>}, depth)}
+#declare mysp2 = union {SPrec (2, transform{scale <1/mag, 1, 1/mag>}, depth)}
+#declare mysp3 = union {SPrec (3, transform{scale <1/mag, 1, 1/mag>}, depth)}
+#declare mysp4 = union {SPrec (4, transform{scale <1/mag, 1, 1/mag>}, depth)}
+#declare mysp5 = union {SPrec (5, transform{scale <1/mag, 1, 1/mag>}, depth)}
+#declare mysp6 = union {SPrec (6, transform{scale <1/mag, 1, 1/mag>}, depth)}
+#declare mysp7 = union {SPrec (7, transform{scale <1/mag, 1, 1/mag>}, depth)}
 
 #declare numtiles = 15;
 #declare stiles = 
-  array[numtiles] {mymy, mysp, mysp, mysp, mysp, mysp, mysp, mysp, 
-                   mymy, mysp, mysp, mysp, mysp, mysp, mysp}
+  array[numtiles] {mymy, mysp1, mysp2, mysp3, mysp4, mysp5, mysp6, mysp7, 
+                   mymy, mysp1, mysp2, mysp4, mysp5, mysp6, mysp7}
 #declare spectresp = <-10,paperthick,12>;
 #declare mysticsp = <11,paperthick,12>;
 #declare startpos =
