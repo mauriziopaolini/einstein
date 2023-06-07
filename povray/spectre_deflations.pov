@@ -291,11 +291,20 @@ light_source { 10*magstep*<-1, 1, 1> color White }
 
 #declare trni = array[8];
 #declare rot = array[8];
+//#declare rotadjust = 30; // XXX adjust!
+/*
+ * in kig we built a macro that construct the new quadrilateral
+ * as explained in appendix A of the arxiv paper
+ * after five deflations, the rotation angle is 54.2154
+ */
+#declare rotadjust = 54.2154/2 + 15/2;
+#if (depth = 2*int(depth/2)) #declare rotadjust = -rotadjust; #end
 
 #local i = 0;
 #while (i < 8)
-  #local trni[i] = 1/mag*vtransform (<0,0,0>, Str[i][depth]);
-  #local mapz = 1/mag*vtransform (z, Str[i][depth]) - trni[i];
+  #local trsfi = transform {Str[i][depth] rotate rotadjust*y};
+  #local trni[i] = 1/mag*vtransform (<0,0,0>, trsfi);
+  #local mapz = 1/mag*vtransform (z, trsfi) - trni[i];
   #declare rot[i] = degrees (atan2(mapz.x, mapz.z));
   #local i = i + 1;
 #end
@@ -387,30 +396,14 @@ light_source { 10*magstep*<-1, 1, 1> color White }
   }
 #end
 
-#declare seet_spectre = color rgbt <1, 0.5, 0.5, 0.7>;
-#declare seet_mystic = color rgbt <0.5, 1, 0.5, 0.7>;
+//#declare seet_spectre = color rgbt <1, 0.5, 0.5, 0.7>;
+//#declare seet_mystic = color rgbt <0.5, 1, 0.5, 0.7>;
 
 make_transparent (0.7)
 
-#if (depth <= 0)
-  object {SPobj[1]
-    scale magstep*<1, mag, 1>
-    translate spectrepos
-    translate -pushdownend*tile_thick*y
-  }
-#else
-  SPrec (1, transform {scale magstep/mag translate spectrepos - pushdownend*tile_thick*y}, depth)
-#end
+SPrec (1, transform {rotate -rotadjust*y scale magstep/mag translate spectrepos - pushdownend*tile_thick*y}, depth)
 
-#if (depth <= 0)
-  object {SPobj[0]
-    scale magstep*<1, mag, 1>
-    translate mysticpos
-    translate -pushdownend*tile_thick*y
-  }
-#else
-  SPrec (0, transform {scale magstep/mag translate mysticpos - pushdownend*tile_thick*y}, depth)
-#end
+SPrec (0, transform {rotate -rotadjust*y scale magstep/mag translate mysticpos - pushdownend*tile_thick*y}, depth)
 
 #declare textfont = "LiberationMono-Regular.ttf"
 #declare spectretext = text {ttf textfont "spectre" 0.02, 0
