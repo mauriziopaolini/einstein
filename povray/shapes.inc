@@ -255,13 +255,15 @@ object { tile11
 }
 
 #declare SPobj = array[8];
+#declare SPpigment = array[8];
 
 #declare SPobj[0] = object{mystic}
 #local i = 1;
 #while (i < 8)
+  #declare SPpigment[i] = rgb <1,1,1>-(1/3-(i-1)/27)*<0,1,1>;
   #declare SPobj[i] = object{spectre
-     //texture {pigment {rgb <1,1,1>-1/(i+2)*<0,1,1>}}
-     texture {pigment {rgb <1,1,1>-(1/3-(i-1)/27)*<0,1,1>}}
+     //texture {pigment {rgb <1,1,1>-(1/3-(i-1)/27)*<0,1,1>}}
+     texture {pigment {SPpigment[i]}}
   }
   #local i = i + 1;
 #end

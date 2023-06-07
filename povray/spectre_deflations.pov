@@ -391,40 +391,24 @@ light_source { 10*magstep*<-1, 1, 1> color White }
 #declare seet_spectre = color rgbt <1, 0.5, 0.5, 0.7>;
 #declare seet_mystic = color rgbt <0.5, 1, 0.5, 0.7>;
 
-#declare seet = seet_spectre;
+make_transparent (0.7)
 
 #if (depth <= 0)
-  object {spectre
+  object {SPobj[1]
     scale magstep*<1, mag, 1>
     translate spectrepos
     translate -pushdownend*tile_thick*y
-    texture {pigment {seet}}
   }
-  //union {
-  //  h7list (seet_h7, seet_h7, seet_h7)
-  //  scale magstep*<1, mag, 1>
-  //  translate h7pos
-  //  translate -pushdownend*tile_thick*y
-  //}
 #else
   SPrec (1, transform {scale magstep/mag translate spectrepos - pushdownend*tile_thick*y}, depth)
 #end
 
-#declare seet = seet_mystic;
-
 #if (depth <= 0)
-  object {mystic
+  object {SPobj[0]
     scale magstep*<1, mag, 1>
     translate mysticpos
     translate -pushdownend*tile_thick*y
-    texture {pigment {seet}}
   }
-  //union {
-  //  h8list (seet_h8, seet_h8, seet_h8)
-  //  scale magstep*<1, mag, 1>
-  //  translate h8pos
-  //  translate -pushdownend*tile_thick*y
-  //}
 #else
   SPrec (0, transform {scale magstep/mag translate mysticpos - pushdownend*tile_thick*y}, depth)
 #end

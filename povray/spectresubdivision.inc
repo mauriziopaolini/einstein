@@ -82,3 +82,23 @@
   #end
 #end
 
+#macro make_transparent (seet)
+  #declare SPobj[0] = union {
+    object { tile11
+      translate <-1,0,0>
+      rotate -30*y
+      translate -<1/2,0,ap-3>
+      texture {pigment {rgbft <0, 0, 0.5, 0, seet>}}  
+    }
+    object { tile11
+      texture {pigment {rgbft SPpigment[1] + <0,0,0,0,seet>}}
+    }
+  }
+  #local i = 1;
+  #while (i < 8)
+    #declare SPobj[i] = object { tile11
+      texture {pigment {rgbft SPpigment[i] + <0,0,0,0,seet>}}
+    }
+    #local i = i + 1;
+  #end
+#end
