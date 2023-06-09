@@ -41,6 +41,10 @@ global_settings { assumed_gamma 1.0 }
 #declare endtime = 99999;  /* that's +infinity */
 
 #declare yellowroadstart = <0,0,0>;
+#ifdef (dark)
+  #declare yellowroadstart = trn3[depth-1];
+#end
+
 /*
  * this is the end of the worm in case depth=5 type B
  * (trovato con trial and error)
@@ -119,15 +123,26 @@ build_wormAB (depth)
 #debug concat ("\n=========\nnumber of H clusters in the yellow brick road = ", str(lastbrick,0,0), "\n")
 #debug concat ("   The center of last tile will be reached at realtime = ", str(realtimeend,0,-1), "\n")
 
-#declare h7worm = union {
-  h7list (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>)
-  texture {finish {tile_Finish}}
-}
+#macro wormcolors (c70, c71, c72, c80, c81, c82)
+  #declare h7worm = union {
+    h7list (c70, c71, c72)
+    texture {finish {tile_Finish}}
+  }
+  #declare h8worm = union { 
+    h8list (c80, c81, c82)
+    texture {finish {tile_Finish}}
+  }
+#end
 
-#declare h8worm = union {
-  h8list (<1,1,0>, <0.5,1,0>, <0.6,1,0.2>)
-  texture {finish {tile_Finish}}
-} 
+wormcolors (<0.3,0.3,0.5>, <0.5,0.5,0.8>, <0.6,0.6,0.9>,
+            <0.4,0.4,0.4>, <0.6,0.6,0.7>, <0.6,0.6,0.9>)
+#declare h7wormdark = h7worm;
+#declare h8wormdark = h8worm;
+
+wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
+            <1,1,0>, <0.5,1,0>, <0.6,1,0.2>)
+#declare h7wormyellow = h7worm;
+#declare h8wormyellow = h8worm;
 
 #declare MaxPosLeft = <0,0,0>;
 
@@ -135,15 +150,21 @@ build_wormAB (depth)
 
 #if (htile = 7)
   h7rec (transform {gtrans}, depth)
+
   #declare onlyworm = 1;
+  #declare h7worm = h7wormyellow;
+  #declare h8worm = h8wormyellow;
   h7rec (transform {gtrans translate tile_thick*y}, depth)
   #ifdef (ROADS)
-    /* display worms at level depth-1 [XXX DOES NOT WORK! */
+    /* display worms at level depth-1 */
+    #declare h7worm = h7wormdark;
+    #declare h8worm = h8wormdark;
     #declare gtransup = transform {gtrans translate 2*tile_thick*y};
-    h8rec (transform {rotate rot1*y translate trn1[depth] gtransup}, depth-1)
-    h8rec (transform {rotate rot3*y translate trn3[depth] gtransup}, depth-1)
-    h8rec (transform {rotate rot4*y translate trn4[depth] gtransup}, depth-1)
-    h8rec (transform {rotate rot5*y translate trn5[depth] gtransup}, depth-1)
+    #declare d = depth-1;
+    h8rec (transform {rotate rot1*y translate trn1[d] gtransup}, d)
+    h8rec (transform {rotate rot3*y translate trn3[d] gtransup}, d)
+    h8rec (transform {rotate rot4*y translate trn4[d] gtransup}, d)
+    h8rec (transform {rotate rot5*y translate trn5[d] gtransup}, d)
   #end
 #else
   h8rec (transform {scale 1.0}, depth)
@@ -195,6 +216,7 @@ build_wormAB (depth)
   #range (preamblestart,preambleend)
     #declare smoothtime = smoothp((clock-preamblestart)/preambleduration).x;
     #declare camerapos = (1-smoothtime)*faraway + smoothtime*dorothystartpos + behind;
+    #ifdef (zoom) #declare camerapos = zoom*camerapos; #end
     #declare reltime = (preambleend - clock)/preambleduration;
     #declare lookatpos = dorothystartpos + (4*reltime + 1)*ahead;
     #ifdef (debug)

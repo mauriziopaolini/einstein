@@ -4,13 +4,13 @@
 # manually "export" to an asymptote file.  Then "make"
 #
 # stl uses millimeters hence the scaling factor at the end so
-# that the resulting tile has sides 1cm long
+# that the resulting tile has sides 1.5cm long
 #
 
 #
 # erosion is relative to side length
 #
-erosion = 0.02
+erosion = 0.025
 
 #
 # a large value should produce large triangles.  This has no
@@ -22,12 +22,12 @@ meshsize = 4
 #
 # height is the tile thickness, relative to the side
 #
-height = 0.2
+height = 0.3
 
 #
 # scale produces an stl with units expressed in mm
 #
-scale = 10
+scale = 15
 
 all: realspectre.stl
 

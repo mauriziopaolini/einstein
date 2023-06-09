@@ -1,10 +1,5 @@
 #include "transforms.inc"
 
-//#declare scalefactor = phi*phi;   // approx 0.381977
-#declare scalefactor = 1;
-#declare scalefactor1 = 0.45;
-#declare scalefactor2 = scalefactor1*0.5;
-
 #declare maxdepth = 10;
 #declare maxfibo = 30;
 
@@ -70,72 +65,64 @@
 
 #macro h7rec (trsf, depth)
   #local d = depth-1;
-  #switch (depth)
-    #case (0)
-      #ifdef (onlyworm)
-        #ifdef (MaxPosLeft)
-          #local h7pos = vtransform (<0,0,0>, transform {trsf});
-          #if (h7pos.x < MaxPosLeft.x)
-            #declare MaxPosLeft = h7pos;
-          #end
+  #if (depth = 0)
+    #ifdef (onlyworm)
+      #ifdef (MaxPosLeft)
+        #local h7pos = vtransform (<0,0,0>, transform {trsf});
+        #if (h7pos.x < MaxPosLeft.x)
+          #declare MaxPosLeft = h7pos;
         #end
-        object {h7worm transform {trsf}}
+      #end
+      object {h7worm transform {trsf}}
+    #else
+      #ifdef (seet)
+        union { h7list (seet, seet, seet)
+          transform {trsf} }
       #else
-        #ifdef (seet)
-          union { h7list (seet, seet, seet)
-            transform {trsf} }
-        #else
-          object {h7m transform {trsf}}
-        #end
+        object {h7m transform {trsf}}
       #end
-    #break
-
-    #range (1,maxdepth)
-      h7rec (transform {rotate rot0*y translate trn0[d] scale scalefactor trsf}, d)
-      h8rec (transform {rotate rot2*y translate trn2[d] scale scalefactor trsf}, d)
-      #ifndef (onlyworm)
-        h8rec (transform {rotate rot1*y translate trn1[d] scale scalefactor trsf}, d)
-        h8rec (transform {rotate rot3*y translate trn3[d] scale scalefactor trsf}, d)
-        h8rec (transform {rotate rot4*y translate trn4[d] scale scalefactor trsf}, d)
-        h8rec (transform {rotate rot5*y translate trn5[d] scale scalefactor trsf}, d)
-      #end
-    #break
+    #end
+  #else
+    h7rec (transform {rotate rot0*y translate trn0[d] trsf}, d)
+    h8rec (transform {rotate rot2*y translate trn2[d] trsf}, d)
+    #ifndef (onlyworm)
+      h8rec (transform {rotate rot1*y translate trn1[d] trsf}, d)
+      h8rec (transform {rotate rot3*y translate trn3[d] trsf}, d)
+      h8rec (transform {rotate rot4*y translate trn4[d] trsf}, d)
+      h8rec (transform {rotate rot5*y translate trn5[d] trsf}, d)
+    #end
   #end
 #end
 
 #macro h8rec (trsf, depth)
   #local d = depth-1;
-  #switch (depth)
-    #case (0)
-      #ifdef (onlyworm)
-        #ifdef (MaxPosLeft)
-          #local h8pos = vtransform (<0,0,0>, transform {trsf});
-          #if (h8pos.x < MaxPosLeft.x)
-            #declare MaxPosLeft = h8pos;
-          #end
+  #if (depth = 0)
+    #ifdef (onlyworm)
+      #ifdef (MaxPosLeft)
+        #local h8pos = vtransform (<0,0,0>, transform {trsf});
+        #if (h8pos.x < MaxPosLeft.x)
+          #declare MaxPosLeft = h8pos;
         #end
-        object {h8worm transform {trsf}}
+      #end
+      object {h8worm transform {trsf}}
+    #else
+      #ifdef (seet)
+        union { h8list (seet, seet, seet)
+          transform {trsf} }
       #else
-        #ifdef (seet)
-          union { h8list (seet, seet, seet)
-            transform {trsf} }
-        #else
-          object {h8m transform {trsf}}
-        #end
+        object {h8m transform {trsf}}
       #end
-    #break
-
-    #range (1,maxdepth)
-      h7rec (transform {rotate rot0*y translate trn0[d] scale scalefactor trsf}, d)
-      h8rec (transform {rotate rot2*y translate trn2[d] scale scalefactor trsf}, d)
-      h8rec (transform {rotate rot6*y translate trn6[d] scale scalefactor trsf}, d)
-      #ifndef (onlyworm)
-        h8rec (transform {rotate rot1*y translate trn1[d] scale scalefactor trsf}, d)
-        h8rec (transform {rotate rot3*y translate trn3[d] scale scalefactor trsf}, d)
-        h8rec (transform {rotate rot4*y translate trn4[d] scale scalefactor trsf}, d)
-        h8rec (transform {rotate rot5*y translate trn5[d] scale scalefactor trsf}, d)
-      #end
-    #break
+    #end
+  #else
+    h7rec (transform {rotate rot0*y translate trn0[d] trsf}, d)
+    h8rec (transform {rotate rot2*y translate trn2[d] trsf}, d)
+    h8rec (transform {rotate rot6*y translate trn6[d] trsf}, d)
+    #ifndef (onlyworm)
+      h8rec (transform {rotate rot1*y translate trn1[d] trsf}, d)
+      h8rec (transform {rotate rot3*y translate trn3[d] trsf}, d)
+      h8rec (transform {rotate rot4*y translate trn4[d] trsf}, d)
+      h8rec (transform {rotate rot5*y translate trn5[d] trsf}, d)
+    #end
   #end
 #end
 
