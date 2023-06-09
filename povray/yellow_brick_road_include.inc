@@ -66,13 +66,20 @@
 
 #end
 
-#ifndef (postwidth) #declare postwidth = 0.2; #end
-#declare signwidth = 2;
-#declare signheight = 0.8;
-#declare signthickness = 0.1;
+//#ifndef (postwidth) #declare postwidth = 0.2; #end
+//#declare signwidth = 2;
+//#declare signheight = 0.8;
+//#declare signthickness = 0.1;
 
-
-#macro roadsign (rstext, height)
+#macro roadsign (rstext, rstext2)
+  #local height = 4;
+  #local postwidth = 0.2;
+  #local signwidth = 2;
+  #local signheight = 1.2;
+  #local signthickness = 0.1;
+  #local len1 = strlen (rstext);
+  #local len2 = strlen (rstext2);
+  #local signwidth = 0.5*max(len1,len2)*0.5+0.2;
   cylinder {0, (height-signheight)*y, postwidth
     texture {T_Wood3
       finish {tile_Finish}
@@ -84,11 +91,21 @@
     }
   }
   text {ttf textfont rstext 0.1 0
+    translate -0.5*len1*0.6*x
     scale 0.4
-    translate height*y - 0.5*signheight*y
+    translate height*y - 0.5*y
     translate - 0.5*signthickness*z
     translate - 0.5*0.1*z
-    translate -0.5*signwidth*x
+    texture {pigment {color Black}
+      finish {tile_Finish}
+    }
+  }
+  text {ttf textfont rstext2 0.1 0
+    translate -0.5*len2*0.6*x
+    scale 0.4
+    translate height*y - 1.0*y
+    translate - 0.5*signthickness*z
+    translate - 0.5*0.1*z
     texture {pigment {color Black}
       finish {tile_Finish}
     }

@@ -162,6 +162,13 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
     #declare gtransup = transform {gtrans translate 2*tile_thick*y};
     #declare d = depth-1;
     h8rec (transform {rotate rot1*y translate trn1[d] gtransup}, d)
+    h8rec (transform {rotate rot3*y translate trn3[d-1]
+                      rotate rot0*y translate trn0[d] gtransup}, d-1)
+    h8rec (transform {rotate rot4*y translate trn4[d-1]
+                      rotate rot2*y translate trn2[d] gtransup}, d-1)
+    h8rec (transform {rotate rot4*y translate trn4[d-2]
+                      rotate rot0*y translate trn0[d-1]
+                      rotate rot2*y translate trn2[d] gtransup}, d-2)
     h8rec (transform {rotate rot3*y translate trn3[d] gtransup}, d)
     h8rec (transform {rotate rot4*y translate trn4[d] gtransup}, d)
     h8rec (transform {rotate rot5*y translate trn5[d] gtransup}, d)
@@ -174,7 +181,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
 #ifdef (ROADSIGNS)
   union {
-    roadsign ("To E.C.", 4)
+    roadsign ("To Emerald", "Castle")
     translate yellowroadstart + 2.5*x
     rotate -80*y
   }
@@ -182,7 +189,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
   #declare crossing = crossing0 + vtransform (<0,0,0>, transform {translate trn3[0] rotate rot3*y});
   #declare crossingrot = rot3*y;
   union {
-    roadsign ("To W.W.", 8)
+    roadsign ("To Wicked Witch", "of the West")
     rotate -80*y
     translate crossing + 2.5*x
   }
