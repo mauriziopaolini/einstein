@@ -65,3 +65,32 @@
   #end
 
 #end
+
+#ifndef (postwidth) #declare postwidth = 0.2; #end
+#declare signwidth = 2;
+#declare signheight = 0.8;
+#declare signthickness = 0.1;
+
+
+#macro roadsign (rstext, height)
+  cylinder {0, (height-signheight)*y, postwidth
+    texture {T_Wood3
+      finish {tile_Finish}
+    }
+  }
+  box {<-0.5*signwidth, height-signheight, -signthickness/2>, <0.5*signwidth, height, signthickness/2>
+    texture {T_Wood3
+      finish {tile_Finish}
+    }
+  }
+  text {ttf textfont rstext 0.1 0
+    scale 0.4
+    translate height*y - 0.5*signheight*y
+    translate - 0.5*signthickness*z
+    translate - 0.5*0.1*z
+    translate -0.5*signwidth*x
+    texture {pigment {color Black}
+      finish {tile_Finish}
+    }
+  }
+#end

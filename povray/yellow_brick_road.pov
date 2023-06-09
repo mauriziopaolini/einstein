@@ -131,14 +131,46 @@ build_wormAB (depth)
 
 #declare MaxPosLeft = <0,0,0>;
 
+#declare gtrans = transform {scale 1};
+
 #if (htile = 7)
-  h7rec (transform {scale 1.0}, depth)
+  h7rec (transform {gtrans}, depth)
   #declare onlyworm = 1;
-  h7rec (transform {translate tile_thick*y}, depth)
+  h7rec (transform {gtrans translate tile_thick*y}, depth)
+  #ifdef (ROADS)
+    /* display worms at level depth-1 [XXX DOES NOT WORK! */
+    #declare gtransup = transform {gtrans translate 2*tile_thick*y};
+    h8rec (transform {rotate rot1*y translate trn1[depth] gtransup}, depth-1)
+    h8rec (transform {rotate rot3*y translate trn3[depth] gtransup}, depth-1)
+    h8rec (transform {rotate rot4*y translate trn4[depth] gtransup}, depth-1)
+    h8rec (transform {rotate rot5*y translate trn5[depth] gtransup}, depth-1)
+  #end
 #else
   h8rec (transform {scale 1.0}, depth)
   #declare onlyworm = 1;
   h8rec (transform {translate tile_thick*y}, depth)
+#end
+
+#ifdef (ROADSIGNS)
+  union {
+    roadsign ("To E.C.", 4)
+    translate yellowroadstart + 2.5*x
+    rotate -80*y
+  }
+  #declare crossing0 = vtransform (<0,0,0>, transform {translate trn2[depth-1]});
+  #declare crossing = crossing0 + vtransform (<0,0,0>, transform {translate trn3[0] rotate rot3*y});
+  #declare crossingrot = rot3*y;
+  union {
+    roadsign ("To W.W.", 8)
+    rotate -80*y
+    translate crossing + 2.5*x
+  }
+  h8rec (transform {translate 2*tile_thick*y rotate crossingrot translate crossing}, 0)
+  sphere {crossing, 1
+    texture {pigment {color Black}}
+  }
+  #declare crossing = crossing0 + vtransform (<0,0,0>, transform {translate trn6[0] rotate rot6*y});
+  //h8rec (transform {translate 2*tile_thick*y rotate crossingrot translate crossing}, 0)
 #end
 
 #ifdef (debug)
