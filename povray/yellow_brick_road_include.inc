@@ -66,6 +66,18 @@
 
 #end
 
+#macro castle (aspect, jpgimage)
+  #local height = 12;
+  #local cwidth = aspect*height;
+  box {<0,0,0>,<1,1,0.1>
+    pigment {image_map {jpeg jpgimage}}
+    translate -0.5*x
+    scale 0.5*<cwidth, height, height>
+    translate 2*tile_thick*y
+    finish {tile_Finish}
+  }
+#end
+
 #macro roadsign (rstext, rstext2)
   #local height = 4;
   #local postwidth = 0.2;

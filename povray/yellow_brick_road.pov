@@ -53,9 +53,15 @@ global_settings { assumed_gamma 1.0 }
 
 #declare trcrossing = transform {trcrossing rotate rot3*y translate trn3[depth-1] gtrans};
 #declare crossing2 = vtransform (<0,0,0>, trcrossing);
+#declare path0dir = vnormalize (crossing1 - yellowroadstart);
+#declare path1dir = path0dir;
+#declare emeraldpos = crossing1 + (204.5-preambleend)*dorothyspeed*path1dir;
+#declare path2dir = vnormalize (crossing2 - crossing1);
+#declare path3dir = vtransform (path2dir, transform {rotate 60*y});
+#declare wickedwitchpos = crossing2 + (204.5-preambleend)*dorothyspeed*path3dir;
+
 #ifdef (dark)
-//  #declare yellowroadstart = trn3[depth-1];
-  #declare yellowroadstart = crossing1;
+  #declare yellowroadstart = trn3[depth-1];
 #end
 
 /*
@@ -67,6 +73,11 @@ global_settings { assumed_gamma 1.0 }
  *  3: from crossing2 to wicked witch
  */
 #ifndef (path) #declare path=-1; #end
+#if (path >= 0)
+  #ifndef (ROADS) #declare ROADS = 1; #end
+  #ifndef (ROADSIGNS) #declare ROADSIGNS = 1; #end
+//  #ifndef (CASTLES) #declare CASTLES = 1; #end
+#end
 
 /*
  * this is the end of the worm in case depth=5 htype 8
@@ -162,6 +173,11 @@ wormcolors (<0.3,0.3,0.5>, <0.5,0.5,0.8>, <0.6,0.6,0.9>,
 #declare h7wormdark = h7worm;
 #declare h8wormdark = h8worm;
 
+wormcolors (<0,0,1>, <0,0.5,1>, <0.2,0.6,1>,
+            <0,0,1>, <0,1,0.5>, <0.2,1,0.6>)
+#declare h7wormblue = h7worm;
+#declare h8wormblue = h8worm;
+
 wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
             <1,1,0>, <0.5,1,0>, <0.6,1,0.2>)
 #declare h7wormyellow = h7worm;
@@ -178,13 +194,15 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
   h7rec (transform {gtrans translate tile_thick*y}, depth)
   #ifdef (ROADS)
     /* display worms at level depth-1 */
-    #declare h7worm = h7wormdark;
-    #declare h8worm = h8wormdark;
     #declare gtransup = transform {gtrans translate 2*tile_thick*y};
     #declare d = depth-1;
-    h8rec (transform {rotate rot1*y translate trn1[d] gtransup}, d)
-    h8rec (transform {rotate rot3*y translate trn3[d-1]
-                      rotate rot0*y translate trn0[d] gtransup}, d-1)
+
+    #declare h7worm = h7wormdark;
+    #declare h8worm = h8wormdark;
+    h8rec (transform {rotate rot4*y translate trn4[d] gtransup}, d)
+
+    #declare h7worm = h7wormblue;
+    #declare h8worm = h8wormblue;
     h8rec (transform {rotate rot4*y translate trn4[d-1]
                       rotate rot2*y translate trn2[d] gtransup}, d-1)
     h8rec (transform {rotate rot4*y translate trn4[d-2]
@@ -194,9 +212,32 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
                       rotate rot0*y translate trn0[d-2]
                       rotate rot0*y translate trn0[d-1]
                       rotate rot2*y translate trn2[d] gtransup}, d-3)
+    #if (depth >= 6)
+      h8rec (transform {rotate rot4*y translate trn4[d-4]
+                        rotate rot0*y translate trn0[d-3]
+                        rotate rot0*y translate trn0[d-2]
+                        rotate rot0*y translate trn0[d-1]
+                        rotate rot2*y translate trn2[d] gtransup}, d-4)
+    #end
+    #declare h7worm = h7wormdark;
+    #declare h8worm = h8wormdark;
+    h8rec (transform {rotate rot1*y translate trn1[d] gtransup}, d)
+    h8rec (transform {rotate rot3*y translate trn3[d-1]
+                      rotate rot0*y translate trn0[d] gtransup}, d-1)
     h8rec (transform {rotate rot3*y translate trn3[d] gtransup}, d)
-    h8rec (transform {rotate rot4*y translate trn4[d] gtransup}, d)
     h8rec (transform {rotate rot5*y translate trn5[d] gtransup}, d)
+  #end
+  #ifdef (CASTLES)
+    object {castle (1.85, "emeraldcity.jpg")
+      rotate 45*x
+      rotate -80*y
+      translate emeraldpos
+    }
+    object {castle (1.5, "wickedwitchcastle.jpg")
+      rotate 45*x
+      rotate (-80-60)*y
+      translate wickedwitchpos
+    }
   #end
 #else
   h8rec (transform {scale 1.0}, depth)
@@ -251,11 +292,26 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
 #declare pathdir = yellowroaddir;
 #switch (path)
+  #case (1)
+    //#declare pathdir = yellowroaddir;
+    //#declare behind = vtransform (behind, transform {rotate -120*y});
+    //#declare ahead = vtransform (ahead, transform {rotate -120*y});
+    #declare dorothystartpos = crossing0 + 2*tile_thick*y;
+  #break
   #case (2)
-    #declare pathdir = vnormalize (crossing2 - crossing1);
+    //#declare pathdir = vnormalize (crossing2 - crossing1);
+    #declare pathdir = path2dir;
     #declare behind = vtransform (behind, transform {rotate -120*y});
     #declare ahead = vtransform (ahead, transform {rotate -120*y});
     #declare dorothystartpos = crossing1 + 2*tile_thick*y;
+  #break
+  #case (3)
+    #declare pathdir = path2dir;
+    #declare pathdir = vtransform (pathdir, transform {rotate 60*y});
+    #declare behind = vtransform (behind, transform {rotate -60*y});
+    #declare ahead = vtransform (ahead, transform {rotate -60*y});
+    #declare dorothystartpos = crossing2 + 2*tile_thick*y;
+  #break
 #end
 
 #declare dorothypos = dorothystartpos;
@@ -269,20 +325,37 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
     #end
     #switch (path)
       #case (0)
-        #declare endtime = 51.5;
+        #declare endtime = 128.8 - preambleend;
       #case (-1)
         #declare camerapos = (1-smoothtime)*faraway + smoothtime*dorothystartpos + behind;
         #declare lookatpos = dorothystartpos + (4*reltime + 1)*ahead;
         #declare bricktype = "A";
       #break
 
+      #case (1)  // rest of path to emerald castle
+        #declare endtime = 204.5 - preambleend;
+        // #declare behind = vtransform (behind, transform {rotate reltime*120*y});
+        // #declare ahead = vtransform (ahead, transform {rotate reltime*120*y});
+        #declare camerapos = crossing1 + behind;
+        #declare dorothystartpos = crossing1 + 2*tile_thick*y;
+        #declare lookatpos = dorothystartpos + ahead;
+      #break
+
       #case (2)
-        //#declare pathdir = vnormalize (crossing2 - crossing1);
+        #declare endtime = 128.8 - preambleend;
         #declare behind = vtransform (behind, transform {rotate reltime*120*y});
         #declare ahead = vtransform (ahead, transform {rotate reltime*120*y});
         #declare camerapos = crossing1 + behind;
         #declare dorothystartpos = crossing1 + 2*tile_thick*y;
+        #declare lookatpos = dorothystartpos + ahead;
+      #break
 
+      #case (3)
+        #declare endtime = 204.5 - preambleend;
+        #declare behind = vtransform (behind, transform {rotate -reltime*60*y});
+        #declare ahead = vtransform (ahead, transform {rotate -reltime*60*y});
+        #declare camerapos = crossing2 + behind;
+        #declare dorothystartpos = crossing2 + 2*tile_thick*y;
         #declare lookatpos = dorothystartpos + ahead;
       #break
 

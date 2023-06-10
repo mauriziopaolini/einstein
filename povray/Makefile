@@ -118,8 +118,8 @@ frames/yellow_brick_road_path2/DONE: frames/%/DONE: yellow_brick_road.pov
 	touch $@
 
 frames/yellow_brick_road_path3/DONE: frames/%/DONE: yellow_brick_road.pov
-	povray $< $(povoptsani) Declare=depth=6 $(povoptsROADS) Declare=path=3 +kf51.5 +kff1285 +Oframes/$*/frame
-#	for i in `seq 4101 4125`; do cp frames/$*/frame4100.png frames/$*/frame$${i}.png; done
+	povray $< $(povoptsani) Declare=depth=6 $(povoptsROADS) Declare=path=3 +kf204.5 +kff5112 +Oframes/$*/frame
+	for i in `seq 5113 5137`; do cp frames/$*/frame5112.png frames/$*/frame$${i}.png; done
 	touch $@
 
 frames/spectre_deflations/DONE: frames/%/DONE: spectre_deflations.pov
