@@ -45,15 +45,17 @@ $(deflatedq_png_M):mysticq_d%.png: spectre.pov shapes.inc spectresubdivision.inc
 # mp4 animations
 #
 
-mp4lista=five_deflations five_deflations_ws yellow_brick_road5B yellow_brick_road_aug5B yellow_brick_road6  yellow_brick_road_aug6 
-mp4listb=spectre_deflations spectre_deflations_ws spectre_desert_walk5 spectre_desert_walk6
+mp4lista=five_deflations five_deflations_ws yellow_brick_road5B yellow_brick_road_aug5B yellow_brick_road6 yellow_brick_road_aug6
+mp4listb=yellow_brick_road_path0 yellow_brick_road_path2 yellow_brick_road_path3
+mp4listc=spectre_deflations spectre_deflations_ws spectre_desert_walk5 spectre_desert_walk6
 
-mp4list = $(mp4lista) $(mp4listb)
+mp4list = $(mp4lista) $(mp4listb) $(mp4listc)
 
 $(mp4list:%=%.mp4): %.mp4: frames/%/DONE
 	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/$*/frame????.png' -c:v libx264 -pix_fmt yuv420p $@
 
 povoptsani = -D +a Declare=AspectWide=1 +W1280 +H720 +ki0 +kfi0
+povoptsROADS = Declare=ROADS=1 Declare=ROADSIGNS=1
 
 frames/five_deflations/DONE: frames/%/DONE: five_deflations.pov
 	povray $< $(povoptsani) +kf11 +kff2750 +Oframes/$*/frame
@@ -91,7 +93,7 @@ frames/yellow_brick_road_aug5B/DONE: frames/%/DONE: yellow_brick_road.pov
 #	touch frames/yellow_brick_road_aug5B/DONE
 
 frames/yellow_brick_road6/DONE: frames/%/DONE: yellow_brick_road.pov
-	povray $< $(povoptsani) Declare=depth=6 +kf164 +kff4100 +Oframes/$*/frame
+	povray $< $(povoptsani) Declare=depth=6 Declare=dofastforward=1 +kf164 +kff4100 +Oframes/$*/frame
 	for i in `seq 4101 4125`; do cp frames/$*/frame4100.png frames/$*/frame$${i}.png; done
 	touch $@
 
@@ -101,8 +103,23 @@ frames/yellow_brick_road6/DONE: frames/%/DONE: yellow_brick_road.pov
 #	touch frames/yellow_brick_road6/DONE
 
 frames/yellow_brick_road_aug6/DONE: frames/%/DONE: yellow_brick_road.pov
-	povray $< $(povoptsani) Declare=depth=6 Declare=augmented=1 +kf164 +kff4100 +Oframes/$*/frame
+	povray $< $(povoptsani) Declare=depth=6 Declare=augmented=1 Declare=dofastforward=1 +kf164 +kff4100 +Oframes/$*/frame
 	for i in `seq 4101 4125`; do cp frames/$*/frame4100.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/yellow_brick_road_path0/DONE: frames/%/DONE: yellow_brick_road.pov
+	povray $< $(povoptsani) Declare=depth=6 $(povoptsROADS) Declare=path=0 +kf128.8 +kff3220 +Oframes/$*/frame
+#	for i in `seq 4101 4125`; do cp frames/$*/frame4100.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/yellow_brick_road_path2/DONE: frames/%/DONE: yellow_brick_road.pov
+	povray $< $(povoptsani) Declare=depth=6 $(povoptsROADS) Declare=path=2 +kf128.8 +kff3220 +Oframes/$*/frame
+#	for i in `seq 4101 4125`; do cp frames/$*/frame4100.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/yellow_brick_road_path3/DONE: frames/%/DONE: yellow_brick_road.pov
+	povray $< $(povoptsani) Declare=depth=6 $(povoptsROADS) Declare=path=3 +kf51.5 +kff1285 +Oframes/$*/frame
+#	for i in `seq 4101 4125`; do cp frames/$*/frame4100.png frames/$*/frame$${i}.png; done
 	touch $@
 
 frames/spectre_deflations/DONE: frames/%/DONE: spectre_deflations.pov

@@ -30,27 +30,50 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (speedup_time) #declare speedup_time = 4000/25; #end
 #declare meters = 10;
 
-#ifndef (depth) #declare depth = 5; #end
+#ifndef (depth) #declare depth = 6; #end
 #ifndef (htile)
   #declare htile = 7;
 #end
 
 #declare preamblestart = 0;
 #declare preambleend = preamblestart + preambleduration;
-#declare dofastforward = 1;
+//#declare dofastforward = 1;
 #declare endtime = 99999;  /* that's +infinity */
 
+#declare gtrans = transform {scale 1};
 #declare yellowroadstart = <0,0,0>;
+
+#declare trcrossing = transform {rotate rot0*y translate trn0[0]};
+#local i = 1;
+#while (i < depth-1)
+  #declare trcrossing = transform {trcrossing rotate rot0*y translate trn0[i]};
+  #local i = i + 1;
+#end
+#declare crossing1 = vtransform (<0,0,0>, transform {trcrossing translate trn2[depth-1]});
+
+#declare trcrossing = transform {trcrossing rotate rot3*y translate trn3[depth-1] gtrans};
+#declare crossing2 = vtransform (<0,0,0>, trcrossing);
 #ifdef (dark)
-  #declare yellowroadstart = trn3[depth-1];
+//  #declare yellowroadstart = trn3[depth-1];
+  #declare yellowroadstart = crossing1;
 #end
 
 /*
- * this is the end of the worm in case depth=5 type B
+ * possible paths:
+ * -1: standard walk along the yellow brick road
+ *  0: from yellowroadstart to crossing1
+ *  1: from crossing1 to end of yellow road
+ *  2: from crossing1 to crossing2
+ *  3: from crossing2 to wicked witch
+ */
+#ifndef (path) #declare path=-1; #end
+
+/*
+ * this is the end of the worm in case depth=5 htype 8
  * (trovato con trial and error)
  * depth = 5, htile=8: #declare yellowroadend = <-775.5, 0, 200.051868>;
  */
-/* questo invece si riferisce a depth=6, type A
+/* questo invece si riferisce a depth=6, htype 7
  */
 #declare yellowroadend = <-1258.79, 0, 324.724>;
 #if (depth = 5 & htile = 8) #declare yellowroadend = <-775.5, 0, 200.051868>; #end
@@ -146,8 +169,6 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
 #declare MaxPosLeft = <0,0,0>;
 
-#declare gtrans = transform {scale 1};
-
 #if (htile = 7)
   h7rec (transform {gtrans}, depth)
 
@@ -169,6 +190,10 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
     h8rec (transform {rotate rot4*y translate trn4[d-2]
                       rotate rot0*y translate trn0[d-1]
                       rotate rot2*y translate trn2[d] gtransup}, d-2)
+    h8rec (transform {rotate rot4*y translate trn4[d-3]
+                      rotate rot0*y translate trn0[d-2]
+                      rotate rot0*y translate trn0[d-1]
+                      rotate rot2*y translate trn2[d] gtransup}, d-3)
     h8rec (transform {rotate rot3*y translate trn3[d] gtransup}, d)
     h8rec (transform {rotate rot4*y translate trn4[d] gtransup}, d)
     h8rec (transform {rotate rot5*y translate trn5[d] gtransup}, d)
@@ -193,11 +218,16 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
     rotate -80*y
     translate crossing + 2.5*x
   }
-  h8rec (transform {translate 2*tile_thick*y rotate crossingrot translate crossing}, 0)
-  sphere {crossing, 1
-    texture {pigment {color Black}}
+  union {
+    roadsign ("To Wicked Witch", "of the West")
+    rotate 180*y
+    translate crossing2 - 2.5*x - 10.0*z
   }
-  #declare crossing = crossing0 + vtransform (<0,0,0>, transform {translate trn6[0] rotate rot6*y});
+  //h8rec (transform {translate 2*tile_thick*y rotate crossingrot translate crossing}, 0)
+  //sphere {crossing, 1
+  //  texture {pigment {color Black}}
+  //}
+  //#declare crossing = crossing0 + vtransform (<0,0,0>, transform {translate trn6[0] rotate rot6*y});
   //h8rec (transform {translate 2*tile_thick*y rotate crossingrot translate crossing}, 0)
 #end
 
@@ -219,17 +249,46 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
   #declare tgriddown = 0;
 #end
 
+#declare pathdir = yellowroaddir;
+#switch (path)
+  #case (2)
+    #declare pathdir = vnormalize (crossing2 - crossing1);
+    #declare behind = vtransform (behind, transform {rotate -120*y});
+    #declare ahead = vtransform (ahead, transform {rotate -120*y});
+    #declare dorothystartpos = crossing1 + 2*tile_thick*y;
+#end
+
+#declare dorothypos = dorothystartpos;
+
 #switch (clock)
   #range (preamblestart,preambleend)
-    #declare smoothtime = smoothp((clock-preamblestart)/preambleduration).x;
-    #declare camerapos = (1-smoothtime)*faraway + smoothtime*dorothystartpos + behind;
-    #ifdef (zoom) #declare camerapos = zoom*camerapos; #end
     #declare reltime = (preambleend - clock)/preambleduration;
-    #declare lookatpos = dorothystartpos + (4*reltime + 1)*ahead;
+    #declare smoothtime = smoothp((clock-preamblestart)/preambleduration).x;
     #ifdef (debug)
       #debug concat ("smoothtime = ", str(smoothtime,0,-1), "\n")
     #end
-    #declare bricktype = "A";
+    #switch (path)
+      #case (0)
+        #declare endtime = 51.5;
+      #case (-1)
+        #declare camerapos = (1-smoothtime)*faraway + smoothtime*dorothystartpos + behind;
+        #declare lookatpos = dorothystartpos + (4*reltime + 1)*ahead;
+        #declare bricktype = "A";
+      #break
+
+      #case (2)
+        //#declare pathdir = vnormalize (crossing2 - crossing1);
+        #declare behind = vtransform (behind, transform {rotate reltime*120*y});
+        #declare ahead = vtransform (ahead, transform {rotate reltime*120*y});
+        #declare camerapos = crossing1 + behind;
+        #declare dorothystartpos = crossing1 + 2*tile_thick*y;
+
+        #declare lookatpos = dorothystartpos + ahead;
+      #break
+
+      #else
+        #debug "SHOULD NOT BE HERE!\n")
+    #end
 
   #break
 
@@ -247,7 +306,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
       #end
     #end
 
-    #declare dorothypos = dorothystartpos + dorothyspeed*realtime*yellowroaddir;
+    #declare dorothypos = dorothystartpos + dorothyspeed*realtime*pathdir;
     #declare camerapos = dorothypos + behind;
     #declare lookatpos = dorothypos + ahead;
 
@@ -320,6 +379,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
   #break
 #end
+#ifdef (zoom) #declare camerapos = zoom*camerapos; #end
 
 sky_sphere {S_Cloud1}
 

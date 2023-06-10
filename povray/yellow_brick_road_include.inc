@@ -66,11 +66,6 @@
 
 #end
 
-//#ifndef (postwidth) #declare postwidth = 0.2; #end
-//#declare signwidth = 2;
-//#declare signheight = 0.8;
-//#declare signthickness = 0.1;
-
 #macro roadsign (rstext, rstext2)
   #local height = 4;
   #local postwidth = 0.2;
