@@ -55,7 +55,7 @@ $(mp4list:%=%.mp4): %.mp4: frames/%/DONE
 	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/$*/frame????.png' -c:v libx264 -pix_fmt yuv420p $@
 
 povoptsani = -D +a Declare=AspectWide=1 +W1280 +H720 +ki0 +kfi0
-povoptsROADS = Declare=ROADS=1 Declare=ROADSIGNS=1
+povoptsROADS = Declare=ROADS=1 Declare=ROADSIGNS=1 Declare=CASTLES=1
 
 frames/five_deflations/DONE: frames/%/DONE: five_deflations.pov
 	povray $< $(povoptsani) +kf11 +kff2750 +Oframes/$*/frame
