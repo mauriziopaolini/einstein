@@ -46,7 +46,7 @@ $(deflatedq_png_M):mysticq_d%.png: spectre.pov shapes.inc spectresubdivision.inc
 #
 
 mp4lista=five_deflations five_deflations_ws yellow_brick_road5B yellow_brick_road_aug5B yellow_brick_road6 yellow_brick_road_aug6
-mp4listb=yellow_brick_road_path0 mp4listb=yellow_brick_road_path1 yellow_brick_road_path2 yellow_brick_road_path3
+mp4listb=yellow_brick_road_path0 yellow_brick_road_path1 yellow_brick_road_path2 yellow_brick_road_path3
 mp4listc=spectre_deflations spectre_deflations_ws spectre_desert_walk5 spectre_desert_walk6
 
 mp4list = $(mp4lista) $(mp4listb) $(mp4listc)
