@@ -247,7 +247,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
 #ifdef (ROADSIGNS)
   union {
-    roadsign ("To Emerald", "Castle")
+    roadsign ("To Emerald", "City")
     translate yellowroadstart + 2.5*x
     rotate -80*y
   }
