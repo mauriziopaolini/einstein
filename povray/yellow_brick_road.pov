@@ -35,6 +35,12 @@ global_settings { assumed_gamma 1.0 }
   #declare htile = 7;
 #end
 
+#ifndef (earthquakeduration) #declare earthquakeduration = 12; #end
+#ifdef (earthquake)
+  #ifndef (earthquakestarttime) #declare earthquakestarttime = 100; #end
+#end
+#ifndef (earthquakestarttime) #declare earthquakestarttime = 99999; #end
+
 #declare preamblestart = 0;
 #declare preambleend = preamblestart + preambleduration;
 //#declare dofastforward = 1;
@@ -191,7 +197,18 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
   #declare onlyworm = 1;
   #declare h7worm = h7wormyellow;
   #declare h8worm = h8wormyellow;
-  h7rec (transform {gtrans translate tile_thick*y}, depth)
+  #declare movietime = clock - preambleend;
+  #declare relquake = (movietime - earthquakestarttime)/earthquakeduration;
+  //#if (movietime - earthquakestarttime > 0 & movietime - earthquakestarttime < earthquakeduration)
+  #if (relquake > 0 & relquake < 1)
+    #local dim = strlen (worm);
+    buildwormrecvec (dim, depth)
+    #debug concat ("### during earthquake, dim = ", str(dim,0,0), " wormveci = ", str(wormveci,0,0), "\n")
+    #local rot = 180*quakerot(relquake).x;
+    wormbyvec (rot, transform {gtrans translate 3*tile_thick*y})
+  #else
+    h7rec (transform {gtrans translate tile_thick*y}, depth)
+  #end
   #ifdef (ROADS)
     /* display worms at level depth-1 */
     #declare gtransup = transform {gtrans translate 2*tile_thick*y};
@@ -334,8 +351,9 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
       #case (1)  // rest of path to emerald castle
         #declare endtime = 204.5 - preambleend;
-        // #declare behind = vtransform (behind, transform {rotate reltime*120*y});
-        // #declare ahead = vtransform (ahead, transform {rotate reltime*120*y});
+        #declare rotangle = -120*indecisa (reltime).x;
+        #declare behind = vtransform (behind, transform {rotate rotangle*y});
+        #declare ahead = vtransform (ahead, transform {rotate rotangle*y});
         #declare camerapos = crossing1 + behind;
         #declare dorothystartpos = crossing1 + 2*tile_thick*y;
         #declare lookatpos = dorothystartpos + ahead;
@@ -367,7 +385,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
   #range (preambleend,endtime)
 
-    #declare movietime = clock - preambleend;
+    // #declare movietime = clock - preambleend;
     #declare realtime = movietime;  /* this takes into account possible time speedup */
     #ifdef (dofastforward)
       #declare realtime = speedup_spline (movietime).x;

@@ -2,6 +2,25 @@
  * various declarations/splines/macros
  */
 
+#declare indecisa = spline {
+  linear_spline
+  0, 0*x
+  0.5, 1*x
+  0.55, 1*x
+  0.6, 0.9*x
+  0.65, 1*x
+  0.7, 1*x
+  1.0, 0*x
+}
+
+#declare quakerot = spline {
+  linear_spline
+  0, 0*x
+  0.2, x
+  0.8, x
+  1.0, 0*x
+}
+
 #declare smoothp = spline {
   cubic_spline
   -1, 1*x
@@ -64,6 +83,35 @@
 
   #end
 
+#end
+
+#macro wormbyvec (rot, trsf)
+#debug concat ("wormveci = ", str(wormveci,0,0), "\n")
+  #local i = 0;
+  #while (i < wormveci)  object {
+#debug concat ("i = ", str(i,0,0), " - xpos = ", str(wormvecpos[i].x,0,-1), "\n")
+    #if (wormvectype[i] = 7)
+      h7worm
+      translate <3,0,-ap>
+      rotate rot*y
+      translate <-3,0,ap>
+    #else
+      h8worm
+      #if (wormvectype[i] = 8)
+        translate <-1.5,0,0>
+        rotate rot*y
+        translate <1.5,0,0>
+      #else
+        translate <3/4,0,-ap/2>
+        rotate rot*y
+        translate <-3/4,0,ap/2>
+      #end
+    #end
+      translate wormvecpos[i]  
+      transform {trsf}
+    }
+    #declare i = i + 1;
+  #end
 #end
 
 #macro castle (aspect, jpgimage)

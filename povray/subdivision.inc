@@ -126,3 +126,32 @@
   #end
 #end
 
+/*
+ * construct two vectors that must have been preallocated
+ *   wormvectype = 7 or 8 or 88  (88 in case this is the #6 of the subdivision of an H8)
+ *   wormvecpos
+ *
+ * index wormveci is the index
+ */
+
+#macro buildwormrecvec (dim, depth)
+  #declare wormvectype = array[dim];
+  #declare wormvecpos = array[dim];
+  #declare wormveci = 0;
+  wormrecvec (7, <0,0,0>, depth)
+#end
+
+#macro wormrecvec (type78, pos, depth)
+  #if (depth = 0)
+    #declare wormvectype[wormveci] = type78;
+    #declare wormvecpos[wormveci] = pos;
+    #declare wormveci = wormveci + 1;
+  #else
+    #local d = depth - 1;
+    wormrecvec (7, pos + trn0[d], d)
+    wormrecvec (8, pos + trn2[d], d)
+    #if (type78 != 7)
+      wormrecvec (88, pos + trn6[d], d)
+    #end
+  #end
+#end
