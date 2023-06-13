@@ -206,13 +206,18 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
 #declare dorothydetour = 0*y;
 
+#declare movietime = clock - preambleend;
+#if (movietime <= 10) #declare buildtheback = 1; #end
+
 #if (htile = 7)
   h7rec (transform {gtrans}, depth)
+
+  #ifdef (buildtheback) h7rec (transform {translate -trn2[depth] gtrans}, depth) #end
 
   #declare onlyworm = 1;
   #declare h7worm = h7wormyellow;
   #declare h8worm = h8wormyellow;
-  #declare movietime = clock - preambleend;
+  #ifdef (buildtheback) h7rec (transform {translate -trn2[depth] gtrans translate tile_thick*y}, depth) #end
   #declare relquake = (movietime - earthquakestarttime)/earthquakeduration;
   //#if (movietime - earthquakestarttime > 0 & movietime - earthquakestarttime < earthquakeduration)
   #if (relquake > 0 & relquake < 1)
@@ -361,8 +366,10 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
       #case (0)
         #declare endtime = 128.8 - preambleend;
       #case (-1)
-        #declare camerapos = (1-smoothtime)*faraway + smoothtime*dorothystartpos + behind;
-        #declare lookatpos = dorothystartpos + (4*reltime + 1)*ahead;
+        #ifndef (topview)
+          #declare camerapos = (1-smoothtime)*faraway + smoothtime*dorothystartpos + behind;
+          #declare lookatpos = dorothystartpos + (4*reltime + 1)*ahead;
+        #end
         #declare bricktype = "A";
       #break
 
@@ -557,6 +564,13 @@ cylinder {
       finish {tile_Finish}
     }
   }
+#end
+
+#ifdef (topview)
+  #declare camerapos = 30*y;
+  #declare camerapos = pow(Phi*Phi,depth) * camerapos;
+  #declare skycam = z;
+  #declare lookatpos = 0*x;
 #end
 
 camera {
