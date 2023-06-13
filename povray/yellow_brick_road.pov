@@ -93,7 +93,7 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (earthquakeduration) #declare earthquakeduration = 12; #end
 #ifdef (earthquake)
   /* This is taylored at depth=6, dorothyspeed=8 */
-  #ifndef (earthquakestarttime) #declare earthquakestarttime = 50; #end
+  #ifndef (earthquakestarttime) #declare earthquakestarttime = 48; #end
 #end
 #ifndef (earthquakestarttime) #declare earthquakestarttime = 99999; #end
 
@@ -289,6 +289,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
     roadsign ("To Emerald", "City")
     translate yellowroadstart + 2.5*x
     rotate -80*y
+    translate 3*yellowroaddir
   }
   #declare crossing0 = vtransform (<0,0,0>, transform {translate trn2[depth-1]});
   #declare crossing = crossing0 + vtransform (<0,0,0>, transform {translate trn3[0] rotate rot3*y});
