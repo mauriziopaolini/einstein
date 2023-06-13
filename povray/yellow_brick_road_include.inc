@@ -93,7 +93,6 @@
 #debug concat ("wormveci = ", str(wormveci,0,0), "\n")
   #local i = 0;
   #while (i < wormveci)  object {
-#debug concat ("i = ", str(i,0,0), " - xpos = ", str(wormvecpos[i].x,0,-1), "\n")
     #if (wormvectype[i] = 7)
       h7worm
       translate <3,0,-ap>

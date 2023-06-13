@@ -25,21 +25,19 @@ global_settings { assumed_gamma 1.0 }
 #include "ambiente.inc"
 #include "yellow_brick_road_include.inc"
 
+#ifndef (depth) #declare depth = 6; #end
 #ifndef (preambleduration) #declare preambleduration = 4; #end
-#ifndef (dorothyspeed) #declare dorothyspeed = 4; #end
+#ifndef (dorothyspeed)
+  #declare dorothyspeed = 4;
+  #if (depth >= 6) #declare dorothyspeed = 8; #end
+#end
 #ifndef (speedup_time) #declare speedup_time = 4000/25; #end
 #declare meters = 10;
 
-#ifndef (depth) #declare depth = 6; #end
+
 #ifndef (htile)
   #declare htile = 7;
 #end
-
-#ifndef (earthquakeduration) #declare earthquakeduration = 12; #end
-#ifdef (earthquake)
-  #ifndef (earthquakestarttime) #declare earthquakestarttime = 100; #end
-#end
-#ifndef (earthquakestarttime) #declare earthquakestarttime = 99999; #end
 
 #declare preamblestart = 0;
 #declare preambleend = preamblestart + preambleduration;
@@ -89,7 +87,15 @@ global_settings { assumed_gamma 1.0 }
   #ifndef (ROADS) #declare ROADS = 1; #end
   #ifndef (ROADSIGNS) #declare ROADSIGNS = 1; #end
   #ifndef (CASTLES) #declare CASTLES = 1; #end
+  #ifndef (earthquake) #declare earthquake = 1; #end
 #end
+
+#ifndef (earthquakeduration) #declare earthquakeduration = 12; #end
+#ifdef (earthquake)
+  /* This is taylored at depth=6, dorothyspeed=8 */
+  #ifndef (earthquakestarttime) #declare earthquakestarttime = 50; #end
+#end
+#ifndef (earthquakestarttime) #declare earthquakestarttime = 99999; #end
 
 /*
  * this is the end of the worm in case depth=5 htype 8
@@ -98,7 +104,8 @@ global_settings { assumed_gamma 1.0 }
  */
 /* questo invece si riferisce a depth=6, htype 7
  */
-#declare yellowroadend = <-1258.79, 0, 324.724>;
+//#declare yellowroadend = <-1258.79, 0, 324.724>;
+#declare yellowroadend = emeraldpos;
 #if (depth = 5 & htile = 8) #declare yellowroadend = <-775.5, 0, 200.051868>; #end
 #declare yellowroaddir = vnormalize(yellowroadend - yellowroadstart);
 //#declare yellowroaddirrot90 = vtransform (yellowroaddir, -90*y);
