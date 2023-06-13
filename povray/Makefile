@@ -118,13 +118,13 @@ frames/yellow_brick_road_path1/DONE: frames/%/DONE: yellow_brick_road.pov
 	touch $@
 
 frames/yellow_brick_road_path2/DONE: frames/%/DONE: yellow_brick_road.pov
-	povray $< $(povoptsani) Declare=depth=6 $(povoptsROADS) Declare=path=2 +kf128.8 +kff3220 +Oframes/$*/frame
-	for i in `seq 3221 3245`; do cp frames/$*/frame3220.png frames/$*/frame$${i}.png; done
+	povray $< $(povoptsani) Declare=depth=6 $(povoptsROADS) Declare=path=2 +kf66.4 +kff1660 +Oframes/$*/frame
+	for i in `seq 1661 1685`; do cp frames/$*/frame1660.png frames/$*/frame$${i}.png; done
 	touch $@
 
 frames/yellow_brick_road_path3/DONE: frames/%/DONE: yellow_brick_road.pov
-	povray $< $(povoptsani) Declare=depth=6 $(povoptsROADS) Declare=path=3 +kf204.5 +kff5112 +Oframes/$*/frame
-	for i in `seq 5113 5137`; do cp frames/$*/frame5112.png frames/$*/frame$${i}.png; done
+	povray $< $(povoptsani) Declare=depth=6 $(povoptsROADS) Declare=path=3 +kf104.2 +kff2605 +Oframes/$*/frame
+	for i in `seq 2606 2630`; do cp frames/$*/frame2605.png frames/$*/frame$${i}.png; done
 	touch $@
 
 frames/spectre_deflations/DONE: frames/%/DONE: spectre_deflations.pov
