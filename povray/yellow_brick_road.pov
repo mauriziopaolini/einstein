@@ -50,21 +50,27 @@ global_settings { assumed_gamma 1.0 }
 #declare yellowroadstart = <0,0,0>;
 
 #declare trcrossing = transform {rotate rot0*y translate trn0[0]};
+#declare tremerald = transform {rotate rot0*y translate trn6[0]};
+#declare trwicked = transform {rotate rot0*y translate trn6[0]};
 #local i = 1;
 #while (i < depth-1)
   #declare trcrossing = transform {trcrossing rotate rot0*y translate trn0[i]};
+  #declare tremerald = transform {tremerald rotate rot6*y translate trn6[i]};
+  #declare trwicked = transform {trwicked rotate rot6*y translate trn6[i]};
   #local i = i + 1;
 #end
-#declare crossing1 = vtransform (<0,0,0>, transform {trcrossing translate trn2[depth-1]});
+#declare crossing1 = vtransform (<0,0,0>, transform {trcrossing rotate rot2*y translate trn2[depth-1]});
+#declare emeraldpos = vtransform (<0,0,0>, transform {tremerald rotate rot2*y translate trn2[depth-1]});
+#declare wickedwitchpos = vtransform (<0,0,0>, transform {trwicked rotate rot3*y translate trn3[depth-1]});
 
 #declare trcrossing = transform {trcrossing rotate rot3*y translate trn3[depth-1] gtrans};
 #declare crossing2 = vtransform (<0,0,0>, trcrossing);
 #declare path0dir = vnormalize (crossing1 - yellowroadstart);
 #declare path1dir = path0dir;
-#declare emeraldpos = crossing1 + (204.5-preambleend)*dorothyspeed*path1dir;
+//#declare emeraldpos = crossing1 + (204.5-preambleend)*dorothyspeed*path1dir;
 #declare path2dir = vnormalize (crossing2 - crossing1);
 #declare path3dir = vtransform (path2dir, transform {rotate 60*y});
-#declare wickedwitchpos = crossing2 + (204.5-preambleend)*dorothyspeed*path3dir;
+//#declare wickedwitchpos = crossing2 + (204.5-preambleend)*dorothyspeed*path3dir;
 
 #ifdef (dark)
   #declare yellowroadstart = trn3[depth-1];
@@ -189,7 +195,9 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 #declare h7wormyellow = h7worm;
 #declare h8wormyellow = h8worm;
 
-#declare MaxPosLeft = <0,0,0>;
+//#declare MaxPosLeft = <0,0,0>;
+
+#declare dorothydetour = 0*y;
 
 #if (htile = 7)
   h7rec (transform {gtrans}, depth)
@@ -204,8 +212,10 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
     #local dim = strlen (worm);
     buildwormrecvec (dim, depth)
     #debug concat ("### during earthquake, dim = ", str(dim,0,0), " wormveci = ", str(wormveci,0,0), "\n")
-    #local rot = 180*quakerot(relquake).x;
-    wormbyvec (rot, transform {gtrans translate 3*tile_thick*y})
+    #local rot = 180*quakerotlift(relquake).x;
+    #local lift = quakerotlift(relquake).y;
+    #declare dorothydetour = dorothydetour + lift*tile_thick*y;
+    wormbyvec (rot, transform {gtrans translate (1+lift)*tile_thick*y})
   #else
     h7rec (transform {gtrans translate tile_thick*y}, depth)
   #end
@@ -289,13 +299,13 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
   //h8rec (transform {translate 2*tile_thick*y rotate crossingrot translate crossing}, 0)
 #end
 
+/*
 #ifdef (debug)
   #debug concat ("MaxPosLeft.x = ", str(MaxPosLeft.x,0,-1), "\n")
   #debug concat ("MaxPosLeft.z = ", str(MaxPosLeft.z,0,-1), "\n")
-  /*
-   * this gives <-775.5, 0, 200.051868> for depth = 5
-   */
+  // this gives <-775.5, 0, 200.051868> for depth = 5
 #end
+ */
 
 #ifdef (augmented)
   #declare historythickness = 0.2;
@@ -482,6 +492,7 @@ cylinder {
   dorothypos,
   dorothypos+0.5*y,
   1
+  translate dorothydetour
   texture {pigment {color Black} finish {tile_Finish}}
 }
 

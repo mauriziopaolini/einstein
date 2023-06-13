@@ -13,12 +13,16 @@
   1.0, 0*x
 }
 
-#declare quakerot = spline {
+#declare quakerotlift = spline {
   linear_spline
-  0, 0*x
-  0.2, x
-  0.8, x
-  1.0, 0*x
+  0,    0*x + 0*y
+  0.05  0*x + 1*y
+  0.2,  1*x + 1*y
+  0.25, 1*x + 0*y
+  0.75, 1*x + 0*y
+  0.8,  1*x + 1*y
+  0.95, 0*x + 1*y
+  1.0,  0*x + 0*y
 }
 
 #declare smoothp = spline {
