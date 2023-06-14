@@ -212,12 +212,15 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 #if (htile = 7)
   h7rec (transform {gtrans}, depth)
 
-  #ifdef (buildtheback) h7rec (transform {translate -trn2[depth] gtrans}, depth) #end
+  //#ifdef (buildtheback) h7rec (transform {translate -trn2[depth] gtrans}, depth) #end
+  #ifdef (buildtheback) h8rec (transform {rotate rot2*y translate trn2[depth]-trn6[depth] gtrans}, depth) #end
+  #ifdef (buildtheback) h8rec (transform {rotate rot5*y translate trn5[depth]-trn6[depth] gtrans}, depth) #end
 
   #declare onlyworm = 1;
   #declare h7worm = h7wormyellow;
   #declare h8worm = h8wormyellow;
-  #ifdef (buildtheback) h7rec (transform {translate -trn2[depth] gtrans translate tile_thick*y}, depth) #end
+  //#ifdef (buildtheback) h7rec (transform {translate -trn2[depth] gtrans translate tile_thick*y}, depth) #end
+  #ifdef (buildtheback) h8rec (transform {translate -trn6[depth]+trn2[depth] gtrans translate tile_thick*y}, depth) #end
   #declare relquake = (movietime - earthquakestarttime)/earthquakeduration;
   //#if (movietime - earthquakestarttime > 0 & movietime - earthquakestarttime < earthquakeduration)
   #if (relquake > 0 & relquake < 1)
@@ -225,7 +228,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
     buildwormrecvec (dim, depth)
     #debug concat ("### during earthquake, dim = ", str(dim,0,0), " wormveci = ", str(wormveci,0,0), "\n")
     #local rot = 180*quakerotlift(relquake).x;
-    #local lift = quakerotlift(relquake).y;
+    #local lift = 10*quakerotlift(relquake).y;
     #declare dorothydetour = dorothydetour + lift*tile_thick*y;
     wormbyvec (rot, transform {gtrans translate (1+lift)*tile_thick*y})
   #else
@@ -244,13 +247,13 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
     #declare h8worm = h8wormblue;
     h8rec (transform {rotate rot4*y translate trn4[d-1]
                       rotate rot2*y translate trn2[d] gtransup}, d-1)
-    h8rec (transform {rotate rot4*y translate trn4[d-2]
+    #if (depth > 2) h8rec (transform {rotate rot4*y translate trn4[d-2]
                       rotate rot0*y translate trn0[d-1]
-                      rotate rot2*y translate trn2[d] gtransup}, d-2)
-    h8rec (transform {rotate rot4*y translate trn4[d-3]
+                      rotate rot2*y translate trn2[d] gtransup}, d-2) #end
+    #if (depth > 3) h8rec (transform {rotate rot4*y translate trn4[d-3]
                       rotate rot0*y translate trn0[d-2]
                       rotate rot0*y translate trn0[d-1]
-                      rotate rot2*y translate trn2[d] gtransup}, d-3)
+                      rotate rot2*y translate trn2[d] gtransup}, d-3) #end
     #if (depth >= 6)
       h8rec (transform {rotate rot4*y translate trn4[d-4]
                         rotate rot0*y translate trn0[d-3]
