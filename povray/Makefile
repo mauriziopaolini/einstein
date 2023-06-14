@@ -54,6 +54,8 @@ mp4list = $(mp4lista) $(mp4listb) $(mp4listc)
 $(mp4list:%=%.mp4): %.mp4: frames/%/DONE
 	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/$*/frame????.png' -c:v libx264 -pix_fmt yuv420p $@
 
+mp4concatlist = yellow_brick_road_path01 yellow_brick_road_path023
+
 povoptsani = -D +a Declare=AspectWide=1 +W1280 +H720 +ki0 +kfi0
 povoptsROADS = Declare=ROADS=1 Declare=ROADSIGNS=1 Declare=CASTLES=1
 
@@ -146,6 +148,9 @@ frames/spectre_desert_walk6/DONE: frames/%/DONE: spectre_desert_walk.pov
 	povray $< $(povoptsani) Declare=depth=6 +kf120 +kff3000 +Oframes/$*/frame
 	for i in `seq 3001 3025`; do cp frames/$*/frame3000.png frames/$*/frame$${i}.png; done
 	touch $@
+
+$(mp4concatlist:%=%.mp4): %.mp4: %.list yellow_brick_road_path0.mp4 yellow_brick_road_path1.mp4 yellow_brick_road_path2.mp4 yellow_brick_road_path3.mp4
+	ffmpeg -f concat -safe 0 -i $< -c copy $@
 
 #frames/yellow_brick_road_aug6/DONE: yellow_brick_road.pov
 #	povray -D +a $< Declare=AspectWide=1 Declare=depth=6 Declare=augmented=1 +W1280 +H720 +ki0 +kf164 +kfi0 +kff4100 +Oframes/yellow_brick_road_aug6/frame
