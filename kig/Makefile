@@ -10,7 +10,8 @@
 #
 # erosion is relative to side length
 #
-erosion = 0.025
+#erosion = 0.025
+erosion = 0.02
 
 #
 # a large value should produce large triangles.  This has no
@@ -22,7 +23,7 @@ meshsize = 4
 #
 # height is the tile thickness, relative to the side
 #
-height = 0.3
+height = 0.25
 
 #
 # scale produces an stl with units expressed in mm
