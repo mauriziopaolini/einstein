@@ -70,6 +70,8 @@ global_settings { assumed_gamma 1.0 }
 #declare path3dir = vtransform (path2dir, transform {rotate 60*y});
 //#declare wickedwitchpos = crossing2 + (204.5-preambleend)*dorothyspeed*path3dir;
 
+#declare mag = pow(Phi*Phi,depth);
+
 #ifdef (dark)
   #declare yellowroadstart = trn3[depth-1];
 #end
@@ -88,6 +90,33 @@ global_settings { assumed_gamma 1.0 }
   #ifndef (ROADSIGNS) #declare ROADSIGNS = 1; #end
   #ifndef (CASTLES) #declare CASTLES = 1; #end
   #ifndef (earthquake) #declare earthquake = 1; #end
+#end
+
+#ifdef (topview)
+  #declare arrowthick = 0.05*mag;
+  #if (topview = 3)
+    union {
+      sphere {yellowroadstart, arrowthick}
+      cylinder { yellowroadstart, crossing1, arrowthick }
+      sphere {crossing1, 0.05*mag}
+      cylinder { crossing1, crossing2, arrowthick }
+      sphere {crossing2, arrowthick}
+      cone { crossing2, arrowthick, wickedwitchpos, 0 }
+      translate 4*tile_thick*y
+      pigment {color Black}
+    }
+  #end
+  #if (topview = 2)
+    union {
+      sphere {yellowroadstart, arrowthick}
+      cylinder { yellowroadstart, crossing1, arrowthick }
+      sphere { crossing1, arrowthick}
+      cone { crossing1, arrowthick, emeraldpos, 0 }
+      translate 4*tile_thick*y
+      pigment {color Black}
+    }
+  #end
+  #if (topview >= 2) #declare ROADS=1; #declare CASTLES=1; #end
 #end
 
 #ifndef (earthquakeduration) #declare earthquakeduration = 12; #end
@@ -280,6 +309,12 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
       rotate (-80-60)*y
       translate wickedwitchpos
     }
+    object {castle (284/177, "house.jpg")
+      rotate 45*x
+      translate -6*x
+      rotate -70*y
+      translate yellowroadstart + 2*tile_thick*y
+    }
   #end
 #else
   h8rec (transform {scale 1.0}, depth)
@@ -292,6 +327,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
     roadsign ("To Emerald", "City")
     translate yellowroadstart + 2.5*x
     rotate -80*y
+    translate -10*x+4*z
     translate 3*yellowroaddir
   }
   #declare crossing0 = vtransform (<0,0,0>, transform {translate trn2[depth-1]});
@@ -572,7 +608,8 @@ cylinder {
 
 #ifdef (topview)
   #declare camerapos = 30*y;
-  #declare camerapos = pow(Phi*Phi,depth) * camerapos;
+  #declare mag = pow(Phi*Phi,depth);
+  #declare camerapos = mag * camerapos;
   #declare skycam = z;
   #declare lookatpos = 0*x;
 #end
