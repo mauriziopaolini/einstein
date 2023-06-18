@@ -56,9 +56,10 @@ $(deflatedq_png_M):mysticq_d%.png: spectre.pov shapes.inc spectresubdivision.inc
 
 mp4lista=five_deflations five_deflations_ws yellow_brick_road5B yellow_brick_road_aug5B yellow_brick_road6 yellow_brick_road_aug6
 mp4listb=yellow_brick_road_path0 yellow_brick_road_path1 yellow_brick_road_path2 yellow_brick_road_path3
-mp4listc=spectre_deflations spectre_deflations_ws spectre_desert_walk5 spectre_desert_walk6
+mp4listc=yellow_brick_road_emerald yellow_brick_road_witch
+mp4listd=spectre_deflations spectre_deflations_ws spectre_desert_walk5 spectre_desert_walk6
 
-mp4list = $(mp4lista) $(mp4listb) $(mp4listc)
+mp4list = $(mp4lista) $(mp4listb) $(mp4listc) $(mp4listd)
 
 $(mp4list:%=%.mp4): %.mp4: frames/%/DONE
 	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/$*/frame????.png' -c:v libx264 -pix_fmt yuv420p $@
@@ -78,44 +79,35 @@ frames/five_deflations_ws/DONE: frames/%/DONE: five_deflations.pov
 	for i in `seq 2751 2775`; do cp frames/$*/frame2750.png frames/$*/frame$${i}.png; done
 	touch $@
 
-#frames/five_deflations_ws/DONE: five_deflations.pov
-#	povray -D +a five_deflations.pov Declare=AspectWide=1 Declare=withscritta=1 +W1280 +H720 +ki0 +kf11 +kfi0 +kff2750 +Oframes/five_deflations_ws/frame
-#	touch frames/five_deflations_ws/DONE
-
 frames/yellow_brick_road5B/DONE: frames/%/DONE: yellow_brick_road.pov
-#	povray -D +a $< Declare=AspectWide=1 Declare=depth=5 Declare=htile=8 +W1280 +H720 +ki0 +kf200 +kfi0 +kff5000 +Oframes/$*/frame
 	povray $< $(povoptsani) Declare=depth=5 Declare=htile=8 +kf200 +kff5000 +Oframes/$*/frame
 	for i in `seq 5001 5025`; do cp frames/$*/frame5000.png frames/$*/frame$${i}.png; done
 	touch $@
 
-#frames/yellow_brick_road5B/DONE: yellow_brick_road.pov
-#	povray -D +a $< Declare=AspectWide=1 Declare=depth=5 Declare=htile=8 +W1280 +H720 +ki0 +kf200 +kfi0 +kff5000 +Oframes/yellow_brick_road5B/frame
-#	for i in `seq 5001 5025`; do cp frames/yellow_brick_road5B/frame5000.png frames/yellow_brick_road5B/frame$${i}.png; done
-#	touch frames/yellow_brick_road5B/DONE
 
 frames/yellow_brick_road_aug5B/DONE: frames/%/DONE: yellow_brick_road.pov
 	povray $< $(povoptsani) Declare=augmented=1 Declare=depth=5 Declare=htile=8 +kf200 +kff5000 +Oframes/$*/frame
 	for i in `seq 5001 5025`; do cp frames/$*/frame5000.png frames/$*/frame$${i}.png; done
 	touch $@
 
-#frames/yellow_brick_road_aug5B/DONE: yellow_brick_road.pov
-#	povray -D +a $< Declare=AspectWide=1 Declare=augmented=1 Declare=depth=5 Declare=htile=8 +W1280 +H720 +ki0 +kf200 +kfi0 +kff5000 +Oframes/yellow_brick_road_aug5B/frame
-#	for i in `seq 5001 5025`; do cp frames/yellow_brick_road_aug5B/frame5000.png frames/yellow_brick_road_aug5B/frame$${i}.png; done
-#	touch frames/yellow_brick_road_aug5B/DONE
-
 frames/yellow_brick_road6/DONE: frames/%/DONE: yellow_brick_road.pov
 	povray $< $(povoptsani) Declare=depth=6 Declare=dofastforward=1 +kf164 +kff4100 +Oframes/$*/frame
 	for i in `seq 4101 4125`; do cp frames/$*/frame4100.png frames/$*/frame$${i}.png; done
 	touch $@
 
-#frames/yellow_brick_road6/DONE: yellow_brick_road.pov
-#	povray -D +a $< Declare=AspectWide=1 Declare=depth=6 +W1280 +H720 +ki0 +kf164 +kfi0 +kff4100 +Oframes/yellow_brick_road6/frame
-#	for i in `seq 4101 4125`; do cp frames/yellow_brick_road6/frame4100.png frames/yellow_brick_road6/frame$${i}.png; done
-#	touch frames/yellow_brick_road6/DONE
-
 frames/yellow_brick_road_aug6/DONE: frames/%/DONE: yellow_brick_road.pov
 	povray $< $(povoptsani) Declare=depth=6 Declare=augmented=1 Declare=dofastforward=1 +kf164 +kff4100 +Oframes/$*/frame
 	for i in `seq 4101 4125`; do cp frames/$*/frame4100.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/yellow_brick_road_emerald/DONE: frames/%/DONE: yellow_brick_road.pov
+	povray $< $(povoptsani) Declare=depth=6 Declare=emeraldpath=1 +kf170.47 +kff4260 +Oframes/$*/frame
+	for i in `seq 4261 4285`; do cp frames/$*/frame4260.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/yellow_brick_road_witch/DONE: frames/%/DONE: yellow_brick_road.pov
+	povray $< $(povoptsani) Declare=depth=6 Declare=witchpath=1 +kf236.82 +kff5920 +Oframes/$*/frame
+	for i in `seq 5921 5945`; do cp frames/$*/frame5920.png frames/$*/frame$${i}.png; done
 	touch $@
 
 frames/yellow_brick_road_path0/DONE: frames/%/DONE: yellow_brick_road.pov

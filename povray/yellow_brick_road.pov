@@ -34,14 +34,10 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (speedup_time) #declare speedup_time = 4000/25; #end
 #declare meters = 10;
 
-
 #ifndef (htile)
   #declare htile = 7;
 #end
 
-#declare preamblestart = 0;
-#declare preambleend = preamblestart + preambleduration;
-//#declare dofastforward = 1;
 #declare endtime = 99999;  /* that's +infinity */
 
 #declare gtrans = transform {scale 1};
@@ -65,15 +61,48 @@ global_settings { assumed_gamma 1.0 }
 #declare crossing2 = vtransform (<0,0,0>, trcrossing);
 #declare path0dir = vnormalize (crossing1 - yellowroadstart);
 #declare path1dir = path0dir;
-//#declare emeraldpos = crossing1 + (204.5-preambleend)*dorothyspeed*path1dir;
 #declare path2dir = vnormalize (crossing2 - crossing1);
 #declare path3dir = vtransform (path2dir, transform {rotate 60*y});
-//#declare wickedwitchpos = crossing2 + (204.5-preambleend)*dorothyspeed*path3dir;
 
 #declare mag = pow(Phi*Phi,depth);
 
 #ifdef (dark)
   #declare yellowroadstart = trn3[depth-1];
+#end
+
+#declare pathtime = clock - preambleduration; 
+
+#declare path0duration = vlength(crossing1 - yellowroadstart)/dorothyspeed;
+#declare path1duration = vlength(emeraldpos - crossing1)/dorothyspeed;
+#declare path2duration = vlength(crossing2 - crossing1)/dorothyspeed;
+#declare path3duration = vlength(wickedwitchpos - crossing2)/dorothyspeed;
+#debug concat("path0 computed duration: ", str (path0duration,0,-1), "\n")
+#debug concat("path1 computed duration: ", str (path1duration,0,-1), "\n")
+#debug concat("path2 computed duration: ", str (path2duration,0,-1), "\n")
+#debug concat("path3 computed duration: ", str (path3duration,0,-1), "\n")
+
+#ifdef (emeraldpath)
+  #declare pathtime = clock - preambleduration; 
+  #declare path = 0;
+  #if (pathtime > path0duration)
+    #declare path = 1;
+    #declare pathtime = pathtime - path0duration - preambleduration;
+  #end
+#end
+
+#ifdef (witchpath)
+  //#declare path0duration = 62.4;  // [case depth=6]
+  //#declare path2duration = 62.4;  // [case depth=6]
+  //#declare path3duration = 100.2;  // [case depth=6]
+  #declare path = 0;
+  #if (pathtime > path0duration)
+    #declare path = 2;
+    #declare pathtime = pathtime - path0duration - preambleduration;
+    #if (pathtime > path2duration)
+      #declare path = 3;
+      #declare pathtime = pathtime - path2duration - preambleduration;
+    #end
+  #end
 #end
 
 /*
@@ -233,12 +262,9 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 #declare h7wormyellow = h7worm;
 #declare h8wormyellow = h8worm;
 
-//#declare MaxPosLeft = <0,0,0>;
-
 #declare dorothydetour = 0*y;
 
-#declare movietime = clock - preambleend;
-#if (movietime <= 10) #declare buildtheback = 1; #end
+#if (path = 0 & pathtime <= 10) #declare buildtheback = 1; #end
 
 #if (htile = 7)
   h7rec (transform {gtrans}, depth)
@@ -250,10 +276,8 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
   #declare onlyworm = 1;
   #declare h7worm = h7wormyellow;
   #declare h8worm = h8wormyellow;
-  //#ifdef (buildtheback) h7rec (transform {translate -trn2[depth] gtrans translate tile_thick*y}, depth) #end
   #ifdef (buildtheback) h8rec (transform {translate -trn6[depth]+trn2[depth] gtrans translate tile_thick*y}, depth) #end
-  #declare relquake = (movietime - earthquakestarttime)/earthquakeduration;
-  //#if (movietime - earthquakestarttime > 0 & movietime - earthquakestarttime < earthquakeduration)
+  #declare relquake = (pathtime - earthquakestarttime)/earthquakeduration;
   #if (relquake > 0 & relquake < 1)
     #local dim = strlen (worm);
     buildwormrecvec (dim, depth)
@@ -353,14 +377,6 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
   //h8rec (transform {translate 2*tile_thick*y rotate crossingrot translate crossing}, 0)
 #end
 
-/*
-#ifdef (debug)
-  #debug concat ("MaxPosLeft.x = ", str(MaxPosLeft.x,0,-1), "\n")
-  #debug concat ("MaxPosLeft.z = ", str(MaxPosLeft.z,0,-1), "\n")
-  // this gives <-775.5, 0, 200.051868> for depth = 5
-#end
- */
-
 #ifdef (augmented)
   #declare historythickness = 0.2;
   #declare raythickness = 0.14;
@@ -397,145 +413,140 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
 #declare dorothypos = dorothystartpos;
 
-#switch (clock)
-  #range (preamblestart,preambleend)
-    #declare reltime = (preambleend - clock)/preambleduration;
-    #declare smoothtime = smoothp((clock-preamblestart)/preambleduration).x;
-    #ifdef (debug)
-      #debug concat ("smoothtime = ", str(smoothtime,0,-1), "\n")
+#if (pathtime < 0)
+  #declare reltime = -pathtime/preambleduration;  // in [0,1]
+  #declare smoothtime = smoothp(1 - reltime).x;
+  #ifdef (debug)
+    #debug concat ("smoothtime = ", str(smoothtime,0,-1), "\n")
+  #end
+  #switch (path)
+    #case (0)
+      #declare endtime = 128.8 - preambleduration;
+    #case (-1)
+      #ifndef (topview)
+        #declare camerapos = (1-smoothtime)*faraway + smoothtime*dorothystartpos + behind;
+        #declare lookatpos = dorothystartpos + (4*reltime + 1)*ahead;
+      #end
+      #declare bricktype = "A";
+    #break
+
+    #case (1)  // rest of path to emerald castle
+      #declare endtime = 204.5 - preambleduration;
+      #declare rotangle = -120*indecisa (reltime).x;
+      #declare behind = vtransform (behind, transform {rotate rotangle*y});
+      #declare ahead = vtransform (ahead, transform {rotate rotangle*y});
+      #declare camerapos = crossing1 + behind;
+      #declare dorothystartpos = crossing1 + 2*tile_thick*y;
+      #declare lookatpos = dorothystartpos + ahead;
+    #break
+
+    #case (2)
+      #declare endtime = 128.8 - preambleduration;
+      #declare behind = vtransform (behind, transform {rotate reltime*120*y});
+      #declare ahead = vtransform (ahead, transform {rotate reltime*120*y});
+      #declare camerapos = crossing1 + behind;
+      #declare dorothystartpos = crossing1 + 2*tile_thick*y;
+      #declare lookatpos = dorothystartpos + ahead;
+    #break
+
+    #case (3)
+      #declare endtime = 204.5 - preambleduration;
+      #declare behind = vtransform (behind, transform {rotate -reltime*60*y});
+      #declare ahead = vtransform (ahead, transform {rotate -reltime*60*y});
+      #declare camerapos = crossing2 + behind;
+      #declare dorothystartpos = crossing2 + 2*tile_thick*y;
+      #declare lookatpos = dorothystartpos + ahead;
+    #break
+
+    #else
+      #debug "SHOULD NOT BE HERE!\n")
+  #end
+
+#else
+
+  #declare realtime = pathtime;  /* this takes into account possible time speedup */
+  #ifdef (dofastforward)
+    #declare realtime = speedup_spline (pathtime).x;
+    #ifdef (xx1)
+      #if (pathtime > xx1 & pathtime < xx2)
+        #declare augmentedff = concat (">>", str(speedup_value,0,0),"x");
+        #debug concat("==================> FAST FORWARDING: ", augmentedff, " <==============\n")
+      #end
     #end
-    #switch (path)
-      #case (0)
-        #declare endtime = 128.8 - preambleend;
-      #case (-1)
-        #ifndef (topview)
-          #declare camerapos = (1-smoothtime)*faraway + smoothtime*dorothystartpos + behind;
-          #declare lookatpos = dorothystartpos + (4*reltime + 1)*ahead;
-        #end
-        #declare bricktype = "A";
-      #break
+  #end
 
-      #case (1)  // rest of path to emerald castle
-        #declare endtime = 204.5 - preambleend;
-        #declare rotangle = -120*indecisa (reltime).x;
-        #declare behind = vtransform (behind, transform {rotate rotangle*y});
-        #declare ahead = vtransform (ahead, transform {rotate rotangle*y});
-        #declare camerapos = crossing1 + behind;
-        #declare dorothystartpos = crossing1 + 2*tile_thick*y;
-        #declare lookatpos = dorothystartpos + ahead;
-      #break
+  #declare dorothypos = dorothystartpos + dorothyspeed*realtime*pathdir;
+  #declare camerapos = dorothypos + behind;
+  #declare lookatpos = dorothypos + ahead;
 
-      #case (2)
-        #declare endtime = 128.8 - preambleend;
-        #declare behind = vtransform (behind, transform {rotate reltime*120*y});
-        #declare ahead = vtransform (ahead, transform {rotate reltime*120*y});
-        #declare camerapos = crossing1 + behind;
-        #declare dorothystartpos = crossing1 + 2*tile_thick*y;
-        #declare lookatpos = dorothystartpos + ahead;
-      #break
-
-      #case (3)
-        #declare endtime = 204.5 - preambleend;
-        #declare behind = vtransform (behind, transform {rotate -reltime*60*y});
-        #declare ahead = vtransform (ahead, transform {rotate -reltime*60*y});
-        #declare camerapos = crossing2 + behind;
-        #declare dorothystartpos = crossing2 + 2*tile_thick*y;
-        #declare lookatpos = dorothystartpos + ahead;
-      #break
-
+  #ifdef (augmented)
+    #declare brick_number_r = realtime*bricks_speed+1.5;
+    #declare brick_number = int(brick_number_r);
+    #if (brick_number_r - brick_number < 0.9)
+      #declare bricktype = substr (worm, brick_number, 1);
+      //#declare textinfo = concat ("#", str(brick_number,0,0), ": ", bricktype);
+      #if (bricktype = "A")
+        #declare textinfo = "H7:up";
       #else
-        #debug "SHOULD NOT BE HERE!\n")
-    #end
-
-  #break
-
-  #range (preambleend,endtime)
-
-    // #declare movietime = clock - preambleend;
-    #declare realtime = movietime;  /* this takes into account possible time speedup */
-    #ifdef (dofastforward)
-      #declare realtime = speedup_spline (movietime).x;
-      #ifdef (xx1)
-        #if (movietime > xx1 & movietime < xx2)
-          #declare augmentedff = concat (">>", str(speedup_value,0,0),"x");
-          #debug concat("==================> FAST FORWARDING: ", augmentedff, " <==============\n")
-        #end
+        #declare textinfo = "H8:right";
       #end
+      #debug concat ("\n\nAt time ", str(realtime,0,-1), " Dorothy is on brick number ", str(brick_number,0,0), " (", str(brick_number_r,0,-1), ") of type ", bricktype, "\n")
+      #debug concat ("  she is positioned at (", str(dorothypos.x,0,-1), ",", str(dorothypos.z,0,-1), ")\n=========\n\n")
     #end
+    #local i = 0; #local j = 0;
+    #local k = 0;
+    #if (brick_number >= 1)
+      #declare history = union {
 
-    #declare dorothypos = dorothystartpos + dorothyspeed*realtime*pathdir;
-    #declare camerapos = dorothypos + behind;
-    #declare lookatpos = dorothypos + ahead;
+        /* first square, it is always present */
+        cylinder {<i,j,0>, <i,j+1,0>, historythickness}
+        sphere { <i, j+1, 0>, historythickness }
+        cylinder {<i,j+1,0>, <i+1,j+1,0>, historythickness}
+        sphere { <i+1, j+1, 0>, historythickness }
+        cylinder {<i+1,j+1,0>, <i+1,j,0>, historythickness}
+        sphere { <i+1, j, 0>, historythickness }
+        cylinder {<i+1,j,0>, <i,j,0>, historythickness}
+        sphere { <i, j, 0>, historythickness }
 
-    #ifdef (augmented)
-      #declare brick_number_r = realtime*bricks_speed+1.5;
-      #declare brick_number = int(brick_number_r);
-      #if (brick_number_r - brick_number < 0.9)
-        #declare bricktype = substr (worm, brick_number, 1);
-        //#declare textinfo = concat ("#", str(brick_number,0,0), ": ", bricktype);
-        #if (bricktype = "A")
-          #declare textinfo = "H7:up";
-        #else
-          #declare textinfo = "H8:right";
-        #end
-        #debug concat ("\n\nAt time ", str(realtime,0,-1), " Dorothy is on brick number ", str(brick_number,0,0), " (", str(brick_number_r,0,-1), ") of type ", bricktype, "\n")
-        #debug concat ("  she is positioned at (", str(dorothypos.x,0,-1), ",", str(dorothypos.z,0,-1), ")\n=========\n\n")
-      #end
-      #local i = 0; #local j = 0;
-      #local k = 0;
-      #if (brick_number >= 1)
-        #declare history = union {
-
-          /* first square, it is always present */
-          cylinder {<i,j,0>, <i,j+1,0>, historythickness}
-          sphere { <i, j+1, 0>, historythickness }
-          cylinder {<i,j+1,0>, <i+1,j+1,0>, historythickness}
-          sphere { <i+1, j+1, 0>, historythickness }
-          cylinder {<i+1,j+1,0>, <i+1,j,0>, historythickness}
-          sphere { <i+1, j, 0>, historythickness }
-          cylinder {<i+1,j,0>, <i,j,0>, historythickness}
-          sphere { <i, j, 0>, historythickness }
-
-          #while (k < brick_number - 1)
-            #local k = k + 1;
-            #if (substr (worm, k, 1) = "A")
-              #local j = j + 1;
-              cylinder {<i,j,0>, <i,j+1,0>, historythickness}
-              sphere { <i, j+1, 0>, historythickness }
-              cylinder {<i,j+1,0>, <i+1,j+1,0>, historythickness}
-              sphere { <i+1, j+1, 0>, historythickness }
-              cylinder {<i+1,j+1,0>, <i+1,j,0>, historythickness}
-              //sphere { <i+1, j, 0>, historythickness }
-            #else
-              #local i = i + 1;
-              cylinder {<i,j,0>, <i+1,j,0>, historythickness}
-              sphere { <i+1, j, 0>, historythickness }
-              cylinder {<i+1,j,0>, <i+1,j+1,0>, historythickness}
-              sphere { <i+1, j+1, 0>, historythickness }
-              cylinder {<i+1,j+1,0>, <i,j+1,0>, historythickness}
-            #end
+        #while (k < brick_number - 1)
+          #local k = k + 1;
+          #if (substr (worm, k, 1) = "A")
+            #local j = j + 1;
+            cylinder {<i,j,0>, <i,j+1,0>, historythickness}
+            sphere { <i, j+1, 0>, historythickness }
+            cylinder {<i,j+1,0>, <i+1,j+1,0>, historythickness}
+            sphere { <i+1, j+1, 0>, historythickness }
+            cylinder {<i+1,j+1,0>, <i+1,j,0>, historythickness}
+          #else
+            #local i = i + 1;
+            cylinder {<i,j,0>, <i+1,j,0>, historythickness}
+            sphere { <i+1, j, 0>, historythickness }
+            cylinder {<i+1,j,0>, <i+1,j+1,0>, historythickness}
+            sphere { <i+1, j+1, 0>, historythickness }
+            cylinder {<i+1,j+1,0>, <i,j+1,0>, historythickness}
           #end
-        }
-      #end
-      #local k = k + 1;
-      #if (substr (worm, k, 1) = "A")
-        #local j = j + (brick_number_r - brick_number);
-      #else
-        #local i = i + (brick_number_r - brick_number);
-      #end
-      #declare present = box {<i,j,-1.1*historythickness>,<i+1,j+1,1.1*historythickness>}
-      #local k = k + 1;
-      #if (i > 55) #declare tgridleft = (i - 55); #end
-      #if (j > 34) #declare tgriddown = (j - 34); #end
+        #end
+      }
     #end
-
-    #ifdef (debug)
-      #debug concat ("REGULAR TIME! camera.y is ", str(camerapos.y,0,-1),"\n")
-      #debug concat ("bricks_speed ", str(bricks_speed,0,-1),"\n")
+    #local k = k + 1;
+    #if (substr (worm, k, 1) = "A")
+      #local j = j + (brick_number_r - brick_number);
+    #else
+      #local i = i + (brick_number_r - brick_number);
     #end
+    #declare present = box {<i,j,-1.1*historythickness>,<i+1,j+1,1.1*historythickness>}
+    #local k = k + 1;
+    #if (i > 55) #declare tgridleft = (i - 55); #end
+    #if (j > 34) #declare tgriddown = (j - 34); #end
+  #end
 
-  #break
+  #ifdef (debug)
+    #debug concat ("REGULAR TIME! camera.y is ", str(camerapos.y,0,-1),"\n")
+    #debug concat ("bricks_speed ", str(bricks_speed,0,-1),"\n")
+  #end
+
 #end
+
 #ifdef (zoom) #declare camerapos = zoom*camerapos; #end
 
 sky_sphere {S_Cloud1}
