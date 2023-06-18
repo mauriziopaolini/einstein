@@ -89,7 +89,9 @@ global_settings { assumed_gamma 1.0 }
   #ifndef (ROADS) #declare ROADS = 1; #end
   #ifndef (ROADSIGNS) #declare ROADSIGNS = 1; #end
   #ifndef (CASTLES) #declare CASTLES = 1; #end
-  #ifndef (earthquake) #declare earthquake = 1; #end
+  #if (path <= 1)
+    #ifndef (earthquake) #declare earthquake = 1; #end
+  #end
 #end
 
 #ifdef (topview)
