@@ -39,6 +39,19 @@
   99999, 99999*x
 }
 
+#macro calc_fibo (depth)
+  #local fib = 1;
+  #local fibp = 1;
+  #local i = 1;
+  #while (i < depth)
+    #local fibn = fib + fibp;
+    #local fibp = fib;
+    #local fib = fibn;
+    #local i = i + 1;
+  #end
+  #declare fiboval = fib;
+#end
+
 #macro build_wormAB (depth)
   #declare wormA = "A";
   #declare wormB = "B";

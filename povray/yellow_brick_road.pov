@@ -32,11 +32,6 @@ global_settings { assumed_gamma 1.0 }
 #declare allotted_ww0 = 50;
 #declare allotted_ww2 = 50;
 #declare allotted_ww3 = 60;
-#declare quakefreezeduration = 3;
-#ifndef (quakeduration) #declare quakeduration = 12; #end
-/* This is taylored at depth=6, dorothyspeed=8 */
-#ifndef (quakestarttime) #declare quakestarttime = 48; #end
-#declare quakeendtime = quakestarttime + quakeduration - quakefreezeduration;
 
 #ifndef (dirchangeduration) #declare dirchangeduration = 4; #end
 #ifndef (dorothyspeed)
@@ -75,6 +70,28 @@ global_settings { assumed_gamma 1.0 }
 #declare path1dir = path0dir;
 #declare path2dir = vnormalize (crossing2 - crossing1);
 #declare path3dir = vtransform (path2dir, transform {rotate 60*y});
+
+#declare quakefreezeduration = 3;
+#ifndef (quakeduration) #declare quakeduration = 12; #end
+/* This is taylored at depth=6, dorothyspeed=8 */
+#declare quakeendtime = 48 + 12 - 3;
+#declare quakestarttime = quakeendtime - quakeduration + quakefreezeduration;
+
+#if (htile = 7) calc_fibo (2*depth) #else calc_fibo (2*depth+1) #end
+#declare lastbrick = fiboval;
+calc_fibo (2*depth-2)
+#declare quake1brickend = fiboval - 1;
+calc_fibo (2*depth-6)
+#declare quake1brickstart = quake1brickend - fiboval;
+#declare quake2brickend = lastbrick - quake1brickend - 2;
+#declare quake2brickstart = quake2brickend - fiboval;
+
+//#declare bricks_speed = 0.7/4*dorothyspeed*1.021430283490544*233.5/233.875389; // adjusted may 29, 2023
+#declare bricks_size = vlength(emeraldpos)/(lastbrick-1);
+#declare bricks_speed = dorothyspeed/bricks_size;
+#if (depth = 5 & htile = 8)
+  #declare bricks_speed = 0.7/4*dorothyspeed*1.021430283490544; // adjusted may 25, 2023
+#end
 
 #declare mag = pow(Phi*Phi,depth);
 
@@ -252,18 +269,10 @@ build_wormAB (depth)
   define_speedup_spline (projected_realtimeend, speedup_time)
 #end
 
-#declare lastbrick = strlen(worm);
-
 /*
  * se non ho sbagliato i conti Dorothy impiega 1/0.7 secondi per avanzare di un
  * cluster, avanzando a velocita' 4
  */
-
-#declare bricks_speed = 0.7/4*dorothyspeed*1.021430283490544*233.5/233.875389; // adjusted may 29, 2023
-//#declare bricks_speed = 233.5/233.875389*bricks_speed; // adjusted for depth=6 may 29, 2023
-#if (depth = 5 & htile = 8)
-  #declare bricks_speed = 0.7/4*dorothyspeed*1.021430283490544; // adjusted may 25, 2023
-#end
 
 #declare realtimeend = (lastbrick - 1.0)/bricks_speed;
 
