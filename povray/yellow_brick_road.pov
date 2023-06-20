@@ -27,6 +27,18 @@ global_settings { assumed_gamma 1.0 }
 
 #ifndef (depth) #declare depth = 6; #end
 #ifndef (preambleduration) #declare preambleduration = 4; #end
+#declare allotted_em0 = 50;
+#declare allotted_em1 = 60;
+#declare allotted_ww0 = 50;
+#declare allotted_ww2 = 50;
+#declare allotted_ww3 = 60;
+#declare quakefreezeduration = 3;
+#ifndef (quakeduration) #declare quakeduration = 12; #end
+/* This is taylored at depth=6, dorothyspeed=8 */
+#ifndef (quakestarttime) #declare quakestarttime = 48; #end
+#declare quakeendtime = quakestarttime + quakeduration - quakefreezeduration;
+
+#ifndef (dirchangeduration) #declare dirchangeduration = 4; #end
 #ifndef (dorothyspeed)
   #declare dorothyspeed = 4;
   #if (depth >= 6) #declare dorothyspeed = 8; #end
@@ -73,7 +85,9 @@ global_settings { assumed_gamma 1.0 }
 #declare pathtime = clock - preambleduration; 
 
 #declare path0duration = vlength(crossing1 - yellowroadstart)/dorothyspeed;
+#declare path0durationgross = path0duration + 2*quakefreezeduration;
 #declare path1duration = vlength(emeraldpos - crossing1)/dorothyspeed;
+#declare path1durationgross = path1duration + 2*quakefreezeduration;
 #declare path2duration = vlength(crossing2 - crossing1)/dorothyspeed;
 #declare path3duration = vlength(wickedwitchpos - crossing2)/dorothyspeed;
 #debug concat("path0 computed duration: ", str (path0duration,0,-1), "\n")
@@ -82,25 +96,54 @@ global_settings { assumed_gamma 1.0 }
 #debug concat("path3 computed duration: ", str (path3duration,0,-1), "\n")
 
 #ifdef (emeraldpath)
-  #declare pathtime = clock - preambleduration; 
-  #declare path = 0;
-  #if (pathtime > path0duration)
+  #declare allottedgross = allotted_em0 + 2*quakefreezeduration;
+  #if (path0durationgross < allottedgross) #declare allottedgross = path0durationgross; #end
+  #declare movietime = clock - preambleduration; 
+  #if (movietime <= allottedgross)
+    #declare path = 0;
+    define_speedup_spline (path0durationgross, allottedgross)
+    #declare pathtime = speedup_spline (movietime).x;
+    define_freeze_spline (path0durationgross, quakestarttime, quakeendtime, quakefreezeduration)
+    #declare walktime = freeze_spline (pathtime).x;
+  #else
+    #declare movietime = movietime - allottedgross;
+    #declare allottedgross = allotted_em1 + 2*quakefreezeduration;
+    #if (path1durationgross < allottedgross) #declare allottedgross = path1durationgross; #end
     #declare path = 1;
-    #declare pathtime = pathtime - path0duration - preambleduration;
+    #declare preambleduration = dirchangeduration;
+    #declare movietime = movietime - preambleduration;
+    define_speedup_spline (path1durationgross, allottedgross)
+    #declare pathtime = speedup_spline (movietime).x;
+    define_freeze_spline (path1durationgross, quakestarttime, quakeendtime, quakefreezeduration)
+    #declare walktime = freeze_spline (pathtime).x;
   #end
 #end
+
+#debug concat("path: ", str(path,0,0), " pathtime=", str(pathtime,0,-1), " walktime=", str(walktime,0,-1), "\n")
 
 #ifdef (witchpath)
   //#declare path0duration = 62.4;  // [case depth=6]
   //#declare path2duration = 62.4;  // [case depth=6]
   //#declare path3duration = 100.2;  // [case depth=6]
+  #declare allotted = allotted_ww0;
+  #if (path0duration < allotted) #declare allotted = path0duration; #end
   #declare path = 0;
-  #if (pathtime > path0duration)
+  #if (pathtime <= allotted + 2*quakefreezeduration)
+    define_speedup_spline (path0duration, allotted)
+  #else
+    #declare allotted = allotted_ww2;
+    #if (path2duration < allotted) #declare allotted = path2duration; #end
     #declare path = 2;
-    #declare pathtime = pathtime - path0duration - preambleduration;
-    #if (pathtime > path2duration)
+    #declare preambleduration = dirchangeduration;
+    #declare pathtime = pathtime - allotted - 2*quakefreezeduration - preambleduration;
+    #if (pathtime <= allotted)
+      define_speedup_spline (path2duration, allotted)
+    #else
+      #declare allotted = allotted_ww3;
+      #if (path3duration < allotted) #declare allotted = path3duration; #end
       #declare path = 3;
-      #declare pathtime = pathtime - path2duration - preambleduration;
+      #declare pathtime = pathtime - allotted - preambleduration;
+      define_speedup_spline (path3duration, allotted)
     #end
   #end
 #end
@@ -122,6 +165,8 @@ global_settings { assumed_gamma 1.0 }
     #ifndef (earthquake) #declare earthquake = 1; #end
   #end
 #end
+
+#ifndef (earthquake) #declare quakestarttime = 99999; #end
 
 #ifdef (topview)
   #declare arrowthick = 0.05*mag;
@@ -149,13 +194,6 @@ global_settings { assumed_gamma 1.0 }
   #end
   #if (topview >= 2) #declare ROADS=1; #declare CASTLES=1; #end
 #end
-
-#ifndef (earthquakeduration) #declare earthquakeduration = 12; #end
-#ifdef (earthquake)
-  /* This is taylored at depth=6, dorothyspeed=8 */
-  #ifndef (earthquakestarttime) #declare earthquakestarttime = 48; #end
-#end
-#ifndef (earthquakestarttime) #declare earthquakestarttime = 99999; #end
 
 /*
  * this is the end of the worm in case depth=5 htype 8
@@ -277,7 +315,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
   #declare h7worm = h7wormyellow;
   #declare h8worm = h8wormyellow;
   #ifdef (buildtheback) h8rec (transform {translate -trn6[depth]+trn2[depth] gtrans translate tile_thick*y}, depth) #end
-  #declare relquake = (pathtime - earthquakestarttime)/earthquakeduration;
+  #declare relquake = (pathtime - quakestarttime)/quakeduration;
   #if (relquake > 0 & relquake < 1)
     #local dim = strlen (worm);
     buildwormrecvec (dim, depth)
@@ -465,6 +503,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 #else
 
   #declare realtime = pathtime;  /* this takes into account possible time speedup */
+  #ifndef (walktime) #declare walktime = pathtime; #end
   #ifdef (dofastforward)
     #declare realtime = speedup_spline (pathtime).x;
     #ifdef (xx1)
@@ -475,7 +514,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
     #end
   #end
 
-  #declare dorothypos = dorothystartpos + dorothyspeed*realtime*pathdir;
+  #declare dorothypos = dorothystartpos + dorothyspeed*walktime*pathdir;
   #declare camerapos = dorothypos + behind;
   #declare lookatpos = dorothypos + ahead;
 

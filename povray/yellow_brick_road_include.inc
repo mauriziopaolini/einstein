@@ -51,6 +51,18 @@
   #end
 #end
 
+#macro define_freeze_spline (grosstime, first, second, duration)
+  #declare freeze_spline = spline {
+    linear_spline
+    0, 0*x
+    first, first*x
+    first+duration, first*x
+    second, (second-duration)*x
+    second+duration, (second-duration)*x
+    grosstime, (grosstime-2*duration)*x
+  }
+#end
+
 #macro define_speedup_spline (realtime, speedup_time)
 
   #debug concat ("  define_speedup_spline called with: ", str(realtime,0,-1), " ", str(speedup_time,0,-1), "\n")
@@ -59,6 +71,7 @@
 
     #declare speedup_spline = spline {
       linear_spline
+      -20, -20*x
       0, 0*x
       realtime, realtime*x
     }
@@ -79,6 +92,7 @@
 
     #declare speedup_spline = spline {
       linear_spline
+      -20, -20*x
       0, 0*x
       xx1, xx1*x
       xx2, (realtime - xx1)*x
