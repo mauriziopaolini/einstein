@@ -120,6 +120,8 @@ calc_fibo (2*depth-6)
     #declare path = 0;
     define_speedup_spline (path0durationgross, allottedgross)
     #declare pathtime = speedup_spline (movietime).x;
+    #declare quakeendtime = bricks_size*quake1brickend/dorothyspeed;
+    #declare quakestarttime = quakeendtime - quakeduration + quakefreezeduration;
     define_freeze_spline (path0durationgross, quakestarttime, quakeendtime, quakefreezeduration)
     #declare walktime = freeze_spline (pathtime).x;
   #else
@@ -131,6 +133,8 @@ calc_fibo (2*depth-6)
     #declare movietime = movietime - preambleduration;
     define_speedup_spline (path1durationgross, allottedgross)
     #declare pathtime = speedup_spline (movietime).x;
+    #declare quakeendtime = bricks_size*quake2brickend/dorothyspeed;
+    #declare quakestarttime = quakeendtime - quakeduration + quakefreezeduration;
     define_freeze_spline (path1durationgross, quakestarttime, quakeendtime, quakefreezeduration)
     #declare walktime = freeze_spline (pathtime).x;
   #end
