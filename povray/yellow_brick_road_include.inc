@@ -144,6 +144,23 @@
   #end
 #end
 
+#macro figurine (aspect, jpgback, jpgfront)
+  #local height = 7;
+  #local cwidth = aspect*height;
+  union {
+    box {<0,0,0>,<1,1,0.01>
+      pigment {image_map {jpeg jpgback} scale <-1,1,1>}
+    }
+    box {<0,0,0>,<1,1,-0.01>
+      pigment {image_map {jpeg jpgfront} scale <1,1,1>}
+    }
+    translate -0.5*x
+    scale 0.5*<cwidth, height, height>
+    translate 2*tile_thick*y
+    finish {tile_Finish}
+  }
+#end
+
 #macro castle (aspect, jpgimage)
   #local height = 12;
   #local cwidth = aspect*height;

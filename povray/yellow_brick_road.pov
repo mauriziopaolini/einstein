@@ -329,10 +329,10 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
     #local dim = strlen (worm);
     buildwormrecvec (dim, depth)
     #debug concat ("### during earthquake, dim = ", str(dim,0,0), " wormveci = ", str(wormveci,0,0), "\n")
-    #local rot = 180*quakerotlift(relquake).x;
+    #local rotquake = 180*quakerotlift(relquake).x;
     #local lift = 10*quakerotlift(relquake).y;
     #declare dorothydetour = dorothydetour + lift*tile_thick*y;
-    wormbyvec (rot, transform {gtrans translate (1+lift)*tile_thick*y})
+    wormbyvec (rotquake, transform {gtrans translate (1+lift)*tile_thick*y})
   #else
     h7rec (transform {gtrans translate tile_thick*y}, depth)
   #end
@@ -601,6 +601,17 @@ sky_sphere {S_Cloud1}
 
 plane {y, 0
   texture {pigment {color DarkGreen}}
+}
+
+#declare dorothyplate = object {
+  figurine (130/225, "images/dorothyback.jpg", "images/dorothyfront.jpg")
+  rotate 100*y
+}
+
+object {dorothyplate
+  rotate rotquake*y
+  translate dorothypos
+  translate dorothydetour
 }
 
 cylinder {
