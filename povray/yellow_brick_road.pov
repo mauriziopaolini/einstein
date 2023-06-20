@@ -313,6 +313,8 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
 #if (path = 0 & pathtime <= 10) #declare buildtheback = 1; #end
 
+#declare rotquake = 0;
+
 #if (htile = 7)
   h7rec (transform {gtrans}, depth)
 
@@ -329,7 +331,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
     #local dim = strlen (worm);
     buildwormrecvec (dim, depth)
     #debug concat ("### during earthquake, dim = ", str(dim,0,0), " wormveci = ", str(wormveci,0,0), "\n")
-    #local rotquake = 180*quakerotlift(relquake).x;
+    #declare rotquake = 180*quakerotlift(relquake).x;
     #local lift = 10*quakerotlift(relquake).y;
     #declare dorothydetour = dorothydetour + lift*tile_thick*y;
     wormbyvec (rotquake, transform {gtrans translate (1+lift)*tile_thick*y})
