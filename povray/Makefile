@@ -106,8 +106,8 @@ frames/yellow_brick_road_emerald/DONE: frames/%/DONE: yellow_brick_road.pov
 	touch $@
 
 frames/yellow_brick_road_witch/DONE: frames/%/DONE: yellow_brick_road.pov
-	povray $< $(povoptsani) Declare=depth=6 Declare=witchpath=1 +kf236.82 +kff5920 +Oframes/$*/frame
-	for i in `seq 5921 5945`; do cp frames/$*/frame5920.png frames/$*/frame$${i}.png; done
+	povray $< $(povoptsani) Declare=depth=6 Declare=witchpath=1 +kf148 +kff3700 +Oframes/$*/frame
+	for i in `seq 3701 3725`; do cp frames/$*/frame3700.png frames/$*/frame$${i}.png; done
 	touch $@
 
 frames/yellow_brick_road_path0/DONE: frames/%/DONE: yellow_brick_road.pov
