@@ -70,8 +70,8 @@
     0, 0*x
     first, first*x
     first+duration, first*x
-    second, (second-duration)*x
-    second+duration, (second-duration)*x
+    second+duration, second*x
+    second+2*duration, second*x
     grosstime, (grosstime-2*duration)*x
   }
 #end
