@@ -454,6 +454,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 #end
 
 #declare pathdir = yellowroaddir;
+#declare rotpreamble = 0;
 #switch (path)
   #case (1)
     //#declare pathdir = yellowroaddir;
@@ -463,12 +464,14 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
   #break
   #case (2)
     //#declare pathdir = vnormalize (crossing2 - crossing1);
+    #declare rotpreamble = -120;
     #declare pathdir = path2dir;
     #declare behind = vtransform (behind, transform {rotate -120*y});
     #declare ahead = vtransform (ahead, transform {rotate -120*y});
     #declare dorothystartpos = crossing1 + 2*tile_thick*y;
   #break
   #case (3)
+    #declare rotpreamble = -60;
     #declare pathdir = path2dir;
     #declare pathdir = vtransform (pathdir, transform {rotate 60*y});
     #declare behind = vtransform (behind, transform {rotate -60*y});
@@ -498,15 +501,16 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
     #case (1)  // rest of path to emerald castle
       #declare endtime = 204.5 - preambleduration;
-      #declare rotangle = -120*indecisa (reltime).x;
-      #declare behind = vtransform (behind, transform {rotate rotangle*y});
-      #declare ahead = vtransform (ahead, transform {rotate rotangle*y});
+      #declare rotpreamble = -120*indecisa (reltime).x;
+      #declare behind = vtransform (behind, transform {rotate rotpreamble*y});
+      #declare ahead = vtransform (ahead, transform {rotate rotpreamble*y});
       #declare camerapos = crossing1 + behind;
       #declare dorothystartpos = crossing1 + 2*tile_thick*y;
       #declare lookatpos = dorothystartpos + ahead;
     #break
 
     #case (2)
+      #declare rotpreamble = (reltime-1)*120;
       #declare endtime = 128.8 - preambleduration;
       #declare behind = vtransform (behind, transform {rotate reltime*120*y});
       #declare ahead = vtransform (ahead, transform {rotate reltime*120*y});
@@ -516,6 +520,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
     #break
 
     #case (3)
+      #declare rotpreamble = (1-reltime)*60-120;
       #declare endtime = 204.5 - preambleduration;
       #declare behind = vtransform (behind, transform {rotate -reltime*60*y});
       #declare ahead = vtransform (ahead, transform {rotate -reltime*60*y});
@@ -628,6 +633,7 @@ plane {y, 0
 }
 
 object {dorothyplate
+  rotate rotpreamble*y
   rotate rotquake*y
   translate dorothypos
   translate dorothydetour
