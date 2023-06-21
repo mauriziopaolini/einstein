@@ -64,14 +64,14 @@
   #end
 #end
 
-#macro define_freeze_spline (grosstime, first, second, duration)
+#macro define_freeze_spline (grosstime, startmovietime, endmovietime, duration)
   #declare freeze_spline = spline {
     linear_spline
     0, 0*x
-    first, first*x
-    first+duration, first*x
-    second+duration, second*x
-    second+2*duration, second*x
+    startmovietime, startmovietime*x
+    startmovietime+duration, startmovietime*x
+    endmovietime-duration, (endmovietime-2*duration)*x
+    endmovietime, (endmovietime-2*duration)*x
     grosstime, (grosstime-2*duration)*x
   }
 #end

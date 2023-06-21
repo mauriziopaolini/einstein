@@ -120,8 +120,8 @@ calc_fibo (2*depth-6)
     #declare path = 0;
     define_speedup_spline (path0durationgross, allottedgross)
     #declare pathtime = speedup_spline (movietime).x;
-    #declare quakeendtime = bricks_size*quake1brickend/dorothyspeed;
-    #declare quakestarttime = quakeendtime - quakeduration + quakefreezeduration;
+    #declare quakeendtime = bricks_size*quake1brickend/dorothyspeed + 2*quakefreezeduration;  // 'movietime' units
+    #declare quakestarttime = quakeendtime - quakeduration;
     define_freeze_spline (path0durationgross, quakestarttime, quakeendtime, quakefreezeduration)
     #declare walktime = freeze_spline (pathtime).x;
   #else
@@ -134,7 +134,7 @@ calc_fibo (2*depth-6)
     define_speedup_spline (path1durationgross, allottedgross)
     #declare pathtime = speedup_spline (movietime).x;
     #declare quakeendtime = bricks_size*quake2brickend/dorothyspeed;
-    #declare quakestarttime = quakeendtime - quakeduration + quakefreezeduration;
+    #declare quakestarttime = quakeendtime - quakeduration;
     define_freeze_spline (path1durationgross, quakestarttime, quakeendtime, quakefreezeduration)
     #declare walktime = freeze_spline (pathtime).x;
   #end
@@ -151,16 +151,16 @@ calc_fibo (2*depth-6)
     #declare path = 0;
     define_speedup_spline (path0durationgross, allottedgross)
     #declare pathtime = speedup_spline (movietime).x;
-    #declare quakeendtime = bricks_size*quake1brickend/dorothyspeed;
-    #declare quakestarttime = quakeendtime - quakeduration + quakefreezeduration;
+    #declare quakeendtime = bricks_size*quake1brickend/dorothyspeed + 2*quakefreezeduration;
+    #declare quakestarttime = quakeendtime - quakeduration;
     define_freeze_spline (path0durationgross, quakestarttime, quakeendtime, quakefreezeduration)
     #declare walktime = freeze_spline (pathtime).x;
   #else
     #declare movietime = movietime - allottedgross;
     #declare allotted = allotted_ww2;
-    #if (path2duration < allotted) #declare allotted = path0duration; #end
+    #if (path2duration < allotted) #declare allotted = path2duration; #end
     #declare preambleduration = dirchangeduration;
-    #declare movietime = clock - preambleduration;
+    #declare movietime = movietime - preambleduration;
     #if (movietime <= allotted)
       #declare path = 2;
       define_speedup_spline (path2duration, allotted)
@@ -169,7 +169,7 @@ calc_fibo (2*depth-6)
     #else
       #declare movietime = movietime - allotted;
       #declare allotted = allotted_ww3;
-      #if (path3duration < allotted) #declare allotted = path1duration; #end
+      #if (path3duration < allotted) #declare allotted = path3duration; #end
       #declare path = 3;
       #declare preambleduration = dirchangeduration;
       #declare movietime = movietime - preambleduration;
