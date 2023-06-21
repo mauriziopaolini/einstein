@@ -29,7 +29,7 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (preambleduration) #declare preambleduration = 4; #end
 #declare allotted_em0 = 50;
 #declare allotted_em1 = 60;
-#declare allotted_ww0 = 50;
+#declare allotted_ww0 = 20;
 #declare allotted_ww2 = 50;
 #declare allotted_ww3 = 60;
 
@@ -140,34 +140,47 @@ calc_fibo (2*depth-6)
   #end
 #end
 
-#debug concat("path: ", str(path,0,0), " pathtime=", str(pathtime,0,-1), " walktime=", str(walktime,0,-1), "\n")
-
 #ifdef (witchpath)
   //#declare path0duration = 62.4;  // [case depth=6]
   //#declare path2duration = 62.4;  // [case depth=6]
   //#declare path3duration = 100.2;  // [case depth=6]
-  #declare allotted = allotted_ww0;
-  #if (path0duration < allotted) #declare allotted = path0duration; #end
-  #declare path = 0;
-  #if (pathtime <= allotted + 2*quakefreezeduration)
-    define_speedup_spline (path0duration, allotted)
+  #declare allottedgross = allotted_ww0 + 2*quakefreezeduration;
+  #if (path0durationgross < allottedgross) #declare allottedgross = path0durationgross; #end
+  #declare movietime = clock - preambleduration;
+  #if (movietime <= allottedgross)
+    #declare path = 0;
+    define_speedup_spline (path0durationgross, allottedgross)
+    #declare pathtime = speedup_spline (movietime).x;
+    #declare quakeendtime = bricks_size*quake1brickend/dorothyspeed;
+    #declare quakestarttime = quakeendtime - quakeduration + quakefreezeduration;
+    define_freeze_spline (path0durationgross, quakestarttime, quakeendtime, quakefreezeduration)
+    #declare walktime = freeze_spline (pathtime).x;
   #else
+    #declare movietime = movietime - allottedgross;
     #declare allotted = allotted_ww2;
-    #if (path2duration < allotted) #declare allotted = path2duration; #end
-    #declare path = 2;
+    #if (path2duration < allotted) #declare allotted = path0duration; #end
     #declare preambleduration = dirchangeduration;
-    #declare pathtime = pathtime - allotted - 2*quakefreezeduration - preambleduration;
-    #if (pathtime <= allotted)
+    #declare movietime = clock - preambleduration;
+    #if (movietime <= allotted)
+      #declare path = 2;
       define_speedup_spline (path2duration, allotted)
+      #declare pathtime = speedup_spline (movietime).x;
+      #declare walktime = pathtime;
     #else
+      #declare movietime = movietime - allotted;
       #declare allotted = allotted_ww3;
-      #if (path3duration < allotted) #declare allotted = path3duration; #end
+      #if (path3duration < allotted) #declare allotted = path1duration; #end
       #declare path = 3;
-      #declare pathtime = pathtime - allotted - preambleduration;
+      #declare preambleduration = dirchangeduration;
+      #declare movietime = movietime - preambleduration;
       define_speedup_spline (path3duration, allotted)
+      #declare pathtime = speedup_spline (movietime).x;
+      #declare walktime = pathtime;
     #end
   #end
 #end
+
+#debug concat("path: ", str(path,0,0), " pathtime=", str(pathtime,0,-1), " walktime=", str(walktime,0,-1), "\n")
 
 /*
  * possible paths:
