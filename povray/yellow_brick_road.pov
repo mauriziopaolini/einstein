@@ -35,7 +35,7 @@ global_settings { assumed_gamma 1.0 }
 
 #ifndef (dirchangeduration) #declare dirchangeduration = 4; #end
 #ifndef (dorothyspeed)
-  #declare dorothyspeed = 4;
+  #declare dorothyspeed = 6;
   #if (depth >= 6) #declare dorothyspeed = 8; #end
 #end
 #ifndef (speedup_time) #declare speedup_time = 4000/25; #end
@@ -60,57 +60,60 @@ global_settings { assumed_gamma 1.0 }
   #declare trwicked = transform {trwicked rotate rot6*y translate trn6[i]};
   #local i = i + 1;
 #end
-#declare crossing1 = vtransform (<0,0,0>, transform {trcrossing rotate rot2*y translate trn2[depth-1]});
-#declare emeraldpos = vtransform (<0,0,0>, transform {tremerald rotate rot2*y translate trn2[depth-1]});
-#declare wickedwitchpos = vtransform (<0,0,0>, transform {trwicked rotate rot3*y translate trn3[depth-1]});
-
-#declare trcrossing = transform {trcrossing rotate rot3*y translate trn3[depth-1] gtrans};
-#declare crossing2 = vtransform (<0,0,0>, trcrossing);
-#declare path0dir = vnormalize (crossing1 - yellowroadstart);
-#declare path1dir = path0dir;
-#declare path2dir = vnormalize (crossing2 - crossing1);
-#declare path3dir = vtransform (path2dir, transform {rotate 60*y});
-
-#declare quakefreezeduration = 3;
-#ifndef (quakeduration) #declare quakeduration = 12; #end
-/* This is taylored at depth=6, dorothyspeed=8 */
-#declare quakeendtime = 48 + 12 - 3;
-#declare quakestarttime = quakeendtime - quakeduration + quakefreezeduration;
-
-#if (htile = 7) calc_fibo (2*depth) #else calc_fibo (2*depth+1) #end
-#declare lastbrick = fiboval;
-calc_fibo (2*depth-2)
-#declare quake1brickend = fiboval - 1;
-calc_fibo (2*depth-6)
-#declare quake1brickstart = quake1brickend - fiboval;
-#declare quake2brickend = lastbrick - quake1brickend - 2;
-#declare quake2brickstart = quake2brickend - fiboval;
-
-//#declare bricks_speed = 0.7/4*dorothyspeed*1.021430283490544*233.5/233.875389; // adjusted may 29, 2023
-#declare bricks_size = vlength(emeraldpos)/(lastbrick-1);
-#declare bricks_speed = dorothyspeed/bricks_size;
-#if (depth = 5 & htile = 8)
-  #declare bricks_speed = 0.7/4*dorothyspeed*1.021430283490544; // adjusted may 25, 2023
-#end
 
 #declare mag = pow(Phi*Phi,depth);
-
-#ifdef (dark)
-  #declare yellowroadstart = trn3[depth-1];
-#end
-
 #declare pathtime = clock - preambleduration; 
 
-#declare path0duration = vlength(crossing1 - yellowroadstart)/dorothyspeed;
-#declare path0durationgross = path0duration + 2*quakefreezeduration;
-#declare path1duration = vlength(emeraldpos - crossing1)/dorothyspeed;
-#declare path1durationgross = path1duration + 2*quakefreezeduration;
-#declare path2duration = vlength(crossing2 - crossing1)/dorothyspeed;
-#declare path3duration = vlength(wickedwitchpos - crossing2)/dorothyspeed;
-#debug concat("path0 computed duration: ", str (path0duration,0,-1), "\n")
-#debug concat("path1 computed duration: ", str (path1duration,0,-1), "\n")
-#debug concat("path2 computed duration: ", str (path2duration,0,-1), "\n")
-#debug concat("path3 computed duration: ", str (path3duration,0,-1), "\n")
+#if (depth > 0)
+  #declare crossing1 = vtransform (<0,0,0>, transform {trcrossing rotate rot2*y translate trn2[depth-1]});
+  #declare emeraldpos = vtransform (<0,0,0>, transform {tremerald rotate rot2*y translate trn2[depth-1]});
+  #declare wickedwitchpos = vtransform (<0,0,0>, transform {trwicked rotate rot3*y translate trn3[depth-1]});
+
+  #declare trcrossing = transform {trcrossing rotate rot3*y translate trn3[depth-1] gtrans};
+  #declare crossing2 = vtransform (<0,0,0>, trcrossing);
+  #declare path0dir = vnormalize (crossing1 - yellowroadstart);
+  #declare path1dir = path0dir;
+  #declare path2dir = vnormalize (crossing2 - crossing1);
+  #declare path3dir = vtransform (path2dir, transform {rotate 60*y});
+
+  #declare quakefreezeduration = 3;
+  #ifndef (quakeduration) #declare quakeduration = 12; #end
+  /* This is taylored at depth=6, dorothyspeed=8 */
+  #declare quakeendtime = 48 + 12 - 3;
+  #declare quakestarttime = quakeendtime - quakeduration + quakefreezeduration;
+
+  #if (htile = 7) calc_fibo (2*depth) #else calc_fibo (2*depth+1) #end
+  #declare lastbrick = fiboval;
+  calc_fibo (2*depth-2)
+  #declare quake1brickend = fiboval - 1;
+  calc_fibo (2*depth-6)
+  #declare quake1brickstart = quake1brickend - fiboval;
+  #declare quake2brickend = lastbrick - quake1brickend - 2;
+  #declare quake2brickstart = quake2brickend - fiboval;
+
+  //#declare bricks_speed = 0.7/4*dorothyspeed*1.021430283490544*233.5/233.875389; // adjusted may 29, 2023
+  #declare bricks_size = vlength(emeraldpos)/(lastbrick-1);
+  #declare bricks_speed = dorothyspeed/bricks_size;
+
+  #if (depth = 5 & htile = 8)
+    #declare bricks_speed = 0.7/4*dorothyspeed*1.021430283490544; // adjusted may 25, 2023
+  #end
+
+  #ifdef (dark)
+    #declare yellowroadstart = trn3[depth-1];
+  #end
+
+  #declare path0duration = vlength(crossing1 - yellowroadstart)/dorothyspeed;
+  #declare path0durationgross = path0duration + 2*quakefreezeduration;
+  #declare path1duration = vlength(emeraldpos - crossing1)/dorothyspeed;
+  #declare path1durationgross = path1duration + 2*quakefreezeduration;
+  #declare path2duration = vlength(crossing2 - crossing1)/dorothyspeed;
+  #declare path3duration = vlength(wickedwitchpos - crossing2)/dorothyspeed;
+  #debug concat("path0 computed duration: ", str (path0duration,0,-1), "\n")
+  #debug concat("path1 computed duration: ", str (path1duration,0,-1), "\n")
+  #debug concat("path2 computed duration: ", str (path2duration,0,-1), "\n")
+  #debug concat("path3 computed duration: ", str (path3duration,0,-1), "\n")
+#end
 
 #ifdef (emeraldpath)
   #declare allottedgross = allotted_em0 + 2*quakefreezeduration;
@@ -180,7 +183,9 @@ calc_fibo (2*depth-6)
   #end
 #end
 
-#debug concat("path: ", str(path,0,0), " pathtime=", str(pathtime,0,-1), " walktime=", str(walktime,0,-1), "\n")
+#ifdef (path)
+  #debug concat("path: ", str(path,0,0), " pathtime=", str(pathtime,0,-1), " walktime=", str(walktime,0,-1), "\n")
+#end
 
 /*
  * possible paths:
@@ -195,6 +200,7 @@ calc_fibo (2*depth-6)
   #ifndef (ROADS) #declare ROADS = 1; #end
   #ifndef (ROADSIGNS) #declare ROADSIGNS = 1; #end
   #ifndef (CASTLES) #declare CASTLES = 1; #end
+  #ifndef (FIGURINES) #declare FIGURINES = 1; #end
   #if (path <= 1)
     #ifndef (earthquake) #declare earthquake = 1; #end
   #end
@@ -229,25 +235,31 @@ calc_fibo (2*depth-6)
   #if (topview >= 2) #declare ROADS=1; #declare CASTLES=1; #end
 #end
 
-/*
- * this is the end of the worm in case depth=5 htype 8
- * (trovato con trial and error)
- * depth = 5, htile=8: #declare yellowroadend = <-775.5, 0, 200.051868>;
- */
-/* questo invece si riferisce a depth=6, htype 7
- */
-//#declare yellowroadend = <-1258.79, 0, 324.724>;
-#declare yellowroadend = emeraldpos;
-#if (depth = 5 & htile = 8) #declare yellowroadend = <-775.5, 0, 200.051868>; #end
-#declare yellowroaddir = vnormalize(yellowroadend - yellowroadstart);
-//#declare yellowroaddirrot90 = vtransform (yellowroaddir, -90*y);
+#if (depth > 0)
+  /*
+   * this is the end of the worm in case depth=5 htype 8
+   * (trovato con trial and error)
+   * depth = 5, htile=8: #declare yellowroadend = <-775.5, 0, 200.051868>;
+   */
+  /* questo invece si riferisce a depth=6, htype 7
+   */
+  //#declare yellowroadend = <-1258.79, 0, 324.724>;
+  #declare yellowroadend = emeraldpos;
+  #if (depth = 5 & htile = 8) #declare yellowroadend = <-775.5, 0, 200.051868>; #end
+  #declare yellowroaddir = vnormalize(yellowroadend - yellowroadstart);
+  //#declare yellowroaddirrot90 = vtransform (yellowroaddir, -90*y);
 
-//#declare behind = -1*meters*yellowroaddir + 1*meters*y;
-#declare behind = -7*meters*yellowroaddir + 2*meters*y;
-#declare ahead = 4*meters*yellowroaddir;
+  //#declare behind = -1*meters*yellowroaddir + 1*meters*y;
+  #declare behind = -7*meters*yellowroaddir + 2*meters*y;
+  #declare ahead = 4*meters*yellowroaddir;
+#end
+
 #declare dorothystartpos = yellowroadstart + 2*tile_thick*y;
-#declare lookatpos = yellowroadstart + ahead;
-#declare faraway = yellowroadstart - 40*meters*yellowroaddir + 10*meters*y;
+#ifdef (yellowroaddir)
+  #declare lookatpos = yellowroadstart + ahead;
+  #declare faraway = yellowroadstart - 40*meters*yellowroaddir + 10*meters*y;
+#end
+
 #declare textfont = "LiberationMono-Regular.ttf"
 
 #declare eyeshift = 0*x;
@@ -291,14 +303,16 @@ build_wormAB (depth)
  * cluster, avanzando a velocita' 4
  */
 
-#declare realtimeend = (lastbrick - 1.0)/bricks_speed;
+#ifdef (lastbrick)
+  #declare realtimeend = (lastbrick - 1.0)/bricks_speed;
 
-#ifdef (debug)
-  #debug concat ("worm = ", worm, "\n")
-  #debug concat ("  last element: ", substr(worm, lastbrick, 1), "\n")
+  #ifdef (debug)
+    #debug concat ("worm = ", worm, "\n")
+    #debug concat ("  last element: ", substr(worm, lastbrick, 1), "\n")
+  #end
+  #debug concat ("\n=========\nnumber of H clusters in the yellow brick road = ", str(lastbrick,0,0), "\n")
+  #debug concat ("   The center of last tile will be reached at realtime = ", str(realtimeend,0,-1), "\n")
 #end
-#debug concat ("\n=========\nnumber of H clusters in the yellow brick road = ", str(lastbrick,0,0), "\n")
-#debug concat ("   The center of last tile will be reached at realtime = ", str(realtimeend,0,-1), "\n")
 
 #macro wormcolors (c70, c71, c72, c80, c81, c82)
   #declare h7worm = union {
@@ -335,25 +349,32 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 #if (htile = 7)
   h7rec (transform {gtrans}, depth)
 
-  //#ifdef (buildtheback) h7rec (transform {translate -trn2[depth] gtrans}, depth) #end
-  #ifdef (buildtheback) h8rec (transform {rotate rot2*y translate trn2[depth]-trn6[depth] gtrans}, depth) #end
-  #ifdef (buildtheback) h8rec (transform {rotate rot5*y translate trn5[depth]-trn6[depth] gtrans}, depth) #end
+  #ifdef (buildtheback)
+    #local invtrans = transform {transform {rotate rot6*y translate trn6[depth+1] rotate rot0*y translate trn0[depth]} inverse}
+    #local dirtransleft = transform {rotate rot6*y translate trn6[depth] rotate rot2*y translate trn2[depth+1]}
+    #local dirtranstop = transform {rotate rot4*y translate trn4[depth] rotate rot5*y translate trn5[depth+1]}
+    h8rec (transform {dirtransleft invtrans gtrans}, depth)
+    h8rec (transform {dirtranstop invtrans gtrans}, depth)
+  #end
 
   #declare onlyworm = 1;
   #declare h7worm = h7wormyellow;
   #declare h8worm = h8wormyellow;
-  #ifdef (buildtheback) h8rec (transform {translate -trn6[depth]+trn2[depth] gtrans translate tile_thick*y}, depth) #end
-  #declare relquake = (pathtime - quakestarttime)/quakeduration;
-  #if (relquake > 0 & relquake < 1)
-    #local dim = strlen (worm);
-    buildwormrecvec (dim, depth)
-    #debug concat ("### during earthquake, dim = ", str(dim,0,0), " wormveci = ", str(wormveci,0,0), "\n")
-    #declare rotquake = 180*quakerotlift(relquake).x;
-    #local lift = 10*quakerotlift(relquake).y;
-    #declare dorothydetour = dorothydetour + lift*tile_thick*y;
-    wormbyvec (rotquake, transform {gtrans translate (1+lift)*tile_thick*y})
-  #else
-    h7rec (transform {gtrans translate tile_thick*y}, depth)
+//  #ifdef (buildtheback) h8rec (transform {translate -trn6[depth]+trn2[depth] gtrans translate tile_thick*y}, depth) #end
+  #ifdef (buildtheback) h8rec (transform {dirtransleft invtrans gtrans translate tile_thick*y}, depth) #end
+  #ifdef (quakeduration)
+    #declare relquake = (pathtime - quakestarttime)/quakeduration;
+    #if (relquake > 0 & relquake < 1)
+      #local dim = strlen (worm);
+      buildwormrecvec (dim, depth)
+      #debug concat ("### during earthquake, dim = ", str(dim,0,0), " wormveci = ", str(wormveci,0,0), "\n")
+      #declare rotquake = 180*quakerotlift(relquake).x;
+      #local lift = 10*quakerotlift(relquake).y;
+      #declare dorothydetour = dorothydetour + lift*tile_thick*y;
+      wormbyvec (rotquake, transform {gtrans translate (1+lift)*tile_thick*y})
+    #else
+      h7rec (transform {gtrans translate tile_thick*y}, depth)
+    #end
   #end
   #ifdef (ROADS)
     /* display worms at level depth-1 */
@@ -453,7 +474,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
   #declare tgriddown = 0;
 #end
 
-#declare pathdir = yellowroaddir;
+#ifdef (yellowroaddir) #declare pathdir = yellowroaddir; #end
 #declare rotpreamble = 0;
 #switch (path)
   #case (1)
@@ -619,25 +640,25 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
 #end
 
-#ifdef (zoom) #declare camerapos = zoom*camerapos; #end
-
 sky_sphere {S_Cloud1}
 
 plane {y, 0
   texture {pigment {color DarkGreen}}
 }
 
-#declare dorothyplate = object {
-  figurine (130/225, "images/dorothyback.jpg", "images/dorothyfront.jpg")
-  rotate 100*y
-}
+#ifdef (FIGURINES)
+  #declare dorothyplate = object {
+    figurine (130/225, "images/dorothyback.jpg", "images/dorothyfront.jpg")
+    rotate 100*y
+  }
 
-object {dorothyplate
-  rotate rotpreamble*y
-  rotate rotquake*y
-  translate dorothypos
-  translate dorothydetour
-}
+  object {dorothyplate
+    rotate rotpreamble*y
+    rotate rotquake*y
+    translate dorothypos
+    translate dorothydetour
+  }
+#end
 
 cylinder {
   dorothypos,
@@ -710,6 +731,7 @@ cylinder {
   #declare skycam = z;
   #declare lookatpos = 0*x;
 #end
+#ifdef (zoom) #declare camerapos = zoom*camerapos; #end
 
 camera {
   #ifdef (AspectWide)
