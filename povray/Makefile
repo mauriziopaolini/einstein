@@ -26,10 +26,10 @@ allchiral: $(allSM)
 povoptspng = -D +a +W1024 +H768
 
 yellow_brick_road_topview01.png: yellow_brick_road.pov
-	povray $(povoptspng) $< Declare=depth=4 Declare=topview=2 +O$@
+	povray $(povoptspng) $< Declare=depth=4 Declare=topview=2 Declare=buildtheback=1 +O$@
 
 yellow_brick_road_topview023.png: yellow_brick_road.pov
-	povray $(povoptspng) $< Declare=depth=4 Declare=topview=3 +O$@
+	povray $(povoptspng) $< Declare=depth=4 Declare=topview=3 Declare=buildtheback=1 +O$@
 
 yellow_brick_road_3clusters.png: yellow_brick_road.pov
 	povray $(povoptspng) $< Declare=depth=0 Declare=topview=1 Declare=buildtheback=1 Declare=zoom=1.8 +O$@
