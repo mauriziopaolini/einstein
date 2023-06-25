@@ -38,7 +38,7 @@ global_settings { assumed_gamma 1.0 }
   #declare dorothyspeed = 6;
   #if (depth >= 6) #declare dorothyspeed = 8; #end
 #end
-#ifndef (speedup_time) #declare speedup_time = 4000/25; #end
+#ifndef (speedup_time) #declare speedup_time = 3000/25; #end
 #declare meters = 10;
 
 #ifndef (htile)
@@ -286,7 +286,8 @@ build_wormAB (depth)
     #break
 
   #case (6)
-    #declare projected_realtimeend = 325;
+    //#declare projected_realtimeend = 325;
+    #declare projected_realtimeend = 162.465910;
   #break
 
   #default
@@ -556,10 +557,10 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
 #else
 
-  #declare realtime = pathtime;  /* this takes into account possible time speedup */
+  //#declare realtime = pathtime;  /* this takes into account possible time speedup */
   #ifndef (walktime) #declare walktime = pathtime; #end
   #ifdef (dofastforward)
-    #declare realtime = speedup_spline (pathtime).x;
+    #declare walktime = speedup_spline (pathtime).x;
     #ifdef (xx1)
       #if (pathtime > xx1 & pathtime < xx2)
         #declare augmentedff = concat (">>", str(speedup_value,0,0),"x");
@@ -573,7 +574,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
   #declare lookatpos = dorothypos + ahead;
 
   #ifdef (augmented)
-    #declare brick_number_r = realtime*bricks_speed+1.5;
+    #declare brick_number_r = walktime*bricks_speed+1.5;
     #declare brick_number = int(brick_number_r);
     #if (brick_number_r - brick_number < 0.9)
       #declare bricktype = substr (worm, brick_number, 1);
@@ -583,7 +584,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
       #else
         #declare textinfo = "H8:right";
       #end
-      #debug concat ("\n\nAt time ", str(realtime,0,-1), " Dorothy is on brick number ", str(brick_number,0,0), " (", str(brick_number_r,0,-1), ") of type ", bricktype, "\n")
+      #debug concat ("\n\nAt time ", str(walktime,0,-1), " Dorothy is on brick number ", str(brick_number,0,0), " (", str(brick_number_r,0,-1), ") of type ", bricktype, "\n")
       #debug concat ("  she is positioned at (", str(dorothypos.x,0,-1), ",", str(dorothypos.z,0,-1), ")\n=========\n\n")
     #end
     #local i = 0; #local j = 0;
