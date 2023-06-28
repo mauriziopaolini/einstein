@@ -28,9 +28,26 @@ do
   break
 done
 
+function usage ()
+{
+  echo 'This script converts a rabbit signature (often in the form of a periodic signature)'
+  echo 'into a signature with characters in {0,2,6}" (i.e. forming a worm)'
+  echo ""
+  echo "usage: $0 [--radius <n>] rabbit-signature"
+  echo "  --radius can be replaced by --radiusleft or --radiusright"
+  echo ""
+  echo "The size of radius (the size of the neighborhood of the rabbit string used to get the"
+  echo "converted signature"
+  echo ""
+  echo "Examples:"
+  echo "  $0 --radius 10000 [1]"
+  echo "  $0 --radius 10000 [10]"
+  echo "  $0 --radius 10000 [01]"
+}
+
 sig01=$1
 
-if [ -z "$sig01" ]; then echo "usage: $0 rabbit-signature"; exit 1; fi
+if [ -z "$sig01" ]; then usage; exit 1; fi
 
 # echo "Rabbit signature: $sig01"
 
