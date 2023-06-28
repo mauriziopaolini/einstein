@@ -32,13 +32,14 @@ global_settings { assumed_gamma 1.0 }
 #declare allotted_ww0 = 20;
 #declare allotted_ww2 = 50;
 #declare allotted_ww3 = 60;
+#declare allotted_aug6 = 120;
 
 #ifndef (dirchangeduration) #declare dirchangeduration = 4; #end
 #ifndef (dorothyspeed)
   #declare dorothyspeed = 6;
   #if (depth >= 6) #declare dorothyspeed = 8; #end
 #end
-#ifndef (speedup_time) #declare speedup_time = 3000/25; #end
+//#ifndef (speedup_time) #declare speedup_time = allotted_aug6; #end
 #declare meters = 10;
 
 #ifndef (htile)
@@ -291,12 +292,12 @@ build_wormAB (depth)
   #break
 
   #default
-    #declare projected_realtimeend = speedup_time;
+    #declare projected_realtimeend = allotted_aug6;
   #break
 #end
 
 #ifdef (dofastforward)
-  define_speedup_spline (projected_realtimeend, speedup_time)
+  define_speedup_spline (projected_realtimeend, allotted_aug6)
 #end
 
 /*
@@ -710,7 +711,7 @@ cylinder {
     }
     no_shadow
   }
-  text {ttf textfont concat("Oz d",str(depth,0,0)) 0.02 0
+  text {ttf textfont concat("H", str(htile,0,0)," d",str(depth,0,0)) 0.02 0
     translate -1.63*x
     rotate 45*x
     rotate -78*y

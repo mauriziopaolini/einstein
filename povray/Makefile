@@ -94,12 +94,11 @@ frames/yellow_brick_road_aug5B/DONE: frames/%/DONE: yellow_brick_road.pov
 	touch $@
 
 frames/yellow_brick_road6/DONE: frames/%/DONE: yellow_brick_road.pov
-	povray $< $(povoptsani) Declare=depth=6 Declare=dofastforward=1 +kf164 +kff4100 +Oframes/$*/frame
-	for i in `seq 4101 4125`; do cp frames/$*/frame4100.png frames/$*/frame$${i}.png; done
+	povray $< $(povoptsani) Declare=depth=6 Declare=dofastforward=1 +kf124 +kff3100 +Oframes/$*/frame
+	for i in `seq 3101 3125`; do cp frames/$*/frame3100.png frames/$*/frame$${i}.png; done
 	touch $@
 
 frames/yellow_brick_road_aug6/DONE: frames/%/DONE: yellow_brick_road.pov
-#	povray $< $(povoptsani) Declare=depth=6 Declare=augmented=1 Declare=dofastforward=1 +kf164 +kff4100 +Oframes/$*/frame
 	povray $< $(povoptsani) Declare=depth=6 Declare=augmented=1 Declare=dofastforward=1 +kf124 +kff3100 +Oframes/$*/frame
 	for i in `seq 3101 3125`; do cp frames/$*/frame3100.png frames/$*/frame$${i}.png; done
 	touch $@

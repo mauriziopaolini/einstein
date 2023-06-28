@@ -35,6 +35,7 @@ if [ -z "$sig01" ]; then echo "usage: $0 rabbit-signature"; exit 1; fi
 # echo "Rabbit signature: $sig01"
 
 rabbit=`./signature_convert --rabbitstring --totheleft $radiusl --totheright $radiusr --showworm $sig01`
+status=$?
 
 rabbitleft=`echo "$rabbit" | cut -f1 -d'('`
 index=`echo "$rabbitleft" | wc -c`
@@ -42,6 +43,6 @@ index=`echo "$rabbitleft" | wc -c`
 echo index: $index
 
 rabbit=`echo "$rabbit" | tr -d '()' | tr '0' '7' | tr '1' '8'`
-echo "Rabbit string: $rabbit"
+#echo "Rabbit string: $rabbit"
 
 echo "$rabbit" | ./inflate78 --index $index
