@@ -18,10 +18,14 @@ int checkstring (char *string);
 int
 main (int argc, char *argv[])
 {
-  int len;
+  int len, index;
   char string[MAXLEN+1];
   char istring[MAXLEN+1];
   char dstring[MAXLEN+1];
+
+  assert (argc >= 3);
+  assert (strcmp (argv[1], "--index") == 0);
+  index = atoi (argv[2]);
 
   fgets (string, MAXLEN+1, stdin);
 
