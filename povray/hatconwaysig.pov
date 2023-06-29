@@ -12,8 +12,7 @@ global_settings { assumed_gamma 1.0 }
 #include "subdivision.inc"
 #include "ambiente.inc"
 //#include "yellow_brick_road_include.inc"
-//#declare signature = array[12] {2,2,2,2,2,2,2,2,2,2,2,2}
-#declare signature = array[12] {1,1,2,2,2,2,2,2,2,2,2,2}
+#ifndef (signature) #declare signature = array[12] {1,1,2,2,2,2,2,2,2,2,2,2} #end
 
 #ifndef (depth) #declare depth = 6; #end
 
@@ -51,6 +50,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 #declare h8wormyellow = h8worm;
 
 #declare ttransinv = array[depth+1];
+#declare htilex = array[depth+1];
 
 #local dpth = 0;
 #while (dpth <= depth)
@@ -97,13 +97,19 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
     #local i = i + 1;
   #end
 
+  #declare htilex[dpth] = 8;
+  #if (signature[dpth] = 0) #declare htilex[dpth] = 7; #end
   #declare ttransinv[dpth] = transform {tiletrans inverse}
   #local dpth = dpth + 1;
 #end
 //#declare tiletransinv = transform {tiletrans inverse}
 
-
-object {h8wormdark
+object {
+  #if (htilex[0] = 8)
+    h8wormdark
+  #else
+    h7wormdark
+  #end
   transform gtrans0
   translate 2*tile_thick*y
 }
@@ -122,7 +128,24 @@ object {h8wormdark
 #end
  */
 
-h8rec (transform {ttransinv[depth] gtrans0}, depth)
+#if (htilex[depth] = 8)
+  h8rec (transform {ttransinv[depth] gtrans0}, depth)
+#else
+  h7rec (transform {ttransinv[depth] gtrans0}, depth)
+#end
+
+/*
+ * PER QUALCHE RAGIONE QUESTO NON SEMBRA FUNZIONARE
+ *
+
+#if (htilex[depth-1] = 8)
+  h8rec
+#else
+  h7rec
+#end
+  (transform {ttransinv[depth-1] gtrans0 translate tile_thick*y}, depth-1)
+ */
+
 #declare onlyworm = 1;
 #declare h7worm = h7wormyellow;
 #declare h8worm = h8wormyellow;
