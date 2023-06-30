@@ -24,7 +24,7 @@ global_settings { assumed_gamma 1.0 }
   #while (i < 12)
     #local sigq = int(sig/10);
     #declare signature[i] = sig - 10*sigq;
-    #debug concat("==== BUILDING... signature[", str(i,0,0), "] = ", str(signature[i],0,0), "\n")
+    //#debug concat("==== BUILDING... signature[", str(i,0,0), "] = ", str(signature[i],0,0), "\n")
     #local i = i + 1;
     #local sig = sigq;
     #if (i = 6) #local sig = sigh; #end
@@ -39,13 +39,18 @@ global_settings { assumed_gamma 1.0 }
 
 #ifndef (signature) #declare signature = array[12] {1,1,2,2,2,2,2,2,2,2,2,2} #end
 
-#debug concat("SIGNATURE: ")
+//#debug concat("SIGNATURE: ")
+#local sigstring=""
 #local i = 12;
 #while (i > 0)
   #local i = i - 1;
-  #debug str(signature[i],0,0)
+  #local sigstring=concat(sigstring,str(signature[i],0,0))
+//  #debug str(signature[i],0,0)
 #end
-#debug ".\n"
+//#debug ".\n"
+#local sigstring=concat(sigstring,".")
+
+#debug concat("SIGNATURE: ", sigstring, "\n")
 
 #ifndef (depth) #declare depth = 6; #end
 
@@ -183,7 +188,7 @@ object {
   #else
     h7rec
   #end
-   (transform {ttransinv[dpth] gtrans0 translate (depth-dpth)*tile_thick*y}, dpth)
+   (transform {ttransinv[dpth] gtrans0 translate 2*(depth-dpth)*tile_thick*y}, dpth)
   rotcolors ()
   #local dpth = dpth + 1;
 #end
@@ -191,9 +196,41 @@ object {
 #declare onlyworm = 1;
 #declare h7worm = h7wormyellow;
 #declare h8worm = h8wormyellow;
-h8rec (transform {ttransinv[depth] gtrans0 translate 0.5*tile_thick*y}, depth)
 
-#declare skycam = y;
+#local dpth = 2;
+#while (dpth <= depth)
+  #if (htilex[dpth] = 8)
+    h8rec
+  #else
+    h7rec
+  #end
+   (transform {ttransinv[dpth] gtrans0 translate (2*depth-2*dpth+1)*tile_thick*y}, dpth)
+
+  #local dpth = dpth + 1;
+#end
+
+//h8rec (transform {ttransinv[depth] gtrans0 translate 0.5*tile_thick*y}, depth)
+
+cylinder {
+  0*y, 20*tile_thick*y, 1.0
+  pigment {color Black}
+  finish {tile_Finish}
+  transform gtrans0
+}
+
+#declare textfont = "LiberationMono-Regular.ttf"
+
+text {ttf textfont sigstring 0.02, 0
+  rotate 90*x
+  scale 0.5*mag*<1,1,1>
+  pigment {color Black}
+  translate mag*(-4*x+3*z)
+  translate 20*y
+}
+
+background {White}
+
+#declare skycam = z;
 #declare camerapos = 30*mag*y;
 //#declare camerapos = 600*y;
 #declare lookatpos = <0,0,0>;

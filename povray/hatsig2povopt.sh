@@ -5,6 +5,9 @@
 # as options to povray "hatconwaysig.pov"
 #
 
+quiet=""
+if [ "$1" = "-q" ]; then quiet="1"; shift; fi
+
 sig=$1
 
 if [ -z "$sig" ]; then echo "usage: $0 <signature>"; fi
@@ -28,4 +31,13 @@ fi
 sigl=`echo "$sig" | rev | cut -c1-6 | rev`
 sigh=`echo "$sig" | rev | cut -c7-12 | rev`
 
-echo "Declare=Sigh=$sigh Declare=Sigl=$sigl"
+shift
+
+if [ -z "$1" ]; then echo "Declare=Sigh=$sigh Declare=Sigl=$sigl"; exit; fi
+
+if [ "$1" = "povray" ]
+then
+  shift
+  if [ -z "$quiet" ]; then echo "executing povray with arguments from command line"; fi
+  povray hatconwaysig.pov +a Declare=Sigh=$sigh Declare=Sigl=$sigl $*
+fi
