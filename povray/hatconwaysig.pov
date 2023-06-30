@@ -58,34 +58,34 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
   #declare tiletrans = transform {scale <1,1,1>};
   #local i = 0;
   #while (i < dpth)
-    #switch (signature[depth-i-1])
+    #switch (signature[dpth-i-1])
       #case (0)
         #local rotx = rot0;
-        #local trnx = trn0[depth-i-1];
+        #local trnx = trn0[dpth-i-1];
       #break
       #case (1)
         #local rotx = rot1;
-        #local trnx = trn1[depth-i-1];
+        #local trnx = trn1[dpth-i-1];
       #break
       #case (2)
         #local rotx = rot2;
-        #local trnx = trn2[depth-i-1];
+        #local trnx = trn2[dpth-i-1];
       #break
       #case (3)
         #local rotx = rot3;
-        #local trnx = trn3[depth-i-1];
+        #local trnx = trn3[dpth-i-1];
       #break
       #case (4)
         #local rotx = rot4;
-        #local trnx = trn4[depth-i-1];
+        #local trnx = trn4[dpth-i-1];
       #break
       #case (5)
         #local rotx = rot5;
-        #local trnx = trn5[depth-i-1];
+        #local trnx = trn5[dpth-i-1];
       #break
       #case (6)
         #local rotx = rot6;
-        #local trnx = trn6[depth-i-1];
+        #local trnx = trn6[dpth-i-1];
       #break
       #else
         #local rotx = 15;  // just a random invalid value
@@ -99,11 +99,14 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
   #declare htilex[dpth] = 8;
   #if (signature[dpth] = 0) #declare htilex[dpth] = 7; #end
+#local vvv = vtransform (<0,0,0>,tiletrans);
+#debug concat("================= depth: ", str(dpth,0,0), " tiletrans:   ", str(vvv.x,0,-1), "\n")
   #declare ttransinv[dpth] = transform {tiletrans inverse}
   #local dpth = dpth + 1;
 #end
 //#declare tiletransinv = transform {tiletrans inverse}
 
+/*
 object {
   #if (htilex[0] = 8)
     h8wormdark
@@ -113,38 +116,32 @@ object {
   transform gtrans0
   translate 2*tile_thick*y
 }
-
-/*
-object {h8wormdark
-  transform tiletransinv
-  transform gtrans0
-  translate 2*tile_thick*y
-}
-
-#local dpth = depth;
-#while (dpth > 0)
-  h8rec (transform {ttransinv[dpth] gtrans0 translate (depth-dpth)*tile_thick*y}, dpth)
-  #local dpth = dpth - 1;
-#end
  */
 
-#if (htilex[depth] = 8)
-  h8rec (transform {ttransinv[depth] gtrans0}, depth)
-#else
-  h7rec (transform {ttransinv[depth] gtrans0}, depth)
-#end
+#local h7c1 = <1,0,0>;
+#local h7c2 = <1,0.5,0.5>;
+#local h7c3 = <1,0.75,0.75>;
+#local h8c1 = <0,1,0>;
+#local h8c2 = <0.5,1,0.5>;
+#local h8c3 = <0.75,1,0.75>;
 
-/*
- * PER QUALCHE RAGIONE QUESTO NON SEMBRA FUNZIONARE
- *
-
-#if (htilex[depth-1] = 8)
-  h8rec
-#else
-  h7rec
+#local dpth = 0;
+#while (dpth <= depth)
+  #local dimm = 1/(0.25*dpth+1);
+  #declare h7m = union {
+    h7list (dimm*h7c1, dimm*h7c2, dimm*h7c3)
+  }
+  #declare h8m = union {
+    h8list (dimm*h8c1, dimm*h8c2, dimm*h8c3)
+  }
+  #if (htilex[dpth] = 8)
+    h8rec
+  #else
+    h7rec
+  #end
+   (transform {ttransinv[dpth] gtrans0 translate (depth-dpth)*tile_thick*y}, dpth)
+  #local dpth = dpth + 1;
 #end
-  (transform {ttransinv[depth-1] gtrans0 translate tile_thick*y}, depth-1)
- */
 
 #declare onlyworm = 1;
 #declare h7worm = h7wormyellow;
