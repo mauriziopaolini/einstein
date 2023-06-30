@@ -11,6 +11,10 @@ deflated_png_M = $(depthsSM:%=mystic_d%.png)
 deflatedq_png_S = $(depthsSM:%=spectreq_d%.png)
 deflatedq_png_M = $(depthsSM:%=mysticq_d%.png)
 
+hatsignatures="[0] [2] [6] [602] [026] [260] [1]"
+hatsigpngd6=${hatsignatures:%=hatconwaysig%_d6.png}
+hatsigpngd4=${hatsignatures:%=hatconwaysig%_d4.png}
+
 yellowtopviews = yellow_brick_road_topview01 yellow_brick_road_topview023 yellow_brick_road_3clusters
 paths=01 023
 
@@ -23,6 +27,8 @@ allchiral: $(allSM)
 #
 # png images
 #
+
+
 povoptspng = -D +a +W1024 +H768
 
 yellow_brick_road_topview01.png: yellow_brick_road.pov

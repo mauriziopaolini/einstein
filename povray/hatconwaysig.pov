@@ -1,5 +1,11 @@
 /*
- * Display the result of "[222]." Conway signature
+ * usage:
+ *  povray +a <self>.pov Declare=Sigh=xxxxxx Declare=Sigl=yyyyyy [Declare=depth=<depth>] [Declare=zoomout=<depth>]
+ *
+ *  resulting in a [rtol] signature: xxxxxxyyyyyy.
+ *
+ * x and y must belong to the set {0,1,2,3,4,5,6} and the pair 06 is forbidden
+ *
  */
 
 #version 3.7;
@@ -11,8 +17,35 @@ global_settings { assumed_gamma 1.0 }
 #include "shapes.inc"
 #include "subdivision.inc"
 #include "ambiente.inc"
-//#include "yellow_brick_road_include.inc"
+
+#macro buildsig (sigh, sigl)
+  #local sig = sigl;
+  #local i = 0;
+  #while (i < 12)
+    #local sigq = int(sig/10);
+    #declare signature[i] = sig - 10*sigq;
+    #debug concat("==== BUILDING... signature[", str(i,0,0), "] = ", str(signature[i],0,0), "\n")
+    #local i = i + 1;
+    #local sig = sigq;
+    #if (i = 6) #local sig = sigh; #end
+  #end
+#end
+
+#ifdef (Sigl)
+  #declare signature = array[12]
+  #ifndef (Sigh) #declare Sigh=222222; #end
+  buildsig (Sigh, Sigl)
+#end
+
 #ifndef (signature) #declare signature = array[12] {1,1,2,2,2,2,2,2,2,2,2,2} #end
+
+#debug concat("SIGNATURE: ")
+#local i = 12;
+#while (i > 0)
+  #local i = i - 1;
+  #debug str(signature[i],0,0)
+#end
+#debug ".\n"
 
 #ifndef (depth) #declare depth = 6; #end
 
@@ -99,8 +132,6 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
   #declare htilex[dpth] = 8;
   #if (signature[dpth] = 0) #declare htilex[dpth] = 7; #end
-#local vvv = vtransform (<0,0,0>,tiletrans);
-#debug concat("================= depth: ", str(dpth,0,0), " tiletrans:   ", str(vvv.x,0,-1), "\n")
   #declare ttransinv[dpth] = transform {tiletrans inverse}
   #local dpth = dpth + 1;
 #end
