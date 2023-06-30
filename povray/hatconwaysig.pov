@@ -118,12 +118,25 @@ object {
 }
  */
 
-#local h7c1 = <1,0,0>;
-#local h7c2 = <1,0.5,0.5>;
-#local h7c3 = <1,0.75,0.75>;
-#local h8c1 = <0,1,0>;
-#local h8c2 = <0.5,1,0.5>;
-#local h8c3 = <0.75,1,0.75>;
+#declare h7c1 = <1,0,0>;
+#declare h7c2 = <1,0.5,0.5>;
+#declare h7c3 = <1,0.75,0.75>;
+#declare h8c1 = <0,1,0>;
+#declare h8c2 = <0.5,1,0.5>;
+#declare h8c3 = <0.75,1,0.75>;
+
+#macro rotcol (col)
+  <col.y, col.z, col.x>
+#end
+
+#macro rotcolors ()
+  //#declare h7c1 = rotcol (h7c1);
+  #declare h7c2 = rotcol (h7c2);
+  #declare h7c3 = rotcol (h7c3);
+  //#declare h8c1 = rotcol (h8c1);
+  #declare h8c2 = rotcol (h8c2);
+  #declare h8c3 = rotcol (h8c3);
+#end
 
 #local dpth = 0;
 #while (dpth <= depth)
@@ -140,6 +153,7 @@ object {
     h7rec
   #end
    (transform {ttransinv[dpth] gtrans0 translate (depth-dpth)*tile_thick*y}, dpth)
+  rotcolors ()
   #local dpth = dpth + 1;
 #end
 
