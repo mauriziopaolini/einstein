@@ -6,12 +6,15 @@
 #define MAXLEN 100000
 #define SIGLEN 100
 
+static int verbose = 0;
+
 /*
  * templates
  */
 
 int checkstring (char *string);
 int inflate (char *istring, char *string, int *iindex, int index);
+void outstring (int index, char *string);
 
 /*
  * =====================================
@@ -24,13 +27,24 @@ main (int argc, char *argv[])
   int isig = 0;
   char string[MAXLEN+1];
   char istring[MAXLEN+1];
+  char ltorsignature[SIGLEN];
   char signature[SIGLEN];
   char sig;
+  int iarg, i;
 
   assert (argc >= 3);
-  assert (strcmp (argv[1], "--index") == 0);
-  index = atoi (argv[2]);
-
+  iarg = 1;
+  if (strcmp(argv[iarg], "--verbose") == 0)
+  {
+    iarg++;
+    verbose++;
+    assert (argc >= 4);
+  }
+  assert (strcmp (argv[iarg], "--index") == 0);
+  iarg++;
+  index = atoi (argv[iarg]);
+  iarg++;
+  assert (argc == iarg);
   fgets (string, MAXLEN+1, stdin);
 
   len = strlen (string);
@@ -43,21 +57,26 @@ main (int argc, char *argv[])
   //printf ("string:  %s\n", string);
   //printf ("index: %d\n", index);
   if (!checkstring (string)) exit (1);
+  if (verbose) {printf ("input pattern: "); outstring (index, string);}
+
   while (1)
   {
     sig = inflate (istring, string, &iindex, index-1);
     iindex++;
     if (!checkstring (istring)) exit (1);
-    //printf ("istring: %s\n", istring);
-    //printf ("index: %d, signature: %c\n", iindex, sig);
+    if (verbose) {printf ("inflation #%d: ", isig+1); outstring (iindex, istring); printf (" --> sig: %c\n", sig);}
     strcpy (string, istring);
     index = iindex;
-    signature[isig++] = sig;
+    ltorsignature[isig++] = sig;
     if (sig == 0) break;
   }
 
-
-  printf ("signature: %s\n", signature);
+  isig--;
+  //ltorsignature[isig] = 0;
+  assert (isig == strlen(ltorsignature));
+  for (i = 0; i < isig; i++) signature[i] = ltorsignature[isig-i-1];
+  signature[isig] = 0;
+  printf ("signature: %s.\n", signature);
 }
 
 /* ========================================================= */
@@ -125,4 +144,18 @@ checkstring (char *string)
   }
 
   return (1);
+}
+
+/* ========================================================= */
+
+void
+outstring (int index, char *string)
+{
+  int i;
+
+  printf ("\n%s\n", string);
+  if (index <= 0) return;
+  for (i = 1; i < index; i++) printf ("_");
+  printf ("|\n");
+  return;
 }

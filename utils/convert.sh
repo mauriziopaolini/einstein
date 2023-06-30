@@ -1,11 +1,18 @@
 #!/bin/bash
 #
 
-radiusl=100
-radiusr=100
+verbose=""
+radiusl=10000
+radiusr=10000
 
 while [ -n "$1" ]
 do
+  if [ "$1" = "--verbose" ]
+  then
+    verbose="1"
+    shift
+    continue
+  fi
   if [ "$1" = "--radiusleft" -a -n "$2" ]
   then
     radiusl="$2"
@@ -53,6 +60,9 @@ if [ -z "$sig01" ]; then usage; exit 1; fi
 
 rabbit=`./signature_convert --rabbitstring --totheleft $radiusl --totheright $radiusr --showworm $sig01`
 status=$?
+if [ "$status" != 0 ]; then echo "FATAL: error $status returned by 'signature_convert'"; exit $status; fi
+
+if [ -n "$verbose" ]; then echo "rabbit:  $rabbit"; fi
 
 rabbitleft=`echo "$rabbit" | cut -f1 -d'('`
 index=`echo "$rabbitleft" | wc -c`
@@ -60,6 +70,8 @@ index=`echo "$rabbitleft" | wc -c`
 echo index: $index
 
 rabbit=`echo "$rabbit" | tr -d '()' | tr '0' '7' | tr '1' '8'`
-#echo "Rabbit string: $rabbit"
+if [ -n "$verbose" ]; then echo "rabbit0: $rabbit"; echo "index: $index"; fi
+inflate78opts=""
+if [ -n "$verbose" ]; then inflate78opts="--verbose"; fi
 
-echo "$rabbit" | ./inflate78 --index $index
+echo "$rabbit" | ./inflate78 $inflate78opts --index $index
