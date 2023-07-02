@@ -21,6 +21,8 @@ global_settings { assumed_gamma 1.0 }
 #declare zoomfactor2 = 2.62;
 #declare zoomfactor = pow (zoomfactor, depth);
 
+#declare textfont = "LiberationMono-Regular.ttf"
+
 #debug concat ("zoomfactor = ", str(zoomfactor,0,-1), "\n")
 #debug concat ("zoomfactor2 = ", str(zoomfactor2,0,-1), "\n")
 
@@ -34,6 +36,29 @@ global_settings { assumed_gamma 1.0 }
   h8rec (transform {scale 1.0 translate gtras}, depth)
   #declare onlyworm = 1;
   h8rec (transform {scale 1.0 translate gtras + h*y}, depth)
+#end
+
+#ifdef (numbers)
+  #local trnx = array[7]
+  #local trnx[0] = trn0[depth-1];
+  #local trnx[1] = trn1[depth-1];
+  #local trnx[2] = trn2[depth-1];
+  #local trnx[3] = trn3[depth-1];
+  #local trnx[4] = trn4[depth-1];
+  #local trnx[5] = trn5[depth-1];
+  #local trnx[6] = trn6[depth-1];
+  #local i = 0;
+  #while (i <= htile-2 )
+    text {ttf textfont str(i,0,0) 0.02, 0
+      pigment {color Black}
+      rotate 90*x
+      translate -0.3*x-0.4*z
+      scale zoomfactor
+      translate trnx[i]
+      translate gtras + 2*tile_thick*y
+    }
+    #local i = i + 1;
+  #end
 #end
 
 #ifdef (debug)
