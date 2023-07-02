@@ -14,6 +14,12 @@ global_settings { assumed_gamma 1.0 }
 #include "shapes.inc"
 #include "subdivision.inc"
 
+#ifdef (numbers)
+  #declare depth = 1;
+  #declare htile = 8;
+  background {White}
+#end
+
 #ifndef (depth) #declare depth = 2; #end
 #ifndef (htile) #declare htile = 7; #end
 

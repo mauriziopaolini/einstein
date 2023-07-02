@@ -36,7 +36,7 @@ allchiral: $(allSM)
 povoptspng = -D +a +W1024 +H768
 
 numbers.png: einstein.pov
-	povray -D $< Declare=depth=1 Declare=htile=8 Declare=numbers=1 +O$@
+	povray -D $< Declare=numbers=1 +O$@
 
 $(hatsigpngd6):hatconwaysig%_d6.png:hatconwaysig.pov hatsig2povopt.sh
 	./hatsig2povopt.sh -q $* povray Declare=depth=6 $(povoptspng) +O- >$@
