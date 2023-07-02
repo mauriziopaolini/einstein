@@ -316,6 +316,7 @@ build_wormAB (depth)
   #debug concat ("   The center of last tile will be reached at realtime = ", str(realtimeend,0,-1), "\n")
 #end
 
+/*
 #macro wormcolors (c70, c71, c72, c80, c81, c82)
   #declare h7worm = union {
     h7list (c70, c71, c72)
@@ -326,6 +327,7 @@ build_wormAB (depth)
     texture {finish {tile_Finish}}
   }
 #end
+ */
 
 wormcolors (<0.3,0.3,0.5>, <0.5,0.5,0.8>, <0.6,0.6,0.9>,
             <0.4,0.4,0.4>, <0.6,0.6,0.7>, <0.6,0.6,0.9>)

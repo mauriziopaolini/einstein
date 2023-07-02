@@ -140,6 +140,17 @@ finish {
   }
 #end
 
+#macro wormcolors (c70, c71, c72, c80, c81, c82)
+  #declare h7worm = union {
+    h7list (c70, c71, c72)
+    texture {finish {tile_Finish}}
+  }
+  #declare h8worm = union {
+    h8list (c80, c81, c82)
+    texture {finish {tile_Finish}}
+  }
+#end
+
 #declare h7m = union {
   h7list (h7c1, h7c2, h7c3)
   //finish {tile_Finish}

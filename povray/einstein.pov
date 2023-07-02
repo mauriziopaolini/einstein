@@ -18,6 +18,8 @@ global_settings { assumed_gamma 1.0 }
   #declare depth = 1;
   #declare htile = 8;
   background {White}
+  wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
+              <1,1,0>, <0.5,1,0>, <0.6,1,0.2>)
 #end
 
 #ifndef (depth) #declare depth = 2; #end
