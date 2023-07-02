@@ -69,6 +69,20 @@ global_settings { assumed_gamma 1.0 }
   #end
 #end
 
+#ifdef (arrow)
+  #local arbase = trn0[depth-1];
+  #local arpoint = trn6[depth-1];
+  #local arcbase = 0.3*arbase + 0.7*arpoint;
+  union {
+    cone {arcbase, 0.2*zoomfactor, arpoint, 0}
+    cylinder {arbase, arcbase, 0.1*zoomfactor}
+    translate 0*0.3*x + 1.0*z
+    translate gtras + 2.5*tile_thick*y
+    pigment {color Black}
+    finish {tile_Finish}
+  }
+#end
+
 #ifdef (debug)
 #if (depth = 0)
   sphere {
