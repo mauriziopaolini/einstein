@@ -11,7 +11,7 @@ deflated_png_M = $(depthsSM:%=mystic_d%.png)
 deflatedq_png_S = $(depthsSM:%=spectreq_d%.png)
 deflatedq_png_M = $(depthsSM:%=mysticq_d%.png)
 
-hatsignatures=[0] [2] [6] [602] [026] [260] [1]
+hatsignatures=[0] [2] [6] [602] [026] [260] [1] [3] [4] [5]
 hatsigpngd6=${hatsignatures:%=hatconwaysig%_d6.png}
 hatsigpngd6z=${hatsignatures:%=hatconwaysig%_d6z.png}
 hatsigpngd7z=${hatsignatures:%=hatconwaysig%_d7z.png}
