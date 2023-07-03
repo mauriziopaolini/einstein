@@ -154,12 +154,18 @@ object {
 }
  */
 
-#declare h7c1 = <1,0,0>;
-#declare h7c2 = <1,0.5,0.5>;
-#declare h7c3 = <1,0.75,0.75>;
-#declare h8c1 = <0,1,0>;
-#declare h8c2 = <0.5,1,0.5>;
-#declare h8c3 = <0.75,1,0.75>;
+//#declare h7c1 = <1,0,0>;
+//#declare h7c2 = <1,0.5,0.5>;
+//#declare h7c3 = <1,0.75,0.75>;
+#declare h7c1 = <1,1,1>;
+#declare h7c2 = <1,0,0>;
+#declare h7c3 = <1,0.4,0.4>;
+//#declare h8c1 = <0,1,0>;
+//#declare h8c2 = <0.5,1,0.5>;
+//#declare h8c3 = <0.75,1,0.75>;
+#declare h8c1 = <1,1,1>;
+#declare h8c2 = <1,0.4,0>;
+#declare h8c3 = <1,0.4,0.4>;
 
 #macro rotcol (col)
   <col.y, col.z, col.x>
@@ -197,7 +203,7 @@ object {
 #declare h7worm = h7wormyellow;
 #declare h8worm = h8wormyellow;
 
-#local dpth = 2;
+#local dpth = 0;
 #while (dpth <= depth)
   #if (htilex[dpth] = 8)
     h8rec
@@ -226,6 +232,7 @@ text {ttf textfont sigstring 0.02, 0
   pigment {color Black}
   translate mag*(-4*x+3*z)
   translate 20*y
+  no_shadow
 }
 
 background {White}
