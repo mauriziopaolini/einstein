@@ -23,7 +23,12 @@ global_settings { assumed_gamma 1.0 }
   #local i = 0;
   #while (i < 12)
     #local sigq = int(sig/10);
-    #declare signature[i] = sig - 10*sigq;
+    #ifdef (signature2)
+      #declare signature2[i] =
+    #else
+      #declare signature[i] =
+    #end
+      sig - 10*sigq;
     //#debug concat("==== BUILDING... signature[", str(i,0,0), "] = ", str(signature[i],0,0), "\n")
     #local i = i + 1;
     #local sig = sigq;
@@ -38,6 +43,12 @@ global_settings { assumed_gamma 1.0 }
 #end
 
 #ifndef (signature) #declare signature = array[12] {1,1,2,2,2,2,2,2,2,2,2,2} #end
+
+#ifdef (Sigl2)
+  #declare signature2 = array[12]
+  #ifndef (Sigh2) #declare Sigh2=222222; #end
+  buildsig (Sigh2, Sigl2)
+#end
 
 //#debug concat("SIGNATURE: ")
 #local sigstring=""
@@ -90,8 +101,35 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 #declare ttransinv = array[depth+1];
 #declare htilex = array[depth+1];
 
-#local dpth = 0;
-#while (dpth <= depth)
+//#declare h7c1 = <1,0,0>;
+//#declare h7c2 = <1,0.5,0.5>;
+//#declare h7c3 = <1,0.75,0.75>;
+#declare h7c1 = <1,1,1>;
+#declare h7c2 = <1,0,0>;
+#declare h7c3 = <1,0.4,0.4>;
+//#declare h8c1 = <0,1,0>;
+//#declare h8c2 = <0.5,1,0.5>;
+//#declare h8c3 = <0.75,1,0.75>;
+#declare h8c1 = <1,1,1>;
+#declare h8c2 = <1,0.4,0>;
+#declare h8c3 = <1,0.4,0.4>;
+
+#macro rotcol (col)
+  <col.y, col.z, col.x>
+#end
+
+#macro rotcolors ()
+  //#declare h7c1 = rotcol (h7c1);
+  #declare h7c2 = rotcol (h7c2);
+  #declare h7c3 = rotcol (h7c3);
+  //#declare h8c1 = rotcol (h8c1);
+  #declare h8c2 = rotcol (h8c2);
+  #declare h8c3 = rotcol (h8c3);
+#end
+
+#macro build_ttransinv (signature, depth)
+ #local dpth = 0;
+ #while (dpth <= depth)
 
   #declare tiletrans = transform {scale <1,1,1>};
   #local i = 0;
@@ -139,49 +177,12 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
   #if (signature[dpth] = 0) #declare htilex[dpth] = 7; #end
   #declare ttransinv[dpth] = transform {tiletrans inverse}
   #local dpth = dpth + 1;
-#end
-//#declare tiletransinv = transform {tiletrans inverse}
-
-/*
-object {
-  #if (htilex[0] = 8)
-    h8wormdark
-  #else
-    h7wormdark
-  #end
-  transform gtrans0
-  translate 2*tile_thick*y
-}
- */
-
-//#declare h7c1 = <1,0,0>;
-//#declare h7c2 = <1,0.5,0.5>;
-//#declare h7c3 = <1,0.75,0.75>;
-#declare h7c1 = <1,1,1>;
-#declare h7c2 = <1,0,0>;
-#declare h7c3 = <1,0.4,0.4>;
-//#declare h8c1 = <0,1,0>;
-//#declare h8c2 = <0.5,1,0.5>;
-//#declare h8c3 = <0.75,1,0.75>;
-#declare h8c1 = <1,1,1>;
-#declare h8c2 = <1,0.4,0>;
-#declare h8c3 = <1,0.4,0.4>;
-
-#macro rotcol (col)
-  <col.y, col.z, col.x>
+ #end
 #end
 
-#macro rotcolors ()
-  //#declare h7c1 = rotcol (h7c1);
-  #declare h7c2 = rotcol (h7c2);
-  #declare h7c3 = rotcol (h7c3);
-  //#declare h8c1 = rotcol (h8c1);
-  #declare h8c2 = rotcol (h8c2);
-  #declare h8c3 = rotcol (h8c3);
-#end
-
-#local dpth = 0;
-#while (dpth <= depth)
+#macro build_tiling (ttransinv, htilex, gtrans0, depth)
+ #local dpth = 0;
+ #while (dpth <= depth)
   #local dimm = 1/(0.25*dpth+1);
   #declare h7m = union {
     h7list (dimm*h7c1, dimm*h7c2, dimm*h7c3)
@@ -197,14 +198,14 @@ object {
    (transform {ttransinv[dpth] gtrans0 translate 2*(depth-dpth)*tile_thick*y}, dpth)
   rotcolors ()
   #local dpth = dpth + 1;
-#end
+ #end
 
-#declare onlyworm = 1;
-#declare h7worm = h7wormyellow;
-#declare h8worm = h8wormyellow;
+ #declare onlyworm = 1;
+ #declare h7worm = h7wormyellow;
+ #declare h8worm = h8wormyellow;
 
-#local dpth = 0;
-#while (dpth <= depth)
+ #local dpth = 0;
+ #while (dpth <= depth)
   #if (htilex[dpth] = 8)
     h8rec
   #else
@@ -213,9 +214,17 @@ object {
    (transform {ttransinv[dpth] gtrans0 translate (2*depth-2*dpth+1)*tile_thick*y}, dpth)
 
   #local dpth = dpth + 1;
+ #end
+ #undef onlyworm
 #end
 
-//h8rec (transform {ttransinv[depth] gtrans0 translate 0.5*tile_thick*y}, depth)
+build_ttransinv (signature, depth)
+build_tiling (ttransinv, htilex, gtrans0, depth)
+
+#ifdef (signature2)
+  build_ttransinv (signature2, depth)
+  build_tiling (ttransinv, htilex, transform {rotate 0*180*y gtrans0}, depth)
+#end
 
 cylinder {
   0*y, 20*tile_thick*y, 1.0
