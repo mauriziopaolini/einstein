@@ -6,6 +6,13 @@
  *
  * x and y must belong to the set {0,1,2,3,4,5,6} and the pair 06 is forbidden
  *
+ * other possible options:
+ *  Declare=Sigh2=xxxxxx Declare=Sigl2=yyyyyy
+ * includes a second tiling with the given signature
+ *
+ *  Declare=up2=xy Declare=down2=zt
+ * transform the second tiling as if the first tiling were transformed with signature xy
+ * and the second tiling with signature zt
  */
 
 #version 3.7;
@@ -43,6 +50,10 @@ global_settings { assumed_gamma 1.0 }
 #end
 
 #ifndef (signature) #declare signature = array[12] {1,1,2,2,2,2,2,2,2,2,2,2} #end
+
+#ifdef (down2)
+  #ifndef (Sigl2) #declare Sigl2 = Sigl; #declare Sigh2 = Sigh; #end
+#end
 
 #ifdef (Sigl2)
   #declare signature2 = array[12]
@@ -134,41 +145,8 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
   #declare tiletrans = transform {scale <1,1,1>};
   #local i = 0;
   #while (i < dpth)
-    #switch (signature[dpth-i-1])
-      #case (0)
-        #local rotx = rot0;
-        #local trnx = trn0[dpth-i-1];
-      #break
-      #case (1)
-        #local rotx = rot1;
-        #local trnx = trn1[dpth-i-1];
-      #break
-      #case (2)
-        #local rotx = rot2;
-        #local trnx = trn2[dpth-i-1];
-      #break
-      #case (3)
-        #local rotx = rot3;
-        #local trnx = trn3[dpth-i-1];
-      #break
-      #case (4)
-        #local rotx = rot4;
-        #local trnx = trn4[dpth-i-1];
-      #break
-      #case (5)
-        #local rotx = rot5;
-        #local trnx = trn5[dpth-i-1];
-      #break
-      #case (6)
-        #local rotx = rot6;
-        #local trnx = trn6[dpth-i-1];
-      #break
-      #else
-        #local rotx = 15;  // just a random invalid value
-        #local trnx = <0,0,0>;
-      #break
-    #end
-    //#declare tiletrans = transform {rotate rot2*y translate trn2[depth-i-1] tiletrans}
+    #local rotx = rotvec[signature[dpth-i-1]];
+    #local trnx = trnvec[signature[dpth-i-1]][dpth-i-1];
     #declare tiletrans = transform {rotate rotx*y translate trnx tiletrans}
     #local i = i + 1;
   #end
@@ -221,17 +199,49 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 build_ttransinv (signature, depth)
 build_tiling (ttransinv, htilex, gtrans0, depth)
 
-#ifdef (signature2)
-  build_ttransinv (signature2, depth)
-  build_tiling (ttransinv, htilex, transform {rotate 0*180*y gtrans0}, depth)
-#end
-
 cylinder {
   0*y, 20*tile_thick*y, 1.0
   pigment {color Black}
   finish {tile_Finish}
   transform gtrans0
 }
+
+#macro build_up_down (upl, downl)
+  #declare uptransf = transform {scale <1,1,1>}
+  #declare downtransf = transform {scale <1,1,1>}
+  #local dpth = 0;
+  #while (upl != downl)
+    #local uplhigh = int (upl/10);
+    #local downlhigh = int (downl/10);
+    #local upllow = upl - 10*uplhigh;
+    #local downllow = downl - 10*downlhigh;
+    #declare uptransf = transform {uptransf rotate rotvec[upllow]*y translate trnvec[upllow][dpth]}
+    #declare downtransf = transform {downtransf rotate rotvec[downllow]*y translate trnvec[downllow][dpth]}
+    #local upl = uplhigh;
+    #local downl = downlhigh;
+    #local dpth = dpth + 1;
+  #end
+#end
+
+#ifdef (signature2)
+  #ifndef (up2) #declare up2=0; #end
+  #ifndef (down2) #declare down2=0; #end
+  build_up_down (up2, down2)
+  //#declare uptransf = transform {rotate rot5*y translate trn5[0] rotate rot0*y translate trn0[1]}
+  #declare uptransfinv = transform {uptransf inverse}
+  //#declare downtransf = transform {rotate rot1*y translate trn1[0] rotate rot1*y translate trn1[1]}
+  #declare placeit = transform {downtransf uptransfinv}
+  build_ttransinv (signature2, depth)
+  build_tiling (ttransinv, htilex, transform {placeit gtrans0}, depth)
+  cylinder {
+    0*y, 20*tile_thick*y, 1.0
+    pigment {color Black}
+    finish {tile_Finish}
+    transform placeit
+    transform gtrans0
+  }
+
+#end
 
 #declare textfont = "LiberationMono-Regular.ttf"
 

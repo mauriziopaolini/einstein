@@ -16,9 +16,8 @@ hatsigpngd6=${hatsignatures:%=hatconwaysig%_d6.png}
 hatsigpngd6z=${hatsignatures:%=hatconwaysig%_d6z.png}
 hatsigpngd7z=${hatsignatures:%=hatconwaysig%_d7z.png}
 
-hatsigsd6: $(hatsigpngd6)
-hatsigsd6z: $(hatsigpngd6z)
-hatsigsd7z: $(hatsigpngd7z)
+hatsigsd6: $(hatsigpngd6) hatconwaysig[5][5]_d6.png
+hatsigsd6z: $(hatsigpngd6z) hatconwaysig[5][5]_d6z.png
 
 yellowtopviews = yellow_brick_road_topview01 yellow_brick_road_topview023 yellow_brick_road_3clusters
 paths=01 023
@@ -38,14 +37,19 @@ povoptspng = -D +a +W1024 +H768
 hatnumbers.png: einstein.pov
 	povray -D $< Declare=numbers=1 Declare=arrow=1 +O$@
 
+hatconwaysig[5][5]_d6z.png: hatconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=up2=05 Declare=down2=11 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+hatconwaysig[5][5]_d6.png: hatconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=up2=05 Declare=down2=11 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
+	mv tmp_pippo.png $@
+
 $(hatsigpngd6):hatconwaysig%_d6.png:hatconwaysig.pov hatsig2povopt.sh
 	./hatsig2povopt.sh -q $* povray Declare=depth=6 $(povoptspng) +O- >$@
 
 $(hatsigpngd6z):hatconwaysig%_d6z.png:hatconwaysig.pov hatsig2povopt.sh
 	./hatsig2povopt.sh -q $* povray Declare=depth=6 Declare=zoomout=4 $(povoptspng) +O- >$@
-
-$(hatsigpngd7z):hatconwaysig%_d7z.png:hatconwaysig.pov hatsig2povopt.sh
-	./hatsig2povopt.sh -q $* povray Declare=depth=7 Declare=zoomout=4 $(povoptspng) +O- >$@
 
 yellow_brick_road_topview01.png: yellow_brick_road.pov
 	povray $(povoptspng) $< Declare=depth=4 Declare=topview=2 Declare=buildtheback=1 +O$@

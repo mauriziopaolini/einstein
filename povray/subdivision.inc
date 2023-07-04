@@ -43,6 +43,7 @@
 #declare rot4 = -120;
 #declare rot5 = 60;
 #declare rot6 = 0;
+#declare rotvec = array[7] {rot0, rot1, rot2, rot3, rot4, rot5, rot6}
 
 #declare trn0 = array[maxdepth];
 #declare trn1 = array[maxdepth];
@@ -51,6 +52,7 @@
 #declare trn4 = array[maxdepth];
 #declare trn5 = array[maxdepth];
 #declare trn6 = array[maxdepth];
+#declare trnvec = array[7][maxdepth];
 #local i = 0;
 #while (i < maxdepth)
   #declare trn0[i] = <0,0,0>;
@@ -60,6 +62,13 @@
   #declare trn4[i] = <3/2*fibo[2*i], 0, -ap*(fibo[2*i + 2] + lucas[2*i + 2])>;
   #declare trn5[i] = <-3/2*fibo[2*i + 4], 0, ap*(2*fibo[2*i + 2] + lucas[2*i + 2])>;
   #declare trn6[i] = <-3/2*lucas[2*i+4], 0, ap*fibo[2*i + 3]>;
+  #declare trnvec[0][i] = trn0[i];
+  #declare trnvec[1][i] = trn1[i];
+  #declare trnvec[2][i] = trn2[i];
+  #declare trnvec[3][i] = trn3[i];
+  #declare trnvec[4][i] = trn4[i];
+  #declare trnvec[5][i] = trn5[i];
+  #declare trnvec[6][i] = trn6[i];
   #declare i = i + 1;
 #end
 
