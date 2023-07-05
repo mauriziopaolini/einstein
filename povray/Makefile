@@ -23,7 +23,6 @@ hatholezlevels=1 2 3 4 5
 hatholes=$(hatholezlevels:%=hathole_z%.png)
 
 hatholepngs: $(hatholes)
-	echo $@
 
 yellowtopviews = yellow_brick_road_topview01 yellow_brick_road_topview023 yellow_brick_road_3clusters
 paths=01 023
