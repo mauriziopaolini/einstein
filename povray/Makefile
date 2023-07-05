@@ -19,6 +19,12 @@ hatsigpngd7z=${hatsignatures:%=hatconwaysig%_d7z.png}
 hatsigsd6: $(hatsigpngd6) hatconwaysig[5][5]_d6.png hatconwaysig[0][6]_d6.png hatconwaysig[0][6]bis_d6.png hatconwaysig[0][6][6]_d6.png
 hatsigsd6z: $(hatsigpngd6z) hatconwaysig[5][5]_d6z.png hatconwaysig[0][6]_d6z.png hatconwaysig[0][6]_d6z.png hatconwaysig[0][6][6]_d6z.png
 
+hatholezlevels=1 2 3 4 5
+hatholes=$(hatholezlevels:%=hathole_z%.png)
+
+hatholepngs: $(hatholes)
+	echo $@
+
 yellowtopviews = yellow_brick_road_topview01 yellow_brick_road_topview023 yellow_brick_road_3clusters
 paths=01 023
 
@@ -74,6 +80,10 @@ $(hatsigpngd6):hatconwaysig%_d6.png:hatconwaysig.pov hatsig2povopt.sh
 
 $(hatsigpngd6z):hatconwaysig%_d6z.png:hatconwaysig.pov hatsig2povopt.sh
 	./hatsig2povopt.sh -q $* povray Declare=depth=6 Declare=zoomout=4 $(povoptspng) +O- >$@
+
+$(hatholes): hathole_z%.png: hathole.pov
+	echo $*
+	povray $(povoptspng) $< Declare=depth=5 Declare=zoomout=$* +O$@
 
 yellow_brick_road_topview01.png: yellow_brick_road.pov
 	povray $(povoptspng) $< Declare=depth=4 Declare=topview=2 Declare=buildtheback=3 +O$@
