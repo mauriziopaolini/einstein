@@ -30,12 +30,16 @@ global_settings { assumed_gamma 1.0 }
   #local i = 0;
   #while (i < 12)
     #local sigq = int(sig/10);
-    #ifdef (signature2)
-      #declare signature2[i] =
+    #ifdef (signature3)
+      #declare signature3[i] =
     #else
-      #declare signature[i] =
+      #ifdef (signature2)
+        #declare signature2[i] =
+      #else
+        #declare signature[i] =
+      #end
     #end
-      sig - 10*sigq;
+    sig - 10*sigq;
     //#debug concat("==== BUILDING... signature[", str(i,0,0), "] = ", str(signature[i],0,0), "\n")
     #local i = i + 1;
     #local sig = sigq;
@@ -60,16 +64,18 @@ global_settings { assumed_gamma 1.0 }
   #ifndef (Sigh2) #declare Sigh2=222222; #end
   buildsig (Sigh2, Sigl2)
 #end
+#ifdef (Sigl3)
+  #declare signature3 = array[12]
+  #ifndef (Sigh3) #declare Sigh3=222222; #end
+  buildsig (Sigh3, Sigl3)
+#end
 
-//#debug concat("SIGNATURE: ")
 #local sigstring=""
 #local i = 12;
 #while (i > 0)
   #local i = i - 1;
   #local sigstring=concat(sigstring,str(signature[i],0,0))
-//  #debug str(signature[i],0,0)
 #end
-//#debug ".\n"
 #local sigstring=concat(sigstring,".")
 
 #debug concat("SIGNATURE: ", sigstring, "\n")
@@ -224,6 +230,14 @@ cylinder {
 #end
 
 #ifdef (signature2)
+  #local sigstring2=""
+  #local i = 12;
+  #while (i > 0)
+    #local i = i - 1;
+    #local sigstring2=concat(sigstring2,str(signature2[i],0,0))
+  #end
+  #local sigstring2=concat(sigstring2,".")
+
   #ifndef (up2) #declare up2=0; #end
   #ifndef (down2) #declare down2=0; #end
   build_up_down (up2, down2)
@@ -243,7 +257,36 @@ cylinder {
     transform placeit
     transform gtrans0
   }
+#end
 
+#ifdef (signature3)
+  #local sigstring3=""
+  #local i = 12;
+  #while (i > 0)
+    #local i = i - 1;
+    #local sigstring3=concat(sigstring3,str(signature3[i],0,0))
+  #end
+  #local sigstring3=concat(sigstring3,".")
+
+  #ifndef (up3) #declare up3=0; #end
+  #ifndef (down3) #declare down3=0; #end
+  build_up_down (up3, down3)
+  #declare uptransfinv = transform {uptransf inverse}
+  #declare placeit = transform {downtransf uptransfinv}
+  #local darken=0.5;
+  #declare h7c2 = darken*h7c2;
+  #declare h7c3 = darken*h7c3;
+  #declare h8c2 = darken*h8c2;
+  #declare h8c3 = darken*h8c3;
+  build_ttransinv (signature3, depth)
+  build_tiling (ttransinv, htilex, transform {placeit gtrans0}, depth)
+  cylinder {
+    0*y, 20*tile_thick*y, 1.0
+    pigment {color Black}
+    finish {tile_Finish}
+    transform placeit
+    transform gtrans0
+  }
 #end
 
 #declare textfont = "LiberationMono-Regular.ttf"
@@ -256,6 +299,30 @@ text {ttf textfont sigstring 0.02, 0
   translate 20*y
   no_shadow
 }
+
+#ifdef (sigstring2)
+  text {ttf textfont sigstring2 0.02, 0
+    rotate 90*x
+    translate -z
+    scale 0.5*mag*<1,1,1>
+    pigment {color Black}
+    translate mag*(-4*x+3*z)
+    translate 20*y
+    no_shadow
+  }
+#end
+
+#ifdef (sigstring3)
+  text {ttf textfont sigstring3 0.02, 0
+    rotate 90*x
+    translate -2*z
+    scale 0.5*mag*<1,1,1>
+    pigment {color Black}
+    translate mag*(-4*x+3*z)
+    translate 20*y
+    no_shadow
+  }
+#end
 
 background {White}
 

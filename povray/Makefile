@@ -16,8 +16,8 @@ hatsigpngd6=${hatsignatures:%=hatconwaysig%_d6.png}
 hatsigpngd6z=${hatsignatures:%=hatconwaysig%_d6z.png}
 hatsigpngd7z=${hatsignatures:%=hatconwaysig%_d7z.png}
 
-hatsigsd6: $(hatsigpngd6) hatconwaysig[5][5]_d6.png hatconwaysig[0][6]_d6.png hatconwaysig[0][6]bis_d6.png
-hatsigsd6z: $(hatsigpngd6z) hatconwaysig[5][5]_d6z.png hatconwaysig[0][6]_d6z.png hatconwaysig[0][6]_d6z.png
+hatsigsd6: $(hatsigpngd6) hatconwaysig[5][5]_d6.png hatconwaysig[0][6]_d6.png hatconwaysig[0][6]bis_d6.png hatconwaysig[0][6][6]_d6.png
+hatsigsd6z: $(hatsigpngd6z) hatconwaysig[5][5]_d6z.png hatconwaysig[0][6]_d6z.png hatconwaysig[0][6]_d6z.png hatconwaysig[0][6][6]_d6z.png
 
 yellowtopviews = yellow_brick_road_topview01 yellow_brick_road_topview023 yellow_brick_road_3clusters
 paths=01 023
@@ -43,6 +43,14 @@ hatconwaysig[0][6]_d6z.png: hatconwaysig.pov
 
 hatconwaysig[0][6]_d6.png: hatconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=60 Declare=down2=26 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
+	mv tmp_pippo.png $@
+
+hatconwaysig[0][6][6]_d6z.png: hatconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=Sigh3=666666 Declare=Sigl3=666666 Declare=up2=60 Declare=down2=26 Declare=up3=60 Declare=down3=54 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+hatconwaysig[0][6][6]_d6.png: hatconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=Sigh3=666666 Declare=Sigl3=666666 Declare=up2=60 Declare=down2=26 Declare=up3=60 Declare=down3=54 Declare=up2=60 Declare=down2=26 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
 	mv tmp_pippo.png $@
 
 hatconwaysig[0][6]bis_d6z.png: hatconwaysig.pov
