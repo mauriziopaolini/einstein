@@ -227,10 +227,13 @@ cylinder {
   #ifndef (up2) #declare up2=0; #end
   #ifndef (down2) #declare down2=0; #end
   build_up_down (up2, down2)
-  //#declare uptransf = transform {rotate rot5*y translate trn5[0] rotate rot0*y translate trn0[1]}
   #declare uptransfinv = transform {uptransf inverse}
-  //#declare downtransf = transform {rotate rot1*y translate trn1[0] rotate rot1*y translate trn1[1]}
   #declare placeit = transform {downtransf uptransfinv}
+  #local darken=0.5;
+  #declare h7c2 = darken*h7c2;
+  #declare h7c3 = darken*h7c3;
+  #declare h8c2 = darken*h8c2;
+  #declare h8c3 = darken*h8c3;
   build_ttransinv (signature2, depth)
   build_tiling (ttransinv, htilex, transform {placeit gtrans0}, depth)
   cylinder {

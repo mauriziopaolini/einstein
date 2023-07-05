@@ -16,8 +16,8 @@ hatsigpngd6=${hatsignatures:%=hatconwaysig%_d6.png}
 hatsigpngd6z=${hatsignatures:%=hatconwaysig%_d6z.png}
 hatsigpngd7z=${hatsignatures:%=hatconwaysig%_d7z.png}
 
-hatsigsd6: $(hatsigpngd6) hatconwaysig[5][5]_d6.png hatconwaysig[0][6]_d6.png
-hatsigsd6z: $(hatsigpngd6z) hatconwaysig[5][5]_d6z.png hatconwaysig[0][6]_d6z.png
+hatsigsd6: $(hatsigpngd6) hatconwaysig[5][5]_d6.png hatconwaysig[0][6]_d6.png hatconwaysig[0][6]bis_d6.png
+hatsigsd6z: $(hatsigpngd6z) hatconwaysig[5][5]_d6z.png hatconwaysig[0][6]_d6z.png hatconwaysig[0][6]_d6z.png
 
 yellowtopviews = yellow_brick_road_topview01 yellow_brick_road_topview023 yellow_brick_road_3clusters
 paths=01 023
@@ -45,6 +45,14 @@ hatconwaysig[0][6]_d6.png: hatconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=60 Declare=down2=26 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
 	mv tmp_pippo.png $@
 
+hatconwaysig[0][6]bis_d6z.png: hatconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=60 Declare=down2=54 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+hatconwaysig[0][6]bis_d6.png: hatconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=60 Declare=down2=54 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
+	mv tmp_pippo.png $@
+
 hatconwaysig[5][5]_d6z.png: hatconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=up2=05 Declare=down2=11 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
 	mv tmp_pippoz.png $@
@@ -60,13 +68,13 @@ $(hatsigpngd6z):hatconwaysig%_d6z.png:hatconwaysig.pov hatsig2povopt.sh
 	./hatsig2povopt.sh -q $* povray Declare=depth=6 Declare=zoomout=4 $(povoptspng) +O- >$@
 
 yellow_brick_road_topview01.png: yellow_brick_road.pov
-	povray $(povoptspng) $< Declare=depth=4 Declare=topview=2 Declare=buildtheback=1 +O$@
+	povray $(povoptspng) $< Declare=depth=4 Declare=topview=2 Declare=buildtheback=3 +O$@
 
 yellow_brick_road_topview023.png: yellow_brick_road.pov
-	povray $(povoptspng) $< Declare=depth=4 Declare=topview=3 Declare=buildtheback=1 +O$@
+	povray $(povoptspng) $< Declare=depth=4 Declare=topview=3 Declare=buildtheback=3 +O$@
 
 yellow_brick_road_3clusters.png: yellow_brick_road.pov
-	povray $(povoptspng) $< Declare=depth=0 Declare=topview=1 Declare=buildtheback=1 Declare=zoom=1.8 +O$@
+	povray $(povoptspng) $< Declare=depth=0 Declare=topview=1 Declare=buildtheback=3 Declare=zoom=1.8 +O$@
 
 $(deflated_png_H7):einstein_H7_d%.png: einstein.pov shapes.inc subdivision.inc
 	povray $(povoptspng) $< Declare=htile=7 Declare=depth=$* +O$@

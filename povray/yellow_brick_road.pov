@@ -357,15 +357,15 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
     #local invtrans = transform {transform {rotate rot6*y translate trn6[depth+1] rotate rot0*y translate trn0[depth]} inverse}
     #local dirtransleft = transform {rotate rot6*y translate trn6[depth] rotate rot2*y translate trn2[depth+1]}
     #local dirtranstop = transform {rotate rot4*y translate trn4[depth] rotate rot5*y translate trn5[depth+1]}
-    h8rec (transform {dirtransleft invtrans gtrans}, depth)
-    h8rec (transform {dirtranstop invtrans gtrans}, depth)
+    #declare buildtheback = mod(buildtheback, 4);
+    #if (mod(buildtheback, 2) = 1) h8rec (transform {dirtransleft invtrans gtrans}, depth) #end
+    #if (buildtheback >= 2) h8rec (transform {dirtranstop invtrans gtrans}, depth) #end
   #end
 
   #declare onlyworm = 1;
   #declare h7worm = h7wormyellow;
   #declare h8worm = h8wormyellow;
-//  #ifdef (buildtheback) h8rec (transform {translate -trn6[depth]+trn2[depth] gtrans translate tile_thick*y}, depth) #end
-  #ifdef (buildtheback) h8rec (transform {dirtransleft invtrans gtrans translate tile_thick*y}, depth) #end
+  #ifdef (buildtheback) #if (mod(buildtheback, 2) = 1) h8rec (transform {dirtransleft invtrans gtrans translate tile_thick*y}, depth) #end #end
   #ifdef (quakeduration)
     #declare relquake = (pathtime - quakestarttime)/quakeduration;
     #if (relquake > 0 & relquake < 1)
