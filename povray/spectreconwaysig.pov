@@ -250,11 +250,7 @@ cylinder {
   build_up_down (up3, down3)
   #declare uptransfinv = transform {uptransf inverse}
   #declare placeit = transform {downtransf uptransfinv}
-  #local darken=0.5;
-  #declare h7c2 = darken*h7c2;
-  #declare h7c3 = darken*h7c3;
-  #declare h8c2 = darken*h8c2;
-  #declare h8c3 = darken*h8c3;
+  darkencolors (0.5)
   build_ttransinv (signature3, depth)
   build_tiling (ttransinv, htilex, transform {placeit gtrans0}, depth)
   cylinder {
