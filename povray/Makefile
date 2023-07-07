@@ -18,8 +18,7 @@ deflatedq_png_M = $(depthsSM:%=mysticq_d%.png)
 hatsignatures=[0] [2] [6] [602] [026] [260] [1] [3] [4] [5]
 hatsigpngd6=${hatsignatures:%=hatconwaysig%_d6.png}
 hatsigpngd6z=${hatsignatures:%=hatconwaysig%_d6z.png}
-hatsigpngd7z=${hatsignatures:%=hatconwaysig%_d7z.png}
-hatsigpngd7zz=${hatsignatures:%=hatconwaysig%_d7zz.png}
+hatsigpngd6zz=${hatsignatures:%=hatconwaysig%_d6zz.png}
 
 hatsigsd6: $(hatsigpngd6) hatconwaysig[5][5]_d6.png hatconwaysig[0][6]_d6.png hatconwaysig[0][6]bis_d6.png hatconwaysig[0][6][6]_d6.png
 hatsigsd6z: $(hatsigpngd6z) hatconwaysig[5][5]_d6z.png hatconwaysig[0][6]_d6z.png hatconwaysig[0][6]_d6z.png hatconwaysig[0][6][6]_d6z.png
@@ -33,7 +32,6 @@ spectresignatures=[0] [1] [2] [3] [4] [5] [6] [7]
 spectresigpngd6=${spectresignatures:%=spectreconwaysig%_d6.png}
 spectresigpngd6z=${spectresignatures:%=spectreconwaysig%_d6z.png}
 spectresigpngd6zz=${spectresignatures:%=spectreconwaysig%_d6zz.png}
-spectresigpngd7z=${spectresignatures:%=spectreconwaysig%_d7z.png}
 
 spectresigsd6: $(spectresigpngd6) spectreconwaysig[5][3]_d6.png
 spectresigsd6z: $(spectresigpngd6z) spectreconwaysig[5][3]_d6z.png
@@ -74,6 +72,10 @@ hatnumbers.png: einstein.pov
 # HAT SIGNATURES
 #
 
+hatconwaysig[0][6]_d6zz.png: hatconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=60 Declare=down2=26 Declare=depth=6 Declare=zoomout=2 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
 hatconwaysig[0][6]_d6z.png: hatconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=60 Declare=down2=26 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
 	mv tmp_pippoz.png $@
@@ -81,6 +83,10 @@ hatconwaysig[0][6]_d6z.png: hatconwaysig.pov
 hatconwaysig[0][6]_d6.png: hatconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=60 Declare=down2=26 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
 	mv tmp_pippo.png $@
+
+hatconwaysig[0][6][6]_d6zz.png: hatconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=Sigh3=666666 Declare=Sigl3=666666 Declare=up2=60 Declare=down2=26 Declare=up3=60 Declare=down3=54 Declare=depth=6 Declare=zoomout=2 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
 
 hatconwaysig[0][6][6]_d6z.png: hatconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=Sigh3=666666 Declare=Sigl3=666666 Declare=up2=60 Declare=down2=26 Declare=up3=60 Declare=down3=54 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
@@ -90,6 +96,10 @@ hatconwaysig[0][6][6]_d6.png: hatconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=Sigh3=666666 Declare=Sigl3=666666 Declare=up2=60 Declare=down2=26 Declare=up3=60 Declare=down3=54 Declare=up2=60 Declare=down2=26 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
 	mv tmp_pippo.png $@
 
+hatconwaysig[0][6]bis_d6zz.png: hatconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=60 Declare=down2=54 Declare=depth=6 Declare=zoomout=2 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
 hatconwaysig[0][6]bis_d6z.png: hatconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=60 Declare=down2=54 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
 	mv tmp_pippoz.png $@
@@ -97,6 +107,10 @@ hatconwaysig[0][6]bis_d6z.png: hatconwaysig.pov
 hatconwaysig[0][6]bis_d6.png: hatconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=60 Declare=down2=54 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
 	mv tmp_pippo.png $@
+
+hatconwaysig[5][5]_d6zz.png: hatconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=up2=05 Declare=down2=11 Declare=depth=6 Declare=zoomout=2 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
 
 hatconwaysig[5][5]_d6z.png: hatconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=up2=05 Declare=down2=11 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
@@ -112,6 +126,9 @@ $(hatsigpngd6):hatconwaysig%_d6.png:hatconwaysig.pov hatsig2povopt.sh
 $(hatsigpngd6z):hatconwaysig%_d6z.png:hatconwaysig.pov hatsig2povopt.sh
 	./hatsig2povopt.sh -q $* povray Declare=depth=6 Declare=zoomout=4 $(povoptspng) +O- >$@
 
+$(hatsigpngd6zz):hatconwaysig%_d6zz.png:hatconwaysig.pov hatsig2povopt.sh
+	./hatsig2povopt.sh -q $* povray Declare=depth=6 Declare=zoomout=2 $(povoptspng) +O- >$@
+
 #
 # SPECTRE SIGNATURES
 #
@@ -120,8 +137,23 @@ spectreconwaysig[5][3]_d6.png: spectreconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=up2=05 Declare=down2=27 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
 	mv tmp_pippo.png $@
 
+#
+# the same tiling can be obtained with the choices
+# up2=05 down2=27
+# up2=07 down2=17
+# up2=22 down2=47
+# up2=24 down2=37
+# up2=52 down2=77
+# up2=54 down2=67
+#
+
+
 spectreconwaysig[5][3]_d6z.png: spectreconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=up2=05 Declare=down2=27 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+spectreconwaysig[5][3]_d6zz.png: spectreconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=up2=05 Declare=down2=27 Declare=depth=6 Declare=zoomout=2 +Otmp_pippoz.png
 	mv tmp_pippoz.png $@
 
 $(spectresigpngd6):spectreconwaysig%_d6.png:spectreconwaysig.pov spectresig2povopt.sh
@@ -129,6 +161,9 @@ $(spectresigpngd6):spectreconwaysig%_d6.png:spectreconwaysig.pov spectresig2povo
 
 $(spectresigpngd6z):spectreconwaysig%_d6z.png:spectreconwaysig.pov spectresig2povopt.sh
 	./spectresig2povopt.sh -q $* povray Declare=depth=6 Declare=zoomout=4 $(povoptspng) +O- >$@
+
+$(spectresigpngd6zz):spectreconwaysig%_d6zz.png:spectreconwaysig.pov spectresig2povopt.sh
+	./spectresig2povopt.sh -q $* povray Declare=depth=6 Declare=zoomout=2 $(povoptspng) +O- >$@
 
 #
 #
