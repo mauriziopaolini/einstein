@@ -16,6 +16,8 @@ global_settings { assumed_gamma 1.0 }
 
 #ifndef (depth) #declare depth = 2; #end
 #ifndef (SPid) #declare SPid = 1; #end
+#ifndef (colors) #declare colors = depth - 1; #end
+#if (colors <= 0) #declare colors = depth + colors; #end
 
 #declare zoomfactor = 1/phi/phi;
 #declare zoomfactor2 = 2.62;
@@ -172,10 +174,6 @@ SPrec (SPid, transform {transform {pretransform} translate gtras}, depth)
   #declare mylocation = mylocation+panup*z;
 #end
 
-plane {y, 0 
-  texture {pigment {color DarkGreen} finish {tile_Finish}}
-}
-
 camera {
   location mylocation
   sky <0,0,1>
@@ -188,4 +186,8 @@ light_source { zoomfactor*<-50, 100, -100> color 0.5*White }
 
 #ifdef (sfondobianco)
   background {White}
+#else
+  plane {y, 0 
+    texture {pigment {color DarkGreen} finish {tile_Finish}}
+  }
 #end

@@ -268,13 +268,108 @@ object { tile11
 #declare SPobj = array[8];
 #declare SPpigment = array[8];
 
-#declare SPobj[0] = object{mystic}
 #local i = 1;
 #while (i < 8)
-  #declare SPpigment[i] = rgb <1,1,1>-(1/3-(i-1)/27)*<0,1,1>;
+  //#declare SPpigment[i] = rgb <1,1,1>-(1/3-(i-1)/27)*<0,1,1>;
+  //#declare SPpigment[i] = rgb <1,1,1>-((i-1+2)/(6+4))*<0,1,1>;
+  #declare SPpigment[i] = rgb <1,0,0> + (1/(i+0.5))*<0,1,1>;
+  #local i = i + 1;
+#end
+
+#macro rotcol (col)
+  <col.y, col.z, col.x>
+#end
+
+/*
+ * rot is in degrees in [0, 360]
+ */
+
+#macro SProtcolorshue (rot)
+  #local i = 1;
+  #while (i < 8)
+    #local col = SPpigment[i];
+    #local cmax = max3 (col.x, col.y, col.z);
+    #local cmin = min3 (col.x, col.y, col.z);
+    #local chroma = cmax - cmin;
+    #if (chroma > 0)
+      #if (cmax = col.x)
+        #local huep = col.y - col.z;
+      #else
+        #if (cmax = col.y)
+          #local huep = col.z - col.x + 2*chroma;
+        #else
+          #local huep = col.x - col.y + 4*chroma;
+        #end
+      #end
+      #local huep = huep/chroma + rot/60;
+      #if (huep < 0) #local huep = huep + 6; #end
+      #if (huep >= 6) #local huep = huep - 6; #end
+      #local huepmod2 = mod (huep, 2);
+      #local ecs = chroma*(1 - abs(huepmod2 - 1));
+      #switch (huep)
+        #range (0,1)
+          #local rgb1 = <chroma,ecs,0>;
+        #break
+        #range (1,2)
+          #local rgb1 = <ecs,chroma,0>;
+        #break
+        #range (2,3)
+          #local rgb1 = <0,chroma,ecs>;
+        #break
+        #range (3,4)
+          #local rgb1 = <0,ecs,chroma>;
+        #break
+        #range (4,5)
+          #local rgb1 = <ecs,0,chroma>;
+        #break
+        #range (5,6)
+          #local rgb1 = <chroma,0,ecs>;
+        #break
+      #end
+      #declare SPpigment[i] = rgb (rgb1 + <cmin,cmin,cmin>);
+    #end
+    #local i = i + 1;
+  #end
+#end
+
+#macro SProtcolors ()
+  #local i = 1;
+  #while (i < 8)
+    #declare SPpigment[i] = rgb rotcol (SPpigment[i]);
+    #local i = i + 1;
+  #end
+#end
+
+#macro SPdarkencolors (darken)
+  #local i = 1;
+  #while (i < 8)
+    #declare SPpigment[i] = darken*SPpigment[i];
+    #local i = i + 1;
+  #end
+#end
+
+#macro SPbuildtiles ()
+  #local i = 1;
+  #while (i < 8)
+    #declare SPobj[i] = object{spectre
+      texture {pigment {SPpigment[i]}}
+    }
+    #local i = i + 1;
+  #end
+#end
+
+#declare SPobj[0] = object{mystic}
+
+SPbuildtiles ()
+
+/*
+#local i = 1;
+#while (i < 8)
+  // #declare SPpigment[i] = rgb <1,1,1>-(1/3-(i-1)/27)*<0,1,1>;
   #declare SPobj[i] = object{spectre
      //texture {pigment {rgb <1,1,1>-(1/3-(i-1)/27)*<0,1,1>}}
      texture {pigment {SPpigment[i]}}
   }
   #local i = i + 1;
 #end
+ */

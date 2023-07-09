@@ -71,12 +71,13 @@ global_settings { assumed_gamma 1.0 }
 #end
 
 #local sigstring=""
-#local i = 12;
+#local i = depth+1;
 #while (i > 0)
   #local i = i - 1;
   #local sigstring=concat(sigstring,str(signature[i],0,0))
 #end
-#local sigstring=concat(sigstring,".")
+
+#local sigstring=concat("...", sigstring,".")
 
 #debug concat("SIGNATURE: ", sigstring, "\n")
 
@@ -112,6 +113,7 @@ global_settings { assumed_gamma 1.0 }
  #end
 #end
 
+/*
 #local i = 1;
 #while (i < 8)
   #declare SPpigment[i] = rgb <1,1,1>-(1/3-(i-1)/27)*<0,1,1>;
@@ -141,7 +143,7 @@ global_settings { assumed_gamma 1.0 }
   #end
 #end
 
-#ifndef (dimm) #declare dimm = 1; #end
+//#ifndef (dimm) #declare dimm = 1; #end
 
 #macro build_tiles (dimm)
   #local i = 1;
@@ -154,26 +156,16 @@ global_settings { assumed_gamma 1.0 }
     #local i = i + 1;
   #end
 #end
+ */
 
 #macro build_tiling (ttransinv, htilex, gtrans0, depth)
  #local dpth = 0;
  #while (dpth <= depth)
   #local dimm = 1/(0.25*dpth+1);
-  build_tiles (dimm)
-  //#declare h7m = union {
-  //  h7list (dimm*h7c1, dimm*h7c2, dimm*h7c3)
-  //}
-  //#declare h8m = union {
-  //  h8list (dimm*h8c1, dimm*h8c2, dimm*h8c3)
-  //}
-  //#if (htilex[dpth] = 8)
-  //  h8rec
-  //#else
-  //  h7rec
-  //#end
-  // (transform {ttransinv[dpth] gtrans0 translate 2*(depth-dpth)*tile_thick*y}, dpth)
+  SPbuildtiles ()
   SPrec (htilex[dpth], transform {ttransinv[dpth] gtrans0 translate 2*(depth-dpth)*tile_thick*y}, dpth)
-  rotcolors ()
+  //SProtcolorshue (120)
+  SProtcolorshue (360*phi)
   #local dpth = dpth + 1;
  #end
 #end
@@ -207,19 +199,19 @@ cylinder {
 
 #ifdef (signature2)
   #local sigstring2=""
-  #local i = 12;
+  #local i = depth+1;
   #while (i > 0)
     #local i = i - 1;
     #local sigstring2=concat(sigstring2,str(signature2[i],0,0))
   #end
-  #local sigstring2=concat(sigstring2,".")
+  #local sigstring2=concat("...",sigstring2,".")
 
   #ifndef (up2) #declare up2=0; #end
   #ifndef (down2) #declare down2=0; #end
   build_up_down (up2, down2)
   #declare uptransfinv = transform {uptransf inverse}
   #declare placeit = transform {downtransf uptransfinv}
-  darkencolors (0.5)
+  SPdarkencolors (0.5)
   //#local darken=0.5;
   //#declare h7c2 = darken*h7c2;
   //#declare h7c3 = darken*h7c3;
@@ -238,19 +230,19 @@ cylinder {
 
 #ifdef (signature3)
   #local sigstring3=""
-  #local i = 12;
+  #local i = depth+1;
   #while (i > 0)
     #local i = i - 1;
     #local sigstring3=concat(sigstring3,str(signature3[i],0,0))
   #end
-  #local sigstring3=concat(sigstring3,".")
+  #local sigstring3=concat("...",sigstring3,".")
 
   #ifndef (up3) #declare up3=0; #end
   #ifndef (down3) #declare down3=0; #end
   build_up_down (up3, down3)
   #declare uptransfinv = transform {uptransf inverse}
   #declare placeit = transform {downtransf uptransfinv}
-  darkencolors (0.5)
+  SPdarkencolors (0.5)
   build_ttransinv (signature3, depth)
   build_tiling (ttransinv, htilex, transform {placeit gtrans0}, depth)
   cylinder {

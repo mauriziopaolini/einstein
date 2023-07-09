@@ -33,9 +33,10 @@ spectresigpngd6=${spectresignatures:%=spectreconwaysig%_d6.png}
 spectresigpngd6z=${spectresignatures:%=spectreconwaysig%_d6z.png}
 spectresigpngd6zz=${spectresignatures:%=spectreconwaysig%_d6zz.png}
 
-spectresigsd6: $(spectresigpngd6) spectreconwaysig[5][3]_d6.png spectreconwaysig[0][3][3]_d6.png spectreconwaysig[1][1]_d6.png
-spectresigsd6z: $(spectresigpngd6z) spectreconwaysig[5][3]_d6z.png spectreconwaysig[0][3][3]_d6z.png spectreconwaysig[1][1]_d6z.png
-spectresigsd6zz: $(spectresigpngd6zz) spectreconwaysig[5][3]_d6zz.png spectreconwaysig[0][3][3]_d6zz.png spectreconwaysig[1][1]_d6zz.png
+# WRONG: spectreconwaysig[4][6]_d6.png
+spectresigsd6: $(spectresigpngd6) spectreconwaysig[5][3]_d6.png spectreconwaysig[0][3][3]_d6.png spectreconwaysig[1][1]_d6.png spectreconwaysig[4][6]_d6.png
+spectresigsd6z: $(spectresigpngd6z) spectreconwaysig[5][3]_d6z.png spectreconwaysig[0][3][3]_d6z.png spectreconwaysig[1][1]_d6z.png spectreconwaysig[4][6]_d6z.png
+spectresigsd6zz: $(spectresigpngd6zz) spectreconwaysig[5][3]_d6zz.png spectreconwaysig[0][3][3]_d6zz.png spectreconwaysig[1][1]_d6zz.png spectreconwaysig[4][6]_d6zz.png
 
 #
 # HAT HOLES
@@ -137,6 +138,14 @@ spectreconwaysig[5][3]_d6.png: spectreconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=up2=05 Declare=down2=27 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
 	mv tmp_pippo.png $@
 
+spectreconwaysig[5][3]_d6z.png: spectreconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=up2=05 Declare=down2=27 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+spectreconwaysig[5][3]_d6zz.png: spectreconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=up2=05 Declare=down2=27 Declare=depth=6 Declare=zoomout=2 +Otmp_pippozz.png
+	mv tmp_pippozz.png $@
+
 #
 # the same tiling can be obtained with the choices
 # up2=05 down2=27
@@ -147,17 +156,19 @@ spectreconwaysig[5][3]_d6.png: spectreconwaysig.pov
 # up2=54 down2=67
 #
 
-
-spectreconwaysig[5][3]_d6.png: spectreconwaysig.pov
-	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=up2=05 Declare=down2=27 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
+#
+# [4][6] is WRONG!!!
+#
+spectreconwaysig[4][6]_d6.png: spectreconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=444444 Declare=Sigl=444444 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=07 Declare=down2=23 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
 	mv tmp_pippo.png $@
 
-spectreconwaysig[5][3]_d6z.png: spectreconwaysig.pov
-	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=up2=05 Declare=down2=27 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
+spectreconwaysig[4][6]_d6z.png: spectreconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=444444 Declare=Sigl=444444 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=07 Declare=down2=23 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
 	mv tmp_pippoz.png $@
 
-spectreconwaysig[5][3]_d6zz.png: spectreconwaysig.pov
-	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=up2=05 Declare=down2=27 Declare=depth=6 Declare=zoomout=2 +Otmp_pippozz.png
+spectreconwaysig[4][6]_d6zz.png: spectreconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=444444 Declare=Sigl=444444 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=07 Declare=down2=23 Declare=depth=6 Declare=zoomout=2 +Otmp_pippozz.png
 	mv tmp_pippozz.png $@
 
 spectreconwaysig[1][1]_d6.png: spectreconwaysig.pov

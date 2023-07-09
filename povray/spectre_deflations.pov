@@ -253,13 +253,21 @@ light_source { 10*magstep*<-1, 1, 1> color White }
   1.0, 1*x
 }
 
+#local colrot = 360*phi*phi;
 #declare mymy = union {SPrec (0, transform{scale <1/mag, 1, 1/mag>}, depth)}
+SProtcolorshue (colrot) SPbuildtiles ()
 #declare mysp1 = union {SPrec (1, transform{scale <1/mag, 1, 1/mag>}, depth)}
+SProtcolorshue (colrot) SPbuildtiles ()
 #declare mysp2 = union {SPrec (2, transform{scale <1/mag, 1, 1/mag>}, depth)}
+SProtcolorshue (colrot) SPbuildtiles ()
 #declare mysp3 = union {SPrec (3, transform{scale <1/mag, 1, 1/mag>}, depth)}
+SProtcolorshue (colrot) SPbuildtiles ()
 #declare mysp4 = union {SPrec (4, transform{scale <1/mag, 1, 1/mag>}, depth)}
+SProtcolorshue (colrot) SPbuildtiles ()
 #declare mysp5 = union {SPrec (5, transform{scale <1/mag, 1, 1/mag>}, depth)}
+SProtcolorshue (colrot) SPbuildtiles ()
 #declare mysp6 = union {SPrec (6, transform{scale <1/mag, 1, 1/mag>}, depth)}
+SProtcolorshue (colrot) SPbuildtiles ()
 #declare mysp7 = union {SPrec (7, transform{scale <1/mag, 1, 1/mag>}, depth)}
 
 #declare numtiles = 15;
@@ -333,7 +341,8 @@ light_source { 10*magstep*<-1, 1, 1> color White }
 
 #declare traveltime = 0.2;
 #declare lifttime = 0.15;
-#declare liftamount = 0.3;
+//#declare liftamount = 0.3;
+#declare liftamount = 0.6;
 
 #macro calcpos(ltime,spos,epos)
   #switch (ltime)
