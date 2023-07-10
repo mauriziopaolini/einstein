@@ -69,6 +69,9 @@ povoptspng = -D +a +W1024 +H768
 hatnumbers.png: einstein.pov
 	povray -D $< Declare=numbers=1 Declare=arrow=1 +O$@
 
+spectrenumbers.png: spectre.pov
+	povray -D $< Declare=numbers=1 +O$@
+
 #
 # HAT SIGNATURES
 #
