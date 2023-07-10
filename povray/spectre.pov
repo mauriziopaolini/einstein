@@ -14,6 +14,12 @@ global_settings { assumed_gamma 1.0 }
 #include "shapes.inc"
 #include "spectresubdivision.inc"
 
+#ifdef (numbers)
+  #declare depth = 1;
+  #declare SPid = 1;
+  #declare sfondobianco = 1;
+#end
+
 #ifndef (depth) #declare depth = 2; #end
 #ifndef (SPid) #declare SPid = 1; #end
 #ifndef (colors) #declare colors = depth; #end
@@ -22,6 +28,8 @@ global_settings { assumed_gamma 1.0 }
 #declare zoomfactor = 1/phi/phi;
 #declare zoomfactor2 = 2.62;
 #declare zoomfactor = pow (zoomfactor, depth);
+
+#declare textfont = "LiberationMono-Regular.ttf"
 
 #debug concat ("zoomfactor = ", str(zoomfactor,0,-1), "\n")
 #debug concat ("zoomfactor2 = ", str(zoomfactor2,0,-1), "\n")
@@ -130,27 +138,42 @@ global_settings { assumed_gamma 1.0 }
 #ifdef (fig22) #declare pretransform = transform {scale <-1,1,1> rotate prerot22[depth]*y}; #end
 #ifdef (figA1) #declare pretransform = transform {rotate 30*y rotate prerotA1[depth]*y}; #end
 
-//#if (htile = 1)
-  //spectrerec (transform {transform {pretransform} translate gtras}, depth)
 SPrec (SPid, transform {transform {pretransform} translate gtras}, depth)
-//  #declare onlyworm = 1;
-//  h7rec (transform {scale 1.0 translate gtras + h*y}, depth)
-//#else
-  //mysticrec (transform {transform {pretransform} translate gtras}, depth)
-//  SPrec (0, transform {transform {pretransform} translate gtras}, depth)
-//  #declare onlyworm = 1;
-//  h8rec (transform {scale 1.0 translate gtras + h*y}, depth)
-//#end
 
 #ifdef (debug)
-//#if (depth = 0)
   sphere {
     <0,0,0>
     0.4
     pigment {color Black}
     translate gtras
   }
-//#end
+#end
+
+#ifdef (numbers)
+//  #local trnx = array[7]
+//  #local trnx[0] = trn0[depth-1];
+//  #local trnx[1] = trn1[depth-1];
+//  #local trnx[2] = trn2[depth-1];
+//  #local trnx[3] = trn3[depth-1];
+//  #local trnx[4] = trn4[depth-1];
+//  #local trnx[5] = trn5[depth-1];
+//  #local trnx[6] = trn6[depth-1];
+  #local i = 0;
+  #while (i <= 7 )
+    #if (SPid != 0 | i != 3)
+      text {ttf textfont str(i,0,0) 0.02, 0
+        pigment {color Black}
+        translate -0.5*x + 0.5*y
+        scale <-1,1,1>
+        rotate 90*x
+        translate -0.3*x-0.4*z
+        scale zoomfactor
+        transform Str[i][depth-1]
+        translate gtras + 2*tile_thick*y
+      }
+    #end
+    #local i = i + 1;
+  #end
 #end
 
 #declare lookatpos = <0,0,0>;
