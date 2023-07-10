@@ -16,7 +16,7 @@ global_settings { assumed_gamma 1.0 }
 
 #ifndef (depth) #declare depth = 2; #end
 #ifndef (SPid) #declare SPid = 1; #end
-#ifndef (colors) #declare colors = depth - 1; #end
+#ifndef (colors) #declare colors = depth; #end
 #if (colors <= 0) #declare colors = depth + colors; #end
 
 #declare zoomfactor = 1/phi/phi;
