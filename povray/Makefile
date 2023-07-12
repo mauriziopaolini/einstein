@@ -231,16 +231,16 @@ $(deflated_png_H8):einstein_H8_d%.png: einstein.pov shapes.inc subdivision.inc
 	povray $(povoptspng) $< Declare=htile=8 Declare=depth=$* +O$@
 
 $(deflated_png_S):spectre_d%.png: spectre.pov shapes.inc spectresubdivision.inc
-	povray $(povoptspng) $< Declare=SPid=1 Declare=depth=$* Declare=fig22=1 Declare=colors=-1 +O$@
+	povray $(povoptspng) $< Declare=SPid=1 Declare=depth=$* Declare=fig22=1 Declare=colors=-1 Declare=sfondobianco=1 +O$@
 
 $(deflated_png_M):mystic_d%.png: spectre.pov shapes.inc spectresubdivision.inc
-	povray $(povoptspng) $< Declare=SPid=0 Declare=depth=$* Declare=fig22=1 Declare=colors=-1 +O$@
+	povray $(povoptspng) $< Declare=SPid=0 Declare=depth=$* Declare=fig22=1 Declare=colors=-1 Declare=sfondobianco=1 +O$@
 
 $(deflatedq_png_S):spectreq_d%.png: spectre.pov shapes.inc spectresubdivision.inc
-	povray $(povoptspng) $< Declare=SPid=1 Declare=depth=$* Declare=quadrilateral=1 Declare=figA1=1 +O$@
+	povray $(povoptspng) $< Declare=SPid=1 Declare=depth=$* Declare=quadrilateral=1 Declare=figA1=1 Declare=sfondobianco=1 +O$@
 
 $(deflatedq_png_M):mysticq_d%.png: spectre.pov shapes.inc spectresubdivision.inc
-	povray $(povoptspng) $< Declare=SPid=0 Declare=depth=$* Declare=quadrilateral=1 Declare=figA1=1 +O$@
+	povray $(povoptspng) $< Declare=SPid=0 Declare=depth=$* Declare=quadrilateral=1 Declare=figA1=1 Declare=sfondobianco=1 +O$@
 
 
 #
