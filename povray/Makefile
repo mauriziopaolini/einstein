@@ -38,9 +38,9 @@ spectresigpngd6z=${spectresignatures:%=spectreconwaysig%_d6z.png}
 spectresigpngd6zz=${spectresignatures:%=spectreconwaysig%_d6zz.png}
 
 # WRONG: spectreconwaysig[4][6]_d6.png
-spectresigsd6: $(spectresigpngd6) spectreconwaysig[5][3]_d6.png spectreconwaysig[0][3][3]_d6.png spectreconwaysig[1][1]_d6.png spectreconwaysig[4][6]_d6.png
-spectresigsd6z: $(spectresigpngd6z) spectreconwaysig[5][3]_d6z.png spectreconwaysig[0][3][3]_d6z.png spectreconwaysig[1][1]_d6z.png spectreconwaysig[4][6]_d6z.png
-spectresigsd6zz: $(spectresigpngd6zz) spectreconwaysig[5][3]_d6zz.png spectreconwaysig[0][3][3]_d6zz.png spectreconwaysig[1][1]_d6zz.png spectreconwaysig[4][6]_d6zz.png
+spectresigsd6: $(spectresigpngd6) spectreconwaysig[5][3]_d6.png spectreconwaysig[0][3][3]_d6.png spectreconwaysig[1][1]_d6.png spectreconwaysig[6][6][6]_d6.png
+spectresigsd6z: $(spectresigpngd6z) spectreconwaysig[5][3]_d6z.png spectreconwaysig[0][3][3]_d6z.png spectreconwaysig[1][1]_d6z.png spectreconwaysig[6][6][6]_d6z.png
+spectresigsd6zz: $(spectresigpngd6zz) spectreconwaysig[5][3]_d6zz.png spectreconwaysig[0][3][3]_d6zz.png spectreconwaysig[1][1]_d6zz.png spectreconwaysig[6][6][6]_d6zz.png
 
 spectreholezlevels=1 2 3 4 5
 spectreholes=$(spectreholezlevels:%=spectrehole_z%.png)
@@ -198,15 +198,15 @@ spectreconwaysig[0][3][3]_d6zz.png: spectreconwaysig.pov
 	mv tmp_pippozz.png $@
 
 spectreconwaysig[6][6][6]_d6.png: spectreconwaysig.pov
-	povray $(povoptspng) $< Declare=Sigh=666666 Declare=Sigl=666666 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=Sigh3=666666 Declare=Sigl3=666666 Declare=up2=06 Declare=down2=27 Declare=up3=00 Declare=down3=01 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
+	povray $(povoptspng) $< Declare=Sigh=666666 Declare=Sigl=666666 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=Sigh3=666666 Declare=Sigl3=666666 Declare=up2=06 Declare=down2=27 Declare=up3=01 Declare=down3=71 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
 	mv tmp_pippo.png $@
 
 spectreconwaysig[6][6][6]_d6z.png: spectreconwaysig.pov
-	povray $(povoptspng) $< Declare=Sigh=666666 Declare=Sigl=666666 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=Sigh3=666666 Declare=Sigl3=666666 Declare=up2=06 Declare=down2=27 Declare=up3=00 Declare=down3=01 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
+	povray $(povoptspng) $< Declare=Sigh=666666 Declare=Sigl=666666 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=Sigh3=666666 Declare=Sigl3=666666 Declare=up2=06 Declare=down2=27 Declare=up3=01 Declare=down3=71 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
 	mv tmp_pippoz.png $@
 
 spectreconwaysig[6][6][6]_d6zz.png: spectreconwaysig.pov
-	povray $(povoptspng) $< Declare=Sigh=666666 Declare=Sigl=666666 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=Sigh3=666666 Declare=Sigl3=666666 Declare=up2=06 Declare=down2=27 Declare=up3=00 Declare=down3=01 Declare=depth=6 Declare=zoomout=2 +Otmp_pippozz.png
+	povray $(povoptspng) $< Declare=Sigh=666666 Declare=Sigl=666666 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=Sigh3=666666 Declare=Sigl3=666666 Declare=up2=06 Declare=down2=27 Declare=up3=01 Declare=down3=71 Declare=depth=6 Declare=zoomout=2 +Otmp_pippozz.png
 	mv tmp_pippozz.png $@
 
 $(spectresigpngd6):spectreconwaysig%_d6.png:spectreconwaysig.pov spectresig2povopt.sh
