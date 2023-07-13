@@ -268,13 +268,18 @@ object { tile11
 #declare SPobj = array[8];
 #declare SPpigment = array[8];
 
-#local i = 1;
-#while (i < 8)
-  //#declare SPpigment[i] = rgb <1,1,1>-(1/3-(i-1)/27)*<0,1,1>;
-  #declare SPpigment[i] = rgb <1,1,1>-((i-1+2)/(6+2))*<0,1,1>;
-  //#declare SPpigment[i] = rgb <1,0,0> + (1/(i+0.5))*<0,1,1>;
-  #local i = i + 1;
+#macro SPinitcolors ()
+
+  #local i = 1;
+  #while (i < 8)
+    //#declare SPpigment[i] = rgb <1,1,1>-(1/3-(i-1)/27)*<0,1,1>;
+    #declare SPpigment[i] = rgb <1,1,1>-((i-1+2)/(6+2))*<0,1,1>;
+    //#declare SPpigment[i] = rgb <1,0,0> + (1/(i+0.5))*<0,1,1>;
+    #local i = i + 1;
+  #end
 #end
+
+SPinitcolors()
 
 #macro rotcol (col)
   <col.y, col.z, col.x>

@@ -24,6 +24,10 @@ hatsigsd6: $(hatsigpngd6) hatconwaysig[5][5]_d6.png hatconwaysig[0][6]_d6.png ha
 hatsigsd6z: $(hatsigpngd6z) hatconwaysig[5][5]_d6z.png hatconwaysig[0][6]_d6z.png hatconwaysig[0][6]_d6z.png hatconwaysig[0][6][6]_d6z.png
 hatsigsd6zz: $(hatsigpngd6zz) hatconwaysig[5][5]_d6zz.png hatconwaysig[0][6]_d6zz.png hatconwaysig[0][6]_d6zz.png hatconwaysig[0][6][6]_d6zz.png
 
+hatholezlevels=1 2 3 4 5
+hatholes=$(hatholezlevels:%=hathole_z%.png)
+hatholepngs: $(hatholes)
+
 #
 # CONWAY SIGNATURES: SPECTRE
 #
@@ -38,14 +42,9 @@ spectresigsd6: $(spectresigpngd6) spectreconwaysig[5][3]_d6.png spectreconwaysig
 spectresigsd6z: $(spectresigpngd6z) spectreconwaysig[5][3]_d6z.png spectreconwaysig[0][3][3]_d6z.png spectreconwaysig[1][1]_d6z.png spectreconwaysig[4][6]_d6z.png
 spectresigsd6zz: $(spectresigpngd6zz) spectreconwaysig[5][3]_d6zz.png spectreconwaysig[0][3][3]_d6zz.png spectreconwaysig[1][1]_d6zz.png spectreconwaysig[4][6]_d6zz.png
 
-#
-# HAT HOLES
-#
-
-hatholezlevels=1 2 3 4 5
-hatholes=$(hatholezlevels:%=hathole_z%.png)
-
-hatholepngs: $(hatholes)
+spectreholezlevels=1 2 3 4 5
+spectreholes=$(spectreholezlevels:%=spectrehole_z%.png)
+spectreholepngs: $(spectreholes)
 
 #
 #
@@ -212,7 +211,9 @@ $(spectresigpngd6zz):spectreconwaysig%_d6zz.png:spectreconwaysig.pov spectresig2
 #
 
 $(hatholes): hathole_z%.png: hathole.pov
-	echo $*
+	povray $(povoptspng) $< Declare=depth=5 Declare=zoomout=$* +O$@
+
+$(spectreholes): spectrehole_z%.png: spectrehole.pov
 	povray $(povoptspng) $< Declare=depth=5 Declare=zoomout=$* +O$@
 
 yellow_brick_road_topview01.png: yellow_brick_road.pov
