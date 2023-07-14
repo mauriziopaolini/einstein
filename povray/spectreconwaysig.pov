@@ -119,7 +119,7 @@ global_settings { assumed_gamma 1.0 }
 #declare darkenvalue = 0.8;
 
 #macro build_tiling (ttransinv, htilex, gtrans0, depth)
-  #local dpth = 1;
+  #local dpth = 0;
   #while (dpth <= depth)
    #local dimm = 1/(0.25*dpth+1);
    SPbuildtiles ()
@@ -132,7 +132,7 @@ global_settings { assumed_gamma 1.0 }
    #local dpth = dpth + 1;
   #end
   #ifdef (darkenit)
-    #local dpth = 1;
+    #local dpth = 0;
     #while (dpth <= depth)
       SPdarkencolors (1/darkenvalue)
       #local dpth = dpth + 1;
