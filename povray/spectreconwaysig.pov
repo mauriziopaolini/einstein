@@ -59,7 +59,10 @@ global_settings { assumed_gamma 1.0 }
   #ifndef (Sigl2) #declare Sigl2 = Sigl; #declare Sigh2 = Sigh; #end
 #end
 
+#declare darkenvalue = 0.5;
 #ifdef (Sigl2)
+  //#declare darkenvalue = 0.8;
+  //#declare darkenit = 1;
   #declare signature2 = array[12]
   #ifndef (Sigh2) #declare Sigh2=222222; #end
   buildsig (Sigh2, Sigl2)
@@ -113,61 +116,28 @@ global_settings { assumed_gamma 1.0 }
  #end
 #end
 
-/*
-#local i = 1;
-#while (i < 8)
-  #declare SPpigment[i] = rgb <1,1,1>-(1/3-(i-1)/27)*<0,1,1>;
-  //#declare SPpigment[i] = rgb <1,0,0> + <0,i/8,0>;
-  //#declare SPpigment[i] = <1,0,0> + <0,i/8,0>;
-  #local i = i + 1;
-#end
-
-#macro rotcol (col)
-  <col.y, col.z, col.x>
-#end
-
-#macro rotcolors ()
-  #local i = 1;
-  #while (i < 8)
-    #declare SPpigment[i] = rgb rotcol (SPpigment[i]);
-    #local i = i + 1;
-  #end
-#end
-
-#macro darkencolors (darken)
-  #local i = 1;
-  #while (i < 8)
-    //#declare SPpigment[i] = rgb darken*SPpigment[i];
-    #declare SPpigment[i] = darken*SPpigment[i];
-    #local i = i + 1;
-  #end
-#end
-
-//#ifndef (dimm) #declare dimm = 1; #end
-
-#macro build_tiles (dimm)
-  #local i = 1;
-  #while (i < 8)
-    //#declare SPpigment[i] = rgb <1,1,1>-(1/3-(i-1)/27)*<0,1,1>;
-    #declare SPobj[i] = object{spectre
-      //texture {pigment {dimm*SPpigment[i]}}
-      texture {pigment {SPpigment[i]}}
-    }
-    #local i = i + 1;
-  #end
-#end
- */
+#declare darkenvalue = 0.8;
 
 #macro build_tiling (ttransinv, htilex, gtrans0, depth)
- #local dpth = 0;
- #while (dpth <= depth)
-  #local dimm = 1/(0.25*dpth+1);
-  SPbuildtiles ()
-  SPrec (htilex[dpth], transform {ttransinv[dpth] gtrans0 translate 2*(depth-dpth)*tile_thick*y}, dpth)
-  //SProtcolorshue (120)
-  SProtcolorshue (360*phi)
-  #local dpth = dpth + 1;
- #end
+  #local dpth = 1;
+  #while (dpth <= depth)
+   #local dimm = 1/(0.25*dpth+1);
+   SPbuildtiles ()
+   SPrec (htilex[dpth], transform {ttransinv[dpth] gtrans0 translate 2*(depth-dpth)*tile_thick*y}, dpth)
+   #ifdef (darkenit)
+     SPdarkencolors (darkenvalue)
+   #else
+     SProtcolorshue (360*phi)
+   #end
+   #local dpth = dpth + 1;
+  #end
+  #ifdef (darkenit)
+    #local dpth = 1;
+    #while (dpth <= depth)
+      SPdarkencolors (1/darkenvalue)
+      #local dpth = dpth + 1;
+    #end
+  #end
 #end
 
 build_ttransinv (signature, depth)
@@ -211,12 +181,11 @@ cylinder {
   build_up_down (up2, down2)
   #declare uptransfinv = transform {uptransf inverse}
   #declare placeit = transform {downtransf uptransfinv}
-  SPdarkencolors (0.5)
-  //#local darken=0.5;
-  //#declare h7c2 = darken*h7c2;
-  //#declare h7c3 = darken*h7c3;
-  //#declare h8c2 = darken*h8c2;
-  //#declare h8c3 = darken*h8c3;
+  #ifdef (darkenit)
+    SProtcolorshue (360*phi)
+  #else
+    SPdarkencolors (darkenvalue)
+  #end
   build_ttransinv (signature2, depth)
   build_tiling (ttransinv, htilex, transform {placeit gtrans0}, depth)
   cylinder {
@@ -242,7 +211,7 @@ cylinder {
   build_up_down (up3, down3)
   #declare uptransfinv = transform {uptransf inverse}
   #declare placeit = transform {downtransf uptransfinv}
-  SPdarkencolors (0.5)
+  SPdarkencolors (darkenvalue)
   build_ttransinv (signature3, depth)
   build_tiling (ttransinv, htilex, transform {placeit gtrans0}, depth)
   cylinder {
