@@ -26,13 +26,11 @@ global_settings { assumed_gamma 1.0 }
 #if (colors <= 0) #declare colors = depth + colors; #end
 
 #declare zoomfactor = 1/phi/phi;
-#declare zoomfactor2 = 2.62;
 #declare zoomfactor = pow (zoomfactor, depth);
 
 #declare textfont = "LiberationMono-Regular.ttf"
 
 #debug concat ("zoomfactor = ", str(zoomfactor,0,-1), "\n")
-#debug concat ("zoomfactor2 = ", str(zoomfactor2,0,-1), "\n")
 
 #declare gtras = zoomfactor/2.62*(0*x-0*z);
 
@@ -140,6 +138,13 @@ global_settings { assumed_gamma 1.0 }
 
 SPrec (SPid, transform {transform {pretransform} translate gtras}, depth)
 
+#ifdef (sierpinski)
+  #declare SPshow=sierpinski;
+  SProtcolorshue (180)
+  SPbuildtiles ()
+  SPrec (SPid, transform {transform {pretransform} translate gtras+tile_thick*y}, depth)
+#end
+
 #ifdef (debug)
   sphere {
     <0,0,0>
@@ -150,14 +155,6 @@ SPrec (SPid, transform {transform {pretransform} translate gtras}, depth)
 #end
 
 #ifdef (numbers)
-//  #local trnx = array[7]
-//  #local trnx[0] = trn0[depth-1];
-//  #local trnx[1] = trn1[depth-1];
-//  #local trnx[2] = trn2[depth-1];
-//  #local trnx[3] = trn3[depth-1];
-//  #local trnx[4] = trn4[depth-1];
-//  #local trnx[5] = trn5[depth-1];
-//  #local trnx[6] = trn6[depth-1];
   #local i = 0;
   #while (i <= 7 )
     #if (SPid != 0 | i != 3)
