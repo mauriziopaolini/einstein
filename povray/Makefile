@@ -43,7 +43,9 @@ spectresigsd6zz: $(spectresigpngd6zz) spectreconwaysig[5][3]_d6zz.png spectrecon
 
 spectreholezlevels=1 2 3 4 5
 spectreholes=$(spectreholezlevels:%=spectrehole_z%.png)
-spectreholepngs: $(spectreholes)
+spectrehole2s=$(spectreholezlevels:%=spectrehole2_z%.png)
+spectrehole2slices=$(spectreholezlevels:%=spectrehole2slice_z%.png)
+spectreholepngs: $(spectreholes) $(spectrehole2s) $(spectrehole2slices)
 
 #
 #
@@ -217,6 +219,12 @@ $(hatholes): hathole_z%.png: hathole.pov
 
 $(spectreholes): spectrehole_z%.png: spectrehole.pov
 	povray $(povoptspng) $< Declare=depth=5 Declare=zoomout=$* +O$@
+
+$(spectrehole2s): spectrehole2_z%.png: spectrehole2.pov
+	povray $(povoptspng) $< Declare=depth=5 Declare=zoomout=$* +O$@
+
+$(spectrehole2slices): spectrehole2slice_z%.png: spectrehole2.pov
+	povray $(povoptspng) $< Declare=depth=5 Declare=zoomout=$* Declare=numsectors=1 +O$@
 
 yellow_brick_road_topview01.png: yellow_brick_road.pov
 	povray $(povoptspng) $< Declare=depth=4 Declare=topview=2 Declare=buildtheback=3 +O$@
