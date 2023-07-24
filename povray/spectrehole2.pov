@@ -21,9 +21,15 @@ global_settings { assumed_gamma 1.0 }
 
 #declare gtrans0 = transform {translate 4*x-3*z}
 
-#local gtr0 = transform {Str[1][0] inverse}
-#local gtr0 = transform {gtr0 rotate -30*y translate -x-z rotate 30*y translate -2*z}
+#ifdef (alt)
+  #local gtr0 = transform {Str[7][0] inverse}
+  #local gtr0 = transform {gtr0 rotate 30*y translate 2*z}
+#else
+  #local gtr0 = transform {Str[1][0] inverse}
+  #local gtr0 = transform {gtr0 rotate -30*y translate -x-z rotate 30*y translate -2*z}
+#end
 #local gtr0 = transform {gtr0 rotate -120*y}
+#ifdef (mirror) #local gtr0 = transform {gtr0 scale <1,1,-1> rotate -60*y} #end
 
 sphere {
   4*tile_thick*y, 0.5
@@ -38,10 +44,12 @@ sphere {
  */
 
 #local isodd = mod (depth,2);
+#ifdef (alt) #local isodd = 1 - isodd; #end
 #local height = 0*y;
 
 #local tiletransinv = transform {scale <1,1,1>}
 #if (isodd) #local tiletransinv = transform {scale <-1,1,1>} #end
+//#ifdef (mirror) #local tiletransinv = transform {tiletransinv scale <-1,1,1>} #end
 
 /*
  * print a complete [0].
