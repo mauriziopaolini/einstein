@@ -225,7 +225,7 @@ $(spectrehole2s): spectrehole2_z%.png: spectrehole2.pov
 	povray $(povoptspng) $< Declare=depth=5 Declare=zoomout=$* +O$@
 
 $(spectrehole2slices): spectrehole2slice_z%.png: spectrehole2.pov
-	povray $(povoptspng) $< Declare=depth=5 Declare=zoomout=$* Declare=numsectors=1 +O$@
+	povray $(povoptspng) $< Declare=depth=5 Declare=zoomout=$* Declare=numsectors=1 Declare=mirror=1 +O$@
 
 $(spectrehole2alts): spectrehole2alt_z%.png: spectrehole2.pov
 	povray $(povoptspng) $< Declare=depth=5 Declare=zoomout=$* Declare=alt=1 +O$@
