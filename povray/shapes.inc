@@ -238,10 +238,20 @@ union {
 #ifndef (T_spectre) #declare T_spectre = texture {pigment {Pink}} #end
 #ifndef (T_mystic) #declare T_mystic = texture {Aluminum} #end
 #ifndef (T_mysticb) #declare T_mysticb = texture {Blue_Agate} #end
+#ifndef (T_yellowspectre) #declare T_yellowspectre = texture {pigment {rgb <1,1,0>}} #end
+#ifndef (T_yellowmystic) #declare T_yellowmystic = texture {pigment {rgb <1,1,0.5>}} #end
+#ifndef (T_yellowmysticb) #declare T_yellowmysticb = texture {pigment {rgb <0.5,0.5,0>}} #end
 
 #declare spectre =
 object { tile11
   texture {T_spectre
+    finish {tile_Finish}
+  }
+}
+
+#declare yellowspectre =
+object { tile11
+  texture {T_yellowspectre
     finish {tile_Finish}
   }
 }
@@ -267,6 +277,20 @@ object { tile11
     //rotate 30*y
     //translate <1,0,0>
     texture {T_mysticb
+      finish {tile_Finish}
+    }
+  }
+}
+
+#declare yellowmystic = union {
+  object { tile11
+    transform {mystic_tr}
+    texture {T_yellowmystic
+      finish {tile_Finish}
+    }
+  }
+  object { tile11
+    texture {T_yellowmysticb
       finish {tile_Finish}
     }
   }

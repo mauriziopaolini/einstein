@@ -52,35 +52,52 @@
   }
 #end
 
+#declare LEFT = 1;
+#declare RIGHT = 2;
+#declare LEFTRIGHT = 3;
+
 #macro SPrec (tid, trsf, depth)
   #local d = depth-1;
   #if (depth = 0)
-      object {SPobj[tid] transform {trsf}}
-      #ifdef (quadrilateral)
-      object {quadm (QA[0], QB[0], QC[0], QD[0], 0.1)
-        transform {trsf}
-        translate tile_thick*y
-        pigment {rgb <1,0,0>}
-        finish {tile_Finish}
-      }
-      #end
-    #else
-      // SPrec (0, transform {Str[0][d] trsf}, d)
-      #local i = 0;
-      #while (i < 8)
-        #if (bitwise_and (SPshow, pow(2,i)) & (tid != 0 | i != 3)) SPrec (i, transform {Str[i][d] trsf}, d) #end
-        #local i = i + 1;
-      #end
-      #if (d >= colors-1) SProtcolorshue (360*phi*phi) SPbuildtiles() #end
-      #ifdef (quadrilateral)
-      object {quadm (QA[depth], QB[depth], QC[depth], QD[depth], depth*0.15)
-        transform {trsf}
-        translate tile_thick*y
-        pigment {rgb 1/depth*<1,0.5,0>}
-        finish {tile_Finish}
-      }
-      #end
-    #break
+    object {SPobj[tid] transform {trsf}}
+    #ifdef (quadrilateral)
+    object {quadm (QA[0], QB[0], QC[0], QD[0], 0.1)
+      transform {trsf}
+      translate tile_thick*y
+      pigment {rgb <1,0,0>}
+      finish {tile_Finish}
+    }
+    #end
+  #else
+    // SPrec (0, transform {Str[0][d] trsf}, d)
+    #local i = 0;
+    #while (i < 8)
+      #if (bitwise_and (SPshow, pow(2,i)) & (tid != 0 | i != 3)) SPrec (i, transform {Str[i][d] trsf}, d) #end
+      #local i = i + 1;
+    #end
+    #if (d >= colors-1) SProtcolorshue (360*phi*phi) SPbuildtiles() #end
+    #ifdef (quadrilateral)
+    object {quadm (QA[depth], QB[depth], QC[depth], QD[depth], depth*0.15)
+      transform {trsf}
+      translate tile_thick*y
+      pigment {rgb 1/depth*<1,0.5,0>}
+      finish {tile_Finish}
+    }
+    #end
+  #end
+#end
+
+#macro SPwormrec (tid, trsf, depth, leftright)
+  #local d = depth-1;
+  #if (depth = 0)
+    #if (tid = 0) object {yellowmystic transform {trsf}} #end
+    #if (tid = 1 & bitwise_and (leftright, LEFT)) object {yellowspectre} #end
+  #else
+    #local i = 0;
+    #while (i < 8)
+      #if (bitwise_and (SPshow, pow(2,i)) & (tid != 0 | i != 3)) SPwormrec (i, transform {Str[i][d] trsf}, d, 3 - leftright) #end
+      #local i = i + 1;
+    #end
   #end
 #end
 
