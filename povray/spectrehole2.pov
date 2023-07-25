@@ -21,6 +21,13 @@ global_settings { assumed_gamma 1.0 }
 #declare gtrans0 = transform {translate 4*x-3*z}
 
 #ifdef (alt)
+  #if (alt = 2)
+    #undef alt
+    #declare alt2 = 2;
+  #end
+#end
+
+#ifdef (alt)
   #local gtr0 = transform {Str[7][0] inverse}
   #local gtr0 = transform {gtr0 rotate 30*y translate 2*z}
 #else
@@ -96,6 +103,30 @@ SPbuildtiles ()
   #local isodd = 1 - isodd;
   #local tiletransinv = transform {tiletransinv scale <-1,1,1>}
   #local dpth = dpth - 1;
+#end
+
+#ifdef (alt2)
+  #local tralt2 = transform {
+    rotate -30*y
+    translate x+z
+    rotate 30*y
+    translate 2*ap*x-z
+    scale <1, 1, -1>
+  }
+  #ifdef (mirror)
+    #local tralt2 = transform {tralt2 scale <1, 1, -1>}
+  #end
+
+  #local i = 0;
+  #while (i < 6)
+    object {spectre
+      transform {tralt2}
+      rotate 60*i*y
+      translate height
+    }
+    #local i = i + 1;
+  #end
+  #local height = height + tile_thick*y;
 #end
 
 background {White}
