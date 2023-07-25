@@ -9,7 +9,6 @@ global_settings { assumed_gamma 1.0 }
 #include "ambiente.inc"
 
 #ifndef (depth) #declare depth = 0; #end
-//#ifndef (fdepth) #declare fdepth = 0; #end
 #ifndef (numsectors) #declare numsectors = 6; #end
 
 #declare magstep = sqrt(4+sqrt(15));
@@ -35,6 +34,14 @@ sphere {
   4*tile_thick*y, 0.5
   texture {pigment {color Black}}
 }
+
+#ifdef (showtorus)
+  torus {
+    9, 0.3
+    translate 4*tile_thick*y
+    texture {pigment {color Black}}
+  }
+#end
 
 #local darkenvalue = 0.8;
 
