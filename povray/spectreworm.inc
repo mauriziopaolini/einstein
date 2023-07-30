@@ -98,7 +98,7 @@
             #local sig1000000 = int (sig100000/10);
             #local sym = sig100000 - 10*sig1000000;
             #if (sym != 0)
-              #local sym = follow4[sym];
+              #local sym = follow5[sym];
               #local newsig = 1000000*sig1000000 + sym;
               newsig;
             #else

@@ -9,27 +9,29 @@ global_settings { assumed_gamma 1.0 }
 #include "spectresubdivision.inc"
 #include "spectreworm.inc"
 
-#ifndef (depth) #declare depth = 5; #end
+#ifndef (depth) #declare depth = 5; #end // must coincide with the number of digits in signatures
 #ifndef (SPid) #declare SPid = 1; #end
+#ifndef (tipsig) #declare tipsig = 33333; #end
+#ifndef (tailsig) #declare tailsig = 00000; #end
+#ifndef (tipsig2) #declare tipsig2 = 63636; #end
+#ifndef (tailsig2) #declare tailsig2 = 04500; #end
 
 #declare magstep = sqrt(4+sqrt(15));
-#declare mag = pow (magstep, depth);
+#declare magdepth = pow (magstep, depth);
+#declare mag = magdepth;
 
 #ifdef (zoomout)
   #declare mag = pow(magstep,zoomout);
 #end
 
-//#declare gtras = -300*x+250*z;
-#declare gtras = 0*x - 400*z;
-//#declare gtras = 0*x;
+//#declare gtras = 0*x - 1.5*mag*z;
+#declare gtras = 0*x;
 
 #ifdef (zoom) #declare zoomfactor = 1/zoom*zoomfactor; #end
 
-worm_init (500)
+worm_init (2000)
 
-//#declare depth = 5; // must coincide with the number of digits in signatures
-
-#declare startsig = 63636;
+#declare startsig = tipsig2;
 #declare wormi = 0;
 
 newwormtile (startsig)
@@ -41,7 +43,7 @@ newwormtile (startsig)
 
 #debug concat ("startsig = ", str(startsig,0,0), "\n")
 
-#while (sig != 04500)
+#while (sig != tailsig2 & sig != 0)
   #local sig = prec_in_worm (sig)
   #if (mod (sig, 10) = 0)
     newwormtile (sig)
@@ -57,20 +59,24 @@ newwormtile (sig)
 
 //newwormtile (04040) // center!
 
-#local sig = 33333;
-#while (sig != 00000)
+#local sig = tipsig;
+#while (sig != tailsig & sig != 0)
   #local sig = prec_in_worm (sig)
+  #if (mod (sig,1000) = 0)
+    #debug concat ("Milestone sig: ", str(sig,0,0), "\n")
+  #end
   newwormtile (sig)
 #end
 
 #declare wormlen = wormi;
 
 SPrec (SPid, transform {transform {basetrinv} translate gtras}, depth)
-//SPwormrec (SPid, transform {transform {basetrinv} translate tile_thick*y translate gtras}, depth)
+#ifdef (showall)
+  SPwormrec (SPid, transform {transform {basetrinv} translate tile_thick*y translate gtras}, depth)
+#end
 
 #local i = 0;
 #while (i < wormlen)
-//#while (i < 0)
   object {
   #if (wormid[i] = 0) yellowmystic #else yellowspectre #end
     transform wormtr[i]
@@ -80,12 +86,6 @@ SPrec (SPid, transform {transform {basetrinv} translate gtras}, depth)
   }
   #local i = i + 1;
 #end
-
-//object {
-//#if (wormid[0] = 0) yellowmystic #else yellowspectre #end
-//  transform wormtr[1]
-//  transform basetrinv
-//}
 
 sphere {
   <0,0,0>
@@ -97,21 +97,14 @@ sphere {
 #declare lookatpos = <0,0,0>;
 #declare mylocation = 0.8*mag*<0,10,0>;
 
-#ifdef (panleft)
-  #declare lookatpos = -0.4*zoomfactor*x;
-  #if (panleft >= 2)
-    #declare lookatpos = -1.2*zoomfactor*x;
-  #end
-  #declare zoomfactor = zoomfactor/3;
-  #declare mylocation = 0.8*zoomfactor*<0,10,0>;
-  #if (panleft >= 2)
-    #declare mylocation = mylocation - 3*zoomfactor*x;
-  #end
+#ifdef (panup)
+  #declare lookatpos = lookatpos+magdepth*panup*z;
+  #declare mylocation = mylocation+magdepth*panup*z;
 #end
 
-#ifdef (panup)
-  #declare lookatpos = lookatpos+panup*z;
-  #declare mylocation = mylocation+panup*z;
+#ifdef (panright)
+  #declare lookatpos = lookatpos+magdepth*panright*x;
+  #declare mylocation = mylocation+magdepth*panright*x;
 #end
 
 camera {
