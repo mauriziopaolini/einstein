@@ -87,69 +87,29 @@
   #end
 #end
 
-#macro SPwormrec (tid, trsf, depth, leftright)
+#macro SPwormrec (tid, trsf, depth)
   #local d = depth-1;
-  #switch (depth)
-   #case (0)
+  #if (depth = 0)
+
     #if (tid = 0) object {yellowmystic transform {trsf}} #end
     #if (tid != 0) object {yellowspectre transform {trsf}} #end
-    //#if (tid = 1 & bitwise_and (leftright, LEFT)) object {yellowspectre} #end
-   #break
 
-   #case (1)
-    SPwormrec (0, transform {Str[0][d] trsf}, d, leftright)
-    #if (bitwise_and (leftright, LEFT))
-      SPwormrec (2, transform {Str[2][d] trsf}, d, leftright)
-      #if (tid != 0) SPwormrec (3, transform {Str[3][d] trsf}, d, leftright) #end
-    #end
-    #if (bitwise_and (leftright, RIGHT))
-      SPwormrec (5, transform {Str[5][d] trsf}, d, leftright)
-      SPwormrec (6, transform {Str[6][d] trsf}, d, leftright)
-    #end
-   #break
+  #else
 
-   #case (2)
-    /* explanation of leftright:
-     * leftright = lr0 + 4*lr1
-     * if lr0 and LEFT, then we have a further choice based on lr1
-     * a value of 15 switches on all possible paths
-     */
-    SPwormrec (0, transform {Str[0][d] trsf}, d, LEFT)
-    SPwormrec (5, transform {Str[5][d] trsf}, d, RIGHT)
-    #local lrloc = bitwise_and (leftright, 3);
-    #if (lrloc != 3) #local lrloc = 3 - lrloc; #end
-    SPwormrec (4, transform {Str[4][d] trsf}, d, lrloc)
-    #if (bitwise_and (leftright, LEFT))
-      #if (tid != 0)
-        #local lrloc = int (leftright/4);
-        #if (lrloc != 3) #local lrloc = 3 - lrloc; #end
-        SPwormrec (3, transform {Str[3][d] trsf}, d, lrloc)
-      #end
+    #if (mod(depth,2) = 1)
+      SPwormrec (0, transform {Str[0][d] trsf}, d)
+      SPwormrec (2, transform {Str[2][d] trsf}, d)
+      #if (tid != 0) SPwormrec (3, transform {Str[3][d] trsf}, d) #end
+      SPwormrec (5, transform {Str[5][d] trsf}, d)
+      SPwormrec (6, transform {Str[6][d] trsf}, d)
+    #else
+      SPwormrec (0, transform {Str[0][d] trsf}, d)
+      #if (tid != 0) SPwormrec (3, transform {Str[3][d] trsf}, d) #end
+      SPwormrec (4, transform {Str[4][d] trsf}, d)
+      SPwormrec (5, transform {Str[5][d] trsf}, d)
     #end
-   #break
 
-   #case (3)
-   #case (4)
-   #case (5)
-   #case (6)
-    SPwormrec (0, transform {Str[0][d] trsf}, d, 15)
-    SPwormrec (1, transform {Str[1][d] trsf}, d, 15)
-    SPwormrec (2, transform {Str[2][d] trsf}, d, 15)
-    #if (tid != 0) SPwormrec (3, transform {Str[3][d] trsf}, d, 15) #end
-    SPwormrec (4, transform {Str[4][d] trsf}, d, 15)
-    SPwormrec (5, transform {Str[5][d] trsf}, d, 15)
-    SPwormrec (6, transform {Str[6][d] trsf}, d, 15)
-    SPwormrec (7, transform {Str[7][d] trsf}, d, 15)
-   #break
   #end
-
-
-    //#local i = 0;
-    //#while (i < 0)
-    //  #if (bitwise_and (SPshow, pow(2,i)) & (tid != 0 | i != 3)) SPwormrec (i, transform {Str[i][d] trsf}, d, 3 - leftright) #end
-    //  #local i = i + 1;
-    //#end
-  //#end
 #end
 
 #macro make_transparent (seet)
