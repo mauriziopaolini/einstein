@@ -18,6 +18,7 @@
 
 #declare Str = array[8][maxdepth];
 #ifndef (colors) #declare colors = 100; #end
+#ifndef (deltahue) #declare deltahue = 360*phi*phi; #end
 
 #local i = 0;
 #while (i < maxdepth)
@@ -75,7 +76,7 @@
       #if (bitwise_and (SPshow, pow(2,i)) & (tid != 0 | i != 3)) SPrec (i, transform {Str[i][d] trsf}, d) #end
       #local i = i + 1;
     #end
-    #if (d >= colors-1) SProtcolorshue (360*phi*phi) SPbuildtiles() #end
+    #if (d >= colors-1) SProtcolorshue (deltahue) SPbuildtiles() #end
     #ifdef (quadrilateral)
     object {quadm (QA[depth], QB[depth], QC[depth], QD[depth], depth*0.15)
       transform {trsf}

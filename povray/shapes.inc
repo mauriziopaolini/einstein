@@ -2,6 +2,7 @@
 
 #include "textures.inc"
 #include "colors.inc"
+#include "math.inc"
 
 #declare phi = (sqrt(5)-1)/2;
 #declare Phi = (sqrt(5)+1)/2;
@@ -242,8 +243,8 @@ union {
 #ifndef (T_greenmystic) #declare T_greenmystic = texture {pigment {rgb <0.7,1.0,0.7>}} #end
 #ifndef (T_greenmysticb) #declare T_greenmysticb = texture {pigment {rgb <0.5,1.0,0.5>}} #end
 #ifndef (T_grayspectre) #declare T_grayspectre = texture {pigment {rgb <0.09,0.09,0.09>}} #end
-#ifndef (T_graymystic) #declare T_graymystic = texture {pigment {rgb <0.03,0.03,0.03>}} #end
-#ifndef (T_graymysticb) #declare T_graymysticb = texture {pigment {rgb <0.06,0.06,0.06>}} #end
+#ifndef (T_graymystic) #declare T_graymystic = texture {pigment {rgb <0.06,0.06,0.06>}} #end
+#ifndef (T_graymysticb) #declare T_graymysticb = texture {pigment {rgb <0.03,0.03,0.03>}} #end
 
 #declare spectre =
 object { tile11
@@ -334,8 +335,6 @@ object { tile11
   #end
 #end
 
-SPinitcolors()
-
 #macro rotcol (col)
   <col.y, col.z, col.x>
 #end
@@ -348,6 +347,7 @@ SPinitcolors()
   #local i = 1;
   #while (i < 8)
     #local col = SPpigment[i];
+    #local cmax = col.x;
     #local cmax = max3 (col.x, col.y, col.z);
     #local cmin = min3 (col.x, col.y, col.z);
     #local chroma = cmax - cmin;
@@ -417,6 +417,9 @@ SPinitcolors()
     #local i = i + 1;
   #end
 #end
+
+SPinitcolors()
+#ifdef (starthue) SProtcolorshue (starthue) #end
 
 #declare SPobj[0] = object{mystic}
 

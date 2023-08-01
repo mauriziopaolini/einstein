@@ -53,7 +53,7 @@ spectreholepngs: $(spectreholes) $(spectrehole2s) $(spectrehole2slices) $(spectr
 # SPECTRE WORMS
 #
 
-spectreworms=spectreworm_d4.png spectreworm_d5.png spectreworm_d6.png
+spectreworms=spectreworm_d4.png spectreworm_d5.png spectreworm_d6.png spectreworm_d6zzz.png
 
 #
 #
@@ -230,6 +230,9 @@ spectreworm_d5.png: spectreworm.pov spectreworm.inc
 
 spectreworm_d6.png: spectreworm.pov spectreworm.inc
 	povray $(povoptspng) $< Declare=depth=6 Declare=zoomout=5.3 Declare=panright=-0.6 Declare=panup=0.8 Declare=showall=1 Declare=tipsig=333333 +O$@
+
+spectreworm_d6zzz.png: spectreworm.pov spectreworm.inc
+	povray +a $(povoptspng) $< Declare=depth=6 Declare=zoomout=1.5 Declare=showall=1 Declare=tipsig=333333 Declare=focussig=23333 Declare=colors=5 Declare=deltahue=10 +O$@
 
 #
 #

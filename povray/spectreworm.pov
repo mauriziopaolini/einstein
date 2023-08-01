@@ -13,6 +13,9 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (SPid) #declare SPid = 1; #end
 #ifndef (tipsig) #declare tipsig = 33333; #end
 #ifndef (tailsig) #declare tailsig = 00000; #end
+#ifndef (rotworm)
+  #declare rotworm = 180*clock;
+#end
 //#ifndef (tipsig2) #declare tipsig2 = 63636; #end
 //#ifndef (tailsig2) #declare tailsig2 = 04500; #end
 
@@ -83,7 +86,20 @@ SPrec (SPid, transform {transform {basetrinv} translate gtras}, depth)
 #local i = 0;
 #while (i < wormlen)
   object {
-  #if (wormid[i] = 0) graymystic #else grayspectre #end
+    #if (wormid[i] = 0)
+      graymystic
+      #ifdef (rotworm)
+        #local rotsign = 0;
+        #if (wormid[i-1] = 5) #local rotsign = 1; #end
+        #if (wormid[i-1] = 2) #local rotsign = -1; #end
+        SProtmystic (rotsign*rotworm/180*120)
+      #end
+    #else
+      grayspectre
+      #ifdef (rotworm)
+        SProtspectre (rotworm)
+      #end
+    #end
     transform wormtr[i]
     transform basetrinv
     translate gtras
