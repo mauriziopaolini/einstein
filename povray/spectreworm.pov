@@ -13,8 +13,8 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (SPid) #declare SPid = 1; #end
 #ifndef (tipsig) #declare tipsig = 33333; #end
 #ifndef (tailsig) #declare tailsig = 00000; #end
-#ifndef (tipsig2) #declare tipsig2 = 63636; #end
-#ifndef (tailsig2) #declare tailsig2 = 04500; #end
+//#ifndef (tipsig2) #declare tipsig2 = 63636; #end
+//#ifndef (tailsig2) #declare tailsig2 = 04500; #end
 
 #declare magstep = sqrt(4+sqrt(15));
 #declare magdepth = pow (magstep, depth);
@@ -30,32 +30,37 @@ global_settings { assumed_gamma 1.0 }
 #ifdef (zoom) #declare zoomfactor = 1/zoom*zoomfactor; #end
 
 worm_init (2000)
-
-#declare startsig = tipsig2;
 #declare wormi = 0;
 
-newwormtile (startsig)
+#ifdef (focussig)
+  newwormtile (focussig)
+#else
+  newwormtile (0)
+#end
 
 #declare basetr = wormtr[0];
 #declare basetrinv = transform {basetr inverse}
 
-#local sig = startsig;
+#declare wormi = 0;
 
-#debug concat ("startsig = ", str(startsig,0,0), "\n")
+#ifdef (tipsig2)
+  #ifndef (tailsig2) #declare tailsig2=0; #end
+  #local sig = tipsig2;
 
-#while (sig != tailsig2 & sig != 0)
-  #local sig = prec_in_worm (sig)
-  #if (mod (sig, 10) = 0)
-    newwormtile (sig)
+  #debug concat ("tipsig2 = ", str(sig,0,0), "\n")
+
+  #while (sig != tailsig2 & sig != 0)
+    #local sig = prec_in_worm (sig)
+    #if (mod (sig, 10) = 0)
+      newwormtile (sig)
+    #end
   #end
 #end
 
-#local sig = prec_in_worm (sig)
-newwormtile (sig)
-#local sig = prec_in_worm (sig)
-newwormtile (sig)
-
-#debug concat ("sig = ", str(sig,0,0), "\n")
+//#local sig = prec_in_worm (sig)
+//newwormtile (sig)
+//#local sig = prec_in_worm (sig)
+//newwormtile (sig)
 
 //newwormtile (04040) // center!
 
@@ -78,7 +83,7 @@ SPrec (SPid, transform {transform {basetrinv} translate gtras}, depth)
 #local i = 0;
 #while (i < wormlen)
   object {
-  #if (wormid[i] = 0) yellowmystic #else yellowspectre #end
+  #if (wormid[i] = 0) graymystic #else grayspectre #end
     transform wormtr[i]
     transform basetrinv
     translate gtras

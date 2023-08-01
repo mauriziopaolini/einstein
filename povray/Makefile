@@ -50,6 +50,12 @@ spectrehole2alt2s=$(spectreholezlevels:%=spectrehole2alt2_z%.png)
 spectreholepngs: $(spectreholes) $(spectrehole2s) $(spectrehole2slices) $(spectrehole2alts) $(spectrehole2alt2s)
 
 #
+# SPECTRE WORMS
+#
+
+spectreworms=spectreworm_d4.png spectreworm_d5.png spectreworm_d6.png
+
+#
 #
 #
 
@@ -211,6 +217,19 @@ $(spectresigpngd6z):spectreconwaysig%_d6z.png:spectreconwaysig.pov spectresig2po
 
 $(spectresigpngd6zz):spectreconwaysig%_d6zz.png:spectreconwaysig.pov spectresig2povopt.sh
 	./spectresig2povopt.sh -q $* povray Declare=depth=6 Declare=zoomout=2 $(povoptspng) +O- >$@
+
+#
+# Spectre worms
+#
+
+spectreworm_d4.png: spectreworm.pov spectreworm.inc
+	povray $(povoptspng) $< Declare=depth=4 Declare=zoomout=3.3 Declare=panright=-0.6 Declare=panup=0.8 Declare=showall=1 Declare=tipsig=3333 +O$@
+
+spectreworm_d5.png: spectreworm.pov spectreworm.inc
+	povray $(povoptspng) $< Declare=depth=5 Declare=zoomout=4.5 Declare=panright=-0.8 Declare=panup=1.2 Declare=showall=1 Declare=tipsig=33333 +O$@
+
+spectreworm_d6.png: spectreworm.pov spectreworm.inc
+	povray $(povoptspng) $< Declare=depth=6 Declare=zoomout=5.3 Declare=panright=-0.6 Declare=panup=0.8 Declare=showall=1 Declare=tipsig=333333 +O$@
 
 #
 #

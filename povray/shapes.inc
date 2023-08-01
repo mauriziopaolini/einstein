@@ -238,9 +238,12 @@ union {
 #ifndef (T_spectre) #declare T_spectre = texture {pigment {Pink}} #end
 #ifndef (T_mystic) #declare T_mystic = texture {Aluminum} #end
 #ifndef (T_mysticb) #declare T_mysticb = texture {Blue_Agate} #end
-#ifndef (T_yellowspectre) #declare T_yellowspectre = texture {pigment {rgb <0.5,0.5,0>}} #end
-#ifndef (T_yellowmystic) #declare T_yellowmystic = texture {pigment {rgb <1,1,0.5>}} #end
-#ifndef (T_yellowmysticb) #declare T_yellowmysticb = texture {pigment {rgb <1,1,0>}} #end
+#ifndef (T_greenspectre) #declare T_greenspectre = texture {pigment {rgb <0.4,0.8,0.4>}} #end
+#ifndef (T_greenmystic) #declare T_greenmystic = texture {pigment {rgb <0.7,1.0,0.7>}} #end
+#ifndef (T_greenmysticb) #declare T_greenmysticb = texture {pigment {rgb <0.5,1.0,0.5>}} #end
+#ifndef (T_grayspectre) #declare T_grayspectre = texture {pigment {rgb <0.09,0.09,0.09>}} #end
+#ifndef (T_graymystic) #declare T_graymystic = texture {pigment {rgb <0.03,0.03,0.03>}} #end
+#ifndef (T_graymysticb) #declare T_graymysticb = texture {pigment {rgb <0.06,0.06,0.06>}} #end
 
 #declare spectre =
 object { tile11
@@ -249,9 +252,16 @@ object { tile11
   }
 }
 
-#declare yellowspectre =
+#declare greenspectre =
 object { tile11
-  texture {T_yellowspectre
+  texture {T_greenspectre
+    finish {tile_Finish}
+  }
+}
+
+#declare grayspectre =
+object { tile11
+  texture {T_grayspectre
     finish {tile_Finish}
   }
 }
@@ -282,15 +292,29 @@ object { tile11
   }
 }
 
-#declare yellowmystic = union {
+#declare greenmystic = union {
   object { tile11
     transform {mystic_tr}
-    texture {T_yellowmystic
+    texture {T_greenmystic
       finish {tile_Finish}
     }
   }
   object { tile11
-    texture {T_yellowmysticb
+    texture {T_greenmysticb
+      finish {tile_Finish}
+    }
+  }
+}
+
+#declare graymystic = union {
+  object { tile11
+    transform {mystic_tr}
+    texture {T_graymystic
+      finish {tile_Finish}
+    }
+  }
+  object { tile11
+    texture {T_graymysticb
       finish {tile_Finish}
     }
   }

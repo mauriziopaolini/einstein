@@ -91,8 +91,8 @@
   #local d = depth-1;
   #if (depth = 0)
 
-    #if (tid = 0) object {yellowmystic transform {trsf}} #end
-    #if (tid != 0) object {yellowspectre transform {trsf}} #end
+    #if (tid = 0) object {greenmystic transform {trsf}} #end
+    #if (tid != 0) object {greenspectre transform {trsf}} #end
 
   #else
 
