@@ -11,8 +11,11 @@ global_settings { assumed_gamma 1.0 }
 
 #ifndef (depth) #declare depth = 5; #end // must coincide with the number of digits in signatures
 #ifndef (SPid) #declare SPid = 1; #end
-#ifndef (tipsig) #declare tipsig = 33333; #end
+//#ifndef (tipsig) #declare tipsig = 33333; #end
 #ifndef (tailsig) #declare tailsig = 00000; #end
+#ifndef (tailsig2) #declare tailsig2 = 00000; #end
+#ifndef (tailsigw) #declare tailsigw = 00000; #end
+#ifndef (tailsigw2) #declare tailsigw2 = 00000; #end
 #ifndef (rotworm)
   #declare rotworm = 180*clock;
 #end
@@ -44,44 +47,49 @@ worm_init (2000)
 #declare basetr = wormtr[0];
 #declare basetrinv = transform {basetr inverse}
 
+#local lift = 0;
+
+SPrec (SPid, transform {transform {basetrinv} translate gtras translate lift}, depth)
+#local lift = lift + tile_thick*y;
+
+#ifdef (showall)
+  SPwormrec (SPid, transform {transform {basetrinv} translate lift translate gtras}, depth)
+  #local lift = lift + tile_thick*y;
+#end
+
 #declare wormi = 0;
 
+#ifdef (tipsig)
+  newwormtile (tipsig)
+  #local sig = tipsig;
+  #while (sig != tailsig & sig != 0)
+    #local sig = prec_in_worm (sig,0)
+    #if (mod (sig,1000) = 0)
+      #debug concat ("Milestone sig: ", str(sig,0,0), "\n")
+    #end
+    newwormtile (sig)
+  #end
+#end
+
 #ifdef (tipsig2)
-  #ifndef (tailsig2) #declare tailsig2=0; #end
+  newwormtile (tipsig2)
   #local sig = tipsig2;
-
-  #debug concat ("tipsig2 = ", str(sig,0,0), "\n")
-
   #while (sig != tailsig2 & sig != 0)
-    #local sig = prec_in_worm (sig)
+    #local sig = prec_in_worm (sig,0) // 0: less wriggly
     #if (mod (sig, 10) = 0)
       newwormtile (sig)
     #end
   #end
 #end
 
-//#local sig = prec_in_worm (sig)
+//#local sig = prec_in_worm (sig,0)
 //newwormtile (sig)
-//#local sig = prec_in_worm (sig)
+//#local sig = prec_in_worm (sig,0)
 //newwormtile (sig)
 
 //newwormtile (04040) // center!
 
-#local sig = tipsig;
-#while (sig != tailsig & sig != 0)
-  #local sig = prec_in_worm (sig)
-  #if (mod (sig,1000) = 0)
-    #debug concat ("Milestone sig: ", str(sig,0,0), "\n")
-  #end
-  newwormtile (sig)
-#end
-
 #declare wormlen = wormi;
-
-SPrec (SPid, transform {transform {basetrinv} translate gtras}, depth)
-#ifdef (showall)
-  SPwormrec (SPid, transform {transform {basetrinv} translate tile_thick*y translate gtras}, depth)
-#end
 
 #local i = 0;
 #while (i < wormlen)
@@ -103,9 +111,52 @@ SPrec (SPid, transform {transform {basetrinv} translate gtras}, depth)
     transform wormtr[i]
     transform basetrinv
     translate gtras
-    translate 2*tile_thick*y
+    translate lift
   }
   #local i = i + 1;
+#end
+
+#if (wormlen > 0) #local lift = lift + tile_thick*y; #end
+
+#ifdef (tipsigw)
+  newwormtile (tipsigw)
+  #declare wormi = 0;
+  #local sig = tipsigw;
+  #while (sig != tailsigw & sig != 0)
+    #local sig = prec_in_worm (sig,1)
+    #if (mod (sig,1000) = 0)
+      #debug concat ("Milestone sigw: ", str(sig,0,0), "\n")
+    #end
+    newwormtile (sig)
+  #end
+
+  #declare wormlen = wormi;
+
+  #local i = 0;
+  #while (i < wormlen)
+    object {
+      #if (wormid[i] = 0)
+        whitemystic
+        #ifdef (rotwormw)
+          #local rotsign = 0;
+          #if (wormid[i-1] = 5) #local rotsign = 1; #end
+          #if (wormid[i-1] = 2) #local rotsign = -1; #end
+          SProtmysticw (rotsign*rotwormw/180*120)
+        #end
+      #else
+        whitespectre
+        #ifdef (rotwormw)
+          SProtspectrew (rotwormw)
+        #end
+      #end
+      transform wormtr[i]
+      transform basetrinv
+      translate gtras
+      translate lift
+    }
+    #local i = i + 1;
+  #end
+  #local lift = lift + tile_thick*y;
 #end
 
 sphere {

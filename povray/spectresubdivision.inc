@@ -88,6 +88,12 @@
   #end
 #end
 
+/*
+ * wriggly can only be 0 or 1
+ */
+
+#ifndef (wriggly) #declare wriggly = 0; #end
+
 #macro SPwormrec (tid, trsf, depth)
   #local d = depth-1;
   #if (depth = 0)
@@ -97,7 +103,7 @@
 
   #else
 
-    #if (mod(depth,2) = 1)
+    #if (mod(depth,2) = 1 - wriggly)
       SPwormrec (0, transform {Str[0][d] trsf}, d)
       SPwormrec (2, transform {Str[2][d] trsf}, d)
       #if (tid != 0) SPwormrec (3, transform {Str[3][d] trsf}, d) #end

@@ -245,6 +245,9 @@ union {
 #ifndef (T_grayspectre) #declare T_grayspectre = texture {pigment {rgb <0.09,0.09,0.09>}} #end
 #ifndef (T_graymystic) #declare T_graymystic = texture {pigment {rgb <0.06,0.06,0.06>}} #end
 #ifndef (T_graymysticb) #declare T_graymysticb = texture {pigment {rgb <0.03,0.03,0.03>}} #end
+#ifndef (T_whitespectre) #declare T_whitespectre = texture {pigment {rgb <0.8,0.8,0.8>}} #end
+#ifndef (T_whitemystic) #declare T_whitemystic = texture {pigment {rgb <1.00,1.00,1.00>}} #end
+#ifndef (T_whitemysticb) #declare T_whitemysticb = texture {pigment {rgb <0.9,0.9,0.9>}} #end
 
 #declare spectre =
 object { tile11
@@ -263,6 +266,13 @@ object { tile11
 #declare grayspectre =
 object { tile11
   texture {T_grayspectre
+    finish {tile_Finish}
+  }
+}
+
+#declare whitespectre =
+object { tile11
+  texture {T_whitespectre
     finish {tile_Finish}
   }
 }
@@ -316,6 +326,20 @@ object { tile11
   }
   object { tile11
     texture {T_graymysticb
+      finish {tile_Finish}
+    }
+  }
+}
+
+#declare whitemystic = union {
+  object { tile11
+    transform {mystic_tr}
+    texture {T_whitemystic
+      finish {tile_Finish}
+    }
+  }
+  object { tile11
+    texture {T_whitemysticb
       finish {tile_Finish}
     }
   }

@@ -53,7 +53,7 @@ spectreholepngs: $(spectreholes) $(spectrehole2s) $(spectrehole2slices) $(spectr
 # SPECTRE WORMS
 #
 
-spectreworms=spectreworm_d4.png spectreworm_d5.png spectreworm_d6.png spectreworm_d6zzz.png
+spectreworms=spectreworm_d4.png spectreworm_d5.png spectreworm_d6.png spectreworm_d6zzz.png spectreworm_w_d5.png spectreworm_w_d5z.png spectreworm_w_d5alt.png spectreworm_w_d5zalt.png spectreworm_w_d6.png spectreworm_w_d6z.png
 
 #
 #
@@ -233,6 +233,24 @@ spectreworm_d6.png: spectreworm.pov spectreworm.inc
 
 spectreworm_d6zzz.png: spectreworm.pov spectreworm.inc
 	povray +a $(povoptspng) $< Declare=depth=6 Declare=zoomout=1.5 Declare=showall=1 Declare=tipsig=333333 Declare=focussig=23333 Declare=colors=5 Declare=deltahue=10 +O$@
+
+spectreworm_w_d5.png: spectreworm.pov spectreworm.inc
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=zoomout=4.3 Declare=showall=1 Declare=tipsig=33333 Declare=tipsigw=33333 Declare=focussig=04040 Declare=panup=1.1 +O$@
+
+spectreworm_w_d5z.png: spectreworm.pov spectreworm.inc
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=zoomout=2 Declare=tipsig=33333 Declare=tipsigw=33333 Declare=focussig=33333 Declare=panup=-0.1 Declare=panright=0.18 +O$@
+
+spectreworm_w_d5alt.png: spectreworm.pov spectreworm.inc
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=zoomout=4 Declare=showall=1 Declare=tipsig=63333 Declare=tipsigw=33333 Declare=focussig=04040 Declare=panup=0 +O$@
+
+spectreworm_w_d5zalt.png: spectreworm.pov spectreworm.inc
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=zoomout=2 Declare=showall=1 Declare=tipsig=63333 Declare=tipsigw=33333 Declare=focussig=55000 Declare=panup=0 +O$@
+
+spectreworm_w_d6.png: spectreworm.pov spectreworm.inc
+	povray +a $(povoptspng) $< Declare=depth=6 Declare=zoomout=5 Declare=showall=1 Declare=tipsig=333333 Declare=tipsigw=633333 Declare=focussig=040404 Declare=panup=0 +O$@
+
+spectreworm_w_d6z.png: spectreworm.pov spectreworm.inc
+	povray +a $(povoptspng) $< Declare=depth=6 Declare=zoomout=3 Declare=showall=1 Declare=wriggly=1 Declare=tipsig=333333 Declare=tipsigw=633333 Declare=focussig=550000 Declare=panup=0 +O$@
 
 #
 #
