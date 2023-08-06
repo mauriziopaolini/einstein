@@ -31,7 +31,8 @@ global_settings { assumed_gamma 1.0 }
 #end
 
 //#declare gtras = 0*x - 1.5*mag*z;
-#declare gtras = 0*x;
+#declare gtras = transform {rotate 0*y};
+#ifdef (rot) #declare gtras = transform {rotate rot*y} #end
 
 #ifdef (zoom) #declare zoomfactor = 1/zoom*zoomfactor; #end
 
@@ -49,12 +50,19 @@ worm_init (2000)
 
 #local lift = 0;
 
-SPrec (SPid, transform {transform {basetrinv} translate gtras translate lift}, depth)
+SPrec (SPid, transform {transform {basetrinv} transform {gtras} translate lift}, depth)
 #local lift = lift + tile_thick*y;
 
 #ifdef (showall)
-  SPwormrec (SPid, transform {transform {basetrinv} translate lift translate gtras}, depth)
+  SPwormrec (SPid, transform {transform {basetrinv} translate lift transform {gtras}}, depth)
   #local lift = lift + tile_thick*y;
+#end
+
+#ifdef (showallw)
+  #declare wriggly = 1;
+  SPwormrec (SPid, transform {transform {basetrinv} translate lift transform {gtras}}, depth)
+  #local lift = lift + tile_thick*y;
+  #declare wriggly = 0;
 #end
 
 #declare wormi = 0;
@@ -110,7 +118,7 @@ SPrec (SPid, transform {transform {basetrinv} translate gtras translate lift}, d
     #end
     transform wormtr[i]
     transform basetrinv
-    translate gtras
+    transform {gtras}
     translate lift
   }
   #local i = i + 1;
@@ -151,7 +159,7 @@ SPrec (SPid, transform {transform {basetrinv} translate gtras translate lift}, d
       #end
       transform wormtr[i]
       transform basetrinv
-      translate gtras
+      transform {gtras}
       translate lift
     }
     #local i = i + 1;
@@ -159,11 +167,12 @@ SPrec (SPid, transform {transform {basetrinv} translate gtras translate lift}, d
   #local lift = lift + tile_thick*y;
 #end
 
-sphere {
-  <0,0,0>
+cylinder {
+  0*y
+  1.0*y
   0.4
   pigment {color Black}
-  translate gtras
+  transform {gtras}
 }
 
 #declare lookatpos = <0,0,0>;
