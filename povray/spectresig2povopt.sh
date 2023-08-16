@@ -14,6 +14,8 @@ if [ -z "$sig" ]; then echo "usage: $0 <signature>"; fi
 
 sig=`echo "$sig" | tr -d '.'`
 
+depth=5
+
 if echo "$sig" | grep -q '[[]'
 then
   period=`echo "$sig" | cut -f1 -d] | cut -f2 -d[`
@@ -39,5 +41,5 @@ if [ "$1" = "povray" ]
 then
   shift
   if [ -z "$quiet" ]; then echo "executing povray with arguments from command line"; fi
-  povray spectreconwaysig.pov +a Declare=Sigh=$sigh Declare=Sigl=$sigl $*
+  povray spectreconwaysig.pov +a Declare=depth=$depth Declare=Sigh=$sigh Declare=Sigl=$sigl $*
 fi
