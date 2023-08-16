@@ -243,7 +243,7 @@ union {
 #ifndef (T_greenmystic) #declare T_greenmystic = texture {pigment {rgb <0.7,1.0,0.7>}} #end
 #ifndef (T_greenmysticb) #declare T_greenmysticb = texture {pigment {rgb <0.5,1.0,0.5>}} #end
 #ifndef (T_grayspectre) #declare T_grayspectre = texture {pigment {rgb <0.09,0.09,0.09>}} #end
-#ifndef (T_graymystic) #declare T_graymystic = texture {pigment {rgb <0.06,0.06,0.06>}} #end
+#ifndef (T_graymystic) #declare T_graymystic = texture {pigment {rgb 5*<0.06,0.06,0.06>}} #end
 #ifndef (T_graymysticb) #declare T_graymysticb = texture {pigment {rgb <0.03,0.03,0.03>}} #end
 #ifndef (T_whitespectre) #declare T_whitespectre = texture {pigment {rgb <0.8,0.8,0.8>}} #end
 #ifndef (T_whitemystic) #declare T_whitemystic = texture {pigment {rgb <1.00,1.00,1.00>}} #end
