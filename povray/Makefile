@@ -32,7 +32,7 @@ hatholepngs: $(hatholes)
 # CONWAY SIGNATURES: SPECTRE
 #
 
-spectresignatures=[0] [1] [2] [3] [4] [5] [6] [7]
+spectresignatures=[0] [1] [2] [3] [4] [5] [6] [7] [04] [40]
 spectresigpngd6=${spectresignatures:%=spectreconwaysig%_d6.png}
 spectresigpngd6z=${spectresignatures:%=spectreconwaysig%_d6z.png}
 spectresigpngd6zz=${spectresignatures:%=spectreconwaysig%_d6zz.png}
@@ -53,7 +53,13 @@ spectreholepngs: $(spectreholes) $(spectrehole2s) $(spectrehole2slices) $(spectr
 # SPECTRE WORMS
 #
 
-spectreworms=spectreworm_d4.png spectreworm_d5.png spectreworm_d6.png spectreworm_d6zzz.png spectreworm_w_d5.png spectreworm_w_d5z.png spectreworm_w_d5alt.png spectreworm_w_d5zalt.png spectreworm_w_d6.png spectreworm_w_d6z.png
+spectreworms0=spectreworm_d4.png spectreworm_d5.png spectreworm_d6.png spectreworm_d6zzz.png spectreworm_w_d5.png spectreworm_w_d5z.png spectreworm_w_d5alt.png spectreworm_w_d5zalt.png spectreworm_w_d6.png spectreworm_w_d6z.png
+
+spectrehydras: spectrehydra.png spectrehydra_o.png spectrehydra_z.png spectrehydra_r.png spectrehydra2.png spectrehydra2_o.png spectrehydra2_z.png spectrehydra2_r.png
+
+spectretripods: spectretripod.png spectretripod_o.png spectretripod_z.png spectretripodw.png spectretripodw_o.png spectretripodw_z.png
+
+spectreworms: $(spectreworms0) $(spectrehydras)
 
 #
 #
@@ -251,6 +257,48 @@ spectreworm_w_d6.png: spectreworm.pov spectreworm.inc
 
 spectreworm_w_d6z.png: spectreworm.pov spectreworm.inc
 	povray +a $(povoptspng) $< Declare=depth=6 Declare=zoomout=3 Declare=showall=1 Declare=wriggly=1 Declare=tipsig=333333 Declare=tipsigw=633333 Declare=focussig=550000 Declare=panup=0 +O$@
+
+spectrehydra.png: spectrehydra.pov
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=zoomout=2.5 +O$@
+
+spectrehydra_o.png: spectrehydra.pov
+	povray +a $(povoptspng) $< Declare=depth=6 Declare=zoomout=5.5 +O$@
+
+spectrehydra_z.png: spectrehydra.pov
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=zoomout=1.5 +O$@
+
+spectrehydra_r.png: spectrehydra.pov
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=zoomout=2.5 Declare=rotworm=180 +O$@
+
+spectrehydra2.png: spectrehydra.pov
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=zoomout=2.5 Declare=hydra2=1 +O$@
+
+spectrehydra2_o.png: spectrehydra.pov
+	povray +a $(povoptspng) $< Declare=depth=6 Declare=zoomout=5.5 Declare=hydra2=1 +O$@
+
+spectrehydra2_z.png: spectrehydra.pov
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=zoomout=1.5 Declare=hydra2=1 +O$@
+
+spectrehydra2_r.png: spectrehydra.pov
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=zoomout=2.5 Declare=hydra2=1 Declare=rotworm=180 +O$@
+
+spectretripod.png: spectreworm.pov
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=zoomout=3 Declare=tipsig=33333 Declare=focussig=04040 Declare=tipsig2=63333 Declare=tailsig2=4043 +O$@
+
+spectretripod_o.png: spectreworm.pov
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=zoomout=4.5 Declare=tipsig=33333 Declare=focussig=04040 Declare=tipsig2=63333 Declare=tailsig2=4043 +O$@
+
+spectretripod_z.png: spectreworm.pov
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=zoomout=2.0 Declare=tipsig=33333 Declare=focussig=04040 Declare=tipsig2=63333 Declare=tailsig2=4043 +O$@
+
+spectretripodw.png: spectreworm.pov
+	povray +a $(povoptspng) $< Declare=depth=6 Declare=zoomout=3 Declare=tipsigw=333333 Declare=focussig=040404 Declare=tipsigw2=633333 Declare=tailsigw2=0 +O$@
+
+spectretripodw_o.png: spectreworm.pov
+	povray +a $(povoptspng) $< Declare=depth=6 Declare=zoomout=5 Declare=tipsigw=333333 Declare=focussig=040404 Declare=tipsigw2=633333 Declare=tailsigw2=0 +O$@
+
+spectretripodw_z.png: spectreworm.pov
+	povray +a $(povoptspng) $< Declare=depth=6 Declare=zoomout=2 Declare=tipsigw=333333 Declare=focussig=040404 Declare=tipsigw2=633333 Declare=tailsigw2=0 +O$@
 
 #
 #
