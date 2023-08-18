@@ -31,6 +31,7 @@ global_settings { assumed_gamma 1.0 }
 //SProtcolorshue (360*phi)
 //SPbuildtiles ()
 
+/*
 #macro gogo (i)
 //  SProtcolorshue (360*phi)
 //  SPbuildtiles ()
@@ -42,11 +43,15 @@ global_settings { assumed_gamma 1.0 }
 //  SPbuildtiles ()
   SPrec (j, transform {Str[j][depth-2] Str[i][depth-1] transform {gtras} translate lift}, depth-2)
 #end
+ */
 
 #macro gogo3 (i,j,k)
   SProtcolorshue (360*phi)
   SPbuildtiles ()
   SPrec (k, transform {Str[k][depth-3] Str[j][depth-2] Str[i][depth-1] transform {gtras} translate lift}, depth-3)
+  #ifdef (print)
+    #debug concat ("ADDRESS: ", str(i,0,0), str(j,0,0), str(k,0,0), "\n")
+  #end
 #end
 
 #macro tip2_l (i)
@@ -65,8 +70,8 @@ global_settings { assumed_gamma 1.0 }
 #end
 
 #macro tip2 (i)
-  tip3_12345 (i,6)
   tip3_456 (i,7)
+  tip3_12345 (i,6)
   tip2_l (i)
 #end
 
