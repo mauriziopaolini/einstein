@@ -11,6 +11,8 @@ global_settings { assumed_gamma 1.0 }
 
 #ifndef (depth) #declare depth = 5; #end // must coincide with the number of digits in signatures
 #ifndef (SPid) #declare SPid = 1; #end
+#ifndef (colors) #declare colors = depth; #end
+#if (colors <= 0) #declare colors = depth + colors; #end
 //#ifndef (tipsig) #declare tipsig = 33333; #end
 #ifndef (tailsig) #declare tailsig = 00000; #end
 #ifndef (tailsig2) #declare tailsig2 = 00000; #end
