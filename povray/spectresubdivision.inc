@@ -139,3 +139,140 @@
     #local i = i + 1;
   #end
 #end
+
+
+/*
+ * we have seven pieces of boundary a through g
+ * (with id 1 to 7)
+ */
+
+#declare bX_id = array[8][9];
+#declare bX_tr = array[8][9];
+
+#declare bX_id[1][0] = 3;
+#declare bX_tr[1][0] = 7;
+#declare bX_id[1][1] = 2;
+#declare bX_tr[1][1] = 7;
+#declare bX_id[1][2] = 1;
+#declare bX_tr[1][2] = 0;
+#declare bX_id[1][3] = 6;
+#declare bX_tr[1][3] = 1;
+#declare bX_id[1][4] = 5;
+#declare bX_tr[1][4] = 1;
+#declare bX_id[1][5] = 0;
+
+#declare bX_id[2][0] = 4;
+#declare bX_tr[2][0] = 1;
+#declare bX_id[2][1] = 3;
+#declare bX_tr[2][1] = 1;
+#declare bX_id[2][2] = 2;
+#declare bX_tr[2][2] = 1;
+#declare bX_id[2][3] = 4;
+#declare bX_tr[2][3] = 2;
+#declare bX_id[2][4] = 6;
+#declare bX_tr[2][4] = 3;
+#declare bX_id[2][5] = 5;
+#declare bX_tr[2][5] = 3;
+#declare bX_id[2][6] = 4;
+#declare bX_tr[2][6] = 3;
+#declare bX_id[2][7] = 3;
+#declare bX_tr[2][7] = 3;
+#declare bX_id[2][8] = 0;
+
+#declare bX_id[3][0] = 2;
+#declare bX_tr[3][0] = 3;
+#declare bX_id[3][1] = 4;
+#declare bX_tr[3][1] = 4;
+#declare bX_id[3][2] = 0;
+
+#declare bX_id[4][0] = 3;
+#declare bX_tr[4][0] = 4;
+#declare bX_id[4][1] = 2;
+#declare bX_tr[4][1] = 4;
+#declare bX_id[4][2] = 4;
+#declare bX_tr[4][2] = 5;
+#declare bX_id[4][3] = 6;
+#declare bX_tr[4][3] = 6;
+#declare bX_id[4][4] = 5;
+#declare bX_tr[4][4] = 6;
+#declare bX_id[4][5] = 0;
+
+#declare bX_id[5][0] = 4;
+#declare bX_tr[5][0] = 6;
+#declare bX_id[5][1] = 3;
+#declare bX_tr[5][1] = 6;
+#declare bX_id[5][2] = 0;
+
+#declare bX_id[6][0] = 2;
+#declare bX_tr[6][0] = 6;
+#declare bX_id[6][1] = 4;
+#declare bX_tr[6][1] = 7;
+#declare bX_id[6][2] = 0;
+
+#declare bX_id[7][0] = 4;
+#declare bX_tr[7][0] = 1;
+#declare bX_id[7][1] = 3;
+#declare bX_tr[7][1] = 1;
+#declare bX_id[7][2] = 2;
+#declare bX_tr[7][2] = 1;
+#declare bX_id[7][3] = 4;
+#declare bX_tr[7][3] = 2;
+#declare bX_id[7][4] = 3;
+#declare bX_tr[7][4] = 2;
+#declare bX_id[7][5] = 5;
+#declare bX_tr[7][5] = 4;
+#declare bX_id[7][6] = 4;
+#declare bX_tr[7][6] = 4;
+#declare bX_id[7][7] = 0;
+
+#ifndef (bdthick) #declare bdthick = 1; #end
+
+#macro SPbrec (btid, trsf, depth)
+  #local d = depth-1;
+  #if (depth = 0)
+    /*
+    #switch (btid)
+      #case (1)
+        #local pA = QA[0];
+        #local pB = QB[0];
+        #break
+      #case (2)
+        #local pA = QA[0];
+        #local pB = QB[0];
+        #break
+      #case (3)
+        #local pA = QA[0];
+        #local pB = QB[0];
+        #break
+      #case (4)
+        #local pA = QA[0];
+        #local pB = QB[0];
+        #break
+    #end
+    #local pA = vtransform (pA, trsf);
+    #local pN = vtransform (pB, trsf);
+    union {
+      sphere {pA, 1}
+      cylinder {pA, pB, 1}
+      transform {trsf}
+      texture {pigment {color Black}}
+      finish {tile_Finish}
+    }
+     */
+    sphere {0, bdthick
+      transform {trsf}
+      texture {pigment {color Black}}
+      finish {tile_Finish}
+    }
+  #else
+    #local i = 0;
+    #while (bX_id[btid][i] > 0)
+      /* get correct transformation */
+      #local btrsfid = bX_tr[btid][i];
+      #local btrsf = Str[btrsfid][d];
+      SPbrec (bX_id[btid][i], transform {btrsf trsf}, d)
+      #local i = i + 1;
+    #end
+  #end
+#end
+
