@@ -146,8 +146,8 @@
  * (with id 1 to 7)
  */
 
-#declare bX_id = array[8][9];
-#declare bX_tr = array[8][9];
+#declare bX_id = array[12][9];
+#declare bX_tr = array[12][9];
 
 #declare bX_id[1][0] = 3;
 #declare bX_tr[1][0] = 7;
@@ -225,45 +225,137 @@
 #declare bX_tr[7][6] = 4;
 #declare bX_id[7][7] = 0;
 
+/*
+ * this is based on the simpler subdivision in four pieces a,b,c,d
+ */
+
+#declare SPbida = 8;
+#declare SPbidb = 9;
+#declare SPbidc = 10;
+#declare SPbidd = 11;
+
+#declare bX_id[SPbida][0] = SPbidb;
+#declare bX_tr[SPbida][0] = 7;
+#declare bX_id[SPbida][1] = SPbida;
+#declare bX_tr[SPbida][1] = 0;
+#declare bX_id[SPbida][2] = SPbidd;
+#declare bX_tr[SPbida][2] = 1;
+#declare bX_id[SPbida][3] = 0;
+
+#declare bX_id[SPbidb][0] = SPbidc;
+#declare bX_tr[SPbidb][0] = 1;
+#declare bX_id[SPbidb][1] = SPbidb;
+#declare bX_tr[SPbidb][1] = 1;
+#declare bX_id[SPbidb][2] = SPbidc;
+#declare bX_tr[SPbidb][2] = 2;
+#declare bX_id[SPbidb][3] = SPbidd;
+#declare bX_tr[SPbidb][3] = 3;
+#declare bX_id[SPbidb][4] = SPbidc;
+#declare bX_tr[SPbidb][4] = 3;
+#declare bX_id[SPbidb][5] = SPbidb;
+#declare bX_tr[SPbidb][5] = 3;
+#declare bX_id[SPbidb][6] = SPbidc;
+#declare bX_tr[SPbidb][6] = 4;
+#declare bX_id[SPbidb][7] = 0;
+
+#declare bX_id[SPbidc][0] = SPbidb;
+#declare bX_tr[SPbidc][0] = 4;
+#declare bX_id[SPbidc][1] = SPbidc;
+#declare bX_tr[SPbidc][1] = 5;
+#declare bX_id[SPbidc][2] = SPbidd;
+#declare bX_tr[SPbidc][2] = 6;
+#declare bX_id[SPbidc][3] = 0;
+
+#declare bX_id[SPbidd][0] = SPbidc;
+#declare bX_tr[SPbidd][0] = 6;
+#declare bX_id[SPbidd][1] = SPbidb;
+#declare bX_tr[SPbidd][1] = 6;
+#declare bX_id[SPbidd][2] = SPbidc;
+#declare bX_tr[SPbidd][2] = 7;
+#declare bX_id[SPbidd][3] = 0;
+
+/*
+ * end of simpler subdivision in four pieces
+ */
+
 #ifndef (bdthick) #declare bdthick = 1; #end
+
+/*
+ * cannot do the same with the mystic at the moment
+ */
+
+#macro SPbsspectre (trsf, dpth)
+  SPbrec (SPbida, transform {trsf}, dpth)
+  SPbrec (SPbidb, transform {trsf}, dpth)
+  SPbrec (SPbidc, transform {trsf}, dpth)
+  SPbrec (SPbidd, transform {trsf}, dpth)
+#end
+
+#macro SPbspectre (trsf, dpth)
+  SPbrec (1, transform {trsf}, dpth)
+  SPbrec (2, transform {trsf}, dpth)
+  SPbrec (3, transform {trsf}, dpth)
+  SPbrec (4, transform {trsf}, dpth)
+  SPbrec (5, transform {trsf}, dpth)
+  SPbrec (6, transform {trsf}, dpth)
+#end
+
+#macro SPbmystic (trsf, dpth)
+  SPbrec (1, transform {trsf}, dpth)
+  SPbrec (7, transform {trsf}, dpth)
+  SPbrec (4, transform {trsf}, dpth)
+  SPbrec (5, transform {trsf}, dpth)
+  SPbrec (6, transform {trsf}, dpth)
+#end
 
 #macro SPbrec (btid, trsf, depth)
   #local d = depth-1;
   #if (depth = 0)
-    /*
     #switch (btid)
-      #case (1)
-        #local pA = QA[0];
-        #local pB = QB[0];
+      #case (SPbida)
+        #local p1 = QA[0];
+        #local p2 = QB[0];
         #break
-      #case (2)
-        #local pA = QA[0];
-        #local pB = QB[0];
+      #case (SPbidb)
+        #local p1 = QD[0];
+        #local p2 = QA[0];
         #break
-      #case (3)
-        #local pA = QA[0];
-        #local pB = QB[0];
+      #case (SPbidc)
+        #local p1 = QC[0];
+        #local p2 = QD[0];
         #break
-      #case (4)
-        #local pA = QA[0];
-        #local pB = QB[0];
+      #case (SPbidd)
+        #local p1 = QB[0];
+        #local p2 = QC[0];
         #break
     #end
-    #local pA = vtransform (pA, trsf);
-    #local pN = vtransform (pB, trsf);
-    union {
-      sphere {pA, 1}
-      cylinder {pA, pB, 1}
-      transform {trsf}
-      texture {pigment {color Black}}
-      finish {tile_Finish}
-    }
-     */
-    sphere {0, bdthick
-      transform {trsf}
-      texture {pigment {color Black}}
-      finish {tile_Finish}
-    }
+    #switch (btid)
+      #case (SPbida)
+      #case (SPbidb)
+      #case (SPbidc)
+      #case (SPbidd)
+        union {
+          sphere {p1, bdthick}
+          cylinder {p1, p2, bdthick}
+          transform {trsf}
+          texture {pigment {color Black}}
+          finish {tile_Finish}
+        }
+        #break
+      #case (1)
+      #case (2)
+      #case (3)
+      #case (4)
+      #case (5)
+      #case (6)
+      #case (7)
+        sphere {0, bdthick
+          transform {trsf}
+          texture {pigment {color Black}}
+          finish {tile_Finish}
+        }
+        #break
+    #end
   #else
     #local i = 0;
     #while (bX_id[btid][i] > 0)
