@@ -61,7 +61,7 @@ spectretripods: spectretripod.png spectretripod_o.png spectretripod_z.png spectr
 
 spectreworms: $(spectreworms0) $(spectrehydras)
 
-spectrefractals: spectrefractal.png mysticfractal.png
+spectrefractals: spectrefractal.png mysticfractal.png spectrefractalsub.png
 
 #
 #
@@ -303,10 +303,13 @@ spectretripodw_z.png: spectreworm.pov
 	povray +a $(povoptspng) $< Declare=depth=6 Declare=zoomout=2 Declare=tipsigw=333333 Declare=focussig=040404 Declare=tipsigw2=633333 Declare=tailsigw2=0 +O$@
 
 spectrefractal.png: spectrebd.pov spectresubdivision.inc
-	povray +a $(povoptspng) $< Declare=depth=7 Declare=bdthick=6 Declare=zoomout=6.7 Declare=panup=1 Declare=panright=0.5 Declare=ptsize=100 +O$@
+	povray +a $(povoptspng) $< Declare=depth=7 Declare=bdthick=6 Declare=zoomout=6.7 Declare=panup=1 Declare=panright=0.5 Declare=ptsize=100 Declare=draw4oints=1 +O$@
 
 mysticfractal.png: spectrebd.pov spectresubdivision.inc
-	povray +a $(povoptspng) $< Declare=depth=7 Declare=bdthick=6 Declare=zoomout=6.7 Declare=panup=1 Declare=panright=0.5 Declare=ptsize=100 Declare=SPid=0 +O$@
+	povray +a $(povoptspng) $< Declare=depth=7 Declare=bdthick=6 Declare=zoomout=6.7 Declare=panup=1 Declare=panright=0.5 Declare=ptsize=100 Declare=draw4points=1 Declare=SPid=0 +O$@
+
+spectrefractalsub.png: spectrebd.pov spectresubdivision.inc
+	povray +a $(povoptspng) $< Declare=depth=7 Declare=bdthick=6 Declare=zoomout=6.7 Declare=panup=1 Declare=panright=0.5 Declare=ptsize=100 Declare=subdivide=1 Declare=draw4points=1 Declare=subpoints=1 +O$@
 
 
 #
