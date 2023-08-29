@@ -146,26 +146,23 @@
  * (with id 1 to 7)
  */
 
-#declare bX_id = array[12][9];
-#declare bX_tr = array[12][9];
+#declare bX_id = array[6][9];
+#declare bX_tr = array[6][9];
 
 /*
  * this is based on the simpler subdivision in four pieces a,b,c,d
  */
 
-#declare SPbida = 8;
-#declare SPbidb = 9;
-#declare SPbidc = 10;
-#declare SPbidd = 11;
+#declare SPbida = 1;
+#declare SPbidb = 2;
+#declare SPbidc = 3;
+#declare SPbidd = 4;
 
 /*
  * to obtain the mystic boundary we need a finer subdivision
  */
 
-#declare SPbidb1 = 2;
-#declare SPbidb2 = 3;
-#declare SPbidb3 = 7;
-#declare SPbidd1 = 5;
+#declare SPbidbmystic = 5;
 
 /* ===== */
 
@@ -211,45 +208,17 @@
 
 /* ===== */
 
-#declare bX_id[SPbidb1][0] = SPbidc;
-#declare bX_tr[SPbidb1][0] = 1;
-#declare bX_id[SPbidb1][1] = SPbidb;
-#declare bX_tr[SPbidb1][1] = 1;
-#declare bX_id[SPbidb1][2] = SPbidc;
-#declare bX_tr[SPbidb1][2] = 2;
-#declare bX_id[SPbidb1][3] = SPbidd;
-#declare bX_tr[SPbidb1][3] = 3;
-#declare bX_id[SPbidb1][4] = SPbidc;
-#declare bX_tr[SPbidb1][4] = 3;
-#declare bX_id[SPbidb1][5] = SPbidb2;
-#declare bX_tr[SPbidb1][5] = 3;
-#declare bX_id[SPbidb1][6] = 0;
-
-#declare bX_id[SPbidb2][0] = SPbidb1;
-#declare bX_tr[SPbidb2][0] = 3;
-#declare bX_id[SPbidb2][1] = SPbidc;
-#declare bX_tr[SPbidb2][1] = 4;
-#declare bX_id[SPbidb2][2] = 0;
-
-#declare bX_id[SPbidd1][0] = SPbidc;
-#declare bX_tr[SPbidd1][0] = 6;
-#declare bX_id[SPbidd1][1] = SPbidb2;
-#declare bX_tr[SPbidd1][1] = 6;
-#declare bX_id[SPbidd1][2] = 0;
-
-#declare bX_id[SPbidb3][0] = SPbidc;
-#declare bX_tr[SPbidb3][0] = 1;
-#declare bX_id[SPbidb3][1] = SPbidb;
-#declare bX_tr[SPbidb3][1] = 1;
-#declare bX_id[SPbidb3][2] = SPbidc;
-#declare bX_tr[SPbidb3][2] = 2;
-#declare bX_id[SPbidb3][3] = SPbidb2;
-#declare bX_tr[SPbidb3][3] = 2;
-#declare bX_id[SPbidb3][4] = SPbidd1;
-#declare bX_tr[SPbidb3][4] = 4;
-#declare bX_id[SPbidb3][5] = SPbidc;
-#declare bX_tr[SPbidb3][5] = 4;
-#declare bX_id[SPbidb3][6] = 0;
+#declare bX_id[SPbidbmystic][0] = SPbidc;
+#declare bX_tr[SPbidbmystic][0] = 1;
+#declare bX_id[SPbidbmystic][1] = SPbidb;
+#declare bX_tr[SPbidbmystic][1] = 1;
+#declare bX_id[SPbidbmystic][2] = SPbidc;
+#declare bX_tr[SPbidbmystic][2] = 2;
+#declare bX_id[SPbidbmystic][3] = SPbida;  // this should be reverted in orientation
+#declare bX_tr[SPbidbmystic][3] = 3;
+#declare bX_id[SPbidbmystic][4] = SPbidc;
+#declare bX_tr[SPbidbmystic][4] = 4;
+#declare bX_id[SPbidbmystic][5] = 0;
 
 /* ===== */
 
@@ -260,20 +229,7 @@
  * cannot do the same with the mystic at the moment
  */
 
-#macro SPbsspectre (trsf, dpth)
-  SPbrec (SPbida, transform {trsf}, dpth)
-  SPbrec (SPbidb, transform {trsf}, dpth)
-  SPbrec (SPbidc, transform {trsf}, dpth)
-  SPbrec (SPbidd, transform {trsf}, dpth)
-#end
-
 #macro SPbspectre (trsf, dpth)
-  //SPbrec (SPbida0, transform {trsf}, dpth)
-  //SPbrec (SPbidb1, transform {trsf}, dpth)
-  //SPbrec (SPbidb2, transform {trsf}, dpth)
-  //SPbrec (SPbidc0, transform {trsf}, dpth)
-  //SPbrec (SPbidd1, transform {trsf}, dpth)
-  //SPbrec (SPbidd2, transform {trsf}, dpth)
   SPbrec (SPbida, transform {trsf}, dpth)
   SPbrec (SPbidb, transform {trsf}, dpth)
   SPbrec (SPbidc, transform {trsf}, dpth)
@@ -281,14 +237,8 @@
 #end
 
 #macro SPbmystic (trsf, dpth)
-  //SPbrec (SPbida0, transform {trsf}, dpth)
-  //SPbrec (SPbidb3, transform {trsf}, dpth)
-  //SPbrec (SPbidc0, transform {trsf}, dpth)
-  //SPbrec (SPbidd1, transform {trsf}, dpth)
-  //SPbrec (SPbidd2, transform {trsf}, dpth)
-
   SPbrec (SPbida, transform {trsf}, dpth)
-  SPbrec (SPbidb3, transform {trsf}, dpth)
+  SPbrec (SPbidbmystic, transform {trsf}, dpth)
   SPbrec (SPbidc, transform {trsf}, dpth)
   SPbrec (SPbidd, transform {trsf}, dpth)
 #end
@@ -296,14 +246,7 @@
 #macro SPbrec (btid, trsf, depth)
   #local d = depth-1;
   #if (depth = 0)
-    #switch (btid)
-      #case (SPbida)
-      #case (SPbidb)
-      #case (SPbidc)
-      #case (SPbidd)
-        union {
-        #break
-    #end
+      union {
     #switch (btid)
       #case (SPbida)
           sphere {SPbd[2], bdthick}
@@ -343,33 +286,32 @@
           cylinder {SPbd[8], SPbd[9], bdthick}
         #break
 
-#ifdef (OLD)
-      #case (SPbida0)
-      #case (SPbidc0)
-      #case (SPbidd2)
-      #case (SPbidb1)
-#end
-      #case (SPbidb2)
-      #case (SPbidd1)
-      #case (SPbidb3)
-        sphere {0, bdthick
-          transform {trsf}
-          texture {pigment {color Black}}
-          finish {tile_Finish}
-        }
+      #case (SPbidbmystic)  // this is drawn ONLY with depth=0 and is not perfect!
+          sphere {SPbd[1], bdthick}
+          sphere {SPbd[2], bdthick}
+          sphere {SPbd[3], bdthick}
+          sphere {SPbd[4], bdthick}
+          sphere {SPbd[5], bdthick}
+          sphere {SPbd[6], bdthick}
+          sphere {SPbd[7], bdthick}
+          sphere {SPbd[8], bdthick}
+          sphere {SPbd[9], bdthick}
+          cylinder {SPbd[1], SPbd[2], bdthick}
+          cylinder {SPbd[2], SPbd[3], bdthick}
+          cylinder {SPbd[3], SPbd[4], bdthick}
+          cylinder {SPbd[4], SPbd[5], bdthick}
+          cylinder {SPbd[5], SPbd[6], bdthick}
+          cylinder {SPbd[6], SPbd[7], bdthick}
+          cylinder {SPbd[7], SPbd[8], bdthick}
+          cylinder {SPbd[8], SPbd[9], bdthick}
+          cylinder {SPbd[9], SPbd[10], bdthick}
         #break
     #end
-    #switch (btid)
-      #case (SPbida)
-      #case (SPbidb)
-      #case (SPbidc)
-      #case (SPbidd)
-          transform {trsf}
-          texture {pigment {color Black}}
-          finish {tile_Finish}
-        }
-        #break
-    #end
+    #if (btid = SPbidbmystic) transform {mystic_tr} #end
+      transform {trsf}
+      texture {pigment {color Black}}
+      finish {tile_Finish}
+    }
   #else
     #local i = 0;
     #while (bX_id[btid][i] > 0)
