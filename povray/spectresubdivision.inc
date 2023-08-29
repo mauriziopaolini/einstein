@@ -149,16 +149,6 @@
 #declare bX_id = array[12][9];
 #declare bX_tr = array[12][9];
 
-#ifdef (OLD)
-  #declare SPbida0 = 1;
-  #declare SPbidc0 = 4;
-  #declare SPbidd2 = 6;
-#end
-#declare SPbidb1 = 2;
-#declare SPbidb2 = 3;
-#declare SPbidb3 = 7;
-#declare SPbidd1 = 5;
-
 /*
  * this is based on the simpler subdivision in four pieces a,b,c,d
  */
@@ -168,125 +158,16 @@
 #declare SPbidc = 10;
 #declare SPbidd = 11;
 
-#ifdef (OLD)
-  #declare bX_id[SPbida0][0] = SPbidb2;
-  #declare bX_tr[SPbida0][0] = 7;
-  #declare bX_id[SPbida0][1] = SPbidb1;
-  #declare bX_tr[SPbida0][1] = 7;
-  #declare bX_id[SPbida0][2] = SPbida0;
-  #declare bX_tr[SPbida0][2] = 0;
-  #declare bX_id[SPbida0][3] = SPbidd2;
-  #declare bX_tr[SPbida0][3] = 1;
-  #declare bX_id[SPbida0][4] = SPbidd1;
-  #declare bX_tr[SPbida0][4] = 1;
-  #declare bX_id[SPbida0][5] = 0;
+/*
+ * to obtain the mystic boundary we need a finer subdivision
+ */
 
-  #declare bX_id[SPbidb1][0] = SPbidc0;
-  #declare bX_tr[SPbidb1][0] = 1;
-  #declare bX_id[SPbidb1][1] = SPbidb2;
-  #declare bX_tr[SPbidb1][1] = 1;
-  #declare bX_id[SPbidb1][2] = SPbidb1;
-  #declare bX_tr[SPbidb1][2] = 1;
-  #declare bX_id[SPbidb1][3] = SPbidc0;
-  #declare bX_tr[SPbidb1][3] = 2;
-  #declare bX_id[SPbidb1][4] = SPbidd2;
-  #declare bX_tr[SPbidb1][4] = 3;
-  #declare bX_id[SPbidb1][5] = SPbidd1;
-  #declare bX_tr[SPbidb1][5] = 3;
-  #declare bX_id[SPbidb1][6] = SPbidc0;
-  #declare bX_tr[SPbidb1][6] = 3;
-  #declare bX_id[SPbidb1][7] = SPbidb2;
-  #declare bX_tr[SPbidb1][7] = 3;
-  #declare bX_id[SPbidb1][8] = 0;
+#declare SPbidb1 = 2;
+#declare SPbidb2 = 3;
+#declare SPbidb3 = 7;
+#declare SPbidd1 = 5;
 
-  #declare bX_id[SPbidb2][0] = SPbidb1;
-  #declare bX_tr[SPbidb2][0] = 3;
-  #declare bX_id[SPbidb2][1] = SPbidc0;
-  #declare bX_tr[SPbidb2][1] = 4;
-  #declare bX_id[SPbidb2][2] = 0;
-
-  #declare bX_id[SPbidc0][0] = SPbidb2;
-  #declare bX_tr[SPbidc0][0] = 4;
-  #declare bX_id[SPbidc0][1] = SPbidb1;
-  #declare bX_tr[SPbidc0][1] = 4;
-  #declare bX_id[SPbidc0][2] = SPbidc0;
-  #declare bX_tr[SPbidc0][2] = 5;
-  #declare bX_id[SPbidc0][3] = SPbidd2;
-  #declare bX_tr[SPbidc0][3] = 6;
-  #declare bX_id[SPbidc0][4] = SPbidd1;
-  #declare bX_tr[SPbidc0][4] = 6;
-  #declare bX_id[SPbidc0][5] = 0;
-
-  #declare bX_id[SPbidd1][0] = SPbidc0;
-  #declare bX_tr[SPbidd1][0] = 6;
-  #declare bX_id[SPbidd1][1] = SPbidb2;
-  #declare bX_tr[SPbidd1][1] = 6;
-  #declare bX_id[SPbidd1][2] = 0;
-
-  #declare bX_id[SPbidd2][0] = SPbidb1;
-  #declare bX_tr[SPbidd2][0] = 6;
-  #declare bX_id[SPbidd2][1] = SPbidc0;
-  #declare bX_tr[SPbidd2][1] = 7;
-  #declare bX_id[SPbidd2][2] = 0;
-
-  #declare bX_id[SPbidb3][0] = SPbidc0;
-  #declare bX_tr[SPbidb3][0] = 1;
-  #declare bX_id[SPbidb3][1] = SPbidb2;
-  #declare bX_tr[SPbidb3][1] = 1;
-  #declare bX_id[SPbidb3][2] = SPbidb1;
-  #declare bX_tr[SPbidb3][2] = 1;
-  #declare bX_id[SPbidb3][3] = SPbidc0;
-  #declare bX_tr[SPbidb3][3] = 2;
-  #declare bX_id[SPbidb3][4] = SPbidb2;
-  #declare bX_tr[SPbidb3][4] = 2;
-  #declare bX_id[SPbidb3][5] = SPbidd1;
-  #declare bX_tr[SPbidb3][5] = 4;
-  #declare bX_id[SPbidb3][6] = SPbidc0;
-  #declare bX_tr[SPbidb3][6] = 4;
-  #declare bX_id[SPbidb3][7] = 0;
-#else
-  #declare bX_id[SPbidb1][0] = SPbidc;
-  #declare bX_tr[SPbidb1][0] = 1;
-  #declare bX_id[SPbidb1][1] = SPbidb;
-  #declare bX_tr[SPbidb1][1] = 1;
-  #declare bX_id[SPbidb1][2] = SPbidc;
-  #declare bX_tr[SPbidb1][2] = 2;
-  #declare bX_id[SPbidb1][3] = SPbidd;
-  #declare bX_tr[SPbidb1][3] = 3;
-  #declare bX_id[SPbidb1][4] = SPbidc;
-  #declare bX_tr[SPbidb1][4] = 3;
-  #declare bX_id[SPbidb1][5] = SPbidb2;
-  #declare bX_tr[SPbidb1][5] = 3;
-  #declare bX_id[SPbidb1][6] = 0;
-
-  #declare bX_id[SPbidb2][0] = SPbidb1;
-  #declare bX_tr[SPbidb2][0] = 3;
-  #declare bX_id[SPbidb2][1] = SPbidc;
-  #declare bX_tr[SPbidb2][1] = 4;
-  #declare bX_id[SPbidb2][2] = 0;
-
-  #declare bX_id[SPbidd1][0] = SPbidc;
-  #declare bX_tr[SPbidd1][0] = 6;
-  #declare bX_id[SPbidd1][1] = SPbidb2;
-  #declare bX_tr[SPbidd1][1] = 6;
-  #declare bX_id[SPbidd1][2] = 0;
-
-  #declare bX_id[SPbidb3][0] = SPbidc;
-  #declare bX_tr[SPbidb3][0] = 1;
-  #declare bX_id[SPbidb3][1] = SPbidb;
-  #declare bX_tr[SPbidb3][1] = 1;
-  #declare bX_id[SPbidb3][2] = SPbidc;
-  #declare bX_tr[SPbidb3][2] = 2;
-  #declare bX_id[SPbidb3][3] = SPbidb2;
-  #declare bX_tr[SPbidb3][3] = 2;
-  #declare bX_id[SPbidb3][4] = SPbidd1;
-  #declare bX_tr[SPbidb3][4] = 4;
-  #declare bX_id[SPbidb3][5] = SPbidc;
-  #declare bX_tr[SPbidb3][5] = 4;
-  #declare bX_id[SPbidb3][6] = 0;
-#end
-
-
+/* ===== */
 
 #declare bX_id[SPbida][0] = SPbidb;
 #declare bX_tr[SPbida][0] = 7;
@@ -328,9 +209,50 @@
 #declare bX_tr[SPbidd][2] = 7;
 #declare bX_id[SPbidd][3] = 0;
 
-/*
- * end of simpler subdivision in four pieces
- */
+/* ===== */
+
+#declare bX_id[SPbidb1][0] = SPbidc;
+#declare bX_tr[SPbidb1][0] = 1;
+#declare bX_id[SPbidb1][1] = SPbidb;
+#declare bX_tr[SPbidb1][1] = 1;
+#declare bX_id[SPbidb1][2] = SPbidc;
+#declare bX_tr[SPbidb1][2] = 2;
+#declare bX_id[SPbidb1][3] = SPbidd;
+#declare bX_tr[SPbidb1][3] = 3;
+#declare bX_id[SPbidb1][4] = SPbidc;
+#declare bX_tr[SPbidb1][4] = 3;
+#declare bX_id[SPbidb1][5] = SPbidb2;
+#declare bX_tr[SPbidb1][5] = 3;
+#declare bX_id[SPbidb1][6] = 0;
+
+#declare bX_id[SPbidb2][0] = SPbidb1;
+#declare bX_tr[SPbidb2][0] = 3;
+#declare bX_id[SPbidb2][1] = SPbidc;
+#declare bX_tr[SPbidb2][1] = 4;
+#declare bX_id[SPbidb2][2] = 0;
+
+#declare bX_id[SPbidd1][0] = SPbidc;
+#declare bX_tr[SPbidd1][0] = 6;
+#declare bX_id[SPbidd1][1] = SPbidb2;
+#declare bX_tr[SPbidd1][1] = 6;
+#declare bX_id[SPbidd1][2] = 0;
+
+#declare bX_id[SPbidb3][0] = SPbidc;
+#declare bX_tr[SPbidb3][0] = 1;
+#declare bX_id[SPbidb3][1] = SPbidb;
+#declare bX_tr[SPbidb3][1] = 1;
+#declare bX_id[SPbidb3][2] = SPbidc;
+#declare bX_tr[SPbidb3][2] = 2;
+#declare bX_id[SPbidb3][3] = SPbidb2;
+#declare bX_tr[SPbidb3][3] = 2;
+#declare bX_id[SPbidb3][4] = SPbidd1;
+#declare bX_tr[SPbidb3][4] = 4;
+#declare bX_id[SPbidb3][5] = SPbidc;
+#declare bX_tr[SPbidb3][5] = 4;
+#declare bX_id[SPbidb3][6] = 0;
+
+/* ===== */
+
 
 #ifndef (bdthick) #declare bdthick = 1; #end
 
