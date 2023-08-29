@@ -31,6 +31,12 @@ global_settings { assumed_gamma 1.0 }
   #declare mag = pow(magstep,zoomout);
 #end
 
+#ifdef (which)
+  sphere {SPbd[which], 0.5
+    texture {pigment {color Gray}}
+  }
+#end
+
 #declare gtras = transform {rotate 0*y};
 #ifdef (rot) #declare gtras = transform {rotate rot*y} #end
 

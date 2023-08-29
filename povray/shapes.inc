@@ -19,9 +19,24 @@
  <-3/2,-ap>, <-3/4,-3/2*ap>, <-1/2,-ap>, <0,-ap>}
 
 #local pointstile11=array[n]
-{<0,0>, <-ap,-1/2>, <-ap+1/2,-1/2-ap>, <-ap+1/2+2,-1/2-ap>, <-ap+1/2+2+1/2,-1/2>, <3,-1>, <3+ap,-1/2>,
- <3+ap-1/2,-1/2+ap>, <3+ap-1/2-1,-1/2+ap>, <3+ap-1/2-1,-1/2+ap+1>, <3+ap-1/2-1-ap,-1/2+ap+1+1/2>,
+//{<0,0>, <-ap,-1/2>, <-ap+1/2,-1/2-ap>, <-ap+1/2+2,-1/2-ap>, <-ap+1/2+2+1/2,-1/2>, <3,-1>, <3+ap,-1/2>,
+// <3+ap-1/2,-1/2+ap>, <3+ap-1/2-1,-1/2+ap>, <3+ap-1/2-1,-1/2+ap+1>, <3+ap-1/2-1-ap,-1/2+ap+1+1/2>,
+// <1,1>, <0,1>}
+{<0,0>, <-ap,-1/2>, <1/2-ap,-1/2-ap>, <5/2-ap,-1/2-ap>, <3-ap,-1/2>, <3,-1>, <3+ap,-1/2>,
+ <5/2+ap,-1/2+ap>, <3/2+ap,-1/2+ap>, <3/2+ap,1/2+ap>, <3/2,1+ap>,
  <1,1>, <0,1>}
+
+#declare SPbddim = n;
+#declare SPbd = array[SPbddim];
+#local i = 0;
+#while (i < SPbddim)
+  #declare SPbd[i] = <pointstile11[i].y, 0, pointstile11[i].x>;
+  /* transformation in definition of tile11:
+    scale <-1,1,1>
+    rotate 90*y
+   */
+  #local i = i + 1;
+#end
 
 #local ttx = 3/4;
 #local tty = 0;

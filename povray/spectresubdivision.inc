@@ -11,10 +11,10 @@
 #declare QC = array[maxdepth+1];
 #declare QD = array[maxdepth+1];
 
-#declare QA[0] = <-1/2-ap,0,1/2-ap>;
-#declare QB[0] = <+1/2+ap,0,3/2+ap>;
-#declare QC[0] = <-1/2+ap,0,5/2+ap>;
-#declare QD[0] = <-1,0,3>;
+#declare QA[0] = SPbd[2];  //<-1/2-ap,0,1/2-ap>;
+#declare QB[0] = SPbd[9];  //<+1/2+ap,0,3/2+ap>;
+#declare QC[0] = SPbd[7];  //<-1/2+ap,0,5/2+ap>;
+#declare QD[0] = SPbd[5];  //<-1,0,3>;
 
 #declare Str = array[8][maxdepth];
 #ifndef (colors) #declare colors = 100; #end
@@ -149,81 +149,13 @@
 #declare bX_id = array[12][9];
 #declare bX_tr = array[12][9];
 
-#declare bX_id[1][0] = 3;
-#declare bX_tr[1][0] = 7;
-#declare bX_id[1][1] = 2;
-#declare bX_tr[1][1] = 7;
-#declare bX_id[1][2] = 1;
-#declare bX_tr[1][2] = 0;
-#declare bX_id[1][3] = 6;
-#declare bX_tr[1][3] = 1;
-#declare bX_id[1][4] = 5;
-#declare bX_tr[1][4] = 1;
-#declare bX_id[1][5] = 0;
-
-#declare bX_id[2][0] = 4;
-#declare bX_tr[2][0] = 1;
-#declare bX_id[2][1] = 3;
-#declare bX_tr[2][1] = 1;
-#declare bX_id[2][2] = 2;
-#declare bX_tr[2][2] = 1;
-#declare bX_id[2][3] = 4;
-#declare bX_tr[2][3] = 2;
-#declare bX_id[2][4] = 6;
-#declare bX_tr[2][4] = 3;
-#declare bX_id[2][5] = 5;
-#declare bX_tr[2][5] = 3;
-#declare bX_id[2][6] = 4;
-#declare bX_tr[2][6] = 3;
-#declare bX_id[2][7] = 3;
-#declare bX_tr[2][7] = 3;
-#declare bX_id[2][8] = 0;
-
-#declare bX_id[3][0] = 2;
-#declare bX_tr[3][0] = 3;
-#declare bX_id[3][1] = 4;
-#declare bX_tr[3][1] = 4;
-#declare bX_id[3][2] = 0;
-
-#declare bX_id[4][0] = 3;
-#declare bX_tr[4][0] = 4;
-#declare bX_id[4][1] = 2;
-#declare bX_tr[4][1] = 4;
-#declare bX_id[4][2] = 4;
-#declare bX_tr[4][2] = 5;
-#declare bX_id[4][3] = 6;
-#declare bX_tr[4][3] = 6;
-#declare bX_id[4][4] = 5;
-#declare bX_tr[4][4] = 6;
-#declare bX_id[4][5] = 0;
-
-#declare bX_id[5][0] = 4;
-#declare bX_tr[5][0] = 6;
-#declare bX_id[5][1] = 3;
-#declare bX_tr[5][1] = 6;
-#declare bX_id[5][2] = 0;
-
-#declare bX_id[6][0] = 2;
-#declare bX_tr[6][0] = 6;
-#declare bX_id[6][1] = 4;
-#declare bX_tr[6][1] = 7;
-#declare bX_id[6][2] = 0;
-
-#declare bX_id[7][0] = 4;
-#declare bX_tr[7][0] = 1;
-#declare bX_id[7][1] = 3;
-#declare bX_tr[7][1] = 1;
-#declare bX_id[7][2] = 2;
-#declare bX_tr[7][2] = 1;
-#declare bX_id[7][3] = 4;
-#declare bX_tr[7][3] = 2;
-#declare bX_id[7][4] = 3;
-#declare bX_tr[7][4] = 2;
-#declare bX_id[7][5] = 5;
-#declare bX_tr[7][5] = 4;
-#declare bX_id[7][6] = 4;
-#declare bX_tr[7][6] = 4;
-#declare bX_id[7][7] = 0;
+#declare SPbida0 = 1;
+#declare SPbidb1 = 2;
+#declare SPbidb2 = 3;
+#declare SPbidc0 = 4;
+#declare SPbidd1 = 5;
+#declare SPbidd2 = 6;
+#declare SPbidb3 = 7;
 
 /*
  * this is based on the simpler subdivision in four pieces a,b,c,d
@@ -233,6 +165,86 @@
 #declare SPbidb = 9;
 #declare SPbidc = 10;
 #declare SPbidd = 11;
+
+#declare bX_id[SPbida0][0] = SPbidb2;
+#declare bX_tr[SPbida0][0] = 7;
+#declare bX_id[SPbida0][1] = SPbidb1;
+#declare bX_tr[SPbida0][1] = 7;
+#declare bX_id[SPbida0][2] = SPbida0;
+#declare bX_tr[SPbida0][2] = 0;
+#declare bX_id[SPbida0][3] = SPbidd2;
+#declare bX_tr[SPbida0][3] = 1;
+#declare bX_id[SPbida0][4] = SPbidd1;
+#declare bX_tr[SPbida0][4] = 1;
+#declare bX_id[SPbida0][5] = 0;
+
+#declare bX_id[SPbidb1][0] = SPbidc0;
+#declare bX_tr[SPbidb1][0] = 1;
+#declare bX_id[SPbidb1][1] = SPbidb2;
+#declare bX_tr[SPbidb1][1] = 1;
+#declare bX_id[SPbidb1][2] = SPbidb1;
+#declare bX_tr[SPbidb1][2] = 1;
+#declare bX_id[SPbidb1][3] = SPbidc0;
+#declare bX_tr[SPbidb1][3] = 2;
+#declare bX_id[SPbidb1][4] = SPbidd2;
+#declare bX_tr[SPbidb1][4] = 3;
+#declare bX_id[SPbidb1][5] = SPbidd1;
+#declare bX_tr[SPbidb1][5] = 3;
+#declare bX_id[SPbidb1][6] = SPbidc0;
+#declare bX_tr[SPbidb1][6] = 3;
+#declare bX_id[SPbidb1][7] = SPbidb2;
+#declare bX_tr[SPbidb1][7] = 3;
+#declare bX_id[SPbidb1][8] = 0;
+
+#declare bX_id[SPbidb2][0] = SPbidb1;
+#declare bX_tr[SPbidb2][0] = 3;
+#declare bX_id[SPbidb2][1] = SPbidc0;
+#declare bX_tr[SPbidb2][1] = 4;
+#declare bX_id[SPbidb2][2] = 0;
+
+#declare bX_id[SPbidc0][0] = SPbidb2;
+#declare bX_tr[SPbidc0][0] = 4;
+#declare bX_id[SPbidc0][1] = SPbidb1;
+#declare bX_tr[SPbidc0][1] = 4;
+#declare bX_id[SPbidc0][2] = SPbidc0;
+#declare bX_tr[SPbidc0][2] = 5;
+#declare bX_id[SPbidc0][3] = SPbidd2;
+#declare bX_tr[SPbidc0][3] = 6;
+#declare bX_id[SPbidc0][4] = SPbidd1;
+#declare bX_tr[SPbidc0][4] = 6;
+#declare bX_id[SPbidc0][5] = 0;
+
+#declare bX_id[SPbidd1][0] = SPbidc0;
+#declare bX_tr[SPbidd1][0] = 6;
+#declare bX_id[SPbidd1][1] = SPbidb2;
+#declare bX_tr[SPbidd1][1] = 6;
+#declare bX_id[SPbidd1][2] = 0;
+
+#declare bX_id[SPbidd2][0] = SPbidb1;
+#declare bX_tr[SPbidd2][0] = 6;
+#declare bX_id[SPbidd2][1] = SPbidc0;
+#declare bX_tr[SPbidd2][1] = 7;
+#declare bX_id[SPbidd2][2] = 0;
+
+//#declare bX_id[SPbidb3][0] = SPbidc0;
+#declare bX_id[SPbidb3][0] = SPbidc;
+#declare bX_tr[SPbidb3][0] = 1;
+#declare bX_id[SPbidb3][1] = SPbidb2;
+#declare bX_tr[SPbidb3][1] = 1;
+#declare bX_id[SPbidb3][2] = SPbidb1;
+#declare bX_tr[SPbidb3][2] = 1;
+#declare bX_id[SPbidb3][3] = SPbidc0;
+#declare bX_tr[SPbidb3][3] = 2;
+#declare bX_id[SPbidb3][4] = SPbidb2;
+#declare bX_tr[SPbidb3][4] = 2;
+#declare bX_id[SPbidb3][5] = SPbidd1;
+#declare bX_tr[SPbidb3][5] = 4;
+#declare bX_id[SPbidb3][6] = SPbidc0;
+#declare bX_tr[SPbidb3][6] = 4;
+#declare bX_id[SPbidb3][7] = 0;
+
+
+
 
 #declare bX_id[SPbida][0] = SPbidb;
 #declare bX_tr[SPbida][0] = 7;
@@ -313,35 +325,55 @@
   #if (depth = 0)
     #switch (btid)
       #case (SPbida)
-        #local p1 = QA[0];
-        #local p2 = QB[0];
-        #break
-      #case (SPbidb)
-        #local p1 = QD[0];
-        #local p2 = QA[0];
-        #break
-      #case (SPbidc)
-        #local p1 = QC[0];
-        #local p2 = QD[0];
-        #break
-      #case (SPbidd)
-        #local p1 = QB[0];
-        #local p2 = QC[0];
-        #break
-    #end
-    #switch (btid)
-      #case (SPbida)
       #case (SPbidb)
       #case (SPbidc)
       #case (SPbidd)
         union {
-          sphere {p1, bdthick}
-          cylinder {p1, p2, bdthick}
-          transform {trsf}
-          texture {pigment {color Black}}
-          finish {tile_Finish}
-        }
         #break
+      //#case (SPbidd)
+      //  #local p1 = QB[0];
+      //  #local p2 = QC[0];
+      //  #break
+    #end
+    #switch (btid)
+      #case (SPbida)
+          sphere {SPbd[2], bdthick}
+          sphere {SPbd[1], bdthick}
+          sphere {SPbd[0], bdthick}
+          sphere {SPbd[12], bdthick}
+          sphere {SPbd[11], bdthick}
+          sphere {SPbd[10], bdthick}
+          cylinder {SPbd[2], SPbd[1], bdthick}
+          cylinder {SPbd[1], SPbd[0], bdthick}
+          cylinder {SPbd[0], SPbd[12], bdthick}
+          cylinder {SPbd[12], SPbd[11], bdthick}
+          cylinder {SPbd[11], SPbd[10], bdthick}
+          cylinder {SPbd[10], SPbd[9], bdthick}
+        #break
+
+      #case (SPbidb)
+          sphere {SPbd[3], bdthick}
+          sphere {SPbd[4], bdthick}
+          sphere {SPbd[5], bdthick}
+          cylinder {SPbd[2], SPbd[3], bdthick}
+          cylinder {SPbd[3], SPbd[4], bdthick}
+          cylinder {SPbd[4], SPbd[5], bdthick}
+        #break
+
+      #case (SPbidc)
+          sphere {SPbd[6], bdthick}
+          sphere {SPbd[7], bdthick}
+          cylinder {SPbd[5], SPbd[6], bdthick}
+          cylinder {SPbd[6], SPbd[7], bdthick}
+        #break
+
+      #case (SPbidd)
+          sphere {SPbd[8], bdthick}
+          sphere {SPbd[9], bdthick}
+          cylinder {SPbd[7], SPbd[8], bdthick}
+          cylinder {SPbd[8], SPbd[9], bdthick}
+        #break
+
       #case (1)
       #case (2)
       #case (3)
@@ -350,6 +382,17 @@
       #case (6)
       #case (7)
         sphere {0, bdthick
+          transform {trsf}
+          texture {pigment {color Black}}
+          finish {tile_Finish}
+        }
+        #break
+    #end
+    #switch (btid)
+      #case (SPbida)
+      #case (SPbidb)
+      #case (SPbidc)
+      #case (SPbidd)
           transform {trsf}
           texture {pigment {color Black}}
           finish {tile_Finish}
