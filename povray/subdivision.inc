@@ -72,6 +72,56 @@
   #declare i = i + 1;
 #end
 
+#ifndef (colors) #declare colors = 100; #end
+#ifndef (deltahue) #declare deltahue = 360*phi*phi; #end
+
+#macro HATrec (htile, trsf, depth)
+  #local d = depth-1;
+  #if (depth = 0)
+    #ifdef (onlyworm)
+      #ifdef (MaxPosLeft)
+        #local HATpos = vtransform (<0,0,0>, transform {trsf});
+        #if (HATpos.x < MaxPosLeft.x)
+          #declare MaxPosLeft = HATpos;
+        #end
+      #end
+      #if (htile = 7)
+        object {h7worm transform {trsf}}
+      #else
+        object {h8worm transform {trsf}}
+      #end
+    #else
+      #ifdef (seet)
+        #if (htile = 7)
+          union { h7list (seet, seet, seet)
+        #else
+          union { h8list (seet, seet, seet)
+        #end
+          transform {trsf} }
+      #else
+        #if (htile = 7)
+          object {h7m transform {trsf}}
+        #else
+          object {h8m transform {trsf}}
+        #end
+      #end
+    #end
+  #else
+    HATrec (7, transform {rotate rot0*y translate trn0[d] trsf}, d)
+    HATrec (8, transform {rotate rot2*y translate trn2[d] trsf}, d)
+    #if (htile != 7)
+      HATrec (8, transform {rotate rot6*y translate trn6[d] trsf}, d)
+    #end
+    #ifndef (onlyworm)
+      HATrec (8, transform {rotate rot1*y translate trn1[d] trsf}, d)
+      HATrec (8, transform {rotate rot3*y translate trn3[d] trsf}, d)
+      HATrec (8, transform {rotate rot4*y translate trn4[d] trsf}, d)
+      HATrec (8, transform {rotate rot5*y translate trn5[d] trsf}, d)
+    #end
+    #if (d >= colors-1) HATrotcolorshue (deltahue) HATbuildtiles() #end
+  #end
+#end
+
 #macro h7rec (trsf, depth)
   #local d = depth-1;
   #if (depth = 0)

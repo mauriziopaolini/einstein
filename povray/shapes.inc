@@ -96,12 +96,25 @@ finish {
         phong .75
 }
 
-#local h7c1 = <1,0,0>;
-#local h7c2 = <1,0.5,0.5>;
-#local h7c3 = <1,0.75,0.75>;
-#local h8c1 = <0,1,0>;
-#local h8c2 = <0.5,1,0.5>;
-#local h8c3 = <0.75,1,0.75>;
+#declare HATpigment = array[6];
+
+#macro HATinitcolors ()
+  #declare HATpigment[0] = rgb <1,0,0>;
+  #declare HATpigment[1] = rgb <1,0.5,0.5>;
+  #declare HATpigment[2] = rgb <1,0.75,0.75>;
+  #declare HATpigment[3] = rgb <0,1,0>;
+  #declare HATpigment[4] = rgb <0.5,1,0.5>;
+  #declare HATpigment[5] = rgb <0.75,1,0.75>;
+#end
+
+HATinitcolors ()
+
+#declare h7c1 = HATpigment[0];
+#declare h7c2 = HATpigment[1];
+#declare h7c3 = HATpigment[2];
+#declare h8c1 = HATpigment[3];
+#declare h8c2 = HATpigment[4];
+#declare h8c3 = HATpigment[5];
 
 #macro h7list (c1, c2, c3)
   object {hatr
@@ -208,6 +221,64 @@ object { hatr
     finish {tile_Finish}
   }
 }
+
+#macro HATbuildtiles ()
+  #declare h7m = union {
+    h7list (HATpigment[0], HATpigment[1], HATpigment[2])
+  }
+  #declare h8m = union {
+    h8list (HATpigment[3], HATpigment[4], HATpigment[5])
+  }
+#end
+
+#macro HATrotcolorshue (rot)
+  #local i = 0;
+  #while (i < 6)
+    #local col = HATpigment[i];
+    #local cmax = col.x;
+    #local cmax = max3 (col.x, col.y, col.z);
+    #local cmin = min3 (col.x, col.y, col.z);
+    #local chroma = cmax - cmin;
+    #if (chroma > 0)
+      #if (cmax = col.x)
+        #local huep = col.y - col.z;
+      #else
+        #if (cmax = col.y)
+          #local huep = col.z - col.x + 2*chroma;
+        #else
+          #local huep = col.x - col.y + 4*chroma;
+        #end
+      #end
+      #local huep = huep/chroma + rot/60;
+      #if (huep < 0) #local huep = huep + 6; #end
+      #if (huep >= 6) #local huep = huep - 6; #end
+      #local huepmod2 = mod (huep, 2);
+      #local ecs = chroma*(1 - abs(huepmod2 - 1));
+      #switch (huep)
+        #range (0,1)
+          #local rgb1 = <chroma,ecs,0>;
+        #break
+        #range (1,2)
+          #local rgb1 = <ecs,chroma,0>;
+        #break
+        #range (2,3)
+          #local rgb1 = <0,chroma,ecs>;
+        #break
+        #range (3,4)
+          #local rgb1 = <0,ecs,chroma>;
+        #break
+        #range (4,5)
+          #local rgb1 = <ecs,0,chroma>;
+        #break
+        #range (5,6)
+          #local rgb1 = <chroma,0,ecs>;
+        #break
+      #end
+      #declare HATpigment[i] = rgb (rgb1 + <cmin,cmin,cmin>);
+    #end
+    #local i = i + 1;
+  #end
+#end
 
 #local ttx11 = 2;
 #local tty11 = 0;
