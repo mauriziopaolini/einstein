@@ -1,5 +1,5 @@
 /*
- *
+ * OBSOLETED!  This was a preliminary step towards "spectrebd.pov"
  */
 
 #version 3.7;
