@@ -152,13 +152,13 @@ $(hatsigpngd6zz):hatconwaysig%_d6zz.png:hatconwaysig.pov hatsig2povopt.sh
 	./hatsig2povopt.sh -q $* povray Declare=depth=6 Declare=zoomout=2 $(povoptspng) +O- >$@
 
 hath8fractal.png: hatbd.pov subdivision.inc
-	povray +a $(povoptspng) $< Declare=depth=6 Declare=bdthick=6 Declare=zoomout=6.2 Declare=panup=0 Declare=panright=-2 Declare=ptsize=100 Declare=draw4oints=1 +O$@
+	povray +a $(povoptspng) $< Declare=depth=6 Declare=bdthick=6 Declare=zoomout=6.2 Declare=panup=0 Declare=panright=-2 Declare=ptsize=40 Declare=draw4points=1 +O$@
 
 hath7fractal.png: hatbd.pov subdivision.inc
-	povray +a $(povoptspng) $< Declare=depth=6 Declare=bdthick=6 Declare=zoomout=6.2 Declare=panup=0 Declare=panright=-2 Declare=ptsize=100 Declare=draw4oints=1 Declare=htile=7 +O$@
+	povray +a $(povoptspng) $< Declare=depth=6 Declare=bdthick=6 Declare=zoomout=6.2 Declare=panup=0 Declare=panright=-2 Declare=ptsize=40 Declare=draw4points=1 Declare=htile=7 +O$@
 
 hath8fractalsub.png: hatbd.pov subdivision.inc
-	povray +a $(povoptspng) $< Declare=depth=6 Declare=bdthick=6 Declare=zoomout=6.2 Declare=panup=0 Declare=panright=-2 Declare=ptsize=100 Declare=draw4oints=1 Declare=subdivide=1 +O$@
+	povray +a $(povoptspng) $< Declare=depth=6 Declare=bdthick=6 Declare=zoomout=6.2 Declare=panup=0 Declare=panright=-2 Declare=ptsize=40 Declare=draw4points=1 Declare=subdivide=1 Declare=subpoints=1 +O$@
 
 #
 # SPECTRE SIGNATURES
@@ -314,7 +314,7 @@ spectretripodw_z.png: spectreworm.pov
 	povray +a $(povoptspng) $< Declare=depth=6 Declare=zoomout=2 Declare=tipsigw=333333 Declare=focussig=040404 Declare=tipsigw2=633333 Declare=tailsigw2=0 +O$@
 
 spectrefractal.png: spectrebd.pov spectresubdivision.inc
-	povray +a $(povoptspng) $< Declare=depth=7 Declare=bdthick=6 Declare=zoomout=6.7 Declare=panup=1 Declare=panright=0.5 Declare=ptsize=100 Declare=draw4oints=1 +O$@
+	povray +a $(povoptspng) $< Declare=depth=7 Declare=bdthick=6 Declare=zoomout=6.7 Declare=panup=1 Declare=panright=0.5 Declare=ptsize=100 Declare=draw4ipoints=1 +O$@
 
 mysticfractal.png: spectrebd.pov spectresubdivision.inc
 	povray +a $(povoptspng) $< Declare=depth=7 Declare=bdthick=6 Declare=zoomout=6.7 Declare=panup=1 Declare=panright=0.5 Declare=ptsize=100 Declare=draw4points=1 Declare=SPid=0 +O$@

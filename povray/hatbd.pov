@@ -91,8 +91,7 @@ global_settings { assumed_gamma 1.0 }
   }
 #end
 
-#macro fourpoints (trsf, dpth)
-  //#local pointAtr = transform {Str[6][dpth-4] Str[6][dpth-3] Str[6][dpth-2] Str[1][dpth-1]}
+#macro threepoints (trsf, dpth)
   #local pointAtr = transform {
     rotate rotvec[6]*y translate trnvec[6][dpth-4]
     rotate rotvec[3]*y translate trnvec[3][dpth-3]
@@ -105,47 +104,50 @@ global_settings { assumed_gamma 1.0 }
     rotate rotvec[3]*y translate trnvec[3][dpth-2]
     rotate rotvec[4]*y translate trnvec[4][dpth-1]
   }
-  //#local pointBtr = transform {Str[4][dpth-4] Str[4][dpth-3] Str[4][dpth-2] Str[4][dpth-1]}
-  //#local pointCtr = transform {Str[6][dpth-4] Str[6][dpth-3] Str[6][dpth-2] Str[6][dpth-1]}
-  //#local pointDtr = transform {Str[4][dpth-4] Str[4][dpth-3] Str[4][dpth-2] Str[7][dpth-1]}
+  #local pointCtr = transform {
+    rotate rotvec[6]*y translate trnvec[6][dpth-4]
+    rotate rotvec[3]*y translate trnvec[3][dpth-3]
+    rotate rotvec[6]*y translate trnvec[6][dpth-2]
+    rotate rotvec[3]*y translate trnvec[3][dpth-1]
+  }
+  //#local pointDtr = transform {
+  //  rotate rotvec[3]*y translate trnvec[3][dpth-4]
+  //  rotate rotvec[6]*y translate trnvec[6][dpth-3]
+  //  rotate rotvec[3]*y translate trnvec[3][dpth-2]
+  //  rotate rotvec[6]*y translate trnvec[6][dpth-1]
+  //}
   onepoint (transform {pointAtr trsf}, color Black)
   onepoint (transform {pointBtr trsf}, color Black)
-  //onepoint (transform {pointBtr trsf}, color Black)
-  //onepoint (transform {pointCtr trsf}, color Black)
+  onepoint (transform {pointCtr trsf}, color Black)
   //onepoint (transform {pointDtr trsf}, color Black)
 #end
 
-/*
-#macro sixpoints (trsf, dpth)
-  #local pointAtr = transform {Str[6][dpth-4] Str[6][dpth-3] Str[6][dpth-2] Str[1][dpth-1]}
-  #local pointB2tr = transform {Str[3][dpth-4] Str[3][dpth-3] Str[3][dpth-2] Str[3][dpth-1]}
-  #local pointBtr = transform {Str[4][dpth-4] Str[4][dpth-3] Str[4][dpth-2] Str[4][dpth-1]}
-  #local pointCtr = transform {Str[6][dpth-4] Str[6][dpth-3] Str[6][dpth-2] Str[6][dpth-1]}
-  #local pointC2tr = transform {Str[3][dpth-4] Str[3][dpth-3] Str[3][dpth-2] Str[6][dpth-1]}
-  #local pointDtr = transform {Str[4][dpth-4] Str[4][dpth-3] Str[4][dpth-2] Str[7][dpth-1]}
-  onepoint (transform {pointAtr trsf}, color Black)
-  onepoint (transform {pointB2tr trsf}, color Red)
-  onepoint (transform {pointBtr trsf}, color Black)
-  onepoint (transform {pointCtr trsf}, color Black)
-  onepoint (transform {pointC2tr trsf}, color Green)
+#macro fourpoints (trsf, dpth)
+  threepoints (trsf, dpth)
+  #local pointDtr = transform {
+    rotate rotvec[3]*y translate trnvec[3][dpth-4]
+    rotate rotvec[6]*y translate trnvec[6][dpth-3]
+    rotate rotvec[3]*y translate trnvec[3][dpth-2]
+    rotate rotvec[6]*y translate trnvec[6][dpth-1]
+  }
   onepoint (transform {pointDtr trsf}, color Black)
 #end
- */
 
 #if (depth > 4)
 
   #ifndef (ptsize) #declare ptsize = 20; #end
   #declare cylt = ptsize;
 
-  #ifdef (draw4points) fourpoints (gtras, depth) #end
-  //#ifdef (draw6points) sixpoints (gtras, depth) #end
+  #ifdef (draw4points)
+    #if (htile != 7) fourpoints (gtras, depth) #else threepoints (gtras, depth) #end
+  #end
 
   #ifdef (subpoints)
     #declare cylt = 0.5*cylt;
-    fourpoints (transform {rotate rot0*y translate trn0[depth-1] gtras}, depth-1)
+    threepoints (transform {rotate rot0*y translate trn0[depth-1] gtras}, depth-1)
     #local i = 1;
     #while (i <= 6)
-      fourpoints (transform {rotate rotvec[i]*y translate trnvec[i][depth-1] gtras}, depth-1)
+      #if (htile != 7 | i != 6) fourpoints (transform {rotate rotvec[i]*y translate trnvec[i][depth-1] gtras}, depth-1) #end
       #local i = i + 1;
     #end
   #end
