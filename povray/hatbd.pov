@@ -33,24 +33,27 @@ global_settings { assumed_gamma 1.0 }
 
 #local lift = 0;
 
-/*
-#if (htile = 7)
-  h7rec (transform {transform {gtras} translate lift}, depth)
-#else
-  h8rec (transform {transform {gtras} translate lift}, depth)
-#end
- */
-
-/*
 //#ifndef (colors) #declare colors = depth; #end
-#if (colors < 90)
-  #if (colors <= 0) #declare colors = depth + colors; #end
-  SPrec (SPid, transform {transform {gtras} translate lift}, depth)
+#if (colors = 90)
+  HATrec (htile, transform {transform {gtras} translate lift}, depth)
   #local lift = lift + tile_thick*y;
-  SProtcolorshue (360*phi)
-  SPbuildtiles ()
 #end
- */
+
+#if (colors < 90)
+  #declare HATpigment[4] = HATpigment[3];
+  #declare HATpigment[5] = HATpigment[3];
+  #declare HATpigment[0] = HATpigment[3];
+  #declare HATpigment[1] = HATpigment[4];
+  #declare HATpigment[2] = HATpigment[5];
+  HATbuildtiles ();
+
+  #if (colors <= 0) #declare colors = depth + colors; #end
+  HATrec (htile, transform {transform {gtras} translate lift}, depth)
+  #local lift = lift + tile_thick*y;
+  HATrotcolorshue (360*phi)
+  HATbuildtiles ()
+#end
+
 #ifndef (bdthick) #declare bdthick = 2; #end
 
 #ifdef (which)
@@ -66,11 +69,9 @@ global_settings { assumed_gamma 1.0 }
 #ifdef (subdivide)
   #declare bdthick = bdthick/2;
   HATbh7rec (transform {rotate rot0*y translate trn0[depth-1] gtras translate lift}, depth-1)
-  //SPbmystic (transform {transform {Str[0][depth-1] gtras} translate lift}, depth-1)
   #local i = 1;
   #while (i <= 6)
     #if (htile != 7 | i != 6)
-      //SPbspectre (transform {transform {Str[i][depth-1] gtras} translate lift}, depth-1)
       HATbh8rec (transform {rotate rotvec[i]*y translate trnvec[i][depth-1] gtras translate lift}, depth-1)
     #end
     #local i = i + 1;
@@ -79,7 +80,6 @@ global_settings { assumed_gamma 1.0 }
 
 #local lift = lift + tile_thick*y;
 
-/*
 #macro onepoint (trsf, pcolor)
   cylinder {
     0*y
@@ -92,16 +92,30 @@ global_settings { assumed_gamma 1.0 }
 #end
 
 #macro fourpoints (trsf, dpth)
-  #local pointAtr = transform {Str[6][dpth-4] Str[6][dpth-3] Str[6][dpth-2] Str[1][dpth-1]}
-  #local pointBtr = transform {Str[4][dpth-4] Str[4][dpth-3] Str[4][dpth-2] Str[4][dpth-1]}
-  #local pointCtr = transform {Str[6][dpth-4] Str[6][dpth-3] Str[6][dpth-2] Str[6][dpth-1]}
-  #local pointDtr = transform {Str[4][dpth-4] Str[4][dpth-3] Str[4][dpth-2] Str[7][dpth-1]}
+  //#local pointAtr = transform {Str[6][dpth-4] Str[6][dpth-3] Str[6][dpth-2] Str[1][dpth-1]}
+  #local pointAtr = transform {
+    rotate rotvec[6]*y translate trnvec[6][dpth-4]
+    rotate rotvec[3]*y translate trnvec[3][dpth-3]
+    rotate rotvec[6]*y translate trnvec[6][dpth-2]
+    rotate rotvec[1]*y translate trnvec[1][dpth-1]
+  }
+  #local pointBtr = transform {
+    rotate rotvec[3]*y translate trnvec[3][dpth-4]
+    rotate rotvec[6]*y translate trnvec[6][dpth-3]
+    rotate rotvec[3]*y translate trnvec[3][dpth-2]
+    rotate rotvec[4]*y translate trnvec[4][dpth-1]
+  }
+  //#local pointBtr = transform {Str[4][dpth-4] Str[4][dpth-3] Str[4][dpth-2] Str[4][dpth-1]}
+  //#local pointCtr = transform {Str[6][dpth-4] Str[6][dpth-3] Str[6][dpth-2] Str[6][dpth-1]}
+  //#local pointDtr = transform {Str[4][dpth-4] Str[4][dpth-3] Str[4][dpth-2] Str[7][dpth-1]}
   onepoint (transform {pointAtr trsf}, color Black)
   onepoint (transform {pointBtr trsf}, color Black)
-  onepoint (transform {pointCtr trsf}, color Black)
-  onepoint (transform {pointDtr trsf}, color Black)
+  //onepoint (transform {pointBtr trsf}, color Black)
+  //onepoint (transform {pointCtr trsf}, color Black)
+  //onepoint (transform {pointDtr trsf}, color Black)
 #end
 
+/*
 #macro sixpoints (trsf, dpth)
   #local pointAtr = transform {Str[6][dpth-4] Str[6][dpth-3] Str[6][dpth-2] Str[1][dpth-1]}
   #local pointB2tr = transform {Str[3][dpth-4] Str[3][dpth-3] Str[3][dpth-2] Str[3][dpth-1]}
@@ -116,6 +130,7 @@ global_settings { assumed_gamma 1.0 }
   onepoint (transform {pointC2tr trsf}, color Green)
   onepoint (transform {pointDtr trsf}, color Black)
 #end
+ */
 
 #if (depth > 4)
 
@@ -123,20 +138,19 @@ global_settings { assumed_gamma 1.0 }
   #declare cylt = ptsize;
 
   #ifdef (draw4points) fourpoints (gtras, depth) #end
-  #ifdef (draw6points) sixpoints (gtras, depth) #end
+  //#ifdef (draw6points) sixpoints (gtras, depth) #end
 
   #ifdef (subpoints)
     #declare cylt = 0.5*cylt;
-    fourpoints (transform {Str[0][depth-1] gtras}, depth-1)
+    fourpoints (transform {rotate rot0*y translate trn0[depth-1] gtras}, depth-1)
     #local i = 1;
-    #while (i <= 7)
-      fourpoints (transform {Str[i][depth-1] gtras}, depth-1)
+    #while (i <= 6)
+      fourpoints (transform {rotate rotvec[i]*y translate trnvec[i][depth-1] gtras}, depth-1)
       #local i = i + 1;
     #end
   #end
 
 #end
- */
 
 #declare lookatpos = <0,0,0>;
 #declare mylocation = 0.8*mag*<0,10,0>;
