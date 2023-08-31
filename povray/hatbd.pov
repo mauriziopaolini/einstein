@@ -33,11 +33,13 @@ global_settings { assumed_gamma 1.0 }
 
 #local lift = 0;
 
+/*
 #if (htile = 7)
   h7rec (transform {transform {gtras} translate lift}, depth)
 #else
   h8rec (transform {transform {gtras} translate lift}, depth)
 #end
+ */
 
 /*
 //#ifndef (colors) #declare colors = depth; #end
@@ -54,35 +56,22 @@ global_settings { assumed_gamma 1.0 }
 #ifdef (which)
   HATbrec (which, transform {transform {gtras} translate lift}, depth)
 #else
-  HATbrec (HATbida, transform {transform {gtras} translate lift}, depth)
-  HATbrec (HATbidb, transform {transform {gtras} translate lift}, depth)
-  HATbrec (HATbidc, transform {transform {gtras} translate lift}, depth)
-  HATbrec (HATbidd, transform {transform {gtras} translate lift}, depth)
-#end
-
-/*
-#switch (SPid)
-  #case (0)
-    SPbmystic (transform {transform {gtras} translate lift}, depth)
-    #break
-  #case (1)
-  #case (2)
-  #case (3)
-  #case (4)
-  #case (5)
-  #case (6)
-  #case (7)
-    SPbspectre (transform {transform {gtras} translate lift}, depth)
-    #break
+  #if (htile != 7)
+    HATbh8rec (transform {transform {gtras} translate lift}, depth)
+  #else
+    HATbh7rec (transform {transform {gtras} translate lift}, depth)
+  #end
 #end
 
 #ifdef (subdivide)
   #declare bdthick = bdthick/2;
-  SPbmystic (transform {transform {Str[0][depth-1] gtras} translate lift}, depth-1)
+  HATbh7rec (transform {rotate rot0*y translate trn0[depth-1] gtras translate lift}, depth-1)
+  //SPbmystic (transform {transform {Str[0][depth-1] gtras} translate lift}, depth-1)
   #local i = 1;
-  #while (i <= 7)
-    #if (SPid != 0 | i != 3)
-      SPbspectre (transform {transform {Str[i][depth-1] gtras} translate lift}, depth-1)
+  #while (i <= 6)
+    #if (htile != 7 | i != 6)
+      //SPbspectre (transform {transform {Str[i][depth-1] gtras} translate lift}, depth-1)
+      HATbh8rec (transform {rotate rotvec[i]*y translate trnvec[i][depth-1] gtras translate lift}, depth-1)
     #end
     #local i = i + 1;
   #end
@@ -90,6 +79,7 @@ global_settings { assumed_gamma 1.0 }
 
 #local lift = lift + tile_thick*y;
 
+/*
 #macro onepoint (trsf, pcolor)
   cylinder {
     0*y

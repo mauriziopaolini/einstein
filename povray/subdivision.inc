@@ -226,6 +226,7 @@
 #declare HATbidb = 2;
 #declare HATbidc = 3;
 #declare HATbidd = 4;
+#declare HATbidcdh7 = 5;
 
 /* ===== */
 
@@ -264,6 +265,33 @@
 #declare HbX_id[HATbidd][4] = HATbidc;
 #declare HbX_tr[HATbidd][4] = 1;
 #declare HbX_id[HATbidd][5] = 0;
+
+#declare HbX_id[HATbidcdh7][0] = HATbidd;
+#declare HbX_tr[HATbidcdh7][0] = 3;
+#declare HbX_id[HATbidcdh7][1] = HATbidc;
+#declare HbX_tr[HATbidcdh7][1] = 2;
+#declare HbX_id[HATbidcdh7][2] = HATbida;
+#declare HbX_tr[HATbidcdh7][2] = 6;
+#declare HbX_id[HATbidcdh7][3] = HATbidc;
+#declare HbX_tr[HATbidcdh7][3] = 5;
+#declare HbX_id[HATbidcdh7][4] = HATbidd;
+#declare HbX_tr[HATbidcdh7][4] = 5;
+#declare HbX_id[HATbidcdh7][5] = HATbidc;
+#declare HbX_tr[HATbidcdh7][5] = 1;
+#declare HbX_id[HATbidcdh7][6] = 0;
+
+#macro HATbh7rec (trsf, dpth)
+  HATbrec (HATbida, transform {trsf}, dpth)
+  HATbrec (HATbidb, transform {trsf}, dpth)
+  HATbrec (HATbidcdh7, transform {trsf}, dpth)
+#end
+
+#macro HATbh8rec (trsf, dpth)
+  HATbrec (HATbida, transform {trsf}, dpth)
+  HATbrec (HATbidb, transform {trsf}, dpth)
+  HATbrec (HATbidc, transform {trsf}, dpth)
+  HATbrec (HATbidd, transform {trsf}, dpth)
+#end
 
 #macro HATbrec (btid, trsf, depth)
   #local d = depth-1;

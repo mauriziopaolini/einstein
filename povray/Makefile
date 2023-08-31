@@ -11,6 +11,8 @@ deflated_png_M = $(depthsSM:%=mystic_d%.png)
 deflatedq_png_S = $(depthsSM:%=spectreq_d%.png)
 deflatedq_png_M = $(depthsSM:%=mysticq_d%.png)
 
+hatfractals: hath8fractal.png hath7fractal.png hath8fractalsub.png
+
 #
 # CONWAY SIGNATURES: HAT
 #
@@ -148,6 +150,15 @@ $(hatsigpngd6z):hatconwaysig%_d6z.png:hatconwaysig.pov hatsig2povopt.sh
 
 $(hatsigpngd6zz):hatconwaysig%_d6zz.png:hatconwaysig.pov hatsig2povopt.sh
 	./hatsig2povopt.sh -q $* povray Declare=depth=6 Declare=zoomout=2 $(povoptspng) +O- >$@
+
+hath8fractal.png: hatbd.pov subdivision.inc
+	povray +a $(povoptspng) $< Declare=depth=6 Declare=bdthick=6 Declare=zoomout=6.2 Declare=panup=0 Declare=panright=-2 Declare=ptsize=100 Declare=draw4oints=1 +O$@
+
+hath7fractal.png: hatbd.pov subdivision.inc
+	povray +a $(povoptspng) $< Declare=depth=6 Declare=bdthick=6 Declare=zoomout=6.2 Declare=panup=0 Declare=panright=-2 Declare=ptsize=100 Declare=draw4oints=1 Declare=htile=7 +O$@
+
+hath8fractalsub.png: hatbd.pov subdivision.inc
+	povray +a $(povoptspng) $< Declare=depth=6 Declare=bdthick=6 Declare=zoomout=6.2 Declare=panup=0 Declare=panright=-2 Declare=ptsize=100 Declare=draw4oints=1 Declare=subdivide=1 +O$@
 
 #
 # SPECTRE SIGNATURES
