@@ -214,3 +214,99 @@
     #end
   #end
 #end
+
+/*
+ * this is based on a subdivision in four pieces a,b,c,d
+ */
+
+#declare HbX_id = array[6][9];
+#declare HbX_tr = array[6][9];
+
+#declare HATbida = 1;
+#declare HATbidb = 2;
+#declare HATbidc = 3;
+#declare HATbidd = 4;
+
+/* ===== */
+
+#declare HbX_id[HATbida][0] = HATbidd;
+#declare HbX_tr[HATbida][0] = 1;
+#declare HbX_id[HATbida][1] = HATbida;
+#declare HbX_tr[HATbida][1] = 0;
+#declare HbX_id[HATbida][2] = HATbidb;
+#declare HbX_tr[HATbida][2] = 4;
+#declare HbX_id[HATbida][3] = 0;
+
+#declare HbX_id[HATbidb][0] = HATbidc;
+#declare HbX_tr[HATbidb][0] = 4;
+#declare HbX_id[HATbidb][1] = HATbidd;
+#declare HbX_tr[HATbidb][1] = 4;
+#declare HbX_id[HATbidb][2] = HATbidc;
+#declare HbX_tr[HATbidb][2] = 3;
+#declare HbX_id[HATbidb][3] = 0;
+
+#declare HbX_id[HATbidc][0] = HATbidd;
+#declare HbX_tr[HATbidc][0] = 3;
+#declare HbX_id[HATbidc][1] = HATbidc;
+#declare HbX_tr[HATbidc][1] = 2;
+#declare HbX_id[HATbidc][2] = HATbidb;
+#declare HbX_tr[HATbidc][2] = 6;
+#declare HbX_id[HATbidc][3] = 0;
+
+#declare HbX_id[HATbidd][0] = HATbidc;
+#declare HbX_tr[HATbidd][0] = 6;
+#declare HbX_id[HATbidd][1] = HATbidd;
+#declare HbX_tr[HATbidd][1] = 6;
+#declare HbX_id[HATbidd][2] = HATbidc;
+#declare HbX_tr[HATbidd][2] = 5;
+#declare HbX_id[HATbidd][3] = HATbidd;
+#declare HbX_tr[HATbidd][3] = 5;
+#declare HbX_id[HATbidd][4] = HATbidc;
+#declare HbX_tr[HATbidd][4] = 1;
+#declare HbX_id[HATbidd][5] = 0;
+
+#macro HATbrec (btid, trsf, depth)
+  #local d = depth-1;
+  #if (depth = 0)
+      union {
+    #switch (btid)
+      #case (HATbida)
+          //sphere {2*ap*z, bdthick}
+          //cylinder {2*ap*z, -2*ap*z, bdthick}
+          sphere {4*ap*z, bdthick}
+          cylinder {4*ap*z, 2*x-2*ap*z, bdthick}
+        #break
+      #case (HATbidb)
+          //sphere {-2*ap*z, bdthick}
+          //cylinder {-2*ap*z, -1.5*x-ap*z, bdthick}
+          sphere {2*x-2*ap*z, bdthick}
+          cylinder {2*x-2*ap*z, -1.5*x-3*ap*z, bdthick}
+        #break
+      #case (HATbidc)
+          //sphere {-1.5*x-ap*z, bdthick}
+          //cylinder {-1.5*x-ap*z, -3*x+2*ap*z, bdthick}
+          sphere {-1.5*x-3*ap*z, bdthick}
+          cylinder {-1.5*x-3*ap*z, -4*x+0*ap*z, bdthick}
+        #break
+      #case (HATbidd)
+          //sphere {-3*x+2*ap*z, bdthick}
+          //cylinder {-3*x+2*ap*z, 2*ap*z, bdthick}
+          sphere {-4*x+0*ap*z, bdthick}
+          cylinder {-4*x+0*ap*z, 4*ap*z, bdthick}
+        #break
+    #end
+      transform {trsf}
+      texture {pigment {color Black}}
+      finish {tile_Finish}
+    }
+  #else
+    #local i = 0;
+    #while (HbX_id[btid][i] > 0)
+      /* get correct transformation */
+      #local btrsfid = HbX_tr[btid][i];
+      #local btrsf = transform {rotate rotvec[btrsfid]*y translate trnvec[btrsfid][d]};
+      HATbrec (HbX_id[btid][i], transform {btrsf trsf}, d)
+      #local i = i + 1;
+    #end
+  #end
+#end
