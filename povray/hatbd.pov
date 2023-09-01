@@ -110,16 +110,9 @@ global_settings { assumed_gamma 1.0 }
     rotate rotvec[6]*y translate trnvec[6][dpth-2]
     rotate rotvec[3]*y translate trnvec[3][dpth-1]
   }
-  //#local pointDtr = transform {
-  //  rotate rotvec[3]*y translate trnvec[3][dpth-4]
-  //  rotate rotvec[6]*y translate trnvec[6][dpth-3]
-  //  rotate rotvec[3]*y translate trnvec[3][dpth-2]
-  //  rotate rotvec[6]*y translate trnvec[6][dpth-1]
-  //}
   onepoint (transform {pointAtr trsf}, color Black)
   onepoint (transform {pointBtr trsf}, color Black)
   onepoint (transform {pointCtr trsf}, color Black)
-  //onepoint (transform {pointDtr trsf}, color Black)
 #end
 
 #macro fourpoints (trsf, dpth)

@@ -17,7 +17,7 @@ hatfractals: hath8fractal.png hath7fractal.png hath8fractalsub.png
 # CONWAY SIGNATURES: HAT
 #
 
-hatsignatures=[0] [2] [6] [602] [026] [260] [1] [3] [4] [5]
+hatsignatures=[0] [2] [6] [602] [026] [260] [1] [3] [4] [5] [63] [36]
 hatsigpngd6=${hatsignatures:%=hatconwaysig%_d6.png}
 hatsigpngd6z=${hatsignatures:%=hatconwaysig%_d6z.png}
 hatsigpngd6zz=${hatsignatures:%=hatconwaysig%_d6zz.png}
