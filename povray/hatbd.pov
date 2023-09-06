@@ -76,6 +76,27 @@ global_settings { assumed_gamma 1.0 }
     #end
     #local i = i + 1;
   #end
+  #if (subdivide > 1)
+    #declare bdthick = bdthick/2;
+    HATbh7rec (transform {rotate rot0*y translate trn0[depth-2] rotate rot0*y translate trn0[depth-1] gtras translate lift}, depth-2)
+    #local i = 1;
+    #while (i <= 5)
+      HATbh8rec (transform {rotate rotvec[i]*y translate trnvec[i][depth-2] rotate rot0*y translate trn0[depth-1] gtras translate lift}, depth-2)
+      #local i = i + 1;
+    #end
+    #local i = 1;
+    #while (i <= 6)
+      #if (htile != 7 | i != 6)
+        HATbh7rec (transform {rotate rot0*y translate trn0[depth-2] rotate rotvec[i]*y translate trnvec[i][depth-1] gtras translate lift}, depth-2)
+        #local j = 1;
+        #while (j <= 6)
+          HATbh8rec (transform {rotate rotvec[j]*y translate trnvec[j][depth-2] rotate rotvec[i]*y translate trnvec[i][depth-1] gtras translate lift}, depth-2)
+          #local j = j + 1;
+        #end
+      #end
+      #local i = i + 1;
+    #end
+  #end
 #end
 
 #local lift = lift + tile_thick*y;

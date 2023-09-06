@@ -55,6 +55,17 @@ global_settings { assumed_gamma 1.0 }
 
 #ifndef (signature) #declare signature = array[12] {1,1,2,2,2,2,2,2,2,2,2,2} #end
 
+#ifdef (special63)
+  #declare Sigl2 = Sigl;
+  #declare Sigh2 = Sigh;
+  #declare Sigl3 = Sigl;
+  #declare Sigh3 = Sigh;
+  #local center63 = -4.0*x;
+  #if (special63 = 36)
+    #local center63 = -1.5*x-3*ap*z;
+  #end
+#end
+
 #ifdef (down2)
   #ifndef (Sigl2) #declare Sigl2 = Sigl; #declare Sigh2 = Sigh; #end
 #end
@@ -243,6 +254,15 @@ cylinder {
   build_up_down (up2, down2)
   #declare uptransfinv = transform {uptransf inverse}
   #declare placeit = transform {downtransf uptransfinv}
+
+  #ifdef (special63)
+    #declare placeit = transform {
+      translate -center63
+      rotate 120*y
+      translate center63
+    }
+  #end
+
   #local darken=0.5;
   #declare h7c2 = darken*h7c2;
   #declare h7c3 = darken*h7c3;
@@ -273,6 +293,15 @@ cylinder {
   build_up_down (up3, down3)
   #declare uptransfinv = transform {uptransf inverse}
   #declare placeit = transform {downtransf uptransfinv}
+
+  #ifdef (special63)
+    #declare placeit = transform {
+      translate -center63
+      rotate -120*y
+      translate center63
+    }
+  #end
+
   #local darken=0.5;
   #declare h7c2 = darken*h7c2;
   #declare h7c3 = darken*h7c3;
