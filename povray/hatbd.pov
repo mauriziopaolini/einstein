@@ -31,6 +31,8 @@ global_settings { assumed_gamma 1.0 }
 #declare gtras = transform {rotate 0*y};
 #ifdef (rot) #declare gtras = transform {rotate rot*y} #end
 
+#declare textfont = "LiberationMono-Regular.ttf"
+
 #local lift = 0;
 
 //#ifndef (colors) #declare colors = depth; #end
@@ -167,6 +169,48 @@ global_settings { assumed_gamma 1.0 }
   #end
 
 #end
+
+#ifdef (letters)
+  #local dimlet = 0.5*mag;
+
+  text {ttf textfont "A" 0.02, 0
+      pigment {color Black}
+      rotate 90*x
+      scale dimlet
+      translate mag*0.5*x
+      transform gtras
+      translate lift
+    }
+  text {ttf textfont "B" 0.02, 0
+    pigment {color Black}
+    rotate 90*x
+    scale dimlet
+    translate trn4[depth-1]
+    translate -mag*(2.2*z + 0.5*x)
+    transform gtras
+    translate lift
+  }
+  text {ttf textfont "C" 0.02, 0
+    pigment {color Black}
+    rotate 90*x
+    scale dimlet
+    translate 0.6*trn6[depth-1] + 0.7*trn3[depth-1]
+    translate -mag*(0.3*z)
+    transform gtras
+    translate lift
+  }
+  text {ttf textfont "D" 0.02, 0
+    pigment {color Black}
+    rotate 90*x
+    scale dimlet
+    translate 1.5*trn5[depth-1]
+    //translate -0*mag*(2.4*z + 0.5*x)
+    transform gtras
+    translate lift
+  }
+
+#end
+
 
 #declare lookatpos = <0,0,0>;
 #declare mylocation = 0.8*mag*<0,10,0>;
