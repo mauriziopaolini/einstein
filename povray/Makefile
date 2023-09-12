@@ -191,9 +191,11 @@ hath8fractalsub.png: hatbd.pov subdivision.inc
 notte0.png: notte.pov
 	povray $(povoptspng) $< Declare=activity=0 +O$@
 
-notte0gray.png: notte.pov
+notte1.png: notte.pov
 	povray $(povoptspng) $< Declare=activity=0 Declare=gray=1 +O$@
 
+notte2.png: notte.pov
+	povray $(povoptspng) $< Declare=activity=2 +O$@
 
 #
 # SPECTRE SIGNATURES

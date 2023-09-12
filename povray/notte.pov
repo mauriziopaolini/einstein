@@ -1,11 +1,4 @@
 /*
- *
- * sample call:
- *
- * povray +a spectre.pov Declare=htile=<SPid> Declare=depth=<depth>
- *
- * where <SPid> = 0 (mystic), 1, 2, 3, 4, 5, 6, 7 (spectre)
- *
  */
 
 #version 3.7;
@@ -25,7 +18,14 @@ global_settings { assumed_gamma 1.0 }
 
 #switch (activity)
   #case (0)
+  #case (1)
     #declare depth = 0;
+    #ifndef (SPid) #declare SPid = 7; #end
+    #break
+
+  #case (2)
+    #declare depth = 0;
+    #declare zoomout = 0.2;
     #ifndef (SPid) #declare SPid = 7; #end
     #break
 #end
@@ -36,15 +36,20 @@ global_settings { assumed_gamma 1.0 }
 #if (colors <= 0) #declare colors = depth + colors; #end
 
 #declare magstep = sqrt(4+sqrt(15));
-#declare mag = pow (magstep, depth);
+#declare magdepth = pow (magstep, depth);
+#declare mag = magdepth;
+
+#ifdef (zoomout)
+  #declare mag = pow(magstep,zoomout);
+#end
+
+#declare gtrans = transform {scale 1/mag*<-1,1,1> translate -1.5*z rotate -30*y};
 
 #ifdef (zoomout)
   #declare mag = pow(magstep,zoomout);
 #end
 
 #declare textfont = "LiberationMono-Regular.ttf"
-
-#declare gtrans = transform {scale 1/mag*<-1,1,1> translate -1.5*z rotate -30*y};
 
 #ifdef (gray)
   #declare gtrans = transform {gtrans scale <-1,1,1>}
@@ -54,7 +59,21 @@ global_settings { assumed_gamma 1.0 }
 
 #ifdef (zoom) #declare zoomfactor = 1/zoom*zoomfactor; #end
 
-SPrec (SPid, transform {gtrans}, depth)
+#switch (activity)
+  #case (0)
+  #case (1)
+    SPrec (SPid, transform {gtrans}, depth)
+    #break
+
+  #case (2)
+    #declare gtrans = transform {gtrans translate -1.5*x - 1.5*z}
+    #declare trinv = transform {Str[5][0] inverse}
+    #declare tower = transform {Str[6][0] trinv}
+    SPrec (5, transform {gtrans}, 0)
+    SPrec (6, transform {tower gtrans}, 0)
+    SPrec (7, transform {tower tower gtrans}, 0)
+    #break
+#end
 
 #ifdef (debug)
   sphere {
