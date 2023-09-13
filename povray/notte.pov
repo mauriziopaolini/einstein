@@ -38,6 +38,13 @@ global_settings { assumed_gamma 1.0 }
     #declare depth = 1;
     #ifndef (SPid) #declare SPid = 1; #end
     #break
+
+  #case (5)
+    #declare depth = 2;
+    #declare colors = 1;
+    #declare zoomout = 0.85;
+    #ifndef (SPid) #declare SPid = 1; #end
+    #break
 #end
 
 #ifndef (depth) #declare depth = 2; #end
@@ -105,7 +112,12 @@ global_settings { assumed_gamma 1.0 }
 
   #case (4)
     #declare gtrans = transform {gtrans scale <-1,1,1> rotate -60*y translate -1.5*x - 2*z}
-    SPrec (SPid, transform {gtrans}, 1)
+    SPrec (SPid, transform {gtrans}, depth)
+    #break
+
+  #case (5)
+    #declare gtrans = transform {gtrans translate -2.80*z}
+    SPrec (SPid, transform {gtrans}, depth)
     #break
 #end
 
