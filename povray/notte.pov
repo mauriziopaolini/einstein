@@ -28,6 +28,16 @@ global_settings { assumed_gamma 1.0 }
     #declare zoomout = 0.2;
     #ifndef (SPid) #declare SPid = 7; #end
     #break
+
+  #case (3)
+    #declare depth = 0;
+    #ifndef (SPid) #declare SPid = 0; #end
+    #break
+
+  #case (4)
+    #declare depth = 1;
+    #ifndef (SPid) #declare SPid = 1; #end
+    #break
 #end
 
 #ifndef (depth) #declare depth = 2; #end
@@ -72,6 +82,30 @@ global_settings { assumed_gamma 1.0 }
     SPrec (5, transform {gtrans}, 0)
     SPrec (6, transform {tower gtrans}, 0)
     SPrec (7, transform {tower tower gtrans}, 0)
+    #break
+
+  #case (3)
+    #declare gtrans = transform {gtrans translate -1.0*z}
+    union {
+      object { tile11
+        transform {mystic_tr}
+        texture {pigment {color Yellow}
+          finish {tile_Finish}
+        }
+      }
+      object { tile11
+        texture {pigment {color Red}
+          finish {tile_Finish}
+        }
+      }
+      transform {gtrans}
+    }
+    //SPrec (0, transform {gtrans}, 0)
+    #break
+
+  #case (4)
+    #declare gtrans = transform {gtrans scale <-1,1,1> rotate -60*y translate -1.5*x - 2*z}
+    SPrec (SPid, transform {gtrans}, 1)
     #break
 #end
 
