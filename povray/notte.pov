@@ -42,7 +42,16 @@ global_settings { assumed_gamma 1.0 }
   #case (5)
     #declare depth = 2;
     #declare colors = 1;
+    #declare bdthick = 0.2;
     #declare zoomout = 0.85;
+    #ifndef (SPid) #declare SPid = 1; #end
+    #break
+
+  #case (6)
+    #declare depth = 3;
+    #declare colors = 1;
+    #declare bdthick = 0.2;
+    #declare zoomout = 1.4;
     #ifndef (SPid) #declare SPid = 1; #end
     #break
 #end
@@ -118,6 +127,30 @@ global_settings { assumed_gamma 1.0 }
   #case (5)
     #declare gtrans = transform {gtrans translate -2.80*z}
     SPrec (SPid, transform {gtrans}, depth)
+    //SPbspectre (transform {gtrans}, depth)
+    SPbmystic (transform {transform {Str[0][depth-1] gtrans}}, depth-1)
+    #local i = 1;
+    #while (i <= 7)
+      #if (SPid != 0 | i != 3)
+        SPbspectre (transform {transform {Str[i][depth-1] gtrans}}, depth-1)
+      #end
+      #local i = i + 1;
+    #end
+    #break
+
+  #case (6)
+    #declare gtrans = transform {gtrans scale <-1,1,1> rotate -60*y translate -1.0*x - 4.8*z}
+    //SPrec (SPid, transform {gtrans}, depth)
+    //SPbspectre (transform {gtrans}, depth)
+    SPrec (0, transform {transform {Str[0][depth-1] gtrans}}, depth-1)
+    SPbmystic (transform {transform {Str[0][depth-1] gtrans}}, depth-1)
+    #local i = 1;
+    #while (i <= 7)
+      #if (SPid != 0 | i != 3)
+        SPbspectre (transform {transform {Str[i][depth-1] gtrans}}, depth-1)
+      #end
+      #local i = i + 1;
+    #end
     #break
 #end
 

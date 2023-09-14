@@ -212,6 +212,12 @@ notte5.png: notte.pov
 notte5mystic.png: notte.pov
 	povray $(povoptspng) $< Declare=activity=5 Declare=SPid=0 +O$@
 
+notte6.png: notte.pov
+	povray $(povoptspng) $< Declare=activity=6 +O$@
+
+notte6mystic.png: notte.pov
+	povray $(povoptspng) $< Declare=activity=6 Declare=SPid=0 +O$@
+
 #
 # SPECTRE SIGNATURES
 #
