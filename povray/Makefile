@@ -372,7 +372,7 @@ mysticfractal.png: spectrebd.pov spectresubdivision.inc
 	povray +a $(povoptspng) $< Declare=depth=7 Declare=bdthick=6 Declare=zoomout=6.7 Declare=panup=1 Declare=panright=0.5 Declare=ptsize=100 Declare=draw4points=1 Declare=SPid=0 +O$@
 
 spectrefractalsub.png: spectrebd.pov spectresubdivision.inc
-	povray +a $(povoptspng) $< Declare=depth=7 Declare=bdthick=6 Declare=zoomout=6.7 Declare=panup=1 Declare=panright=0.5 Declare=ptsize=100 Declare=subdivide=1 Declare=draw4points=1 Declare=subpoints=1 +O$@
+	povray +a $(povoptspng) $< Declare=depth=7 Declare=bdthick=6 Declare=zoomout=6.7 Declare=panup=1 Declare=panright=0.5 Declare=ptsize=100 Declare=subdivide=1 Declare=draw4points=1 Declare=subpoints=1 Declare=letters=1 +O$@
 
 
 #

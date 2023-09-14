@@ -40,6 +40,8 @@ global_settings { assumed_gamma 1.0 }
 #declare gtras = transform {rotate 0*y};
 #ifdef (rot) #declare gtras = transform {rotate rot*y} #end
 
+#declare textfont = "LiberationMono-Regular.ttf"
+
 #local lift = 0;
 
 //#ifndef (colors) #declare colors = depth; #end
@@ -144,6 +146,53 @@ global_settings { assumed_gamma 1.0 }
       #local i = i + 1;
     #end
   #end
+
+#end
+
+#ifdef (letters)
+  #local dimlet = 0.5*mag;
+
+  text {ttf textfont "A" 0.02, 0
+      pigment {color Black}
+      rotate 90*x
+      scale dimlet
+      translate mag*0.5*x
+      transform gtras
+      translate lift
+    }
+  #local ltras1 = vtransform (0*x, Str[1][depth-1]);
+  #local ltras3 = vtransform (0*x, Str[3][depth-1]);
+  #local ltras4 = vtransform (0*x, Str[4][depth-1]);
+  #local ltras5 = vtransform (0*x, Str[5][depth-1]);
+  #local ltras6 = vtransform (0*x, Str[6][depth-1]);
+  text {ttf textfont "B" 0.02, 0
+    pigment {color Black}
+    rotate 90*x
+    scale dimlet
+    //transform {Str[4][depth-1]}
+    translate ltras4
+    translate -mag*(2.2*z + 1000*0.5*x)
+    transform gtras
+    translate lift
+  }
+  text {ttf textfont "C" 0.02, 0
+    pigment {color Black}
+    rotate 90*x
+    scale dimlet
+    translate 0.6*ltras1 + 0.7*ltras3
+    translate -mag*(0.3*z)
+    transform gtras
+    translate lift
+  }
+  text {ttf textfont "D" 0.02, 0
+    pigment {color Black}
+    rotate 90*x
+    scale dimlet
+    translate 1.5*ltras5
+    //translate -0*mag*(2.4*z + 0.5*x)
+    transform gtras
+    translate lift
+  }
 
 #end
 
