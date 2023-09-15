@@ -165,12 +165,19 @@ global_settings { assumed_gamma 1.0 }
   #local ltras4 = vtransform (0*x, Str[4][depth-1]);
   #local ltras5 = vtransform (0*x, Str[5][depth-1]);
   #local ltras6 = vtransform (0*x, Str[6][depth-1]);
+sphere {<0,0,0>, 200
+  translate ltras1
+  transform gtras
+  translate lift
+  pigment {color Black}
+}
+
   text {ttf textfont "B" 0.02, 0
     pigment {color Black}
     rotate 90*x
     scale dimlet
     //transform {Str[4][depth-1]}
-    translate ltras4
+    translate 0.6*ltras1 + 0.7*ltras3
     translate -mag*(2.2*z + 1000*0.5*x)
     transform gtras
     translate lift
@@ -179,7 +186,7 @@ global_settings { assumed_gamma 1.0 }
     pigment {color Black}
     rotate 90*x
     scale dimlet
-    translate 0.6*ltras1 + 0.7*ltras3
+    translate ltras4
     translate -mag*(0.3*z)
     transform gtras
     translate lift
