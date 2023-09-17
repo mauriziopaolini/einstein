@@ -188,34 +188,34 @@ hath8fractalsub.png: hatbd.pov subdivision.inc
 # notte dei ricercatori
 #
 
-notte0.png: notte.pov
+notte0.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=0 +O$@
 
-notte1.png: notte.pov
+notte1.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=0 Declare=gray=1 +O$@
 
-notte2.png: notte.pov
+notte2.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=2 +O$@
 
-notte3.png: notte.pov
+notte3.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=3 Declare=zoomout=0.12 +O$@
 
-notte4.png: notte.pov
+notte4.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=4 Declare=zoomout=0.35 +O$@
 
-notte4mystic.png: notte.pov
+notte4mystic.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=4 Declare=zoomout=0.35 Declare=SPid=0 +O$@
 
-notte5.png: notte.pov
+notte5.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=5 +O$@
 
-notte5mystic.png: notte.pov
+notte5mystic.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=5 Declare=SPid=0 +O$@
 
-notte6.png: notte.pov
+notte6.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=6 +O$@
 
-notte6mystic.png: notte.pov
+notte6mystic.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=6 Declare=SPid=0 +O$@
 
 #
