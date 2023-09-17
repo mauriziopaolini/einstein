@@ -185,37 +185,37 @@ hath8fractalsub.png: hatbd.pov subdivision.inc
 	povray +a $(povoptspng) $< Declare=depth=6 Declare=bdthick=6 Declare=zoomout=6.2 Declare=panup=0 Declare=panright=-2 Declare=ptsize=40 Declare=draw4points=1 Declare=subdivide=1 Declare=draw4points=1 Declare=subpoints=1 Declare=letters=1 +O$@
 
 #
-# notte dei ricercatori
+# various activities, e.g. used during "notte dei ricercatori"
 #
 
-notte0.png: activities.pov
+activity0.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=0 +O$@
 
-notte1.png: activities.pov
+activity1.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=0 Declare=gray=1 +O$@
 
-notte2.png: activities.pov
+activity2.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=2 +O$@
 
-notte3.png: activities.pov
+activity3.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=3 Declare=zoomout=0.12 +O$@
 
-notte4.png: activities.pov
+activity4.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=4 Declare=zoomout=0.35 +O$@
 
-notte4mystic.png: activities.pov
+activity4mystic.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=4 Declare=zoomout=0.35 Declare=SPid=0 +O$@
 
-notte5.png: activities.pov
+activity5.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=5 +O$@
 
-notte5mystic.png: activities.pov
+activity5mystic.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=5 Declare=SPid=0 +O$@
 
-notte6.png: activities.pov
+activity6.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=6 +O$@
 
-notte6mystic.png: activities.pov
+activity6mystic.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=6 Declare=SPid=0 +O$@
 
 #
