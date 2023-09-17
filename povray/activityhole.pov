@@ -149,12 +149,20 @@ build_up_down (10, 06)
           #local rotsign = 0;
           #if (wormid[i-1] = 5) #local rotsign = 1; #end
           #if (wormid[i-1] = 2) #local rotsign = -1; #end
-          SProtmystic (rotsign*rotworm/180*120)
+          #if (iswiggly = 0)
+            SProtmystic (rotsign*rotworm/180*120)
+          #else
+            SProtmysticw (rotworm)
+          #end
         #end
       #else
         #if (iswiggly = 0) grayspectre #else whitespectre #end
         #ifdef (rotworm)
-          SProtspectre (rotworm)
+          #if (iswiggly = 0)
+            SProtspectre (rotworm)
+          #else
+            SProtspectrew (rotworm)
+          #end
         #end
       #end
       transform wormtr[i]

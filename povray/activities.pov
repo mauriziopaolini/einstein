@@ -88,7 +88,25 @@ global_settings { assumed_gamma 1.0 }
 #switch (activity)
   #case (0)
   #case (1)
+#declare gtrans=transform {translate 0*x}
     SPrec (SPid, transform {gtrans}, depth)
+/*
+sphere {0*x, 0.2
+  pigment {color Black}
+  translate 1.5*z - 0.5*x
+  transform {gtrans}
+}
+sphere {0*x, 0.2
+  pigment {color Black}
+  translate x + z + ap*x + 0.5*z - 0.5*x + ap*z - x
+  transform {gtrans}
+}
+sphere {0*x, 0.2
+  pigment {color Black}
+  translate -0.5*x - ap*z - ap*x + 0.5*z + z
+  transform {gtrans}
+}
+ */
     #break
 
   #case (2)
