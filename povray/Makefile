@@ -188,6 +188,12 @@ hath8fractalsub.png: hatbd.pov subdivision.inc
 # various activities, e.g. used during "notte dei ricercatori"
 #
 
+activityhole0.png: activityhole.pov
+	povray $(povoptspng) $< Declare=sub=0 +O$@
+
+activityhole1.png: activityhole.pov
+	povray $(povoptspng) $< Declare=sub=1 +O$@
+
 activity0.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=0 +O$@
 
