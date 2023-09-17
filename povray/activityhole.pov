@@ -6,6 +6,7 @@ global_settings { assumed_gamma 1.0 }
 #include "skies.inc"
 #include "shapes.inc"
 #include "spectresubdivision.inc"
+#include "spectreworm.inc"
 #include "ambiente.inc"
 
 /*
@@ -26,6 +27,31 @@ global_settings { assumed_gamma 1.0 }
 
   #case (1)
     #ifndef (depth) #declare depth = 2; #end
+  #break
+
+  #case (2)
+  #case (3)
+    #ifndef (tipsig) #declare tipsig = 33333; #end
+    #ifndef (tailsig) #declare tailsig = 00000; #end
+    #ifndef (depth) #declare depth = 3; #end
+    #ifndef (zoomout) #declare zoomout=2; #end
+    worm_init (2000)
+  #break
+#end
+
+#switch (sub)
+  #case (2)
+    #local irot1 = 0;
+    #local irot2 = 1;
+    #local irotw1 = 3;
+    #local irotw2 = 4;
+  #break
+
+  #case (3)
+    #local irot1 = 0;
+    #local irot2 = 1;
+    #local irotw1 = 4;
+    #local irotw2 = 5;
   #break
 #end
 
@@ -89,9 +115,55 @@ build_up_down (10, 06)
 #declare placeit1 = transform {downtransf uptransfinv}
 #declare placecomb = transform {placeit1 placeit0inv}
 
-#local placeiti = transform {scale <1,1,1>}
+#local placeiti = array[6]
+#local placeiti[0] = transform {scale <1,1,1>}
+#local i = 1;
+#while (i < 6)
+  #local placeiti[i] = transform {placeiti[i-1] placecomb}
+  #local i = i + 1;
+#end
 
 #local darkenvalue = 0.8;
+
+
+#macro drawworm (placeit, iswiggly)
+
+  #declare wormi = 0;
+  newwormtile (tipsig)
+  #local sig = tipsig;
+  #while (sig != tailsig & sig != 0) 
+    #local sig = prec_in_worm (sig, iswiggly)
+    #if (mod (sig,1000) = 0)
+      #debug concat ("Milestone sig: ", str(sig,0,0), "\n")
+    #end 
+    newwormtile (sig)
+  #end
+
+  #declare wormlen = wormi;
+  #local i = 0;
+  #while (i < wormlen)
+    object {
+      #if (wormid[i] = 0)
+        #if (iswiggly = 0) graymystic #else whitemystic #end
+        #ifdef (rotworm)  // TODO  adjust for the case iswiggly=1
+          #local rotsign = 0;
+          #if (wormid[i-1] = 5) #local rotsign = 1; #end
+          #if (wormid[i-1] = 2) #local rotsign = -1; #end
+          SProtmystic (rotsign*rotworm/180*120)
+        #end
+      #else
+        #if (iswiggly = 0) grayspectre #else whitespectre #end
+        #ifdef (rotworm)
+          SProtspectre (rotworm)
+        #end
+      #end
+      transform wormtr[i]
+      transform {ttransinv[depth] placeit gtrans0 translate lift}
+    }
+    #local i = i + 1;
+  #end
+
+#end
 
 #switch (sub)
   #case (0)
@@ -99,9 +171,9 @@ build_up_down (10, 06)
     #while (i < 6)
       SPbuildtiles ()
       object {SPobj[6]
-        transform {placeiti gtrans0}
+        transform {placeiti[i] gtrans0}
       }
-      #local placeiti = transform {placeiti placecomb}
+      //#local placeiti = transform {placeiti placecomb}
       SProtcolorshue (360*phi)
       #local i = i + 1;
     #end
@@ -116,8 +188,8 @@ build_up_down (10, 06)
         SPbuildtiles ()
         #local lift = 2*(depth-dpth)*tile_thick*y;
         #declare bdthick = 0.3*3/(dpth+2);
-        SPrec (1, transform {ttransinv[dpth] placeiti gtrans0 translate lift}, dpth)
-        SPbspectre (transform {ttransinv[dpth] placeiti gtrans0 translate lift}, dpth)
+        SPrec (1, transform {ttransinv[dpth] placeiti[i] gtrans0 translate lift}, dpth)
+        SPbspectre (transform {ttransinv[dpth] placeiti[i] gtrans0 translate lift}, dpth)
 
         SPdarkencolors (darkenvalue)
         #local dpth = dpth + 1;
@@ -127,10 +199,41 @@ build_up_down (10, 06)
         SPdarkencolors (1/darkenvalue)
         #local dpth = dpth + 1;
       #end
-      #local placeiti = transform {placeiti placecomb}
+      //#local placeiti = transform {placeiti placecomb}
       SProtcolorshue (360*phi)
       #local i = i + 1;
     #end
+  #break
+
+  #case (2)
+  #case (3)
+    #local i = 0;
+    #while (i < 6)
+
+      SPbuildtiles ()
+      #local lift = 0*tile_thick*y;
+      #declare bdthick = 0.3*3/(depth+2);
+      SPrec (1, transform {ttransinv[depth] placeiti[i] gtrans0 translate lift}, depth)
+      SPbspectre (transform {ttransinv[depth] placeiti[i] gtrans0 translate lift}, depth)
+
+      SPdarkencolors (darkenvalue)
+      //#local placeiti = transform {placeiti placecomb}
+      SProtcolorshue (360*phi)
+      #local i = i + 1;
+    #end
+
+    SPbuildtiles ()
+    //#local lift = lift + tile_thick*y;
+    //SPwormrec (1, transform {ttransinv[depth] placeiti[0] gtrans0 translate lift}, depth)
+
+    #local lift = lift + tile_thick*y;
+
+    drawworm (placeiti[irot1], 0)
+    drawworm (placeiti[irot2], 0)
+
+    drawworm (placeiti[irotw1], 1)
+    drawworm (placeiti[irotw2], 1)
+
   #break
 #end
 

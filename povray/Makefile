@@ -185,7 +185,7 @@ hath8fractalsub.png: hatbd.pov subdivision.inc
 	povray +a $(povoptspng) $< Declare=depth=6 Declare=bdthick=6 Declare=zoomout=6.2 Declare=panup=0 Declare=panright=-2 Declare=ptsize=40 Declare=draw4points=1 Declare=subdivide=1 Declare=draw4points=1 Declare=subpoints=1 Declare=letters=1 +O$@
 
 #
-# various activities, e.g. used during "notte dei ricercatori"
+# various activities for Spectre tiles, e.g. used during "notte dei ricercatori"
 #
 
 activityhole0.png: activityhole.pov
@@ -193,6 +193,18 @@ activityhole0.png: activityhole.pov
 
 activityhole1.png: activityhole.pov
 	povray $(povoptspng) $< Declare=sub=1 +O$@
+
+activityhole2.png: activityhole.pov
+	povray $(povoptspng) $< Declare=sub=2 +O$@
+
+activityhole2after.png: activityhole.pov
+	povray $(povoptspng) $< Declare=sub=2 declare=rotworm=180 +O$@
+
+activityhole3.png: activityhole.pov
+	povray $(povoptspng) $< Declare=sub=3 +O$@
+
+activityhole3after.png: activityhole.pov
+	povray $(povoptspng) $< Declare=sub=3 declare=rotworm=180 +O$@
 
 activity0.png: activities.pov
 	povray $(povoptspng) $< Declare=activity=0 +O$@
