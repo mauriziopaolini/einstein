@@ -275,7 +275,8 @@ spectreconwaysig[1][1]_d6zz.png: spectreconwaysig.pov
 	mv tmp_pippozz.png $@
 
 spectreconwaysig[0][3][3]_d6.png: spectreconwaysig.pov
-	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=Sigh3=333333 Declare=Sigl3=333333 Declare=up2=03 Declare=down2=02 Declare=up3=10 Declare=down3=06 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
+#	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=Sigh3=333333 Declare=Sigl3=333333 Declare=up2=03 Declare=down2=02 Declare=up3=10 Declare=down3=06 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
+	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=Sigh3=333333 Declare=Sigl3=333333 Declare=up2=10 Declare=down2=26 Declare=up3=10 Declare=down3=06 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
 	mv tmp_pippo.png $@
 
 spectreconwaysig[0][3][3]_d6z.png: spectreconwaysig.pov
