@@ -133,7 +133,8 @@ build_up_down (10, 06)
   #local sig = tipsig;
   #while (sig != tailsig & sig != 0) 
     #local sig = prec_in_worm (sig, iswiggly)
-    #if (mod (sig,1000) = 0)
+    //#if (mod (sig,1000) = 0)
+    #if (mod (sig,1000) = 0 | iswiggly != 0)
       #debug concat ("Milestone sig: ", str(sig,0,0), "\n")
     #end 
     newwormtile (sig)
@@ -152,7 +153,7 @@ build_up_down (10, 06)
           #if (iswiggly = 0)
             SProtmystic (rotsign*rotworm/180*120)
           #else
-            SProtmysticw (rotworm)
+            SProtmysticw (rotsign*rotworm/180*150)
           #end
         #end
       #else
@@ -161,7 +162,13 @@ build_up_down (10, 06)
           #if (iswiggly = 0)
             SProtspectre (rotworm)
           #else
-            SProtspectrew (rotworm)
+            #local precwormid = 3;
+            #if (i > 0) #local precwormid = wormid[i-1]; #end
+            #if (precwormid = 0)
+              SProtspectrew (rotworm/180*120)
+            #else
+              SProtspectrew (-rotworm/180*120)
+            #end
           #end
         #end
       #end

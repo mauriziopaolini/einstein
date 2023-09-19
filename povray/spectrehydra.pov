@@ -211,11 +211,13 @@ SPrec (SPid2, transform {transform {basetrinv2 placeit2} transform {gtras} trans
           #local rotsign = 0;
           #if (wormid[i-1] = 5) #local rotsign = 1; #end
           #if (wormid[i-1] = 2) #local rotsign = -1; #end
+/* TODO see activityhole.pov for a possible implementation */
           SProtmysticw (rotsign*rotwormw/180*120)
         #end
       #else
         whiterspectre
         #ifdef (rotwormw)
+/* TODO see activityhole.pov for a possible implementation */
           SProtspectrew (rotwormw)
         #end
       #end
@@ -253,11 +255,13 @@ SPrec (SPid2, transform {transform {basetrinv2 placeit2} transform {gtras} trans
           #local rotsign = 0;
           #if (wormid[i-1] = 5) #local rotsign = 1; #end
           #if (wormid[i-1] = 2) #local rotsign = -1; #end
+/* TODO see activityhole.pov for a possible implementation */
           SProtmysticw (rotsign*rotwormw/180*120)
         #end
       #else
         whiterspectre
         #ifdef (rotwormw)
+/* TODO see activityhole.pov for a possible implementation */
           SProtspectrew (rotwormw)
         #end
       #end
@@ -294,11 +298,13 @@ SPrec (SPid2, transform {transform {basetrinv2 placeit2} transform {gtras} trans
           #local rotsign = 0;
           #if (wormid[i-1] = 5) #local rotsign = 1; #end
           #if (wormid[i-1] = 2) #local rotsign = -1; #end
+/* TODO see activityhole.pov for a possible implementation */
           SProtmysticw (rotsign*rotwormw/180*120)
         #end
       #else
         grayspectre
         #ifdef (rotwormw)
+/* TODO see activityhole.pov for a possible implementation */
           SProtspectrew (rotwormw)
         #end
       #end

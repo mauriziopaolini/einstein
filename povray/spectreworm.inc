@@ -168,7 +168,7 @@
 
 #declare tripod_center_s = <0,0,2>;
 #declare tripod_center = vtransform (tripod_center_s, transform {mystic_tr});
-#declare waist_center = 1.5*z - 0.5*x;
+#declare over_neck = (-0.5-ap)*x + ap*z + 1.5*z;
 #declare extra_center = <-5/4-ap/2,0,9/4-ap/2>;
 
 #macro SProtmystic (rot)
@@ -184,13 +184,13 @@
 #end
 
 #macro SProtmysticw (rot)
-  translate -waist_center
+  translate -over_neck
   rotate rot*y
-  translate waist_center
+  translate over_neck
 #end
 
 #macro SProtspectrew (rot)
-  translate -extra_center
-  rotate 0*rot*y
-  translate extra_center
+  translate -tripod_center_s
+  rotate rot*y
+  translate tripod_center_s
 #end
