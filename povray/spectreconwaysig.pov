@@ -19,6 +19,8 @@
 
 global_settings { assumed_gamma 1.0 }
 
+#ifdef (bdthick) #declare doboundary=1; #end
+
 #include "colors.inc"
 #include "skies.inc"
 #include "shapes.inc"
@@ -121,17 +123,19 @@ global_settings { assumed_gamma 1.0 }
 #macro build_tiling (ttransinv, htilex, gtrans0, depth)
   #local dpth = 0;
   #while (dpth <= depth)
-   #local dimm = 1/(0.25*dpth+1);
-   SPbuildtiles ()
-   SPrec (htilex[dpth], transform {ttransinv[dpth] gtrans0 translate 2*(depth-dpth)*tile_thick*y}, dpth)
-   #ifdef (drawworm) SPwormrec (htilex[dpth], transform {ttransinv[dpth] gtrans0 translate 2*(depth-dpth+1)*tile_thick*y}, dpth) #end
-   #ifdef (darkenit)
-     SPdarkencolors (darkenvalue)
-   #else
-     SProtcolorshue (360*phi)
-   #end
-   #local dpth = dpth + 1;
+    #local dimm = 1/(0.25*dpth+1);
+    SPbuildtiles ()
+    SPrec (htilex[dpth], transform {ttransinv[dpth] gtrans0 translate 2*(depth-dpth)*tile_thick*y}, dpth)
+
+    #ifdef (drawworm) SPwormrec (htilex[dpth], transform {ttransinv[dpth] gtrans0 translate 2*(depth-dpth+1)*tile_thick*y}, dpth) #end
+    #ifdef (darkenit)
+      SPdarkencolors (darkenvalue)
+    #else
+      SProtcolorshue (360*phi)
+    #end
+    #local dpth = dpth + 1;
   #end
+  #ifdef (doboundary) SPbgen (htilex[depth], transform {ttransinv[depth] gtrans0 translate (2*depth-1)*tile_thick*y}, depth) #end
   #ifdef (darkenit)
     #local dpth = 0;
     #while (dpth <= depth)

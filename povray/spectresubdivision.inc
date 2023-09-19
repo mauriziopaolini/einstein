@@ -243,6 +243,14 @@
   SPbrec (SPbidd, transform {trsf}, dpth)
 #end
 
+#macro SPbgen (tid, trsf, dpth)
+  #if (tid = 0)
+    SPbmystic (trsf, dpth)
+  #else
+    SPbspectre (trsf, dpth)
+  #end
+#end
+
 #macro SPbrec (btid, trsf, depth)
   #local d = depth-1;
   #if (depth = 0)
