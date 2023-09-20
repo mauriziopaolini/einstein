@@ -133,8 +133,8 @@ build_up_down (10, 06)
   #local sig = tipsig;
   #while (sig != tailsig & sig != 0) 
     #local sig = prec_in_worm (sig, iswiggly)
-    //#if (mod (sig,1000) = 0)
-    #if (mod (sig,1000) = 0 | iswiggly != 0)
+    #if (mod (sig,1000) = 0)
+    //#if (mod (sig,1000) = 0 | iswiggly != 0)
       #debug concat ("Milestone sig: ", str(sig,0,0), "\n")
     #end 
     newwormtile (sig)
@@ -142,6 +142,7 @@ build_up_down (10, 06)
 
   #declare wormlen = wormi;
   #local i = 0;
+  //#local i = 4;
   #while (i < wormlen)
     object {
       #if (wormid[i] = 0)
