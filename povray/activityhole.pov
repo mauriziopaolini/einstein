@@ -31,9 +31,9 @@ global_settings { assumed_gamma 1.0 }
 
   #case (2)
   #case (3)
-    #ifndef (tipsig) #declare tipsig = 33333; #end
-    #ifndef (tailsig) #declare tailsig = 00000; #end
-    #ifndef (depth) #declare depth = 3; #end
+    #ifndef (tipsig) #declare tipsig = 3333; #end
+    #ifndef (tailsig) #declare tailsig = 0000; #end
+    #ifndef (depth) #declare depth = 4; #end
     #ifndef (zoomout) #declare zoomout=2; #end
     worm_init (2000)
   #break
@@ -133,16 +133,16 @@ build_up_down (10, 06)
   #local sig = tipsig;
   #while (sig != tailsig & sig != 0) 
     #local sig = prec_in_worm (sig, iswiggly)
-    #if (mod (sig,1000) = 0)
-    //#if (mod (sig,1000) = 0 | iswiggly != 0)
-      #debug concat ("Milestone sig: ", str(sig,0,0), "\n")
+    //#if (mod (sig,1000) = 0)
+    #if (mod (sig,1000) = 0 | iswiggly != 0)
+      #debug concat ("Milestone sig[", str(wormi,0,0), "]: ", str(sig,0,0), "\n")
     #end 
     newwormtile (sig)
   #end
 
   #declare wormlen = wormi;
   #local i = 0;
-  //#local i = 4;
+  #ifdef (rotworm) #local i = 1; #end
   #while (i < wormlen)
     object {
       #if (wormid[i] = 0)
@@ -163,9 +163,7 @@ build_up_down (10, 06)
           #if (iswiggly = 0)
             SProtspectre (rotworm)
           #else
-            #local precwormid = 3;
-            #if (i > 0) #local precwormid = wormid[i-1]; #end
-            #if (precwormid = 0)
+            #if (wormid[i-1] = 0)
               SProtspectrew (rotworm/180*120)
             #else
               SProtspectrew (-rotworm/180*120)
