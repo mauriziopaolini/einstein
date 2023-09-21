@@ -389,6 +389,20 @@ object { tile11
   }
 }
 
+#declare blueyellowmystic = union {
+  object { tile11
+    transform {mystic_tr}
+    texture {pigment {color Yellow}
+      finish {tile_Finish}
+    }
+  }
+  object { tile11
+    texture {pigment {color Blue} 
+      finish {tile_Finish}
+    }
+  }
+}
+
 #declare greenmystic = union {
   object { tile11
     transform {mystic_tr}

@@ -16,6 +16,8 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (activity) #declare activity = 0; #end
 #declare sfondobianco = 1;
 
+#declare SPobj[0] = blueyellowmystic;
+
 #switch (activity)
   #case (0)
   #case (1)
@@ -102,21 +104,21 @@ global_settings { assumed_gamma 1.0 }
 
   #case (3)
     #declare gtrans = transform {gtrans translate -1.0*z}
-    union {
-      object { tile11
-        transform {mystic_tr}
-        texture {pigment {color Yellow}
-          finish {tile_Finish}
-        }
-      }
-      object { tile11
-        texture {pigment {color Blue}
-          finish {tile_Finish}
-        }
-      }
+    object {blueyellowmystic
+    //union {
+    //  object { tile11
+    //    transform {mystic_tr}
+    //    texture {pigment {color Yellow}
+    //      finish {tile_Finish}
+    //    }
+    //  }
+    //  object { tile11
+    //    texture {pigment {color Blue}
+    //      finish {tile_Finish}
+    //    }
+    //  }
       transform {gtrans}
     }
-    //SPrec (0, transform {gtrans}, 0)
     #break
 
   #case (4)
