@@ -52,7 +52,7 @@ global_settings { assumed_gamma 1.0 }
   #case (6)
     #declare depth = 3;
     #declare colors = 1;
-    #declare bdthick = 0.2;
+    #declare bdthick = 0.3;
     #declare zoomout = 1.4;
     #ifndef (SPid) #declare SPid = 1; #end
     #break
@@ -87,6 +87,16 @@ global_settings { assumed_gamma 1.0 }
 
 #ifdef (zoom) #declare zoomfactor = 1/zoom*zoomfactor; #end
 
+#macro SPdetails (ltrans, depth)
+  SPbmystic (transform {transform {Str[0][depth-1] ltrans}}, depth-1)
+  SPrec (0, transform {Str[0][depth-2] Str[0][depth-1] ltrans}, depth-2)
+  #local j = 1;
+  #while (j <= 7)
+    SPbspectre (transform {transform {Str[j][depth-1] ltrans}}, depth-1)
+    #local j = j + 1;
+  #end
+#end
+
 #switch (activity)
   #case (0)
   #case (1)
@@ -105,18 +115,6 @@ global_settings { assumed_gamma 1.0 }
   #case (3)
     #declare gtrans = transform {gtrans translate -1.0*z}
     object {blueyellowmystic
-    //union {
-    //  object { tile11
-    //    transform {mystic_tr}
-    //    texture {pigment {color Yellow}
-    //      finish {tile_Finish}
-    //    }
-    //  }
-    //  object { tile11
-    //    texture {pigment {color Blue}
-    //      finish {tile_Finish}
-    //    }
-    //  }
       transform {gtrans}
     }
     #break
@@ -153,6 +151,10 @@ global_settings { assumed_gamma 1.0 }
       #end
       #local i = i + 1;
     #end
+    #declare bdthick = 0.5*bdthick;
+    SPdetails (transform {Str[2][depth-1] gtrans}, depth-1)
+    SPdetails (transform {Str[4][depth-1] gtrans}, depth-1)
+    SPdetails (transform {Str[5][depth-1] gtrans}, depth-1)
     #break
 #end
 
