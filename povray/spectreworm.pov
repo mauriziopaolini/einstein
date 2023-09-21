@@ -90,47 +90,65 @@ SPrec (SPid, transform {transform {basetrinv} transform {gtras} translate lift},
       #debug concat ("Milestone sig2: ", str(sig,0,0), "\n")
     #end
     newwormtile (sig)
-//    #if (mod (sig, 10) = 0)
-//      newwormtile (sig)
-//    #end
   #end
 #end
 
-//#local sig = prec_in_worm (sig,0)
-//newwormtile (sig)
-//#local sig = prec_in_worm (sig,0)
-//newwormtile (sig)
-
-//newwormtile (04040) // center!
+#macro createworm (wormlen, ltrans, rotworm)
+  #local i = 0;
+  #while (i < wormlen)
+    object {
+      #if (wormid[i] = 0)
+        graymystic
+        #if (rotworm != 0)
+          #local rotsign = 0;
+          #if (wormid[i-1] = 5) #local rotsign = 1; #end
+          #if (wormid[i-1] = 2) #local rotsign = -1; #end
+          SProtmystic (rotsign*rotworm/180*120)
+        #end
+      #else
+        grayspectre
+        #if (rotworm != 0)
+          SProtspectre (rotworm)
+        #end
+      #end
+      transform {wormtr[i]}
+      transform {ltrans}
+    }
+    #local i = i + 1;
+  #end
+#end
 
 #declare wormlen = wormi;
+#ifndef (rotworm) #declare rotworm = 0; #end
+createworm (wormlen, transform {basetrinv gtras translate lift}, rotworm)
 
-#local i = 0;
-#while (i < wormlen)
-  object {
-    #if (wormid[i] = 0)
-      graymystic
-      #ifdef (rotworm)
-        #local rotsign = 0;
-        #if (wormid[i-1] = 5) #local rotsign = 1; #end
-        #if (wormid[i-1] = 2) #local rotsign = -1; #end
-        SProtmystic (rotsign*rotworm/180*120)
-      #end
-    #else
-      grayspectre
-      #ifdef (rotworm)
-        SProtspectre (rotworm)
-      #end
+#ifdef (tipsig3)
+  #declare wormi = 0;
+  newwormtile (tipsig3)
+  #local sig = tipsig3;
+  #while (sig != tailsig3 & sig != 0)
+    #local sig = prec_in_worm (sig,0) // 0: less wriggly
+    #if (mod (sig,1000) = 0)
+      #debug concat ("Milestone sig2: ", str(sig,0,0), "\n")
     #end
-    transform wormtr[i]
-    transform basetrinv
-    transform {gtras}
-    translate lift
-  }
-  #local i = i + 1;
+    newwormtile (sig)
+  #end
+
+  #declare wormlen = wormi;
+  #ifndef (rotworm3) #declare rotworm3 = 0; #end
+  createworm (wormlen, transform {basetrinv gtras translate lift}, rotworm3)
+
 #end
 
 #if (wormlen > 0) #local lift = lift + tile_thick*y; #end
+
+/*
+ * allow the third worm to be rotated independently
+ * This allows to get the symmetric tripod using
+ *
+ * Declare=depth=5 Declare=tipsig=33333 Declare=tailsig=4042 Declare=focussig=04040
+ *    Declare=tipsig2=63333 Declare=tailsig2=4045 Declare=tipsig3=4056 Declare=tailsig3=0 Declare=rotworm3=180
+ */
 
 #ifdef (tipsigw)
   newwormtile (tipsigw)
