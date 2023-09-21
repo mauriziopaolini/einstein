@@ -9,14 +9,7 @@ global_settings { assumed_gamma 1.0 }
 #include "spectreworm.inc"
 #include "ambiente.inc"
 
-/*
-#declare h7c1 = <1,1,1>;
-#declare h7c2 = <1,0,0>;
-#declare h7c3 = <1,0.4,0.4>;
-#declare h8c1 = <1,1,1>;
-#declare h8c2 = <1,0.4,0>;
-#declare h8c3 = <1,0.4,0.4>;
- */
+#declare SPobj[0] = blueyellowmystic;
 
 #ifndef (sub) #declare sub=1; #end
 
