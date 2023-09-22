@@ -50,7 +50,8 @@ spectrehole2slices=$(spectreholezlevels:%=spectrehole2slice_z%.png)
 spectrehole2alts=$(spectreholezlevels:%=spectrehole2alt_z%.png)
 spectrehole2alt2s=$(spectreholezlevels:%=spectrehole2alt2_z%.png)
 spectreholepropellers=$(spectreholezlevels:%=spectreholepropeller_z%.png)
-spectreholepngs: $(spectreholes) $(spectrehole2s) $(spectrehole2slices) $(spectrehole2alts) $(spectrehole2alt2s) $(spectreholepropellers)
+spectreholepropellerws=$(spectreholezlevels:%=spectreholepropellerw_z%.png)
+spectreholepngs: $(spectreholes) $(spectrehole2s) $(spectrehole2slices) $(spectrehole2alts) $(spectrehole2alt2s) $(spectreholepropellers) $(spectreholepropellerws)
 
 #
 # SPECTRE WORMS
@@ -425,6 +426,9 @@ $(spectrehole2alt2s): spectrehole2alt2_z%.png: spectrehole2.pov
 
 $(spectreholepropellers): spectreholepropeller_z%.png: spectreworm.pov
 	povray $(povoptspng) $< Declare=depth=5 Declare=zoomout=$* Declare=tipsig=33333 Declare=tailsig=4042 Declare=focussig=04040 Declare=tipsig2=63333 Declare=tailsig2=4045 Declare=tipsig3=4056 Declare=tailsig3=0 Declare=rotworm3=180 +O$@
+
+$(spectreholepropellerws): spectreholepropellerw_z%.png: spectreworm.pov
+	povray $(povoptspng) $< Declare=depth=6 Declare=zoomout=$* Declare=focussig=040404 Declare=tipsigw=333333 Declare=tailsigw=40420 Declare=tipsigw2=633333 Declare=tailsigw2=40450 Declare=tipsigw3=40404 Declare=tailsigw3=0 Declare=rotwormw3=180 +O$@
 
 yellow_brick_road_topview01.png: yellow_brick_road.pov
 	povray $(povoptspng) $< Declare=depth=4 Declare=topview=2 Declare=buildtheback=3 +O$@

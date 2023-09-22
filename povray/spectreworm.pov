@@ -118,6 +118,39 @@ SPrec (SPid, transform {transform {basetrinv} transform {gtras} translate lift},
   #end
 #end
 
+/*
+ * there is still a glitch (see spectreholepropellerw...)
+ */
+#macro createwworm (wormlen, ltrans, rotworm)
+  #local i = 0;
+  #if (rotworm != 0) #local i = 1; #end
+  #while (i < wormlen)
+    object {
+      #if (wormid[i] = 0)
+        whitemystic
+        #if (rotworm != 0)
+          #local rotsign = 0;
+          #if (wormid[i-1] = 5) #local rotsign = 1; #end
+//          #if (wormid[i-1] = 2) #local rotsign = -1; #end
+          SProtmysticw (rotsign*rotworm/180*150)
+        #end
+      #else
+        whitespectre
+        #if (rotworm != 0)
+          #if (wormid[i-1] = 0)
+            SProtspectrew (rotworm/180*120)
+          #else
+            SProtspectrew (-rotworm/180*120)
+          #end
+        #end
+      #end
+      transform wormtr[i]
+      transform {ltrans}
+    }
+    #local i = i + 1;
+  #end
+#end
+
 #declare wormlen = wormi;
 #ifndef (rotworm) #declare rotworm = 0; #end
 createworm (wormlen, transform {basetrinv gtras translate lift}, rotworm)
@@ -163,34 +196,9 @@ createworm (wormlen, transform {basetrinv gtras translate lift}, rotworm)
   #end
 
   #declare wormlen = wormi;
+  #ifndef (rotwormw) #declare rotwormw = 0; #end
+  createwworm (wormlen, transform {basetrinv gtras translate lift}, rotwormw)
 
-  #local i = 0;
-  #while (i < wormlen)
-    object {
-      #if (wormid[i] = 0)
-        whitemystic
-        #ifdef (rotwormw)
-          #local rotsign = 0;
-          #if (wormid[i-1] = 5) #local rotsign = 1; #end
-          #if (wormid[i-1] = 2) #local rotsign = -1; #end
-/* TODO see activityhole.pov for a possible implementation */
-          SProtmysticw (rotsign*rotwormw/180*120)
-        #end
-      #else
-        whitespectre
-        #ifdef (rotwormw)
-/* TODO see activityhole.pov for a possible implementation */
-          SProtspectrew (rotwormw)
-        #end
-      #end
-      transform wormtr[i]
-      transform basetrinv
-      transform {gtras}
-      translate lift
-    }
-    #local i = i + 1;
-  #end
-  #local lift = lift + tile_thick*y;
 #end
 
 #ifdef (tipsigw2)
@@ -206,35 +214,41 @@ createworm (wormlen, transform {basetrinv gtras translate lift}, rotworm)
   #end
 
   #declare wormlen = wormi;
+  #ifndef (rotwormw2) #declare rotwormw2 = 0; #end
+  createwworm (wormlen, transform {basetrinv gtras translate lift}, rotwormw2)
+#end
 
-  #local i = 0;
-  #while (i < wormlen)
-    object {
-      #if (wormid[i] = 0)
-        whitemystic
-        #ifdef (rotwormw)
-          #local rotsign = 0;
-          #if (wormid[i-1] = 5) #local rotsign = 1; #end
-          #if (wormid[i-1] = 2) #local rotsign = -1; #end
-/* TODO see activityhole.pov for a possible implementation */
-          SProtmysticw (rotsign*rotwormw/180*120)
-        #end
-      #else
-        whitespectre
-        #ifdef (rotwormw)
-/* TODO see activityhole.pov for a possible implementation */
-          SProtspectrew (rotwormw)
-        #end
-      #end
-      transform wormtr[i]
-      transform basetrinv
-      transform {gtras}
-      translate lift
-    }
-    #local i = i + 1;
+#ifdef (tipsigw3)
+  newwormtile (tipsigw3)
+  #declare wormi = 0;
+  #local sig = tipsigw3;
+  #while (sig != tailsigw3 & sig != 0)
+    #local sig = prec_in_worm (sig,1)
+    #if (mod (sig,1000) = 0)
+      #debug concat ("Milestone sigw2: ", str(sig,0,0), "\n")
+    #end
+    newwormtile (sig)
   #end
+
+  #declare wormlen = wormi;
+  #ifndef (rotwormw3) #declare rotwormw3 = 0; #end
+
+  /* HACK (specific for the defective tiling around a propeller */
+  #if (rotwormw3 != 0)
+    object {
+      whitespectre
+      SProtspectrew (-rotwormw3/180*120)
+      transform wormtr[0]
+      transform {basetrinv gtras translate lift}
+    }
+  #end
+
+  createwworm (wormlen, transform {basetrinv gtras translate lift}, rotwormw3)
+
   #local lift = lift + tile_thick*y;
 #end
+
+#local lift = lift + tile_thick*y;
 
 cylinder {
   0*y
