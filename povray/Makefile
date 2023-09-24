@@ -428,7 +428,7 @@ $(spectreholepropellers): spectreholepropeller_z%.png: spectreworm.pov
 	povray $(povoptspng) $< Declare=depth=5 Declare=zoomout=$* Declare=tipsig=33333 Declare=tailsig=4042 Declare=focussig=04040 Declare=tipsig2=63333 Declare=tailsig2=4045 Declare=tipsig3=4056 Declare=tailsig3=0 Declare=rotworm3=180 +O$@
 
 $(spectreholepropellerws): spectreholepropellerw_z%.png: spectreworm.pov
-	povray $(povoptspng) $< Declare=depth=6 Declare=zoomout=$* Declare=focussig=040404 Declare=tipsigw=333333 Declare=tailsigw=40420 Declare=tipsigw2=633333 Declare=tailsigw2=40450 Declare=tipsigw3=40404 Declare=tailsigw3=0 Declare=rotwormw3=180 +O$@
+	povray $(povoptspng) $< Declare=depth=6 Declare=zoomout=$* Declare=focussig=040404 Declare=tipsigw=333333 Declare=tailsigw=40420 Declare=tipsigw2=633333 Declare=tailsigw2=40450 Declare=tipsigw3=40404 Declare=tailsigw3=0 Declare=rotwormw3=180 Declare=HACK=1 +O$@
 
 yellow_brick_road_topview01.png: yellow_brick_road.pov
 	povray $(povoptspng) $< Declare=depth=4 Declare=topview=2 Declare=buildtheback=3 +O$@
