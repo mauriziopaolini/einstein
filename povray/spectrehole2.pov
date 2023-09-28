@@ -72,6 +72,9 @@ sphere {
  * we rely here to the fact that Str[0][*] = scale <-1,1,1>
 
 SPrec (0, transform {tiletransinv gtr0}, depth)
+#ifdef (showall)
+  SPwormrec (0, transform {tiletransinv gtr0}, depth)
+#end
 SProtcolorshue (phi*360)
 SPbuildtiles ()
 
@@ -84,9 +87,16 @@ SPbuildtiles ()
   #while (i < numsectors)
     #if (isodd)
       SPrec (1, transform {Str[1][dpth] tiletransinv gtr0 rotate -i*60*y translate height}, dpth)
+      #ifdef (showall)
+        SPwormrec (1, transform {Str[1][dpth] tiletransinv gtr0 rotate -i*60*y translate height}, dpth)
+      #end
     #else
       SPrec (6, transform {Str[6][dpth] tiletransinv gtr0 rotate -i*60*y translate height}, dpth)
       SPrec (7, transform {Str[7][dpth] tiletransinv gtr0 rotate -i*60*y translate height}, dpth)
+      #ifdef (showall)
+        SPwormrec (6, transform {Str[6][dpth] tiletransinv gtr0 rotate -i*60*y translate height}, dpth)
+        SPwormrec (7, transform {Str[7][dpth] tiletransinv gtr0 rotate -i*60*y translate height}, dpth)
+      #end
     #end
     SPdarkencolors (darkenvalue)
     SPbuildtiles ()

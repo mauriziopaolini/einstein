@@ -87,6 +87,14 @@ build_up_down (10, 06)
 
     SPbuildtiles ()
     SPrec (1, transform {ttransinv[dpth] placeiti gtrans0 translate 2*(depth-dpth)*tile_thick*y}, dpth)
+    #ifdef (showall)
+      SPwormrec (1, transform {ttransinv[dpth] placeiti gtrans0 translate (2*(depth-dpth)+1)*tile_thick*y}, dpth)
+    #end
+    #ifdef (showallw)
+      #declare wriggly=1;
+      SPwormrec (1, transform {ttransinv[dpth] placeiti gtrans0 translate (2*(depth-dpth)+1)*tile_thick*y}, dpth)
+      #declare wriggly=0;
+    #end
 
     SPdarkencolors (darkenvalue)
     //SPbuildtiles ()
