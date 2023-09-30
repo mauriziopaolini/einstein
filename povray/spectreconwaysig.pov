@@ -128,6 +128,11 @@ global_settings { assumed_gamma 1.0 }
     SPrec (htilex[dpth], transform {ttransinv[dpth] gtrans0 translate 2*(depth-dpth)*tile_thick*y}, dpth)
 
     #ifdef (drawworm) SPwormrec (htilex[dpth], transform {ttransinv[dpth] gtrans0 translate 2*(depth-dpth+1)*tile_thick*y}, dpth) #end
+    #ifdef (drawwormw)
+      #declare wriggly=1;
+      SPwormrec (htilex[dpth], transform {ttransinv[dpth] gtrans0 translate 2*(depth-dpth+1)*tile_thick*y}, dpth)
+      #declare wriggly=0;
+    #end
     #ifdef (darkenit)
       SPdarkencolors (darkenvalue)
     #else
