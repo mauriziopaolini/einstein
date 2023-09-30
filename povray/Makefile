@@ -243,16 +243,13 @@ activity6mystic.png: activities.pov
 #
 
 spectreconwaysig[5][3]_d6.png: spectreconwaysig.pov
-	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=up2=05 Declare=down2=27 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
-	mv tmp_pippo.png $@
+	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=up2=05 Declare=down2=27 Declare=depth=6 Declare=zoomout=6 Declare=bdthick=3 +O- >$@
 
 spectreconwaysig[5][3]_d6z.png: spectreconwaysig.pov
-	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=up2=05 Declare=down2=27 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
-	mv tmp_pippoz.png $@
+	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=up2=05 Declare=down2=27 Declare=depth=6 Declare=zoomout=4 Declare=bdthick=2 +O- >$@
 
 spectreconwaysig[5][3]_d6zz.png: spectreconwaysig.pov
-	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=up2=05 Declare=down2=27 Declare=depth=6 Declare=zoomout=2 +Otmp_pippozz.png
-	mv tmp_pippozz.png $@
+	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=up2=05 Declare=down2=27 Declare=depth=6 Declare=zoomout=2 Declare=bdthick=0.3 +O- >$@
 
 #
 # the same tiling can be obtained with the choices
@@ -265,19 +262,15 @@ spectreconwaysig[5][3]_d6zz.png: spectreconwaysig.pov
 #
 
 spectreconwaysig[1][1]_d6.png: spectreconwaysig.pov
-	povray $(povoptspng) $< Declare=Sigh=111111 Declare=Sigl=111111 Declare=Sigh2=111111 Declare=Sigl2=111111 Declare=up2=04 Declare=down2=27 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
-	mv tmp_pippo.png $@
+	povray $(povoptspng) $< Declare=Sigh=111111 Declare=Sigl=111111 Declare=Sigh2=111111 Declare=Sigl2=111111 Declare=up2=04 Declare=down2=27 Declare=depth=6 Declare=zoomout=6 Declare=bdthick=3 +O- >$@
 
 spectreconwaysig[1][1]_d6z.png: spectreconwaysig.pov
-	povray $(povoptspng) $< Declare=Sigh=111111 Declare=Sigl=111111 Declare=Sigh2=111111 Declare=Sigl2=111111 Declare=up2=04 Declare=down2=27 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
-	mv tmp_pippoz.png $@
+	povray $(povoptspng) $< Declare=Sigh=111111 Declare=Sigl=111111 Declare=Sigh2=111111 Declare=Sigl2=111111 Declare=up2=04 Declare=down2=27 Declare=depth=6 Declare=zoomout=4 Declare=bdthick=2 +O- >$@
 
 spectreconwaysig[1][1]_d6zz.png: spectreconwaysig.pov
-	povray $(povoptspng) $< Declare=Sigh=111111 Declare=Sigl=111111 Declare=Sigh2=111111 Declare=Sigl2=111111 Declare=up2=04 Declare=down2=27 Declare=depth=6 Declare=zoomout=2 +Otmp_pippozz.png
-	mv tmp_pippozz.png $@
+	povray $(povoptspng) $< Declare=Sigh=111111 Declare=Sigl=111111 Declare=Sigh2=111111 Declare=Sigl2=111111 Declare=up2=04 Declare=down2=27 Declare=depth=6 Declare=zoomout=2 Declare=bdthick=0.3 +O- >$@
 
 spectreconwaysig[0][3][3]_d6.png: spectreconwaysig.pov
-#	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=Sigh3=333333 Declare=Sigl3=333333 Declare=up2=03 Declare=down2=02 Declare=up3=10 Declare=down3=06 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
 	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=Sigh3=333333 Declare=Sigl3=333333 Declare=up2=10 Declare=down2=26 Declare=up3=10 Declare=down3=06 Declare=depth=6 Declare=zoomout=6 Declare=bdthick=3 +Otmp_pippo.png
 	mv tmp_pippo.png $@
 
