@@ -263,13 +263,15 @@ createworm (wormlen, transform {basetrinv gtras translate lift}, rotworm)
 
 #local lift = lift + tile_thick*y;
 
-cylinder {
-  0*y
-  1.0*y
-  0.4
-  pigment {color Black}
-  transform {gtras}
-}
+#ifndef (nocyl)
+  cylinder {
+    0*y
+    1.0*y
+    0.4
+    pigment {color Black}
+    transform {gtras}
+  }
+#end
 
 #declare lookatpos = <0,0,0>;
 #declare mylocation = 0.8*mag*<0,10,0>;
