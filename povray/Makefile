@@ -289,7 +289,7 @@ spectreconwaysig[6][6][6]_d6z.png: spectreconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=666666 Declare=Sigl=666666 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=Sigh3=666666 Declare=Sigl3=666666 Declare=up2=06 Declare=down2=27 Declare=up3=01 Declare=down3=71 Declare=depth=6 Declare=zoomout=4 Declare=bdthick=2 +O- >$@
 
 spectreconwaysig[6][6][6]_d6zz.png: spectreconwaysig.pov
-	povray $(povoptspng) $< Declare=Sigh=666666 Declare=Sigl=666666 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=Sigh3=666666 Declare=Sigl3=666666 Declare=up2=06 Declare=down2=27 Declare=up3=01 Declare=down3=71 Declare=depth=6 Declare=zoomout=2 Declare=bdthick=0.3 +O- >$@
+	povray $(povoptspng) $< Declare=Sigh=666666 Declare=Sigl=666666 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=Sigh3=666666 Declare=Sigl3=666666 Declare=up2=06 Declare=down2=27 Declare=up3=01 Declare=down3=71 Declare=depth=6 Declare=zoomout=2 Declare=bdthick=0.3 Declare=nocyl=1 +O- >$@
 
 spectreconwaysig[4][4][4]_d6.png: spectreconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=444444 Declare=Sigl=444444 Declare=Sigh2=444444 Declare=Sigl2=444444 Declare=Sigh3=444444 Declare=Sigl3=444444 Declare=up2=05 Declare=down2=27 Declare=up3=17 Declare=down3=07 Declare=depth=6 Declare=zoomout=6 Declare=bdthick=3 +O- >$@
@@ -298,7 +298,7 @@ spectreconwaysig[4][4][4]_d6z.png: spectreconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=444444 Declare=Sigl=444444 Declare=Sigh2=444444 Declare=Sigl2=444444 Declare=Sigh3=444444 Declare=Sigl3=444444 Declare=up2=05 Declare=down2=27 Declare=up3=17 Declare=down3=07 Declare=depth=6 Declare=zoomout=4 Declare=bdthick=2 +O- >$@
 
 spectreconwaysig[4][4][4]_d6zz.png: spectreconwaysig.pov
-	povray $(povoptspng) $< Declare=Sigh=444444 Declare=Sigl=444444 Declare=Sigh2=444444 Declare=Sigl2=444444 Declare=Sigh3=444444 Declare=Sigl3=444444 Declare=up2=05 Declare=down2=27 Declare=up3=17 Declare=down3=07 Declare=depth=6 Declare=zoomout=2 Declare=bdthick=0.3 +O- >$@
+	povray $(povoptspng) $< Declare=Sigh=444444 Declare=Sigl=444444 Declare=Sigh2=444444 Declare=Sigl2=444444 Declare=Sigh3=444444 Declare=Sigl3=444444 Declare=up2=05 Declare=down2=27 Declare=up3=17 Declare=down3=07 Declare=depth=6 Declare=zoomout=2 Declare=bdthick=0.3 Declare=nocyl=1 +O- >$@
 
 $(spectresigpngd6):spectreconwaysig%_d6.png:spectreconwaysig.pov spectresig2povopt.sh
 	./spectresig2povopt.sh -q $* povray Declare=depth=6 $(povoptspng) +O- >$@

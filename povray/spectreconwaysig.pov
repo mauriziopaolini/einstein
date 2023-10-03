@@ -153,12 +153,14 @@ global_settings { assumed_gamma 1.0 }
 build_ttransinv (signature, depth)
 build_tiling (ttransinv, htilex, gtrans0, depth)
 
-cylinder {
-  0*y, 20*tile_thick*y, 1.0
-  pigment {color Black}
-  finish {tile_Finish}
-  transform gtrans0
-}
+#ifndef (nocyl)
+  cylinder {
+    0*y, 20*tile_thick*y, 1.0
+    pigment {color Black}
+    finish {tile_Finish}
+    transform gtrans0
+  }
+#end
 
 #macro build_up_down (upl, downl)
   #declare uptransf = transform {scale <1,1,1>}
@@ -198,13 +200,15 @@ cylinder {
   #end
   build_ttransinv (signature2, depth)
   build_tiling (ttransinv, htilex, transform {placeit gtrans0}, depth)
-  cylinder {
-    0*y, 20*tile_thick*y, 1.0
-    pigment {color Black}
-    finish {tile_Finish}
-    transform placeit
-    transform gtrans0
-  }
+  #ifndef (nocyl)
+    cylinder {
+      0*y, 20*tile_thick*y, 1.0
+      pigment {color Black}
+      finish {tile_Finish}
+      transform placeit
+      transform gtrans0
+    }
+  #end
 #end
 
 #ifdef (signature3)
@@ -224,13 +228,15 @@ cylinder {
   SPdarkencolors (darkenvalue)
   build_ttransinv (signature3, depth)
   build_tiling (ttransinv, htilex, transform {placeit gtrans0}, depth)
-  cylinder {
-    0*y, 20*tile_thick*y, 1.0
-    pigment {color Black}
-    finish {tile_Finish}
-    transform placeit
-    transform gtrans0
-  }
+  #ifndef (nocyl)
+    cylinder {
+      0*y, 20*tile_thick*y, 1.0
+      pigment {color Black}
+      finish {tile_Finish}
+      transform placeit
+      transform gtrans0
+    }
+  #end
 #end
 
 #declare textfont = "LiberationMono-Regular.ttf"
