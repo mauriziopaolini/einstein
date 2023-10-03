@@ -140,7 +140,7 @@ global_settings { assumed_gamma 1.0 }
     #end
     #local dpth = dpth + 1;
   #end
-  #ifdef (doboundary) SPbgen (htilex[depth], transform {ttransinv[depth] gtrans0 translate (2*depth-1)*tile_thick*y}, depth) #end
+  #ifdef (doboundary) SPbgen (htilex[depth], transform {ttransinv[depth] gtrans0 translate (2*depth)*tile_thick*y}, depth) #end
   #ifdef (darkenit)
     #local dpth = 0;
     #while (dpth <= depth)
