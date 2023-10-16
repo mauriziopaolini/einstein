@@ -251,16 +251,6 @@ spectreconwaysig[5][3]_d6z.png: spectreconwaysig.pov
 spectreconwaysig[5][3]_d6zz.png: spectreconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=Sigh2=333333 Declare=Sigl2=333333 Declare=up2=05 Declare=down2=27 Declare=depth=6 Declare=zoomout=2 Declare=bdthick=0.3 +O- >$@
 
-#
-# the same tiling can be obtained with the choices
-# up2=05 down2=27
-# up2=07 down2=17
-# up2=22 down2=47
-# up2=24 down2=37
-# up2=52 down2=77
-# up2=54 down2=67
-#
-
 spectreconwaysig[1][1]_d6.png: spectreconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=111111 Declare=Sigl=111111 Declare=Sigh2=111111 Declare=Sigl2=111111 Declare=up2=04 Declare=down2=27 Declare=depth=6 Declare=zoomout=6 Declare=bdthick=3 +O- >$@
 
