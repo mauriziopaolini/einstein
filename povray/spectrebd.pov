@@ -79,7 +79,7 @@ global_settings { assumed_gamma 1.0 }
  */
 
 #ifdef (subdivide)
-  #declare bdthick = bdthick/2;
+  #declare bdthick = 0.7*bdthick;
   SPbmystic (transform {transform {Str[0][depth-1] gtras} translate lift}, depth-1)
   #local i = 1;
   #while (i <= 7)
@@ -87,6 +87,30 @@ global_settings { assumed_gamma 1.0 }
       SPbspectre (transform {transform {Str[i][depth-1] gtras} translate lift}, depth-1)
     #end
     #local i = i + 1;
+  #end
+  #if (subdivide > 1)
+    #declare bdthick = 0.7*bdthick;
+    SPbmystic (transform {transform {Str[0][depth-2] Str[0][depth-1] gtras} translate lift}, depth-2)
+    #local j = 1;
+    #while (j <= 7)
+      #if (j != 3)
+        SPbspectre (transform {transform {Str[j][depth-2] Str[0][depth-1] gtras} translate lift}, depth-2)
+      #end
+      #local j = j + 1;
+    #end
+    #local i = 1;
+    #while (i <= 7)
+      #if (SPid != 0 | i != 3)
+        SPbmystic (transform {transform {Str[0][depth-2] Str[i][depth-1] gtras} translate lift}, depth-2)
+        #local j = 1;
+        #while (j <= 7)
+          SPbspectre (transform {transform {Str[j][depth-2] Str[i][depth-1] gtras} translate lift}, depth-2)
+          #local j = j + 1;
+        #end
+        //SPbspectre (transform {transform {Str[i][depth-1] gtras} translate lift}, depth-1)
+      #end
+      #local i = i + 1;
+    #end
   #end
 #end
 
