@@ -532,12 +532,12 @@ frames/spectre_deflations_ws/DONE: frames/%/DONE: spectre_deflations.pov
 	touch $@
 
 frames/spectre_desert_walk5/DONE: frames/%/DONE: spectre_desert_walk.pov
-	povray $< $(povoptsani) Declare=depth=5 +kf120 +kff3000 +Oframes/$*/frame
+	povray $< $(povoptsani) Declare=desertlike=10 Declare=depth=5 +kf120 +kff3000 +Oframes/$*/frame
 	for i in `seq 3001 3025`; do cp frames/$*/frame3000.png frames/$*/frame$${i}.png; done
 	touch $@
 
 frames/spectre_desert_walk6/DONE: frames/%/DONE: spectre_desert_walk.pov
-	povray $< $(povoptsani) Declare=depth=6 +kf120 +kff3000 +Oframes/$*/frame
+	povray $< $(povoptsani) Declare=desertlike=10 Declare=depth=6 +kf120 +kff3000 +Oframes/$*/frame
 	for i in `seq 3001 3025`; do cp frames/$*/frame3000.png frames/$*/frame$${i}.png; done
 	touch $@
 
