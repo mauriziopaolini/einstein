@@ -127,10 +127,17 @@ build_wormAB (depth)
 
 #declare MaxPosLeft = <0,0,0>;
 
+#declare mask1 = 1 + 4 + 16 + 32;
+#declare mask2 = 1 + 16;
+#if (depth = 6)
+  #declare mask1 = 1 + 4 + 8 + 16 + 32 + 64 + 128;
+  #declare mask2 = 1 + 16 + 32 + 64;
+#end
 SPrec (SPid, transform {rotate -110*y}, depth)
-#declare SPshow = bitwise_and (SPshow, 53);
+//#declare SPshow = bitwise_and (SPshow, 53);
+#declare SPshow = bitwise_and (SPshow, mask1);
 SPrec (SPid, transform {rotate -110*y translate 1*tile_thick*y}, depth)
-#declare SPshow = bitwise_and (SPshow, 17);
+#declare SPshow = bitwise_and (SPshow, mask2);
 SPrec (SPid, transform {rotate -110*y translate 2*tile_thick*y}, depth)
 
 // #declare onlyworm = 1;
