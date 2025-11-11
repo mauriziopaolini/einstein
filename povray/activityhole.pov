@@ -241,6 +241,21 @@ build_up_down (10, 06)
     drawworm (placeiti[irotw1], 1)
     drawworm (placeiti[irotw2], 1)
 
+    /*
+     * Manually place two white spectres at the tip of the two rotated white worms
+     */
+
+    #if (depth = 4)
+      //#local manualtr = -3*z - (1+ap)*x + 0.16*x;
+      #local manualtr = -3*z - 2*ap*x;
+      object {whitespectre
+        transform {translate manualtr rotate 120*y placeiti[irotw1] gtrans0 translate lift}
+      }
+      object {whitespectre
+        transform {translate manualtr rotate 120*y placeiti[irotw2] gtrans0 translate lift}
+      }
+    #end
+
   #break
 #end
 
