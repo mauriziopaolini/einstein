@@ -1,0 +1,604 @@
+<!DOCTYPE KigMacroFile>
+<KigMacroFile Number="4" Version="25.08.1">
+ <Macro>
+  <Name>back</Name>
+  <Description>point that insists on segment with 120 degrees</Description>
+  <IconFileName>system-run</IconFileName>
+  <Construction>
+   <input id="1" requirement="point"/>
+   <input id="2" requirement="point"/>
+   <intermediate action="calc" id="3" type="CircleBCP">
+    <arg>1</arg>
+    <arg>2</arg>
+   </intermediate>
+   <intermediate action="calc" id="4" type="CircleBCP">
+    <arg>2</arg>
+    <arg>1</arg>
+   </intermediate>
+   <intermediate action="push" id="5" type="int">-1</intermediate>
+   <intermediate action="calc" id="6" type="CircleCircleIntersection">
+    <arg>3</arg>
+    <arg>4</arg>
+    <arg>5</arg>
+   </intermediate>
+   <intermediate action="calc" id="7" type="TriangleB3P">
+    <arg>1</arg>
+    <arg>2</arg>
+    <arg>6</arg>
+   </intermediate>
+   <intermediate action="push" id="8" type="int">2</intermediate>
+   <intermediate action="calc" id="9" type="PolygonVertex">
+    <arg>7</arg>
+    <arg>8</arg>
+   </intermediate>
+   <intermediate action="fetch-property" id="10" property="polygon-center-of-mass">
+    <arg>7</arg>
+   </intermediate>
+   <result action="calc" id="11" type="PointReflection">
+    <arg>9</arg>
+    <arg>10</arg>
+   </result>
+  </Construction>
+ </Macro>
+ <Macro>
+  <Name>rot60</Name>
+  <Description>rotate 60 taking "back" to C</Description>
+  <IconFileName>system-run</IconFileName>
+  <Construction>
+   <input id="1" requirement="point"/>
+   <input id="2" requirement="point"/>
+   <input id="3" requirement="point"/>
+   <intermediate action="calc" id="4" type="CircleBCP">
+    <arg>1</arg>
+    <arg>2</arg>
+   </intermediate>
+   <intermediate action="calc" id="5" type="CircleBCP">
+    <arg>2</arg>
+    <arg>1</arg>
+   </intermediate>
+   <intermediate action="push" id="6" type="int">-1</intermediate>
+   <intermediate action="calc" id="7" type="CircleCircleIntersection">
+    <arg>4</arg>
+    <arg>5</arg>
+    <arg>6</arg>
+   </intermediate>
+   <intermediate action="calc" id="8" type="TriangleB3P">
+    <arg>1</arg>
+    <arg>2</arg>
+    <arg>7</arg>
+   </intermediate>
+   <intermediate action="push" id="9" type="int">2</intermediate>
+   <intermediate action="calc" id="10" type="PolygonVertex">
+    <arg>8</arg>
+    <arg>9</arg>
+   </intermediate>
+   <intermediate action="fetch-property" id="11" property="polygon-center-of-mass">
+    <arg>8</arg>
+   </intermediate>
+   <intermediate action="calc" id="12" type="PointReflection">
+    <arg>10</arg>
+    <arg>11</arg>
+   </intermediate>
+   <intermediate action="calc" id="13" type="Vector">
+    <arg>12</arg>
+    <arg>3</arg>
+   </intermediate>
+   <intermediate action="calc" id="14" type="Translation">
+    <arg>1</arg>
+    <arg>13</arg>
+   </intermediate>
+   <intermediate action="push" id="15" type="angle">
+    <size>5.23599</size>
+   </intermediate>
+   <intermediate action="calc" id="16" type="Translation">
+    <arg>2</arg>
+    <arg>13</arg>
+   </intermediate>
+   <intermediate action="calc" id="17" type="Translation">
+    <arg>3</arg>
+    <arg>13</arg>
+   </intermediate>
+   <result action="calc" id="18" type="Rotation">
+    <arg>14</arg>
+    <arg>3</arg>
+    <arg>15</arg>
+   </result>
+   <result action="calc" id="19" type="Rotation">
+    <arg>16</arg>
+    <arg>3</arg>
+    <arg>15</arg>
+   </result>
+   <result action="calc" id="20" type="Rotation">
+    <arg>17</arg>
+    <arg>3</arg>
+    <arg>15</arg>
+   </result>
+  </Construction>
+ </Macro>
+ <Macro>
+  <Name>three_steps</Name>
+  <Description>rot60+trans+rot60</Description>
+  <IconFileName>system-run</IconFileName>
+  <Construction>
+   <input id="1" requirement="point"/>
+   <input id="2" requirement="point"/>
+   <input id="3" requirement="point"/>
+   <intermediate action="calc" id="4" type="CircleBCP">
+    <arg>1</arg>
+    <arg>2</arg>
+   </intermediate>
+   <intermediate action="calc" id="5" type="CircleBCP">
+    <arg>2</arg>
+    <arg>1</arg>
+   </intermediate>
+   <intermediate action="push" id="6" type="int">-1</intermediate>
+   <intermediate action="calc" id="7" type="CircleCircleIntersection">
+    <arg>4</arg>
+    <arg>5</arg>
+    <arg>6</arg>
+   </intermediate>
+   <intermediate action="calc" id="8" type="TriangleB3P">
+    <arg>1</arg>
+    <arg>2</arg>
+    <arg>7</arg>
+   </intermediate>
+   <intermediate action="push" id="9" type="int">2</intermediate>
+   <intermediate action="calc" id="10" type="PolygonVertex">
+    <arg>8</arg>
+    <arg>9</arg>
+   </intermediate>
+   <intermediate action="fetch-property" id="11" property="polygon-center-of-mass">
+    <arg>8</arg>
+   </intermediate>
+   <intermediate action="calc" id="12" type="PointReflection">
+    <arg>10</arg>
+    <arg>11</arg>
+   </intermediate>
+   <intermediate action="calc" id="13" type="Vector">
+    <arg>12</arg>
+    <arg>3</arg>
+   </intermediate>
+   <intermediate action="calc" id="14" type="Translation">
+    <arg>1</arg>
+    <arg>13</arg>
+   </intermediate>
+   <intermediate action="push" id="15" type="angle">
+    <size>5.23599</size>
+   </intermediate>
+   <intermediate action="calc" id="16" type="Rotation">
+    <arg>14</arg>
+    <arg>3</arg>
+    <arg>15</arg>
+   </intermediate>
+   <intermediate action="calc" id="17" type="Translation">
+    <arg>2</arg>
+    <arg>13</arg>
+   </intermediate>
+   <intermediate action="calc" id="18" type="Rotation">
+    <arg>17</arg>
+    <arg>3</arg>
+    <arg>15</arg>
+   </intermediate>
+   <intermediate action="calc" id="19" type="Vector">
+    <arg>18</arg>
+    <arg>16</arg>
+   </intermediate>
+   <intermediate action="calc" id="20" type="Translation">
+    <arg>16</arg>
+    <arg>19</arg>
+   </intermediate>
+   <intermediate action="calc" id="21" type="CircleBCP">
+    <arg>20</arg>
+    <arg>16</arg>
+   </intermediate>
+   <intermediate action="calc" id="22" type="CircleBCP">
+    <arg>16</arg>
+    <arg>20</arg>
+   </intermediate>
+   <intermediate action="push" id="23" type="int">-1</intermediate>
+   <intermediate action="calc" id="24" type="CircleCircleIntersection">
+    <arg>21</arg>
+    <arg>22</arg>
+    <arg>23</arg>
+   </intermediate>
+   <intermediate action="calc" id="25" type="TriangleB3P">
+    <arg>20</arg>
+    <arg>16</arg>
+    <arg>24</arg>
+   </intermediate>
+   <intermediate action="push" id="26" type="int">2</intermediate>
+   <intermediate action="calc" id="27" type="PolygonVertex">
+    <arg>25</arg>
+    <arg>26</arg>
+   </intermediate>
+   <intermediate action="fetch-property" id="28" property="polygon-center-of-mass">
+    <arg>25</arg>
+   </intermediate>
+   <intermediate action="calc" id="29" type="PointReflection">
+    <arg>27</arg>
+    <arg>28</arg>
+   </intermediate>
+   <intermediate action="calc" id="30" type="Translation">
+    <arg>3</arg>
+    <arg>13</arg>
+   </intermediate>
+   <intermediate action="calc" id="31" type="Rotation">
+    <arg>30</arg>
+    <arg>3</arg>
+    <arg>15</arg>
+   </intermediate>
+   <intermediate action="calc" id="32" type="Translation">
+    <arg>31</arg>
+    <arg>19</arg>
+   </intermediate>
+   <intermediate action="calc" id="33" type="Vector">
+    <arg>29</arg>
+    <arg>32</arg>
+   </intermediate>
+   <intermediate action="calc" id="34" type="Translation">
+    <arg>20</arg>
+    <arg>33</arg>
+   </intermediate>
+   <intermediate action="push" id="35" type="angle">
+    <size>5.23599</size>
+   </intermediate>
+   <intermediate action="calc" id="36" type="Translation">
+    <arg>16</arg>
+    <arg>33</arg>
+   </intermediate>
+   <intermediate action="calc" id="37" type="Translation">
+    <arg>32</arg>
+    <arg>33</arg>
+   </intermediate>
+   <result action="calc" id="38" type="Rotation">
+    <arg>34</arg>
+    <arg>32</arg>
+    <arg>35</arg>
+   </result>
+   <result action="calc" id="39" type="Rotation">
+    <arg>36</arg>
+    <arg>32</arg>
+    <arg>35</arg>
+   </result>
+   <result action="calc" id="40" type="Rotation">
+    <arg>37</arg>
+    <arg>32</arg>
+    <arg>35</arg>
+   </result>
+  </Construction>
+ </Macro>
+ <Macro>
+  <Name>next_level</Name>
+  <Description>quadrilateral of the next level (reflected)</Description>
+  <IconFileName>system-run</IconFileName>
+  <Construction>
+   <input id="1" requirement="any"/>
+   <input id="2" requirement="point"/>
+   <input id="3" requirement="any"/>
+   <intermediate action="push" id="4" type="angle">
+    <size>2.0944</size>
+   </intermediate>
+   <intermediate action="calc" id="5" type="Rotation">
+    <arg>1</arg>
+    <arg>2</arg>
+    <arg>4</arg>
+   </intermediate>
+   <intermediate action="calc" id="6" type="CircleBCP">
+    <arg>5</arg>
+    <arg>2</arg>
+   </intermediate>
+   <intermediate action="calc" id="7" type="CircleBCP">
+    <arg>2</arg>
+    <arg>5</arg>
+   </intermediate>
+   <intermediate action="push" id="8" type="int">-1</intermediate>
+   <intermediate action="calc" id="9" type="CircleCircleIntersection">
+    <arg>6</arg>
+    <arg>7</arg>
+    <arg>8</arg>
+   </intermediate>
+   <intermediate action="calc" id="10" type="TriangleB3P">
+    <arg>5</arg>
+    <arg>2</arg>
+    <arg>9</arg>
+   </intermediate>
+   <intermediate action="push" id="11" type="int">2</intermediate>
+   <intermediate action="calc" id="12" type="PolygonVertex">
+    <arg>10</arg>
+    <arg>11</arg>
+   </intermediate>
+   <intermediate action="fetch-property" id="13" property="polygon-center-of-mass">
+    <arg>10</arg>
+   </intermediate>
+   <intermediate action="calc" id="14" type="PointReflection">
+    <arg>12</arg>
+    <arg>13</arg>
+   </intermediate>
+   <intermediate action="calc" id="15" type="Rotation">
+    <arg>3</arg>
+    <arg>2</arg>
+    <arg>4</arg>
+   </intermediate>
+   <intermediate action="calc" id="16" type="Vector">
+    <arg>14</arg>
+    <arg>15</arg>
+   </intermediate>
+   <intermediate action="calc" id="17" type="Translation">
+    <arg>5</arg>
+    <arg>16</arg>
+   </intermediate>
+   <intermediate action="push" id="18" type="angle">
+    <size>5.23599</size>
+   </intermediate>
+   <intermediate action="calc" id="19" type="Rotation">
+    <arg>17</arg>
+    <arg>15</arg>
+    <arg>18</arg>
+   </intermediate>
+   <intermediate action="calc" id="20" type="Translation">
+    <arg>2</arg>
+    <arg>16</arg>
+   </intermediate>
+   <intermediate action="calc" id="21" type="Rotation">
+    <arg>20</arg>
+    <arg>15</arg>
+    <arg>18</arg>
+   </intermediate>
+   <intermediate action="calc" id="22" type="Vector">
+    <arg>21</arg>
+    <arg>19</arg>
+   </intermediate>
+   <intermediate action="calc" id="23" type="Translation">
+    <arg>19</arg>
+    <arg>22</arg>
+   </intermediate>
+   <intermediate action="calc" id="24" type="CircleBCP">
+    <arg>23</arg>
+    <arg>19</arg>
+   </intermediate>
+   <intermediate action="calc" id="25" type="CircleBCP">
+    <arg>19</arg>
+    <arg>23</arg>
+   </intermediate>
+   <intermediate action="push" id="26" type="int">-1</intermediate>
+   <intermediate action="calc" id="27" type="CircleCircleIntersection">
+    <arg>24</arg>
+    <arg>25</arg>
+    <arg>26</arg>
+   </intermediate>
+   <intermediate action="calc" id="28" type="TriangleB3P">
+    <arg>23</arg>
+    <arg>19</arg>
+    <arg>27</arg>
+   </intermediate>
+   <intermediate action="push" id="29" type="int">2</intermediate>
+   <intermediate action="calc" id="30" type="PolygonVertex">
+    <arg>28</arg>
+    <arg>29</arg>
+   </intermediate>
+   <intermediate action="fetch-property" id="31" property="polygon-center-of-mass">
+    <arg>28</arg>
+   </intermediate>
+   <intermediate action="calc" id="32" type="PointReflection">
+    <arg>30</arg>
+    <arg>31</arg>
+   </intermediate>
+   <intermediate action="calc" id="33" type="Translation">
+    <arg>15</arg>
+    <arg>16</arg>
+   </intermediate>
+   <intermediate action="calc" id="34" type="Rotation">
+    <arg>33</arg>
+    <arg>15</arg>
+    <arg>18</arg>
+   </intermediate>
+   <intermediate action="calc" id="35" type="Translation">
+    <arg>34</arg>
+    <arg>22</arg>
+   </intermediate>
+   <intermediate action="calc" id="36" type="Vector">
+    <arg>32</arg>
+    <arg>35</arg>
+   </intermediate>
+   <intermediate action="calc" id="37" type="Translation">
+    <arg>23</arg>
+    <arg>36</arg>
+   </intermediate>
+   <intermediate action="push" id="38" type="angle">
+    <size>5.23599</size>
+   </intermediate>
+   <intermediate action="calc" id="39" type="Rotation">
+    <arg>37</arg>
+    <arg>35</arg>
+    <arg>38</arg>
+   </intermediate>
+   <intermediate action="calc" id="40" type="Translation">
+    <arg>19</arg>
+    <arg>36</arg>
+   </intermediate>
+   <intermediate action="calc" id="41" type="Rotation">
+    <arg>40</arg>
+    <arg>35</arg>
+    <arg>38</arg>
+   </intermediate>
+   <intermediate action="calc" id="42" type="CircleBCP">
+    <arg>39</arg>
+    <arg>41</arg>
+   </intermediate>
+   <intermediate action="calc" id="43" type="CircleBCP">
+    <arg>41</arg>
+    <arg>39</arg>
+   </intermediate>
+   <intermediate action="push" id="44" type="int">-1</intermediate>
+   <intermediate action="calc" id="45" type="CircleCircleIntersection">
+    <arg>42</arg>
+    <arg>43</arg>
+    <arg>44</arg>
+   </intermediate>
+   <intermediate action="calc" id="46" type="TriangleB3P">
+    <arg>39</arg>
+    <arg>41</arg>
+    <arg>45</arg>
+   </intermediate>
+   <intermediate action="push" id="47" type="int">2</intermediate>
+   <intermediate action="calc" id="48" type="PolygonVertex">
+    <arg>46</arg>
+    <arg>47</arg>
+   </intermediate>
+   <intermediate action="fetch-property" id="49" property="polygon-center-of-mass">
+    <arg>46</arg>
+   </intermediate>
+   <intermediate action="calc" id="50" type="PointReflection">
+    <arg>48</arg>
+    <arg>49</arg>
+   </intermediate>
+   <intermediate action="calc" id="51" type="Translation">
+    <arg>35</arg>
+    <arg>36</arg>
+   </intermediate>
+   <intermediate action="calc" id="52" type="Rotation">
+    <arg>51</arg>
+    <arg>35</arg>
+    <arg>38</arg>
+   </intermediate>
+   <intermediate action="calc" id="53" type="Vector">
+    <arg>50</arg>
+    <arg>52</arg>
+   </intermediate>
+   <intermediate action="calc" id="54" type="Translation">
+    <arg>39</arg>
+    <arg>53</arg>
+   </intermediate>
+   <intermediate action="push" id="55" type="angle">
+    <size>5.23599</size>
+   </intermediate>
+   <intermediate action="calc" id="56" type="Rotation">
+    <arg>54</arg>
+    <arg>52</arg>
+    <arg>55</arg>
+   </intermediate>
+   <intermediate action="calc" id="57" type="Translation">
+    <arg>41</arg>
+    <arg>53</arg>
+   </intermediate>
+   <intermediate action="calc" id="58" type="Rotation">
+    <arg>57</arg>
+    <arg>52</arg>
+    <arg>55</arg>
+   </intermediate>
+   <intermediate action="calc" id="59" type="Vector">
+    <arg>58</arg>
+    <arg>56</arg>
+   </intermediate>
+   <intermediate action="calc" id="60" type="Translation">
+    <arg>56</arg>
+    <arg>59</arg>
+   </intermediate>
+   <intermediate action="calc" id="61" type="CircleBCP">
+    <arg>60</arg>
+    <arg>56</arg>
+   </intermediate>
+   <intermediate action="calc" id="62" type="CircleBCP">
+    <arg>56</arg>
+    <arg>60</arg>
+   </intermediate>
+   <intermediate action="push" id="63" type="int">-1</intermediate>
+   <intermediate action="calc" id="64" type="CircleCircleIntersection">
+    <arg>61</arg>
+    <arg>62</arg>
+    <arg>63</arg>
+   </intermediate>
+   <intermediate action="calc" id="65" type="TriangleB3P">
+    <arg>60</arg>
+    <arg>56</arg>
+    <arg>64</arg>
+   </intermediate>
+   <intermediate action="push" id="66" type="int">2</intermediate>
+   <intermediate action="calc" id="67" type="PolygonVertex">
+    <arg>65</arg>
+    <arg>66</arg>
+   </intermediate>
+   <intermediate action="fetch-property" id="68" property="polygon-center-of-mass">
+    <arg>65</arg>
+   </intermediate>
+   <intermediate action="calc" id="69" type="PointReflection">
+    <arg>67</arg>
+    <arg>68</arg>
+   </intermediate>
+   <intermediate action="calc" id="70" type="Translation">
+    <arg>52</arg>
+    <arg>53</arg>
+   </intermediate>
+   <intermediate action="calc" id="71" type="Rotation">
+    <arg>70</arg>
+    <arg>52</arg>
+    <arg>55</arg>
+   </intermediate>
+   <intermediate action="calc" id="72" type="Translation">
+    <arg>71</arg>
+    <arg>59</arg>
+   </intermediate>
+   <intermediate action="calc" id="73" type="Vector">
+    <arg>69</arg>
+    <arg>72</arg>
+   </intermediate>
+   <intermediate action="calc" id="74" type="Translation">
+    <arg>60</arg>
+    <arg>73</arg>
+   </intermediate>
+   <intermediate action="push" id="75" type="angle">
+    <size>5.23599</size>
+   </intermediate>
+   <intermediate action="calc" id="76" type="Rotation">
+    <arg>74</arg>
+    <arg>72</arg>
+    <arg>75</arg>
+   </intermediate>
+   <intermediate action="calc" id="77" type="CircleBCP">
+    <arg>5</arg>
+    <arg>2</arg>
+   </intermediate>
+   <intermediate action="calc" id="78" type="CircleBCP">
+    <arg>2</arg>
+    <arg>5</arg>
+   </intermediate>
+   <intermediate action="push" id="79" type="int">-1</intermediate>
+   <intermediate action="calc" id="80" type="CircleCircleIntersection">
+    <arg>77</arg>
+    <arg>78</arg>
+    <arg>79</arg>
+   </intermediate>
+   <intermediate action="calc" id="81" type="TriangleB3P">
+    <arg>5</arg>
+    <arg>2</arg>
+    <arg>80</arg>
+   </intermediate>
+   <intermediate action="push" id="82" type="int">2</intermediate>
+   <intermediate action="calc" id="83" type="PolygonVertex">
+    <arg>81</arg>
+    <arg>82</arg>
+   </intermediate>
+   <intermediate action="fetch-property" id="84" property="polygon-center-of-mass">
+    <arg>81</arg>
+   </intermediate>
+   <intermediate action="calc" id="85" type="PointReflection">
+    <arg>83</arg>
+    <arg>84</arg>
+   </intermediate>
+   <intermediate action="calc" id="86" type="SegmentAB">
+    <arg>85</arg>
+    <arg>39</arg>
+   </intermediate>
+   <result action="calc" id="87" type="Copy">
+    <arg>39</arg>
+   </result>
+   <result action="calc" id="88" type="LineReflection">
+    <arg>76</arg>
+    <arg>86</arg>
+   </result>
+   <result action="calc" id="89" type="Copy">
+    <arg>85</arg>
+   </result>
+  </Construction>
+ </Macro>
+</KigMacroFile>
