@@ -16,6 +16,10 @@
 #declare QC[0] = SPbd[7];  //<-1/2+ap,0,5/2+ap>;
 #declare QD[0] = SPbd[5];  //<-1,0,3>;
 
+#ifdef (fixedpoint)
+  #declare QA[0] = SPbdfixedpoint;
+#end
+
 #declare Str = array[8][maxdepth];
 #ifndef (colors) #declare colors = 100; #end
 #ifndef (deltahue) #declare deltahue = 360*phi*phi; #end

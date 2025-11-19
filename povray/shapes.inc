@@ -38,6 +38,32 @@
   #local i = i + 1;
 #end
 
+#declare SPbdfixedpoint = <0.10481350480763343,0,0.813819056071827>;
+
+/*
+ * the fixed point position is <xx,0,yy>
+ * taken from the following "maxima" snippet
+ *
+
+(%i30) xx;
+                                 3/2
+                       sqrt(6 - 3   ) sqrt(10) - 2 sqrt(3)
+(%o30)               - -----------------------------------
+                                        6
+(%i31) yy;
+                                    3/2
+           (sqrt(3) + 3) (sqrt(6 - 3   ) sqrt(10) - 2 sqrt(3))
+         - --------------------------------------------------- - 2 sqrt(3) + 4
+                                    6
+(%o31) - ---------------------------------------------------------------------
+                                      sqrt(3) - 3
+(%i32) xx,numer;
+(%o32)                        0.10481350480763343
+(%i33) yy,numer;
+(%o33)                         0.813819056071827
+(%i34)
+ */
+
 #local ttx = 3/4;
 #local tty = 0;
 #local tt = <ttx,tty>;
