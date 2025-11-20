@@ -404,9 +404,15 @@ object { tile11
 }
 
 #declare mystic_tr = transform {
+#ifdef (fixedpoint)
+  translate 0.1*x
+  //rotate -30*y
+  //translate -<1/2,0,ap-3>
+#else
   translate <-1,0,0>
   rotate -30*y
   translate -<1/2,0,ap-3>
+#end
 }
 
 #declare mystic = union {
