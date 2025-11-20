@@ -38,7 +38,9 @@
   #local i = i + 1;
 #end
 
-#declare SPbdfixedpoint = <0.10481350480763343,0,0.813819056071827>;
+#local pointstile11fixedpoint = <0.813819056071827, 0.10481350480763343>;
+//#declare SPbdfixedpoint = <0.10481350480763343,0,0.813819056071827>;
+#declare SPbdfixedpoint = <pointstile11fixedpoint.y, 0, pointstile11fixedpoint.x>;
 
 /*
  * the fixed point position is <xx,0,yy>
@@ -311,40 +313,52 @@ object { hatr
 #local tt11 = <ttx11,tty11>;
 
 #declare tile11 =
-union {
-  prism {
-    linear_sweep
-    linear_spline
-    0, // sweep the following shape from here ...
-    h, // ... up through here
-    n+1, // the number of points making up the shape ...
-    #local i = 0;
-    #while (i < n)
-      pointstile11[i]-tt11,
-      #local i = i + 1;
-    #end
-    pointstile11[0]-tt11
-  }
-  prism {
-    conic_sweep
-    linear_spline
-    1-tile_eps,
-    1,
-    n+1,
-    #local i = 0;
-    #while (i < n)
-      pointstile11[i]-tt11,
-      #local i = i + 1;
-    #end
-    pointstile11[0]-tt11
-    scale <1,-1,1>
-    translate y
-    scale <1,tile_f,1>
-    translate h*y
-  }
-  translate ttx11*x + tty11*z
-  scale <-1,1,1>
-  rotate 90*y
+#ifdef (fixedpoint)
+  union {
+    cone {
+      SPbd[7], 0.1
+      SPbdfixedpoint, 0.05
+    }
+    cone {
+      SPbd[5], 0.05
+      SPbd[9], 0.1
+    }
+#else
+  union {
+    prism {
+      linear_sweep
+      linear_spline
+      0, // sweep the following shape from here ...
+      h, // ... up through here
+      n+1, // the number of points making up the shape ...
+      #local i = 0;
+      #while (i < n)
+        pointstile11[i]-tt11,
+        #local i = i + 1;
+      #end
+      pointstile11[0]-tt11
+    }
+    prism {
+      conic_sweep
+      linear_spline
+      1-tile_eps,
+      1,
+      n+1,
+      #local i = 0;
+      #while (i < n)
+        pointstile11[i]-tt11,
+        #local i = i + 1;
+      #end
+      pointstile11[0]-tt11
+      scale <1,-1,1>
+      translate y
+      scale <1,tile_f,1>
+      translate h*y
+    }
+    translate ttx11*x + tty11*z
+    scale <-1,1,1>
+    rotate 90*y
+#end
 }
 
 //#ifndef (T_spectre) #declare T_spectre = texture {White_Marble} #end
