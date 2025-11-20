@@ -16,8 +16,11 @@
 #declare QC[0] = SPbd[7];  //<-1/2+ap,0,5/2+ap>;
 #declare QD[0] = SPbd[5];  //<-1,0,3>;
 
-#ifdef (fixedpoint)
-  #declare QA[0] = SPbdfixedpoint;
+#ifdef (isotiling_maps)
+  #declare QA[0] = SPbdisoA;
+  #declare QB[0] = SPbdisoB;
+  #declare QC[0] = SPbdisoC;
+  #declare QD[0] = SPbdisoD;
 #end
 
 #declare Str = array[8][maxdepth];

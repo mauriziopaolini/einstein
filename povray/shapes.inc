@@ -8,6 +8,14 @@
 #declare Phi = (sqrt(5)+1)/2;
 #declare ap = sqrt(3)/2;
 
+//#ifdef (fixedpoint)
+//  #declare isotiling = fixedpoint;
+//#end
+#ifdef (isotiling)
+  #declare isotiling_tiles = isotiling;
+  #declare isotiling_maps = isotiling;
+#end
+
 #local n = 13;
 #local tile_eps=0.05;  /* svaso in cima */
 #local tile_f=0.5;     /* pendenza svaso in cima */
@@ -38,9 +46,21 @@
   #local i = i + 1;
 #end
 
-#local pointstile11fixedpoint = <0.813819056071827, 0.10481350480763343>;
-//#declare SPbdfixedpoint = <0.10481350480763343,0,0.813819056071827>;
-#declare SPbdfixedpoint = <pointstile11fixedpoint.y, 0, pointstile11fixedpoint.x>;
+//#local pointsisotileA = <0.813819056071827, 0.10481350480763343>;
+//#local pointsisotileB = pointstile11[9];
+//#local pointsisotileC = pointstile11[7];
+//#local pointsisotileD = pointstile11[5];
+#local scl = 1.5;
+#local trn = <2,2>;
+#local pointsisotileA = scl*<0,0> + trn;
+#local pointsisotileB = scl*<2,0> + trn;
+#local pointsisotileC = scl*<3/2 + sqrt(15)/6, - sqrt(5)/2 - sqrt(3)/6> + trn;
+#local pointsisotileD = scl*<1, -sqrt(5)> + trn;
+
+#declare SPbdisoA = <pointsisotileA.y, 0, pointsisotileA.x>;
+#declare SPbdisoB = <pointsisotileB.y, 0, pointsisotileB.x>;
+#declare SPbdisoC = <pointsisotileC.y, 0, pointsisotileC.x>;
+#declare SPbdisoD = <pointsisotileD.y, 0, pointsisotileD.x>;
 
 /*
  * the fixed point position is <xx,0,yy>
@@ -313,15 +333,18 @@ object { hatr
 #local tt11 = <ttx11,tty11>;
 
 #declare tile11 =
-#ifdef (fixedpoint)
+#ifdef (isotiling_tiles)
   union {
     cone {
-      SPbd[7], 0.1
-      SPbdfixedpoint, 0.05
+      //SPbd[7], 0.1
+      SPbdisoC, 0.1
+      SPbdisoA, 0.05
     }
     cone {
-      SPbd[5], 0.05
-      SPbd[9], 0.1
+      //SPbd[5], 0.05
+      //SPbd[9], 0.1
+      SPbdisoD, 0.05
+      SPbdisoB, 0.1
     }
 #else
   union {
@@ -404,7 +427,7 @@ object { tile11
 }
 
 #declare mystic_tr = transform {
-#ifdef (fixedpoint)
+#ifdef (isotiling_tiles)
   translate 0.1*x
   //rotate -30*y
   //translate -<1/2,0,ap-3>
