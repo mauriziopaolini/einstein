@@ -15,18 +15,29 @@
   #declare isotiling_tiles = isotiling;
   #declare isotiling_maps = isotiling;
 #end
+#ifdef (hexagonal)
+  #declare hexagonal_tiles = hexagonal;
+  #declare hexagonal_maps = hexagonal;
+#end
 
-#local n = 13;
 #local tile_eps=0.05;  /* svaso in cima */
 #local tile_f=0.5;     /* pendenza svaso in cima */
 #declare tile_thick = (h + tile_eps*tile_f);
 
-#local pointshat=array[n]
-{<0,0>, <3/4,ap/2>, <1/2,ap>, <-1/2,ap>, <-3/4,ap/2>,
- <-3/2,ap>, <-9/4,ap/2>, <-2,0>, <-3/2,0>,
- <-3/2,-ap>, <-3/4,-3/2*ap>, <-1/2,-ap>, <0,-ap>}
+#ifdef (hexagonal_tiles)
+  #local n = 6;
+  #local pointshat=array[n]
+  {<1,0>, <1/2,ap>, <-1/2,ap>, <-1,0>, <-1/2,-ap>, <1/2,-ap>}
+#else
+  #local n = 13;
+  #local pointshat=array[n]
+  {<0,0>, <3/4,ap/2>, <1/2,ap>, <-1/2,ap>, <-3/4,ap/2>,
+   <-3/2,ap>, <-9/4,ap/2>, <-2,0>, <-3/2,0>,
+   <-3/2,-ap>, <-3/4,-3/2*ap>, <-1/2,-ap>, <0,-ap>}
+#end
 
-#local pointstile11=array[n]
+#declare SPbddim = 13;
+#local pointstile11=array[SPbddim]
 //{<0,0>, <-ap,-1/2>, <-ap+1/2,-1/2-ap>, <-ap+1/2+2,-1/2-ap>, <-ap+1/2+2+1/2,-1/2>, <3,-1>, <3+ap,-1/2>,
 // <3+ap-1/2,-1/2+ap>, <3+ap-1/2-1,-1/2+ap>, <3+ap-1/2-1,-1/2+ap+1>, <3+ap-1/2-1-ap,-1/2+ap+1+1/2>,
 // <1,1>, <0,1>}
@@ -34,7 +45,6 @@
  <5/2+ap,-1/2+ap>, <3/2+ap,-1/2+ap>, <3/2+ap,1/2+ap>, <3/2,1+ap>,
  <1,1>, <0,1>}
 
-#declare SPbddim = n;
 #declare SPbd = array[SPbddim];
 #local i = 0;
 #while (i < SPbddim)
