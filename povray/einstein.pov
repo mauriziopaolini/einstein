@@ -23,12 +23,12 @@ global_settings { assumed_gamma 1.0 }
   #declare shownumbers = 1;
 #end
 
-#ifndef (noworm)
-  #declare alsoworm = 1;
-#end
-
 #ifndef (depth) #declare depth = 2; #end
 #ifndef (htile) #declare htile = 7; #end
+
+#ifndef (noworm)
+  #if (depth >= 0) #declare alsoworm = 1; #end
+#end
 
 #declare zoomfactor = 1/phi/phi;
 #declare zoomfactor2 = 2.62;
