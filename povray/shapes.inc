@@ -186,12 +186,14 @@ HATinitcolors ()
     rotate -120*y
     texture { pigment {color c1} finish {tile_Finish} }
   }
-  object {hat
-    rotate -60*y
-    translate 1.5*x
-    translate ap*z
-    texture { pigment {color c2} finish {tile_Finish} }
-  }
+  #ifndef (hexagonal_tiles)
+    object {hat
+      rotate -60*y
+      translate 1.5*x
+      translate ap*z
+      texture { pigment {color c2} finish {tile_Finish} }
+    }
+  #end
   object {hat
     rotate -60*y
     translate -1.5*x
