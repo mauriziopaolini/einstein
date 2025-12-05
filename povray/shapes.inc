@@ -132,6 +132,13 @@ union {
     scale <1,tile_f,1>
     translate h*y
   }
+  #ifdef (hexagonal_tiles)
+    cone {
+      <-0.7*0.5,h,0.8*ap> + tt, 0.1
+      <0.9*0.5,h,0.8*ap> + tt, 0
+      pigment {Black}
+    }
+  #end
   translate -ttx*x - tty*z
 }
 

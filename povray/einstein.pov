@@ -20,6 +20,11 @@ global_settings { assumed_gamma 1.0 }
   background {White}
   wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
               <1,1,0>, <0.5,1,0>, <0.6,1,0.2>)
+  #declare shownumbers = 1;
+#end
+
+#ifndef (noworm)
+  #declare alsoworm = 1;
 #end
 
 #ifndef (depth) #declare depth = 2; #end
@@ -28,6 +33,9 @@ global_settings { assumed_gamma 1.0 }
 #declare zoomfactor = 1/phi/phi;
 #declare zoomfactor2 = 2.62;
 #declare zoomfactor = pow (zoomfactor, depth);
+#ifdef (zoomout)
+  #declare zoomfactor = zoomfactor*zoomout;
+#end
 
 #declare textfont = "LiberationMono-Regular.ttf"
 
@@ -38,15 +46,19 @@ global_settings { assumed_gamma 1.0 }
 
 #if (htile = 7)
   h7rec (transform {scale 1.0 translate gtras}, depth)
-  #declare onlyworm = 1;
-  h7rec (transform {scale 1.0 translate gtras + h*y}, depth)
+  #ifdef (alsoworm)
+    #declare onlyworm = 1;
+    h7rec (transform {scale 1.0 translate gtras + h*y}, depth)
+  #end
 #else
   h8rec (transform {scale 1.0 translate gtras}, depth)
-  #declare onlyworm = 1;
-  h8rec (transform {scale 1.0 translate gtras + h*y}, depth)
+  #ifdef (alsoworm)
+    #declare onlyworm = 1;
+    h8rec (transform {scale 1.0 translate gtras + h*y}, depth)
+  #end
 #end
 
-#ifdef (numbers)
+#ifdef (shownumbers)
   #local trnx = array[7]
   #local trnx[0] = trn0[depth-1];
   #local trnx[1] = trn1[depth-1];

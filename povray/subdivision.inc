@@ -124,7 +124,7 @@
 
 #macro h7rec (trsf, depth)
   #local d = depth-1;
-  #if (depth = 0)
+  #if (depth <= 0)
     #ifdef (onlyworm)
       #ifdef (MaxPosLeft)
         #local h7pos = vtransform (<0,0,0>, transform {trsf});
@@ -138,7 +138,22 @@
         union { h7list (seet, seet, seet)
           transform {trsf} }
       #else
-        object {h7m transform {trsf}}
+        #if (depth = 0)
+          object {h7m transform {trsf}}
+        #else
+          object {hatr
+            rotate -120*y
+            texture { pigment {color h7c1} finish {tile_Finish} }
+            transform {trsf}
+          }
+          object {hat
+            rotate -60*y
+            translate 1.5*x 
+            translate ap*z
+            texture { pigment {color h7c2} finish {tile_Finish} }
+            transform {trsf}
+          }
+        #end
       #end
     #end
   #else
@@ -155,7 +170,7 @@
 
 #macro h8rec (trsf, depth)
   #local d = depth-1;
-  #if (depth = 0)
+  #if (depth <= 0)
     #ifdef (onlyworm)
       #ifdef (MaxPosLeft)
         #local h8pos = vtransform (<0,0,0>, transform {trsf});
@@ -169,7 +184,17 @@
         union { h8list (seet, seet, seet)
           transform {trsf} }
       #else
-        object {h8m transform {trsf}}
+        #if (depth = 0)
+          object {h8m transform {trsf}}
+        #else
+          object {hat
+            rotate -60*y
+            translate 1.5*x 
+            translate ap*z
+            texture { pigment {color h7c2} finish {tile_Finish} }
+            transform {trsf}
+          }
+        #end
       #end
     #end
   #else
