@@ -140,6 +140,7 @@ union {
     }
   #end
   translate -ttx*x - tty*z
+  // scale 0.8  // make tiles a bit smaller
 }
 
 #declare hatr =

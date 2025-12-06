@@ -78,14 +78,23 @@
  */
   #declare trn1[0] = trn1[0] + <1.5,0,-ap>;
   #declare trn1[1] = trn1[1] + <4.5,0,-ap>;
-  #declare trn2[0] = trn2[0] + <3/2,0,ap>;
+  #declare trn1[2] = trn1[2] + <12.0+0,0,-2*ap+0>;
+  #declare trn2[0] = trn2[0] + <1.5,0,ap>;
   #declare trn2[1] = trn2[1] + <3,0,2*ap>;
+  #declare trn2[2] = trn2[2] + <7.5,0,5*ap>;
   #declare trn3[0] = trn3[0] + <0,0,2*ap>;
   #declare trn3[1] = trn3[1] + <0,0,4*ap>;
-  #declare trn4[0] = trn4[0] + <-3/2,0,ap>;
+  #declare trn3[2] = trn3[2] + <0,0,10*ap>;
+  #declare trn4[0] = trn4[0] + <-1.5,0,ap>;
   #declare trn4[1] = trn4[1] + <-3,0,2*ap>;
+  #declare trn4[2] = trn4[2] + <-7.5,0,5*ap>;
   #declare trn5[0] = trn5[0] + <3,0,0>;
-  #declare trn6[0] = trn6[0] + <3,0,4*ap>;
+  #declare trn5[1] = trn5[1] + <7.5,0,ap>;
+  #declare trn5[2] = trn5[2] + <19.5,0,3*ap>;
+//  #declare trn6[0] = trn6[0] + <3,0,4*ap>;   //this corresponds to a mistake by Vincent!
+  #declare trn6[0] = trn6[0] + <3,0,2*ap>;
+  #declare trn6[1] = trn6[1] + <7.5,0,5*ap>;
+  #declare trn6[2] = trn6[2] + <19.5,0,13*ap>;
 #end
 
 #ifndef (colors) #declare colors = 100; #end
