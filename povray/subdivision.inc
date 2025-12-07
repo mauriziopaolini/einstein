@@ -4,12 +4,15 @@
 #declare maxfibo = 30;
 
 #declare fibo = array[maxfibo]
+#declare fibo10 = array[maxfibo]
 #declare lucas = array[maxfibo]
 #declare lucas31 = array[maxfibo]
 #declare areaH7 = array[maxdepth]
 #declare areaH8 = array[maxdepth]
 #declare fibo[0] = 1;
 #declare fibo[1] = 1;
+#declare fibo10[0] = 1;
+#declare fibo10[1] = 0;
 #declare lucas[0] = 2;
 #declare lucas[1] = 1;
 #declare lucas31[0] = 3;
@@ -20,6 +23,7 @@
 #local i = 2;
 #while (i < maxfibo)
   #declare fibo[i] = fibo[i-1] + fibo[i-2];
+  #declare fibo10[i] = fibo10[i-1] + fibo10[i-2];
   #declare lucas[i] = lucas[i-1] + lucas[i-2];
   #declare lucas31[i] = lucas31[i-1] + lucas31[i-2];
   #local i = i + 1;
@@ -62,6 +66,14 @@
   #declare trn4[i] = <3/2*fibo[2*i], 0, -ap*(fibo[2*i + 2] + lucas[2*i + 2])>;
   #declare trn5[i] = <-3/2*fibo[2*i + 4], 0, ap*(2*fibo[2*i + 2] + lucas[2*i + 2])>;
   #declare trn6[i] = <-3/2*lucas[2*i+4], 0, ap*fibo[2*i + 3]>;
+  #ifdef (hexagonal_maps)
+    #declare trn1[i] = trn1[i] + <1.5*fibo[2*i+1],0,-fibo10[2*i]*ap>;
+    #declare trn2[i] = trn2[i] + <1.5*fibo[2*i],0,fibo[2*i]*ap>;
+    #declare trn3[i] = trn3[i] + <0,0,2*fibo[2*i]*ap>;
+    #declare trn4[i] = trn4[i] + <-1.5*fibo[2*i],0,fibo[2*i]*ap>;
+    #declare trn5[i] = trn5[i] + <1.5*fibo[2*i+2],0,fibo10[2*i+1]*ap>;
+    #declare trn6[i] = trn6[i] + <1.5*fibo[2*i+2],0,fibo[2*i+2]*ap>;
+  #end
   #declare trnvec[0][i] = trn0[i];
   #declare trnvec[1][i] = trn1[i];
   #declare trnvec[2][i] = trn2[i];
@@ -75,32 +87,16 @@
 #ifdef (hexagonal_maps)
 /*
  * le seguenti traslazioni sono state trovate per tentativi
+ * fibo10: 1 0 1 1 2 3 5 8 13 21 34 55
+ *
  */
-  #declare trn1[0] = trn1[0] + <1.5,0,-ap>;
-  #declare trn1[1] = trn1[1] + <4.5,0,-ap>;
-  #declare trn1[2] = trn1[2] + <12.0+0,0,-2*ap+0>;
-  #declare trn1[3] = trn1[3] + <31.5+0,0,-5*ap+0>;
-  #declare trn2[0] = trn2[0] + <1.5,0,ap>;
-  #declare trn2[1] = trn2[1] + <3,0,2*ap>;
-  #declare trn2[2] = trn2[2] + <7.5,0,5*ap>;
-  #declare trn2[3] = trn2[3] + <19.5,0,13*ap>;
-  #declare trn3[0] = trn3[0] + <0,0,2*ap>;
-  #declare trn3[1] = trn3[1] + <0,0,4*ap>;
-  #declare trn3[2] = trn3[2] + <0,0,10*ap>;
-  #declare trn3[3] = trn3[3] + <0,0,26*ap>;
-  #declare trn4[0] = trn4[0] + <-1.5,0,ap>;
-  #declare trn4[1] = trn4[1] + <-3,0,2*ap>;
-  #declare trn4[2] = trn4[2] + <-7.5,0,5*ap>;
-  #declare trn4[3] = trn4[3] + <-19.5,0,13*ap>;
-  #declare trn5[0] = trn5[0] + <3,0,0>;
-  #declare trn5[1] = trn5[1] + <7.5,0,ap>;
-  #declare trn5[2] = trn5[2] + <19.5,0,3*ap>;
-  #declare trn5[3] = trn5[3] + <51.0,0,8*ap>;
-//  #declare trn6[0] = trn6[0] + <3,0,4*ap>;   //this corresponds to a mistake by Vincent!
-  #declare trn6[0] = trn6[0] + <3,0,2*ap>;
-  #declare trn6[1] = trn6[1] + <7.5,0,5*ap>;
-  #declare trn6[2] = trn6[2] + <19.5,0,13*ap>;
-  #declare trn6[3] = trn6[3] + <51.0,0,34*ap>;
+//  #declare trn1[0] = trn1[0] + <1.5,0,-ap>; // 1 3 8 21   -   1 1 2 5
+//  #declare trn2[0] = trn2[0] + <1.5,0,ap>;  // 1 2 5 13   -  1 2 5 13
+//  #declare trn3[0] = trn3[0] + <0,0,2*ap>;  // 0 0 0 0    -  1 2 5 13
+//  #declare trn4[0] = trn4[0] + <-1.5,0,ap>; // 1 2 5 13   -  1 2 5 13
+//  #declare trn5[0] = trn5[0] + <3,0,0>;     // 2 5 13 34  -  0 1 3 8
+////  #declare trn6[0] = trn6[0] + <3,0,4*ap>;   //this corresponds to a mistake by Vincent!
+//  #declare trn6[0] = trn6[0] + <3,0,2*ap>;  // 2 5 13 34  - 2 5 13 34
 #end
 
 #ifndef (colors) #declare colors = 100; #end
