@@ -1,33 +1,34 @@
 #include "transforms.inc"
 
 #declare maxdepth = 10;
-#declare maxfibo = 30;
+//#declare maxfibo = 30;
+//#declare maxfibo = 7;
 
-#declare fibo = array[maxfibo]
-#declare fibo10 = array[maxfibo]
-#declare lucas = array[maxfibo]
-#declare lucas31 = array[maxfibo]
+//#declare fibo = array[maxfibo]
+//#declare fibo10 = array[maxfibo]
+//#declare lucas = array[maxfibo]
+//#declare lucas31 = array[maxfibo]
 #declare areaH7 = array[maxdepth]
 #declare areaH8 = array[maxdepth]
-#declare fibo[0] = 1;
-#declare fibo[1] = 1;
-#declare fibo10[0] = 1;
-#declare fibo10[1] = 0;
-#declare lucas[0] = 2;
-#declare lucas[1] = 1;
-#declare lucas31[0] = 3;
-#declare lucas31[1] = 1;
+//#declare fibo[0] = 1;
+//#declare fibo[1] = 1;
+//#declare fibo10[0] = 1;
+//#declare fibo10[1] = 0;
+//#declare lucas[0] = 2;
+//#declare lucas[1] = 1;
+//#declare lucas31[0] = 3;
+//#declare lucas31[1] = 1;
 #declare areaH7[0] = 7;
 #declare areaH8[0] = 8;
 
-#local i = 2;
-#while (i < maxfibo)
-  #declare fibo[i] = fibo[i-1] + fibo[i-2];
-  #declare fibo10[i] = fibo10[i-1] + fibo10[i-2];
-  #declare lucas[i] = lucas[i-1] + lucas[i-2];
-  #declare lucas31[i] = lucas31[i-1] + lucas31[i-2];
-  #local i = i + 1;
-#end
+//#local i = 2;
+//#while (i < maxfibo)
+//  #declare fibo[i] = fibo[i-1] + fibo[i-2];
+//  #declare fibo10[i] = fibo10[i-1] + fibo10[i-2];
+//  #declare lucas[i] = lucas[i-1] + lucas[i-2];
+//  #declare lucas31[i] = lucas31[i-1] + lucas31[i-2];
+//  #local i = i + 1;
+//#end
 #local i = 1;
 #while (i < maxdepth)
   #declare areaH7[i] = areaH7[i-1] + 5*areaH8[i-1];
@@ -35,10 +36,14 @@
   #local i = i + 1;
 #end
 
-#ifdef (debug)
-  #debug concat("fibo[29] = ", str(fibo[29],0,-1), "\n")
-  #debug concat("lucas[29] = ", str(lucas[29],0,-1), "\n")
-#end
+//#ifdef (debug)
+//  #local i = 0;
+//  #while (i < maxfibo)
+//    #debug concat("fibo[", str(i,0,0), "] = ", str(fibo[i],0,0), "\n")
+//    #debug concat("lucas[", str(i,0,0), "] = ", str(lucas[i],0,0), "\n")
+//    #local i = i + 1;
+//  #end
+//#end
 
 #declare rot0 = 0;
 #declare rot1 = 120;
@@ -57,23 +62,77 @@
 #declare trn5 = array[maxdepth];
 #declare trn6 = array[maxdepth];
 #declare trnvec = array[7][maxdepth];
+
+/*
+ * old direct definition of translations in terms of fibo, lucas, lucas31, fibo10:
+ */
+//  #declare trn0[i] = <0,0,0>;
+//  #declare trn1[i] = <-3*fibo[2*i + 1], 0, ap*2*lucas[2*i + 2]>;
+//  #declare trn2[i] = <-3/2*lucas[2*i+2], 0, ap*fibo[2*i + 1]>;
+//  #declare trn3[i] = <-3/2*fibo[2*i + 2], 0, -ap*lucas31[2*i + 2]>;
+//  #declare trn4[i] = <3/2*fibo[2*i], 0, -ap*(fibo[2*i + 2] + lucas[2*i + 2])>;
+//  #declare trn5[i] = <-3/2*fibo[2*i + 4], 0, ap*(2*fibo[2*i + 2] + lucas[2*i + 2])>;
+//  #declare trn6[i] = <-3/2*lucas[2*i+4], 0, ap*fibo[2*i + 3]>;
+//  #ifdef (hexagonal_maps)
+//    #declare trn1[i] = trn1[i] + <1.5*fibo[2*i+1],0,-fibo10[2*i]*ap>;
+//    #declare trn2[i] = trn2[i] + <1.5*fibo[2*i],0,fibo[2*i]*ap>;
+//    #declare trn3[i] = trn3[i] + <0,0,2*fibo[2*i]*ap>;
+//    #declare trn4[i] = trn4[i] + <-1.5*fibo[2*i],0,fibo[2*i]*ap>;
+//    #declare trn5[i] = trn5[i] + <1.5*fibo[2*i+2],0,fibo10[2*i+1]*ap>;
+//    #declare trn6[i] = trn6[i] + <1.5*fibo[2*i+2],0,fibo[2*i+2]*ap>;
+//  #end
+
+#declare trn0[0] = <0,0,0>;
+#declare trn0[1] = <0,0,0>;
+#declare trn1[0] = <-3, 0, 6*ap>;
+#declare trn1[1] = <-9, 0, 14*ap>;
+#declare trn2[0] = <-4.5, 0, ap>;
+#declare trn2[1] = <-10.5, 0, 3*ap>;
+#declare trn3[0] = <-3, 0, -4*ap>;
+#declare trn3[0] = <-3, 0, -4*ap>;
+#declare trn3[1] = <-7.5, 0, -9*ap>;
+#declare trn4[0] = <1.5, 0, -5*ap>;
+#declare trn4[1] = <3, 0, -12*ap>;
+#declare trn5[0] = <-7.5, 0, 7*ap>;
+#declare trn5[1] = <-19.5, 0, 17*ap>;
+#declare trn6[0] = <-10.5, 0, 3*ap>;
+#declare trn6[1] = <-27, 0, 8*ap>;
+
+#ifdef (hexagonal_maps)
+  #declare trn1[0] = <-1.5,0,5*ap>;
+  #declare trn1[1] = <-4.5,0,13*ap>;
+  #declare trn2[0] = <-3,0,2*ap>;
+  #declare trn2[1] = <-7.5,0,5*ap>;
+  #declare trn3[0] = <-3,0,-2*ap>;
+  #declare trn3[1] = <-7.5,0,-5*ap>;
+  #declare trn4[0] = <0,0,-4*ap>;
+  #declare trn4[1] = <0,0,-10*ap>;
+  #declare trn5[0] = <-4.5,0,7*ap>;
+  #declare trn5[1] = <-12,0,18*ap>;
+  #declare trn6[0] = <-7.5,0,5*ap>;
+  #declare trn6[1] = <-19.5,0,13*ap>;
+#end
+
+/*
+ * Note that there exists a triple recursion relation between three consecutive
+ * translatio vectors as trn[i+1] = 3*trn[i] - trn[i-1]
+ * we can take advantage of that to avoid all the fibo and lucas machinery!
+ */
+
+#local i = 2;
+#while (i < maxdepth)
+  #declare trn0[i] = 3*trn0[i-1] - trn0[i-2];
+  #declare trn1[i] = 3*trn1[i-1] - trn1[i-2];
+  #declare trn2[i] = 3*trn2[i-1] - trn2[i-2];
+  #declare trn3[i] = 3*trn3[i-1] - trn3[i-2];
+  #declare trn4[i] = 3*trn4[i-1] - trn4[i-2];
+  #declare trn5[i] = 3*trn5[i-1] - trn5[i-2];
+  #declare trn6[i] = 3*trn6[i-1] - trn6[i-2];
+  #declare i = i + 1;
+#end
+
 #local i = 0;
 #while (i < maxdepth)
-  #declare trn0[i] = <0,0,0>;
-  #declare trn1[i] = <-3*fibo[2*i + 1], 0, ap*2*lucas[2*i + 2]>;
-  #declare trn2[i] = <-3/2*lucas[2*i+2], 0, ap*fibo[2*i + 1]>;
-  #declare trn3[i] = <-3/2*fibo[2*i + 2], 0, -ap*lucas31[2*i + 2]>;
-  #declare trn4[i] = <3/2*fibo[2*i], 0, -ap*(fibo[2*i + 2] + lucas[2*i + 2])>;
-  #declare trn5[i] = <-3/2*fibo[2*i + 4], 0, ap*(2*fibo[2*i + 2] + lucas[2*i + 2])>;
-  #declare trn6[i] = <-3/2*lucas[2*i+4], 0, ap*fibo[2*i + 3]>;
-  #ifdef (hexagonal_maps)
-    #declare trn1[i] = trn1[i] + <1.5*fibo[2*i+1],0,-fibo10[2*i]*ap>;
-    #declare trn2[i] = trn2[i] + <1.5*fibo[2*i],0,fibo[2*i]*ap>;
-    #declare trn3[i] = trn3[i] + <0,0,2*fibo[2*i]*ap>;
-    #declare trn4[i] = trn4[i] + <-1.5*fibo[2*i],0,fibo[2*i]*ap>;
-    #declare trn5[i] = trn5[i] + <1.5*fibo[2*i+2],0,fibo10[2*i+1]*ap>;
-    #declare trn6[i] = trn6[i] + <1.5*fibo[2*i+2],0,fibo[2*i+2]*ap>;
-  #end
   #declare trnvec[0][i] = trn0[i];
   #declare trnvec[1][i] = trn1[i];
   #declare trnvec[2][i] = trn2[i];
