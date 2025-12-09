@@ -96,8 +96,13 @@
 (%i34)
  */
 
-#local ttx = 3/4;
-#local tty = 0;
+#ifdef (hexagonal_tiles)
+  #local ttx = 0;
+  #local tty = 0;
+#else
+  #local ttx = 3/4;
+  #local tty = 0;
+#end
 #local tt = <ttx,tty>;
 
 #declare hat =
