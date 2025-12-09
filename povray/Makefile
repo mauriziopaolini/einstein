@@ -26,6 +26,23 @@ hatsigsd6: $(hatsigpngd6) hatconwaysig[63][63][63]_d6.png hatconwaysig[36][36][3
 hatsigsd6z: $(hatsigpngd6z) hatconwaysig[63][63][63]_d6z.png hatconwaysig[36][36][36]_d6z.png hatconwaysig[5][5]_d6z.png hatconwaysig[0][6]_d6z.png hatconwaysig[0][6]_d6z.png hatconwaysig[0][6][6]_d6z.png
 hatsigsd6zz: $(hatsigpngd6zz) hhatconwaysig[63][63][63]_d6zz.png hatconwaysig[36][36][36]_d6zz.png atconwaysig[5][5]_d6zz.png hatconwaysig[0][6]_d6zz.png hatconwaysig[0][6]_d6zz.png hatconwaysig[0][6][6]_d6zz.png
 
+#
+# CONWAY SIGNATURES: HEX: HEXAGONAL TILES
+#
+
+hexsignatures=[0] [2] [6] [602] [026] [260] [1] [3] [4] [5] [63] [36]
+hexsigpngd6=${hexsignatures:%=hexconwaysig%_d6.png}
+hexsigpngd6z=${hexsignatures:%=hexconwaysig%_d6z.png}
+hexsigpngd6zz=${hexsignatures:%=hexconwaysig%_d6zz.png}
+
+hexsigsd6: $(hexsigpngd6) hexconwaysig[63][63][63]_d6.png hexconwaysig[36][36][36]_d6.png hexconwaysig[5][5]_d6.png hexconwaysig[0][6]_d6.png hexconwaysig[0][6]bis_d6.png hexconwaysig[0][6][6]_d6.png
+hexsigsd6z: $(hexsigpngd6z) hexconwaysig[63][63][63]_d6z.png hexconwaysig[36][36][36]_d6z.png hexconwaysig[5][5]_d6z.png hexconwaysig[0][6]_d6z.png hexconwaysig[0][6]_d6z.png hexconwaysig[0][6][6]_d6z.png
+hexsigsd6zz: $(hexsigpngd6zz) hexconwaysig[63][63][63]_d6zz.png hexconwaysig[36][36][36]_d6zz.png hexconwaysig[5][5]_d6zz.png hexconwaysig[0][6]_d6zz.png hexconwaysig[0][6]_d6zz.png hexconwaysig[0][6][6]_d6zz.png
+
+#
+# end HEX
+#
+
 hatholezlevels=1 2 3 4 5
 hatholes=$(hatholezlevels:%=hathole_z%.png)
 hatholepngs: $(hatholes)
@@ -176,6 +193,97 @@ $(hatsigpngd6z):hatconwaysig%_d6z.png:hatconwaysig.pov hatsig2povopt.sh
 
 $(hatsigpngd6zz):hatconwaysig%_d6zz.png:hatconwaysig.pov hatsig2povopt.sh
 	./hatsig2povopt.sh -q $* povray Declare=depth=6 Declare=zoomout=2 $(povoptspng) +O- >$@
+
+#
+# HEX SIGNATURES (hexagonal tiles)
+#
+
+dep = 5
+
+hexconwaysig[63][63][63]_d6zz.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=636363 Declare=Sigl=636363 Declare=special63=1 Declare=depth=6 Declare=zoomout=2 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+hexconwaysig[36][36][36]_d6zz.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=363636 Declare=Sigl=363636 Declare=special63=36 Declare=depth=6 Declare=zoomout=2 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+hexconwaysig[63][63][63]_d6z.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=636363 Declare=Sigl=636363 Declare=special63=1 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+hexconwaysig[36][36][36]_d6z.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=363636 Declare=Sigl=363636 Declare=special63=36 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+hexconwaysig[63][63][63]_d6.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=636363 Declare=Sigl=636363 Declare=special63=1 Declare=depth=6 Declare=zoomout=6 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+hexconwaysig[36][36][36]_d6.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=363636 Declare=Sigl=363636 Declare=special63=36 Declare=depth=6 Declare=zoomout=6 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+hexconwaysig[0][6]_d6zz.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=60 Declare=down2=26 Declare=depth=6 Declare=zoomout=2 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+hexconwaysig[0][6]_d6z.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=60 Declare=down2=26 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+hexconwaysig[0][6]_d6.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=60 Declare=down2=26 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
+	mv tmp_pippo.png $@
+
+hexconwaysig[0][6][6]_d6zz.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=Sigh3=666666 Declare=Sigl3=666666 Declare=up2=60 Declare=down2=26 Declare=up3=60 Declare=down3=54 Declare=depth=6 Declare=zoomout=2 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+hexconwaysig[0][6][6]_d6z.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=Sigh3=666666 Declare=Sigl3=666666 Declare=up2=60 Declare=down2=26 Declare=up3=60 Declare=down3=54 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+hexconwaysig[0][6][6]_d6.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=Sigh3=666666 Declare=Sigl3=666666 Declare=up2=60 Declare=down2=26 Declare=up3=60 Declare=down3=54 Declare=up2=60 Declare=down2=26 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
+	mv tmp_pippo.png $@
+
+hexconwaysig[0][6]bis_d6zz.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=60 Declare=down2=54 Declare=depth=6 Declare=zoomout=2 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+hexconwaysig[0][6]bis_d6z.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=60 Declare=down2=54 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+hexconwaysig[0][6]bis_d6.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=000000 Declare=Sigl=000000 Declare=Sigh2=666666 Declare=Sigl2=666666 Declare=up2=60 Declare=down2=54 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
+	mv tmp_pippo.png $@
+
+hexconwaysig[5][5]_d6zz.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=up2=05 Declare=down2=11 Declare=depth=6 Declare=zoomout=2 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+hexconwaysig[5][5]_d6z.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=up2=05 Declare=down2=11 Declare=depth=6 Declare=zoomout=4 +Otmp_pippoz.png
+	mv tmp_pippoz.png $@
+
+hexconwaysig[5][5]_d6.png: hexconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=555555 Declare=Sigl=555555 Declare=up2=05 Declare=down2=11 Declare=depth=6 Declare=zoomout=6 +Otmp_pippo.png
+	mv tmp_pippo.png $@
+
+$(hexsigpngd6):hexconwaysig%_d6.png:hexconwaysig.pov hatsig2povopt.sh
+	./hatsig2povopt.sh -q $* povray Declare=depth=6 $(povoptspng) +O- >$@
+
+$(hexsigpngd6z):hexconwaysig%_d6z.png:hexconwaysig.pov hatsig2povopt.sh
+	./hatsig2povopt.sh -q $* povray Declare=depth=6 Declare=zoomout=4 $(povoptspng) +O- >$@
+
+$(hexsigpngd6zz):hexconwaysig%_d6zz.png:hexconwaysig.pov hatsig2povopt.sh
+	./hatsig2povopt.sh -q --hex $* povray Declare=depth=6 Declare=zoomout=2 $(povoptspng) +O- >$@
+
+#
+# end HEX SIGNATURE
+#
 
 hath8fractal.png: hatbd.pov subdivision.inc
 	povray +a $(povoptspng) $< Declare=depth=6 Declare=bdthick=6 Declare=zoomout=6.2 Declare=panup=0 Declare=panright=-2 Declare=ptsize=40 Declare=draw4points=1 +O$@

@@ -8,6 +8,9 @@
 quiet=""
 if [ "$1" = "-q" ]; then quiet="1"; shift; fi
 
+povname=hatconwaysig
+if [ "$1" = "--hex" ]; then povname="hexconwaysig"; shift; fi
+
 sig=$1
 
 if [ -z "$sig" ]; then echo "usage: $0 <signature>"; fi
@@ -39,5 +42,5 @@ if [ "$1" = "povray" ]
 then
   shift
   if [ -z "$quiet" ]; then echo "executing povray with arguments from command line"; fi
-  povray hatconwaysig.pov +a Declare=Sigh=$sigh Declare=Sigl=$sigl $*
+  povray ${povname}.pov +a Declare=Sigh=$sigh Declare=Sigl=$sigl $*
 fi
