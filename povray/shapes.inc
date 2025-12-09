@@ -137,13 +137,13 @@ union {
     scale <1,tile_f,1>
     translate h*y
   }
-  #ifdef (hexagonal_tiles)
-    cone {
-      <-0.7*0.5,h,0.8*ap> + tt, 0.1
-      <0.9*0.5,h,0.8*ap> + tt, 0
-      pigment {Black}
-    }
-  #end
+//  #ifdef (hexagonal_tiles)
+//    cone {
+//      <-0.7*0.5,h,0.8*ap> + tt, 0.1
+//      <0.9*0.5,h,0.8*ap> + tt, 0
+//      pigment {Black}
+//    }
+//  #end
   translate -ttx*x - tty*z
   // scale 0.8  // make tiles a bit smaller
 }
@@ -187,58 +187,119 @@ HATinitcolors ()
 #declare h8c2 = HATpigment[4];
 #declare h8c3 = HATpigment[5];
 
+#declare gradpigment = 
+  pigment {
+  #ifdef (hexagonal_tiles)
+    gradient x
+    color_map {
+      [0.00 color rgbt <0, 0, 0, 0>]
+      [0.25 color rgbt <0, 0, 0, 0>]
+      [0.26 color rgbt <0, 0, 0, 1>]
+      [1.00 color rgbt <0, 0, 0, 1>]
+    }
+    scale 2.0
+    translate x
+    rotate 180*y
+  #else
+    color rgbt <0, 0, 0, 1>
+  #end
+  }
+
+#declare gradpigmentl = 
+  pigment {
+  #ifdef (hexagonal_tiles)
+    gradient x
+    color_map {
+      [0.00 color rgbt <0, 0, 0, 0.5>]
+      [0.25 color rgbt <0, 0, 0, 0.5>]
+      [0.26 color rgbt <0, 0, 0, 1>]
+      [1.00 color rgbt <0, 0, 0, 1>]
+    }
+    scale 2.0
+    translate x
+    rotate 180*y
+  #else
+    color rgbt <0, 0, 0, 1>
+  #end
+  }
+
 #macro h7list (c1, c2, c3)
-  object {hatr
-    rotate -120*y
+  object {hat
     texture { pigment {color c1} finish {tile_Finish} }
+    texture { gradpigment }
+    texture { gradpigmentl rotate 120*y}
+    texture { gradpigmentl rotate -120*y}
+    scale <-1, 1, 1>
+    rotate -120*y
   }
   #ifndef (hexagonal_tiles)
     object {hat
+      texture { pigment {color c2} finish {tile_Finish} }
+      texture { gradpigment }
+      texture { gradpigmentl rotate 120*y}
+      texture { gradpigment rotate -120*y}
       rotate -60*y
       translate 1.5*x
       translate ap*z
-      texture { pigment {color c2} finish {tile_Finish} }
     }
   #end
   object {hat
+    texture { pigment {color c2} finish {tile_Finish} }
+    texture { gradpigment }
+    texture { gradpigmentl rotate 120*y}
+    texture { gradpigment rotate -120*y}
     rotate -60*y
     translate -1.5*x
     translate ap*z
-    texture { pigment {color c2} finish {tile_Finish} }
   }
   object {hat
+    texture { pigment {color c2} finish {tile_Finish} }
+    texture { gradpigment }
+    texture { gradpigmentl rotate 120*y}
+    texture { gradpigment rotate -120*y}
     rotate 60*y
     translate 0*x
     translate 2*ap*z
-    texture { pigment {color c2} finish {tile_Finish} }
   }
   object {hat
+    texture { pigment {color c3} finish {tile_Finish} }
+    texture { gradpigment }
+    texture { gradpigmentl rotate 120*y}
+    texture { gradpigment rotate -120*y}
     rotate 0*y
     translate -1.5*x
     translate 3*ap*z
-    texture { pigment {color c3} finish {tile_Finish} }
   }
   object {hat
+    texture { pigment {color c3} finish {tile_Finish} }
+    texture { gradpigment }
+    texture { gradpigmentl rotate 120*y}
+    texture { gradpigment rotate -120*y}
     rotate -120*y
     translate -1.5*x
     translate -ap*z
-    texture { pigment {color c3} finish {tile_Finish} }
   }
   object {hat
+    texture { pigment {color c3} finish {tile_Finish} }
+    texture { gradpigment }
+    texture { gradpigmentl rotate 120*y}
+    texture { gradpigment rotate -120*y}
     rotate 180*y
     translate 0*x
     translate -2*ap*z
-    texture { pigment {color c3} finish {tile_Finish} }
   }
 #end
 
 #macro h8list (c1, c2, c3)
   h7list (c1, c2, c3)
   object {hat
+    texture { pigment {color c3} finish {tile_Finish} }
+    texture { gradpigment }
+    texture { gradpigmentl rotate 120*y}
+    texture { gradpigment rotate -120*y}
     rotate -60*y
     translate -3*x
     translate 2*ap*z
-    texture { pigment {color c3} finish {tile_Finish} }
   }
 #end
 
