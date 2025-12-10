@@ -192,8 +192,8 @@ HATinitcolors ()
   #ifdef (hexagonal_tiles)
     gradient x
     color_map {
-      [0.00 color rgbt <0, 0, 0, 0>]
-      [0.25 color rgbt <0, 0, 0, 0>]
+      [0.00 color rgbt <0, 0, 0, 0.4>]
+      [0.25 color rgbt <0, 0, 0, 0.4>]
       [0.26 color rgbt <0, 0, 0, 1>]
       [1.00 color rgbt <0, 0, 0, 1>]
     }
@@ -210,8 +210,8 @@ HATinitcolors ()
   #ifdef (hexagonal_tiles)
     gradient x
     color_map {
-      [0.00 color rgbt <0, 0, 0, 0.5>]
-      [0.25 color rgbt <0, 0, 0, 0.5>]
+      [0.00 color rgbt <0, 0, 0, 0.7>]
+      [0.25 color rgbt <0, 0, 0, 0.7>]
       [0.26 color rgbt <0, 0, 0, 1>]
       [1.00 color rgbt <0, 0, 0, 1>]
     }
