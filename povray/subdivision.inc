@@ -227,9 +227,13 @@
         #if (depth = 0)
           object {h7m transform {trsf}}
         #else
-          object {hatr
-            rotate -120*y
+          object {hat
             texture { pigment {color h7c1} finish {tile_Finish} }
+            texture { gradpigment }
+            texture { gradpigmentl rotate 120*y}
+            texture { gradpigmentl rotate -120*y}
+            scale <-1,1,1>
+            rotate -120*y
             transform {trsf}
           }
           //object {hat
@@ -274,10 +278,13 @@
           object {h8m transform {trsf}}
         #else
           object {hat
+            texture { pigment {color h7c2} finish {tile_Finish} }
+            texture { gradpigment }
+            texture { gradpigmentl rotate 120*y}
+            texture { gradpigment rotate -120*y}
             rotate -60*y
             translate 1.5*x 
             translate ap*z
-            texture { pigment {color h7c2} finish {tile_Finish} }
             transform {trsf}
           }
         #end
