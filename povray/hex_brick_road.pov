@@ -347,7 +347,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
 #declare dorothydetour = 0*y;
 
-#if (path = 0 & pathtime <= 10) #declare buildtheback = 1; #end
+#if (path = 0 & pathtime <= 10) #declare buildtheback = 3; #end
 
 #declare rotquake = 0;
 
