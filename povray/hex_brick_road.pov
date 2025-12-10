@@ -347,7 +347,9 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
 #declare dorothydetour = 0*y;
 
-#if (path = 0 & pathtime <= 10) #declare buildtheback = 3; #end
+#ifndef (nobuildtheback)
+  #if (path = 0 & pathtime <= 10) #declare buildtheback = 3; #end
+#end
 
 #declare rotquake = 0;
 
@@ -443,7 +445,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 #ifdef (ROADSIGNS)
   union {
     roadsign ("To Emerald", "City")
-    translate yellowroadstart + 2.5*x
+    translate yellowroadstart + 4.5*x
     rotate -80*y
     translate -10*x+4*z
     translate 3*yellowroaddir
@@ -452,12 +454,13 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
   #declare crossing = crossing0 + vtransform (<0,0,0>, transform {translate trn3[0] rotate rot3*y});
   #declare crossingrot = rot3*y;
   union {
-    roadsign ("To Wicked Witch", "of the West")
+    roadsign ("To Wicked WitchA", "of the West")
     rotate -80*y
-    translate crossing + 2.5*x
+    //translate crossing + 2.5*x
+    translate crossing -12*x -5*z
   }
   union {
-    roadsign ("To Wicked Witch", "of the West")
+    roadsign ("To Wicked WitchB", "of the West")
     rotate 180*y
     translate crossing2 - 2.5*x - 10.0*z
   }
