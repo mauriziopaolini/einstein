@@ -31,6 +31,24 @@ global_settings { assumed_gamma 1.0 }
 #include "subdivision.inc"
 #include "ambiente.inc"
 
+#ifndef (only)
+  #declare show1 = 1;
+  #declare show2 = 1;
+  #declare show3 = 1;
+#else
+  #switch (only)
+    #case (1)
+      #declare show1 = 1;
+      #break
+    #case (2)
+      #declare show2 = 1;
+      #break
+    #case (3)
+      #declare show3 = 1;
+      #break
+  #end
+#end
+
 #macro buildsig (sigh, sigl)
   #local sig = sigl;
   #local i = 0;
@@ -66,9 +84,9 @@ global_settings { assumed_gamma 1.0 }
   #declare Sigh2 = Sigh;
   #declare Sigl3 = Sigl;
   #declare Sigh3 = Sigh;
-  #local center63 = -4.0*x;
+  #local center63 = -3.5*x + ap*z;
   #if (special63 = 36)
-    #local center63 = -1.5*x-3*ap*z;
+    #local center63 = -2.0*x-2*ap*z;
   #end
 #end
 
@@ -220,7 +238,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 #end
 
 build_ttransinv (signature, depth)
-build_tiling (ttransinv, htilex, gtrans0, depth)
+#ifdef (show1) build_tiling (ttransinv, htilex, gtrans0, depth) #end
 
 cylinder {
   0*y, 20*tile_thick*y, 1.0
@@ -275,7 +293,7 @@ cylinder {
   #declare h8c2 = darken*h8c2;
   #declare h8c3 = darken*h8c3;
   build_ttransinv (signature2, depth)
-  build_tiling (ttransinv, htilex, transform {placeit gtrans0}, depth)
+  #ifdef (show2) build_tiling (ttransinv, htilex, transform {placeit gtrans0}, depth) #end
   cylinder {
     0*y, 20*tile_thick*y, 1.0
     pigment {color Black}
@@ -314,7 +332,7 @@ cylinder {
   #declare h8c2 = darken*h8c2;
   #declare h8c3 = darken*h8c3;
   build_ttransinv (signature3, depth)
-  build_tiling (ttransinv, htilex, transform {placeit gtrans0}, depth)
+  #ifdef (show3) build_tiling (ttransinv, htilex, transform {placeit gtrans0}, depth) #end
   cylinder {
     0*y, 20*tile_thick*y, 1.0
     pigment {color Black}
@@ -358,6 +376,12 @@ text {ttf textfont sigstring 0.02, 0
     no_shadow
   }
 #end
+
+sphere {
+  center63
+  0.5
+  texture {pigment {Red}}
+}
 
 background {White}
 
