@@ -560,8 +560,9 @@ mp4lista=five_deflations five_deflations_ws yellow_brick_road5B yellow_brick_roa
 mp4listb=yellow_brick_road_path0 yellow_brick_road_path1 yellow_brick_road_path2 yellow_brick_road_path3
 mp4listc=yellow_brick_road_emerald yellow_brick_road_witch
 mp4listd=spectre_deflations spectre_deflations_ws spectre_desert_walk5 spectre_desert_walk6
+mp4liste=hex_brick_road_emerald
 
-mp4list = $(mp4lista) $(mp4listb) $(mp4listc) $(mp4listd)
+mp4list = $(mp4lista) $(mp4listb) $(mp4listc) $(mp4listd) $(mp4liste)
 
 $(mp4list:%=%.mp4): %.mp4: frames/%/DONE
 	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/$*/frame????.png' -c:v libx264 -pix_fmt yuv420p $@
@@ -668,4 +669,12 @@ $(mp4concatlist:%=%.mp4): %.mp4: %.list yellow_brick_road_path0.mp4 yellow_brick
 #
 #$(mp4list:%=frames/%): frames/%: frames
 #	mkdir -p $@
+
+#
+# Doroty on the 'hexagonal' land of Oz
+#
+frames/hex_brick_road_emerald/DONE: frames/%/DONE: hex_brick_road.pov
+	povray $< $(povoptsani) Declare=depth=6 Declare=emeraldpath=1 +kf130 +kff3250 +Oframes/$*/frame
+	for i in `seq 3251 3275`; do cp frames/$*/frame3250.png frames/$*/frame$${i}.png; done
+	touch $@
 
