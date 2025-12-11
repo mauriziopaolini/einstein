@@ -570,9 +570,10 @@ mp4lista=five_deflations five_deflations_ws yellow_brick_road5B yellow_brick_roa
 mp4listb=yellow_brick_road_path0 yellow_brick_road_path1 yellow_brick_road_path2 yellow_brick_road_path3
 mp4listc=yellow_brick_road_emerald yellow_brick_road_witch
 mp4listd=spectre_deflations spectre_deflations_ws spectre_desert_walk5 spectre_desert_walk6
-mp4liste=hex_brick_road_emerald hex_brick_road_witch
+mp4liste=hex_brick_road5B hex_brick_road_aug5B hex_brick_road6 hex_brick_road_aug6
+mp4listf=hex_brick_road_emerald hex_brick_road_witch
 
-mp4list = $(mp4lista) $(mp4listb) $(mp4listc) $(mp4listd) $(mp4liste)
+mp4list = $(mp4lista) $(mp4listb) $(mp4listc) $(mp4listd) $(mp4liste) $(mp4listf)
 
 $(mp4list:%=%.mp4): %.mp4: frames/%/DONE
 	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/$*/frame????.png' -c:v libx264 -pix_fmt yuv420p $@
@@ -683,6 +684,47 @@ $(mp4concatlist:%=%.mp4): %.mp4: %.list yellow_brick_road_path0.mp4 yellow_brick
 #
 # Doroty on the 'hexagonal' land of Oz
 #
+frames/hex_brick_road5B/DONE: frames/%/DONE: hex_brick_road.pov
+	povray $< $(povoptsani) Declare=depth=5 Declare=htile=8 +kf200 +kff5000 +Oframes/$*/frame
+	for i in `seq 5001 5025`; do cp frames/$*/frame5000.png frames/$*/frame$${i}.png; done
+	touch $@
+
+
+frames/hex_brick_road_aug5B/DONE: frames/%/DONE: hex_brick_road.pov
+	povray $< $(povoptsani) Declare=augmented=1 Declare=depth=5 Declare=htile=8 +kf200 +kff5000 +Oframes/$*/frame
+	for i in `seq 5001 5025`; do cp frames/$*/frame5000.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/hex_brick_road6/DONE: frames/%/DONE: hex_brick_road.pov
+	povray $< $(povoptsani) Declare=depth=6 Declare=dofastforward=1 +kf124 +kff3100 +Oframes/$*/frame
+	for i in `seq 3101 3125`; do cp frames/$*/frame3100.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/hex_brick_road_aug6/DONE: frames/%/DONE: hex_brick_road.pov
+	povray $< $(povoptsani) Declare=depth=6 Declare=augmented=1 Declare=dofastforward=1 +kf124 +kff3100 +Oframes/$*/frame
+	for i in `seq 3101 3125`; do cp frames/$*/frame3100.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/hex_brick_road_path0/DONE: frames/%/DONE: hex_brick_road.pov
+	povray $< $(povoptsani) Declare=depth=6 $(povoptsROADS) Declare=path=0 +kf66.4 +kff1660 +Oframes/$*/frame
+	for i in `seq 1661 1685`; do cp frames/$*/frame1660.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/hex_brick_road_path1/DONE: frames/%/DONE: hex_brick_road.pov
+	povray $< $(povoptsani) Declare=depth=6 $(povoptsROADS) Declare=path=1 +kf104.2 +kff2605 +Oframes/$*/frame
+	for i in `seq 2606 2630`; do cp frames/$*/frame2605.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/hex_brick_road_path2/DONE: frames/%/DONE: hex_brick_road.pov
+	povray $< $(povoptsani) Declare=depth=6 $(povoptsROADS) Declare=path=2 +kf66.4 +kff1660 +Oframes/$*/frame
+	for i in `seq 1661 1685`; do cp frames/$*/frame1660.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/hex_brick_road_path3/DONE: frames/%/DONE: hex_brick_road.pov
+	povray $< $(povoptsani) Declare=depth=6 $(povoptsROADS) Declare=path=3 +kf104.2 +kff2605 +Oframes/$*/frame
+	for i in `seq 2606 2630`; do cp frames/$*/frame2605.png frames/$*/frame$${i}.png; done
+	touch $@
+
 frames/hex_brick_road_emerald/DONE: frames/%/DONE: hex_brick_road.pov
 	povray $< $(povoptsani) Declare=depth=6 Declare=emeraldpath=1 +kf130 +kff3250 +Oframes/$*/frame
 	for i in `seq 3251 3275`; do cp frames/$*/frame3250.png frames/$*/frame$${i}.png; done
