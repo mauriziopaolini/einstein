@@ -720,13 +720,16 @@ cylinder {
   text {ttf textfont concat("H", str(htile,0,0)," d",str(depth,0,0)) 0.02 0
     translate -1.63*x
     rotate 45*x
-    rotate -78*y
+    //rotate -78*y
+    rotate -55*y
     scale 80
     translate 30*tile_thick*y
     translate 50*z
-    translate -120*x
+    //translate -120*x
+    translate -70*x
     texture {
-      White_Marble scale 20
+      //White_Marble scale 20
+      Blue_Agate scale 20
       finish {tile_Finish}
     }
   }
