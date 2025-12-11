@@ -5,6 +5,9 @@ deflated_suf = $(depthsH78:%=H7_%) $(depthsH78:%=H8_%)
 deflated_png_H7 = $(depthsH78:%=einstein_H7_d%.png)
 deflated_png_H8 = $(depthsH78:%=einstein_H8_d%.png)
 
+deflated_png_hexH7 = $(depthsH78:%=hexagon_H7_d%.png)
+deflated_png_hexH8 = $(depthsH78:%=hexagon_H8_d%.png)
+
 depthsSM = 0 1 2 3 4 5 6
 deflated_png_S = $(depthsSM:%=spectre_d%.png)
 deflated_png_M = $(depthsSM:%=mystic_d%.png)
@@ -93,6 +96,7 @@ hextopviews = hex_brick_road_topview01 hex_brick_road_topview023 hex_brick_road_
 paths=01 023
 
 allH78 = $(deflated_png_H7) $(deflated_png_H8)
+allhexH78 = $(deflated_png_hexH7) $(deflated_png_hexH8)
 allSM = $(deflated_png_S) $(deflated_png_M) $(deflatedq_png_S) $(deflatedq_png_M)
 
 all: $(allH78) $(allSM)
@@ -548,6 +552,20 @@ $(deflated_png_H7):einstein_H7_d%.png: einstein.pov shapes.inc subdivision.inc
 
 $(deflated_png_H8):einstein_H8_d%.png: einstein.pov shapes.inc subdivision.inc
 	povray $(povoptspng) $< Declare=htile=8 Declare=depth=$* +O$@
+
+#
+# HEXAGONAL TILES
+#
+
+$(deflated_png_hexH7):hexagon_H7_d%.png: hexagons.pov shapes.inc subdivision.inc
+	povray $(povoptspng) $< Declare=htile=7 Declare=depth=$* +O$@
+
+$(deflated_png_hexH8):hexagon_H8_d%.png: hexagons.pov shapes.inc subdivision.inc
+	povray $(povoptspng) $< Declare=htile=8 Declare=depth=$* +O$@
+
+#
+# spectre
+#
 
 $(deflated_png_S):spectre_d%.png: spectre.pov shapes.inc spectresubdivision.inc
 	povray $(povoptspng) $< Declare=SPid=1 Declare=depth=$* Declare=fig22=1 Declare=colors=-1 Declare=sfondobianco=1 +O$@
