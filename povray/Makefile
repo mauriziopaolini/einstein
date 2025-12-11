@@ -89,6 +89,7 @@ spectrefractals: spectrefractal.png mysticfractal.png spectrefractalsub.png
 #
 
 yellowtopviews = yellow_brick_road_topview01 yellow_brick_road_topview023 yellow_brick_road_3clusters
+hextopviews = hex_brick_road_topview01 hex_brick_road_topview023 hex_brick_road_3clusters
 paths=01 023
 
 allH78 = $(deflated_png_H7) $(deflated_png_H8)
@@ -531,6 +532,15 @@ yellow_brick_road_topview023.png: yellow_brick_road.pov
 	povray $(povoptspng) $< Declare=depth=4 Declare=topview=3 Declare=buildtheback=3 +O$@
 
 yellow_brick_road_3clusters.png: yellow_brick_road.pov
+	povray $(povoptspng) $< Declare=depth=0 Declare=topview=1 Declare=buildtheback=3 Declare=zoom=1.8 +O$@
+
+hex_brick_road_topview01.png: hex_brick_road.pov
+	povray $(povoptspng) $< Declare=depth=4 Declare=topview=2 Declare=buildtheback=3 +O$@
+
+hex_brick_road_topview023.png: hex_brick_road.pov
+	povray $(povoptspng) $< Declare=depth=4 Declare=topview=3 Declare=buildtheback=3 +O$@
+
+hex_brick_road_3clusters.png: hex_brick_road.pov
 	povray $(povoptspng) $< Declare=depth=0 Declare=topview=1 Declare=buildtheback=3 Declare=zoom=1.8 +O$@
 
 $(deflated_png_H7):einstein_H7_d%.png: einstein.pov shapes.inc subdivision.inc
