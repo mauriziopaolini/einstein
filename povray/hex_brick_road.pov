@@ -39,7 +39,9 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (dorothyspeed)
   //#declare dorothyspeed = 6;
   #declare dorothyspeed = 3.3;
-  #if (depth >= 6) #declare dorothyspeed = 8; #end
+  //#if (depth >= 6) #declare dorothyspeed = 8; #end
+  //#if (depth >= 6) #declare dorothyspeed = 8*4.86/6; #end
+  #if (depth >= 6) #declare dorothyspeed = 6.48; #end
 #end
 //#ifndef (speedup_time) #declare speedup_time = allotted_aug6; #end
 #declare meters = 10;
