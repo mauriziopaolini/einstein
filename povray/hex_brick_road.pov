@@ -37,7 +37,8 @@ global_settings { assumed_gamma 1.0 }
 
 #ifndef (dirchangeduration) #declare dirchangeduration = 4; #end
 #ifndef (dorothyspeed)
-  #declare dorothyspeed = 6;
+  //#declare dorothyspeed = 6;
+  #declare dorothyspeed = 3.3;
   #if (depth >= 6) #declare dorothyspeed = 8; #end
 #end
 //#ifndef (speedup_time) #declare speedup_time = allotted_aug6; #end
@@ -53,8 +54,8 @@ global_settings { assumed_gamma 1.0 }
 #declare yellowroadstart = <0,0,0>;
 
 #declare trcrossing = transform {rotate rot0*y translate trn0[0]};
-#declare tremerald = transform {rotate rot0*y translate trn6[0]};
-#declare trwicked = transform {rotate rot0*y translate trn6[0]};
+#declare tremerald = transform {rotate rot6*y translate trn6[0]};
+#declare trwicked = transform {rotate rot6*y translate trn6[0]};
 #local i = 1;
 #while (i < depth-1)
   #declare trcrossing = transform {trcrossing rotate rot0*y translate trn0[i]};
@@ -69,6 +70,9 @@ global_settings { assumed_gamma 1.0 }
 #if (depth > 0)
   #declare crossing1 = vtransform (<0,0,0>, transform {trcrossing rotate rot2*y translate trn2[depth-1]});
   #declare emeraldpos = vtransform (<0,0,0>, transform {tremerald rotate rot2*y translate trn2[depth-1]});
+  #if (htile = 8)
+    #declare emeraldpos = vtransform (<0,0,0>, transform {tremerald rotate rot6*y translate trn6[depth-1]});
+  #end
   #declare wickedwitchpos = vtransform (<0,0,0>, transform {trwicked rotate rot3*y translate trn3[depth-1]});
 
   #declare trcrossing = transform {trcrossing rotate rot3*y translate trn3[depth-1] gtrans};
@@ -247,7 +251,7 @@ global_settings { assumed_gamma 1.0 }
    */
   //#declare yellowroadend = <-1258.79, 0, 324.724>;
   #declare yellowroadend = emeraldpos;
-  #if (depth = 5 & htile = 8) #declare yellowroadend = <-775.5, 0, 200.051868>; #end
+//  #if (depth = 5 & htile = 8) #declare yellowroadend = <-775.5, 0, 200.051868>; #end
   #declare yellowroaddir = vnormalize(yellowroadend - yellowroadstart);
   //#declare yellowroaddirrot90 = vtransform (yellowroaddir, -90*y);
 
@@ -352,6 +356,29 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 #end
 
 #declare rotquake = 0;
+
+#ifdef (debug)
+sphere {
+  crossing1
+  5
+  texture {pigment{Red}}
+}
+sphere {
+  crossing2
+  5
+  texture {pigment{Red}}
+}
+sphere {
+  emeraldpos
+  5
+  texture {pigment{Red}}
+}
+sphere {
+  wickedwitchpos
+  5
+  texture {pigment{Red}}
+}
+#end
 
 #if (htile = 7)
   h7rec (transform {gtrans}, depth)
