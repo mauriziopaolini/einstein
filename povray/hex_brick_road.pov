@@ -631,10 +631,12 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
       }
     #end
     #local k = k + 1;
-    #if (substr (worm, k, 1) = "A")
-      #local j = j + (brick_number_r - brick_number);
-    #else
-      #local i = i + (brick_number_r - brick_number);
+    #if (k <= strlen(worm))
+      #if (substr (worm, k, 1) = "A")
+        #local j = j + (brick_number_r - brick_number);
+      #else
+        #local i = i + (brick_number_r - brick_number);
+      #end
     #end
     #declare present = box {<i,j,-1.1*historythickness>,<i+1,j+1,1.1*historythickness>}
     #local k = k + 1;
