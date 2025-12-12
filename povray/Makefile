@@ -588,7 +588,7 @@ mp4lista=five_deflations five_deflations_ws yellow_brick_road5B yellow_brick_roa
 mp4listb=yellow_brick_road_path0 yellow_brick_road_path1 yellow_brick_road_path2 yellow_brick_road_path3
 mp4listc=yellow_brick_road_emerald yellow_brick_road_witch
 mp4listd=spectre_deflations spectre_deflations_ws spectre_desert_walk5 spectre_desert_walk6
-mp4liste=hex_brick_road5B hex_brick_road_aug5B hex_brick_road6 hex_brick_road_aug6
+mp4liste=hexfive_deflations hexfive_deflations_ws hex_brick_road5B hex_brick_road_aug5B hex_brick_road6 hex_brick_road_aug6
 mp4listf=hex_brick_road_emerald hex_brick_road_witch
 
 mp4list = $(mp4lista) $(mp4listb) $(mp4listc) $(mp4listd) $(mp4liste) $(mp4listf)
@@ -699,6 +699,18 @@ $(mp4concatlist:%=%.mp4): %.mp4: %.list yellow_brick_road_path0.mp4 yellow_brick
 #$(mp4list:%=frames/%): frames/%: frames
 #	mkdir -p $@
 
+#
+# HEXAGONS
+#
+frames/hexfive_deflations/DONE: frames/%/DONE: hexfive_deflations.pov
+	povray $< $(povoptsani) +kf11 +kff2750 +Oframes/$*/frame
+	for i in `seq 2751 2775`; do cp frames/$*/frame2750.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/hexfive_deflations_ws/DONE: frames/%/DONE: hexfive_deflations.pov
+	povray $< $(povoptsani) Declare=withscritta=1 +kf11 +kff2750 +Oframes/$*/frame
+	for i in `seq 2751 2775`; do cp frames/$*/frame2750.png frames/$*/frame$${i}.png; done
+	touch $@
 #
 # Doroty on the 'hexagonal' land of Oz
 #
