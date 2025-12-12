@@ -612,20 +612,22 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
         #while (k < brick_number - 1)
           #local k = k + 1;
-          #if (substr (worm, k, 1) = "A")
-            #local j = j + 1;
-            cylinder {<i,j,0>, <i,j+1,0>, historythickness}
-            sphere { <i, j+1, 0>, historythickness }
-            cylinder {<i,j+1,0>, <i+1,j+1,0>, historythickness}
-            sphere { <i+1, j+1, 0>, historythickness }
-            cylinder {<i+1,j+1,0>, <i+1,j,0>, historythickness}
-          #else
-            #local i = i + 1;
-            cylinder {<i,j,0>, <i+1,j,0>, historythickness}
-            sphere { <i+1, j, 0>, historythickness }
-            cylinder {<i+1,j,0>, <i+1,j+1,0>, historythickness}
-            sphere { <i+1, j+1, 0>, historythickness }
-            cylinder {<i+1,j+1,0>, <i,j+1,0>, historythickness}
+          #if (k <= strlen(worm))
+            #if (substr (worm, k, 1) = "A")
+              #local j = j + 1;
+              cylinder {<i,j,0>, <i,j+1,0>, historythickness}
+              sphere { <i, j+1, 0>, historythickness }
+              cylinder {<i,j+1,0>, <i+1,j+1,0>, historythickness}
+              sphere { <i+1, j+1, 0>, historythickness }
+              cylinder {<i+1,j+1,0>, <i+1,j,0>, historythickness}
+            #else
+              #local i = i + 1;
+              cylinder {<i,j,0>, <i+1,j,0>, historythickness}
+              sphere { <i+1, j, 0>, historythickness }
+              cylinder {<i+1,j,0>, <i+1,j+1,0>, historythickness}
+              sphere { <i+1, j+1, 0>, historythickness }
+              cylinder {<i+1,j+1,0>, <i,j+1,0>, historythickness}
+            #end
           #end
         #end
       }
