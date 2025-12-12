@@ -584,6 +584,7 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
     #declare brick_number_r = walktime*bricks_speed+1.5;
     #declare brick_number = int(brick_number_r);
     #if (brick_number_r - brick_number < 0.9)
+    #if (brick_number >= strlen(worm)) #declare brick_number = strlen(worm) - 1; #end
       #declare bricktype = substr (worm, brick_number, 1);
       //#declare textinfo = concat ("#", str(brick_number,0,0), ": ", bricktype);
       #if (bricktype = "A")
