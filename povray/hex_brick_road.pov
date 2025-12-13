@@ -103,9 +103,9 @@ global_settings { assumed_gamma 1.0 }
   #declare bricks_size = vlength(emeraldpos)/(lastbrick-1);
   #declare bricks_speed = dorothyspeed/bricks_size;
 
-  #if (depth = 5 & htile = 8)
-    #declare bricks_speed = 0.7/4*dorothyspeed*1.021430283490544; // adjusted may 25, 2023
-  #end
+//  #if (depth = 5 & htile = 8)
+//    #declare bricks_speed = 0.7/4*dorothyspeed*1.021430283490544; // adjusted may 25, 2023
+//  #end
 
   #ifdef (dark)
     #declare yellowroadstart = trn3[depth-1];
@@ -315,8 +315,9 @@ build_wormAB (depth)
 #ifdef (lastbrick)
   #declare realtimeend = (lastbrick - 1.0)/bricks_speed;
 
-  #ifdef (debug)
+  #ifdef (mydebug)
     #debug concat ("worm = ", worm, "\n")
+    #debug concat ("of length ", str(strlen(worm),0,0), "\n")
     #debug concat ("  last element: ", substr(worm, lastbrick, 1), "\n")
   #end
   #debug concat ("\n=========\nnumber of H clusters in the yellow brick road = ", str(lastbrick,0,0), "\n")
@@ -359,27 +360,30 @@ wormcolors (<1,1,0>, <1,0.5,0>, <1,0.6,0.2>,
 
 #declare rotquake = 0;
 
-#ifdef (debug)
-sphere {
-  crossing1
-  5
-  texture {pigment{Red}}
-}
-sphere {
-  crossing2
-  5
-  texture {pigment{Red}}
-}
-sphere {
-  emeraldpos
-  5
-  texture {pigment{Red}}
-}
-sphere {
-  wickedwitchpos
-  5
-  texture {pigment{Red}}
-}
+#ifdef (mydebug)
+  #if ((mydebug) >= 2)
+    #local myrad = 0.15*mag;
+    sphere {
+      crossing1
+      myrad
+      texture {pigment{Red}}
+    }
+    sphere {
+      crossing2
+      myrad
+      texture {pigment{Red}}
+    }
+    sphere {
+      emeraldpos
+      myrad
+      texture {pigment{Red}}
+    }
+    sphere {
+      wickedwitchpos
+      myrad
+      texture {pigment{Red}}
+    }
+  #end
 #end
 
 #if (htile = 7)
@@ -543,7 +547,7 @@ sphere {
 #if (pathtime < 0)
   #declare reltime = -pathtime/preambleduration;  // in [0,1]
   #declare smoothtime = smoothp(1 - reltime).x;
-  #ifdef (debug)
+  #ifdef (mydebug)
     #debug concat ("smoothtime = ", str(smoothtime,0,-1), "\n")
   #end
   #switch (path)
@@ -675,7 +679,7 @@ sphere {
     #if (j > 34) #declare tgriddown = (j - 34); #end
   #end
 
-  #ifdef (debug)
+  #ifdef (mydebug)
     #debug concat ("REGULAR TIME! camera.y is ", str(camerapos.y,0,-1),"\n")
     #debug concat ("bricks_speed ", str(bricks_speed,0,-1),"\n")
   #end
