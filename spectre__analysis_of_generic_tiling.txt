@@ -6,8 +6,16 @@ da 1 a 14 a partire dal vertice con angolo 180 gradi.
 Assumiamo che i tasselli si possano accostare solo lato contro lato e con lati pari
 accostati a lati dispari (secondo la numerazione).
 
+A causa dell'orientazione dei lati dello spectre la rotazione relativa di due tasselli
+è forzatamente un multiplo di 30 gradi.  Diciamo che si tratta di un accostamento "pari"
+se l'orientazione relativa è un multiplo di 60 gradi, altrimenti si tratta di un 
+accostamento dispari.
+
+Una tassellazione del piano è pari se *tutti* gli accostamenti sono pari, altrimenti
+è una tassellazione dispari.  Vogliamo dimostrare che non esistono tassellazioni pari.
+
 Data una qualsivoglia tassellazione del piano vogliamo recuperare alcune caratteristiche
-tipiche di una tassellazione ottenuta per deflazione H7-H8
+che ritroviamo in una tassellazione ottenuta per deflazione H7-H8
 
 
 1. Coppie di tasselli affacciati
@@ -17,13 +25,51 @@ un lato dispari accostato ad un altro tassello su un lato pari, per un totale di
 7*7 = 49 possibilità, ma una analisi più precisa, che tiene conto di accostamenti che
 coinvolgono più lati e della particolarità dell'accostamento 'back-to-back' con i
 due tasselli accostati sul loro lato "doppio" portano a
-- 1 accostamento back-to-back
-- 8 affacciamenti che coinvolgono un solo lato
-- 4 affacci "doppi"
-- 4 affacci "tripli"
-- 2 affacci "quadrupli"
+- 1 accostamento back-to-back (pari)
+- 6 affacciamenti che coinvolgono un solo lato (di cui sei sono dispari)
+- 4 affacci "doppi" (di cui uno dispari)
+- 4 affacci "tripli" (tutti pari)
+- 2 affacci "quadrupli" (tutti dispari)
 per un totale di 19 possibili accoppiamenti, sei dei quali NON permettono di essere
 estesi ad una tassellazione del piano
+
+
+2. Non esiste una "torre" di quattro tasselli
+
+...
+
+3. Esiste un accoppiamento "back-to-back"
+
+...
+
+4. Esiste un accoppiamento "mistico"
+
+A partire da un accoppiamento "back-to-back" di due tasselli A e B.  Ci sono due possibilità
+per il tassello C accostato sul lato "2" di A.  Vogliamo escludere che C si affacci con
+il suo lato 13, infatti in tal caso il lato 1 di C permette solo un affacciamento che
+produce un "mistico".
+
+Il tassello C è quindi forzatamente affacciato con il suo lato 4 al lato 3 di A.
+Sul lato 1 di C le uniche possibilità sono "back-to-back" e "torre".
+
+4a: caso "back-to-back", sia D il tassello affacciato "back-to-back" a C.  Al lato
+Per la stessa ragione per cui C è affacciato al lato 3 di A con il suo lato 4, c'è un
+unico modo di affacciare il tassello E (con il suo lato 4) al lato 3 di E.
+Ora l'unico posizionamento di un nuovo tassello F al lato 9 di C (con il sul lato 14)
+comporta un forzato inserimento di G in corrispondenza del lato 9 di E e si ottiene
+un mistico formato dai tasselli E e G.
+
+4b: caso "torre", sia D il nuovo tassello.  Sul lato 7 di A ci sono due modi per
+inserire il tassello E.
+
+4b1: il tassello E si affaccia al lato 7 di A con il suo lato 12.  Non è possibile
+un affaccio "back-to-back" per E e se vogliamo impedire un "mistico" siamo costretti
+ad affacciare F ad E in una "torre".  Ora siamo costretti ad un affaccio "back-to-back"
+per il tassello D, che infine ci forza a creare un "mistico"
+
+4b2:
+
+
 
 
 
