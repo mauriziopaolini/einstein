@@ -70,6 +70,8 @@
 #declare SPbdisoA = <pointsisotileA.y, 0, pointsisotileA.x>;
 #declare SPbdisoB = <pointsisotileB.y, 0, pointsisotileB.x>;
 #declare SPbdisoC = <pointsisotileC.y, 0, pointsisotileC.x>;
+//#declare SPbdisoD = vtransform (2*SPbdisoC - SPbdisoB,
+//                             transform { translate -SPbdisoC rotate -60*y translate SPbdisoC } );
 #declare SPbdisoD = <pointsisotileD.y, 0, pointsisotileD.x>;
 
 /*
