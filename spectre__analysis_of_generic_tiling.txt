@@ -86,3 +86,6 @@ produce un ulteriore mistico, ovvero a formare con B una torre.
 
 [...]
 
+6. Non ci possono essere sequenze di 4 tasselli a formare 3 mistici.  In effetti
+si raggiunge una contraddizione abbastanza rapidamente operando nella parte concava
+della sequenza di 4 tasselli
