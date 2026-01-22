@@ -1,0 +1,35 @@
+matrix_element_mult : "."$
+
+Tgen(R,t) := matrix([R,t],[[0,0],[1]]) $
+Tgen0(R) := matrix([R, matrix([0],[0])],[matrix([0,0]),[1]]) $
+Tgen1(t) := matrix([Rgen(0),t],[matrix([0,0]),[1]]) $
+
+Rfl : matrix([-1,0],[0,1])$
+Rgen(theta) := matrix([cos(theta), -sin(theta)],[sin(theta),cos(theta)])$
+R120 : Rgen(2*%pi/3)$
+Rm60 : Rgen(-%pi/3)$
+
+A: matrix([Ax],[Ay])$
+B: matrix([Bx],[By])$
+C: matrix([Cx],[Cy])$
+
+toproj (t) := matrix([t],[[1]])$
+D: Tgen1(C) . Tgen0(Rm60) . Tgen1(-C) . (toproj(2*C - B))$
+D: D[1,1]$
+
+Str0 : Tgen (Rfl,matrix([0],[0])) $
+Str1 : expand (Str0 . Tgen1(B) . Tgen0(R120) . Tgen1(-B)) $
+Str2 : expand (Str1 . Tgen1(A) . Tgen0(Rm60) . Tgen1(-C)) $
+Str3 : expand (Str2 . Tgen1(D-B)) $
+Str4 : expand (Str3 . Tgen1(A) . Tgen0(Rm60) . Tgen1(-C)) $
+Str5 : expand (Str4 . Tgen1(A) . Tgen0(Rm60) . Tgen1(-C)) $
+Str6 : expand (Str5 . Tgen1(D-B)) $
+Str7 : expand (Str6 . Tgen1(A) . Tgen0(Rm60) . Tgen1(-C)) $
+
+Anew : expand (Str1 . (toproj(C)));
+Anew : Anew[1,1];
+Bnew : expand (Str7 . (toproj(D)));
+Bnew : Bnew[1,1];
+Cnew : expand (Str6 . (toproj(C)));
+Cnew : Cnew[1,1];
+

@@ -47,8 +47,10 @@ three points and not 4
     #declare Str[2][i] = transform { translate -QC[i] rotate -60*y translate QA[i] Str[1][i]};
     //#declare Str[3][i] = transform { translate (QD[i] - QB[i]) Str[2][i]};
     #declare Str[3][i] = transform { translate (QD - QB[i]) Str[2][i]};
-    #declare Str[4][i] = transform { translate -QC[i] rotate -60*y translate QC[i] translate (QA[i]-QC[i]) Str[3][i]};
-    #declare Str[5][i] = transform { translate -QC[i] rotate -60*y translate QC[i] translate (QA[i]-QC[i]) Str[4][i]};
+    //#declare Str[4][i] = transform { translate -QC[i] rotate -60*y translate QC[i] translate (QA[i]-QC[i]) Str[3][i]};
+    #declare Str[4][i] = transform { translate -QC[i] rotate -60*y translate QA[i] Str[3][i]};
+    //#declare Str[5][i] = transform { translate -QC[i] rotate -60*y translate QC[i] translate (QA[i]-QC[i]) Str[4][i]};
+    #declare Str[5][i] = transform { translate -QC[i] rotate -60*y translate QA[i] Str[4][i]};
     //#declare Str[6][i] = transform { translate (QD[i] - QB[i]) Str[5][i]};
     #declare Str[6][i] = transform { translate (QD - QB[i]) Str[5][i]};
     #declare Str[7][i] = transform { translate -QC[i] rotate -60*y translate QC[i] translate (QA[i]-QC[i]) Str[6][i]};
