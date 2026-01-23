@@ -1,5 +1,7 @@
 matrix_element_mult : "."$
 
+a:sqrt(3)/2;
+
 Tgen(R,t) := matrix([R,t],[[0,0],[1]]) $
 Tgen0(R) := matrix([R, matrix([0],[0])],[matrix([0,0]),[1]]) $
 Tgen1(t) := matrix([Rgen(0),t],[matrix([0,0]),[1]]) $

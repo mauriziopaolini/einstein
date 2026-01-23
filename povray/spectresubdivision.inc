@@ -15,22 +15,23 @@ three points and not 4
 #declare QA = array[maxdepth+1];
 #declare QB = array[maxdepth+1];
 #declare QC = array[maxdepth+1];
-#declare QD = array[maxdepth+1];
+//#declare QD = array[maxdepth+1];
+#macro getD (A, B, C)
+  #declare QD = vtransform (2*C - B, transform { translate -C rotate -60*y translate C } );
+#end
 
 #declare QA[0] = SPbd[2];  //<-1/2-ap,0,1/2-ap>;
 #declare QB[0] = SPbd[9];  //<+1/2+ap,0,3/2+ap>;
 #declare QC[0] = SPbd[7];  //<-1/2+ap,0,5/2+ap>;
 //#declare QD[0] = SPbd[5];  //<-1,0,3>;
-#declare QD[0] = vtransform (2*QC[0] - QB[0],
-                             transform { translate -QC[0] rotate -60*y translate QC[0] } );
+getD (QA[0], QB[0], QC[0])
 
 #ifdef (isotiling_maps)
   #declare QA[0] = SPbdisoA;
   #declare QB[0] = SPbdisoB;
   #declare QC[0] = SPbdisoC;
   //#declare QD[0] = SPbdisoD;
-  #declare QD[0] = vtransform (2*QC[0] - QB[0],
-                             transform { translate -QC[0] rotate -60*y translate QC[0] } );
+  getD (QA[0], QB[0], QC[0])
 #end
 
 #declare Str = array[8][maxdepth];
@@ -40,22 +41,18 @@ three points and not 4
 #local i = 0;
 #while (i < maxdepth)
   #ifdef (QC[i])
-    //#declare QD = vtransform (2*QC[i] - QB[i],
-    //                       transform { translate -QC[i] rotate -60*y translate QC[i] } );
+    getD (QA[i], QB[i], QC[i])
     #declare Str[0][i] = transform {scale <-1,1,1>};
     #declare Str[1][i] = transform { translate -QB[i] rotate 120*y translate QB[i] Str[0][i]};
-//- a*R90 . B + 3/2*B;
-#local tau = 3/2*QB[i] - ap*vtransform (QB[i], transform {rotate +90*y});
-#declare Str[1][i] = transform { rotate 120*y translate tau Str[0][i]};
     #declare Str[2][i] = transform { translate -QC[i] rotate -60*y translate QA[i] Str[1][i]};
     //#declare Str[3][i] = transform { translate (QD[i] - QB[i]) Str[2][i]};
-    #declare Str[3][i] = transform { translate (QD[i] - QB[i]) Str[2][i]};
+    #declare Str[3][i] = transform { translate (QD - QB[i]) Str[2][i]};
     //#declare Str[4][i] = transform { translate -QC[i] rotate -60*y translate QC[i] translate (QA[i]-QC[i]) Str[3][i]};
     #declare Str[4][i] = transform { translate -QC[i] rotate -60*y translate QA[i] Str[3][i]};
     //#declare Str[5][i] = transform { translate -QC[i] rotate -60*y translate QC[i] translate (QA[i]-QC[i]) Str[4][i]};
     #declare Str[5][i] = transform { translate -QC[i] rotate -60*y translate QA[i] Str[4][i]};
     //#declare Str[6][i] = transform { translate (QD[i] - QB[i]) Str[5][i]};
-    #declare Str[6][i] = transform { translate (QD[i] - QB[i]) Str[5][i]};
+    #declare Str[6][i] = transform { translate (QD - QB[i]) Str[5][i]};
     #declare Str[7][i] = transform { translate -QC[i] rotate -60*y translate QC[i] translate (QA[i]-QC[i]) Str[6][i]};
 
     /* we are now in a position to construct the higher level quadrilateral! */
@@ -68,22 +65,21 @@ three points and not 4
     //#declare QC[i+1] = vtransform (QC[i], transform {Str[6][i]});
     #declare QC[i+1] = <-1,1,1>*( QA[i] + 2*ap*vtransform (QA[i]-QC[i], transform { rotate 90*y } ) );
     //#declare QD[i+1] = vtransform (QD[i], transform {Str[4][i]});
-    #declare QD[i+1] = vtransform (2*QC[i+1] - QB[i+1],
-                             transform { translate -QC[i+1] rotate -60*y translate QC[i+1] } );
   #end
   #local i = i + 1;
 #end
 
-#macro quadm (A, B, C, D, r)
+#macro quadm (A, B, C, r)
+  getD (A, B, C)
   union {
     sphere {A, r}
     sphere {B, r}
     sphere {C, r}
-    sphere {D, r}
+    sphere {QD, r}
     cylinder {A, B, r}
     cylinder {B, C, r}
-    cylinder {C, D, r}
-    cylinder {D, A, r}
+    cylinder {C, QD, r}
+    cylinder {QD, A, r}
   }
 #end
 
@@ -96,7 +92,7 @@ three points and not 4
   #if (depth = 0)
     object {SPobj[tid] transform {trsf}}
     #ifdef (quadrilateral)
-    object {quadm (QA[0], QB[0], QC[0], QD[0], 0.1)
+    object {quadm (QA[0], QB[0], QC[0], 0.1)
       transform {trsf}
       translate tile_thick*y
       pigment {rgb <1,0,0>}
@@ -141,7 +137,7 @@ three points and not 4
     #end
     #if (d >= colors-1) SProtcolorshue (deltahue) SPbuildtiles() #end
     #ifdef (quadrilateral)
-    object {quadm (QA[depth], QB[depth], QC[depth], QD[depth], depth*0.15)
+    object {quadm (QA[depth], QB[depth], QC[depth], depth*0.15)
       transform {trsf}
       translate tile_thick*y
       pigment {rgb 1/depth*<1,0.5,0>}
