@@ -126,7 +126,12 @@ three points and not 4
     // SPrec (0, transform {Str[0][d] trsf}, d)
     #local i = 0;
     #while (i < 8)
-      #if (bitwise_and (SPshow, pow(2,i)) & (tid != 0 | i != 3)) SPrec (i, transform {Str[i][d] trsf}, d) #end
+      /*
+       * This "#if" was added 27/01/2026, avoids superposition of tiles
+       */
+      #if (tid != 0 | i != 3)
+        #if (bitwise_and (SPshow, pow(2,i)) & (tid != 0 | i != 3)) SPrec (i, transform {Str[i][d] trsf}, d) #end
+      #end
       #local i = i + 1;
     #end
     #if (d >= colors-1) SProtcolorshue (deltahue) SPbuildtiles() #end
