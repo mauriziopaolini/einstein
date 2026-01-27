@@ -1,18 +1,12 @@
 /*
  * usage:
- *  povray +a <self>.pov Declare=Sigh=xxxxxx Declare=Sigl=yyyyyy [Declare=depth=<depth>] [Declare=zoomout=<depth>]
+ *  povray +a <self>.pov Declare=fase=<n>
  *
- *  resulting in a [rtol] signature: xxxxxxyyyyyy.
+ *  The starting tiling is built based on the signature "[40]." but the idea is that it could resemble
+ * a random tiling.
  *
- * x and y must belong to the set {0,1,2,3,4,5,6,7} and the pair 03 is forbidden
- *
- * other possible options:
- *  Declare=Sigh2=xxxxxx Declare=Sigl2=yyyyyy
- * includes a second tiling with the given signature
- *
- *  Declare=up2=xy Declare=down2=zt
- * transform the second tiling as if the first tiling were transformed with signature xy
- * and the second tiling with signature zt
+ * a signature is a string of digits taken from
+ * the set {0,1,2,3,4,5,6,7} and the pair 03 is forbidden
  */
 
 #version 3.7;
@@ -29,7 +23,7 @@ global_settings { assumed_gamma 1.0 }
 
 #ifndef (Sigl) #declare Sigl = 404040; #end
 #ifndef (Sigh) #declare Sigh = 404040; #end
-#ifndef (depth) #declare depth = 6; #end
+#ifndef (depth) #declare depth = 5; #end
 #ifndef (zoomout) #declare zoomout = 2; #end
 
 #ifndef (fase) #declare fase = 1; #end
@@ -109,7 +103,7 @@ global_settings { assumed_gamma 1.0 }
 #declare Seed=seed(123);
 
 #macro rndcol (myseed)
-  #declare rndpigment = rgb <rand(myseed), rand(myseed), rand(myseed)>;
+  #declare rndpigment = <rand(myseed), rand(myseed), rand(myseed)>;
 #end
 
 #macro SPrec_infl (tid, trsf, depth)
@@ -120,7 +114,7 @@ global_settings { assumed_gamma 1.0 }
         transform {mystic_tr}
         //texture {T_mystic finish {tile_Finish} }
         rndcol (Seed)
-        texture {pigment {rndpigment}}
+        texture {pigment {rgb rndpigment}} finish {tile_Finish}
         transform {trsf}
       }
 
@@ -129,7 +123,7 @@ global_settings { assumed_gamma 1.0 }
     object {spectre
       //texture {pigment {SPpigment[1 + int(rand(Seed)*7)]}}
       rndcol (Seed)
-      texture {pigment {rndpigment}}
+      texture {pigment {rgb rndpigment}}
       transform {trsf}
     }
 
@@ -147,16 +141,23 @@ global_settings { assumed_gamma 1.0 }
 #end
 
 #macro SPrec_infl2 (tid, trsf, depth, ptid)
-//#debug concat ("SONO QUI:", str(depth,0,0), "\n")
   #local d = depth-1;
   #if (depth = 0)
     #if (fase >= 4)
-      #if (tid != 0 & (tid != 3 | (fase >= 5 & ptid != 0)))
+      #if (tid != 0 & tid != 3)
         object { tile11
-          texture {pigment {rndpigment}}
+          texture {pigment {rgb rndpigment}}
+          finish {tile_Finish}
           transform {trsf}
         }
       #end
+    #end
+    #if (fase >= 5 & tid = 3 & ptid != 0)
+        object { tile11
+          texture {pigment {rgb 0.7*rndpigment}}
+          finish {tile_Finish}
+          transform {trsf}
+        }
     #end
     #if (tid = 0)
       object { tile11
@@ -178,9 +179,8 @@ global_settings { assumed_gamma 1.0 }
       }
     #end
   #else
-//#debug concat ("SONO QUI else:", str(depth,0,0), "\n")
-    #local i = 0;
     #if (fase >= 4 & d = 0) rndcol (Seed) #end
+    #local i = 0;
     #while (i < 8)
       #if (tid != 0 | i != 3)
         SPrec_infl2 (i, transform {Str[i][d] trsf}, d, tid)
@@ -191,31 +191,59 @@ global_settings { assumed_gamma 1.0 }
 #end
 
 
+#macro SPrec_infl3 (tid, trsf, depth)
+  #local d = depth-1;
+  #if (depth = 1)
+    rndcol (Seed)
+    #if (tid = 0)
+      object { mystic
+        texture {pigment {rgb rndpigment}}
+        finish {tile_Finish}
+        scale 1.5                          // ADJUST!
+        transform {Str[0][0] trsf}
+      }
+    #else
+      object { tile11
+        texture {pigment {rgb rndpigment}}
+        finish {tile_Finish}
+        scale 1.5                          // ADJUST!
+        transform {Str[0][0] trsf}
+      }
+    #end
+  #else
+    #local i = 0;
+    #while (i < 8)
+      #if (tid != 0 | i != 3)
+        SPrec_infl3 (i, transform {Str[i][d] trsf}, d)
+      #end
+      #local i = i + 1;
+    #end
+  #end
+#end
+
+
 
 #macro build_tiling (ttransinv, htilex, gtrans0, depth)
-  //#local dimm = 1/(0.25*depth+1);
-  //SPbuildtiles ()
 
-  #local i = 1;
-  #while (i < 8)
-    #declare SPobj[i] = object{spectre
-      //texture {pigment {SPpigment[i]}}
-      texture {pigment {SPpigment[3]}}
-    }
-    #local i = i + 1;
-  #end
+//  #local i = 1;
+//  #while (i < 8)
+//    #declare SPobj[i] = object{spectre
+//      //texture {pigment {SPpigment[i]}}
+//      texture {pigment {SPpigment[3]}}
+//    }
+//    #local i = i + 1;
+//  #end
 
   SPrec_infl (htilex[depth], transform {ttransinv[depth] gtrans0}, depth)
   #if (fase >= 2)
+    #declare Seed=seed(123);
     SPrec_infl2 (htilex[depth], transform {ttransinv[depth] gtrans0 translate 2*tile_thick*y}, depth, 1)
   #end
+  #if (fase >= 6)
+    #declare Seed=seed(123);
+    SPrec_infl3 (htilex[depth], transform {ttransinv[depth] gtrans0 translate 4*tile_thick*y}, depth)
+  #end
 
-  //#ifdef (darkenit)
-  //  SPdarkencolors (darkenvalue)
-  //#else
-  //  SProtcolorshue (360*phi)
-  //#end
-  //#ifdef (darkenit) SPdarkencolors (1/darkenvalue) #end
 #end
 
 build_ttransinv (signature, depth)

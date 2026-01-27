@@ -502,6 +502,19 @@ spectrefractalsub.png: spectrebd.pov spectresubdivision.inc
 
 
 #
+# Spectre inflation
+#
+
+spectreinflationfasi=1 2 3 4 5 6
+spectreinflation=$(spectreinflationfasi:%=spectreinflation_%.png)
+spectreinflationpngs: $(spectreinflation)
+
+povoptsinfl = -D +a Declare=AspectWide=1 +W1280 +H720
+
+$(spectreinflation):spectreinflation_%.png:spectreinflation.pov
+	povray $(povoptsinfl) $< Declare=fase=$* +O$@
+
+#
 #
 #
 
