@@ -1,5 +1,7 @@
 matrix_element_mult : "."$
 
+a:sqrt(3)/2;
+
 Tgen(R,t) := matrix([R,t],[[0,0],[1]]) $
 Tgen0(R) := matrix([R, matrix([0],[0])],[matrix([0,0]),[1]]) $
 Tgen1(t) := matrix([Rgen(0),t],[matrix([0,0]),[1]]) $
@@ -17,7 +19,7 @@ toproj (t) := matrix([t],[[1]])$
 D: Tgen1(C) . Tgen0(Rm60) . Tgen1(-C) . (toproj(2*C - B))$
 D: D[1,1]$
 
-Str0 : Tgen (Rfl,matrix([0],[0])) $
+Str0 : Tgen0 (Rfl) $
 Str1 : expand (Str0 . Tgen1(B) . Tgen0(R120) . Tgen1(-B)) $
 Str2 : expand (Str1 . Tgen1(A) . Tgen0(Rm60) . Tgen1(-C)) $
 Str3 : expand (Str2 . Tgen1(D-B)) $
@@ -30,6 +32,7 @@ Anew : expand (Str1 . (toproj(C)));
 Anew : Anew[1,1];
 Bnew : expand (Str7 . (toproj(D)));
 Bnew : Bnew[1,1];
+Bnew: expand (radcan (Bnew));
 Cnew : expand (Str6 . (toproj(C)));
 Cnew : Cnew[1,1];
 
