@@ -23,37 +23,34 @@ global_settings { assumed_gamma 1.0 }
 
 #ifndef (Sigl) #declare Sigl = 404040; #end
 #ifndef (Sigh) #declare Sigh = 404040; #end
+#ifndef (Sigl2) #declare Sigl2 = 040404; #end
+#ifndef (Sigh2) #declare Sigh2 = 040404; #end
 #ifndef (depth) #declare depth = 5; #end
 #ifndef (zoomout) #declare zoomout = 2; #end
 
 #ifndef (fase) #declare fase = 1; #end
 
-#macro buildsig (sigh, sigl)
+#macro buildsigs (sigh, sigl, sigh2, sigl2)
   #local sig = sigl;
+  #local sig2 = sigl2;
   #local i = 0;
   #while (i < 12)
     #local sigq = int(sig/10);
-    #declare signature[i] =
-    sig - 10*sigq;
+    #local sigq2 = int(sig2/10);
+    #declare signature[i] = sig - 10*sigq;
+    #declare signature2[i] = sig2 - 10*sigq2;
     #local i = i + 1;
     #local sig = sigq;
-    #if (i = 6) #local sig = sigh; #end
+    #local sig2 = sigq2;
+    #if (i = 6) #local sig = sigh; #local sig2 = sigh2; #end
   #end
 #end
 
-#ifdef (Sigl)
-  #declare signature = array[12]
-  #ifndef (Sigh) #declare Sigh=404040; #end
-  buildsig (Sigh, Sigl)
-#end
+#declare signature = array[12]
+#declare signature2 = array[12]
+buildsigs (Sigh, Sigl, Sigh2, Sigl2)
 
-#ifndef (signature) #declare signature = array[12] {1,1,2,2,2,2,2,2,2,2,2,2} #end
-
-#ifdef (down2)
-  #ifndef (Sigl2) #declare Sigl2 = Sigl; #declare Sigh2 = Sigh; #end
-#end
-
-#declare darkenvalue = 0.5;
+//#declare darkenvalue = 0.5;
 
 #local sigstring=""
 #local i = depth+1;
@@ -98,7 +95,7 @@ global_settings { assumed_gamma 1.0 }
  #end
 #end
 
-#declare darkenvalue = 0.8;
+//#declare darkenvalue = 0.8;
 
 #declare Seed=seed(123);
 
@@ -133,6 +130,40 @@ global_settings { assumed_gamma 1.0 }
     #while (i < 8)
       #if (tid != 0 | i != 3)
         SPrec_infl (i, transform {Str[i][d] trsf}, d)
+      #end
+      #local i = i + 1;
+    #end
+    //#if (d >= colors-1) SProtcolorshue (deltahue) SPbuildtiles() #end
+  #end
+#end
+
+#macro SPrec_sparse (tid, trsf, depth)
+  #local d = depth-1;
+  #if (depth = 0)
+    #if (tid = 0)
+      object { tile11
+        transform {mystic_tr}
+        texture {T_mystic finish {tile_Finish} }
+        //rndcol (Seed)
+        //texture {pigment {rgb rndpigment}} finish {tile_Finish}
+        transform {trsf}
+      }
+
+      //object {mystic transform {trsf}}
+    #end
+    object {spectre
+      //texture {pigment {SPpigment[1 + int(rand(Seed)*7)]}}
+      rndcol (Seed)
+      texture {pigment {rgb rndpigment}}
+      transform {trsf}
+    }
+
+  #else
+    // SPrec (0, transform {Str[0][d] trsf}, d)
+    #local i = 0;
+    #while (i < 8)
+      #if (tid != 0 | i != 3)
+        SPrec_sparse (i, transform {Str[i][d+1] trsf}, d)
       #end
       #local i = i + 1;
     #end
@@ -197,7 +228,7 @@ global_settings { assumed_gamma 1.0 }
     rndcol (Seed)
     #if (tid = 0)
       object { mystic
-        texture {pigment {rgb rndpigment}}
+        //texture {pigment {rgb rndpigment}}
         finish {tile_Finish}
         scale 1.5                          // ADJUST!
         transform {Str[0][0] trsf}
@@ -223,35 +254,35 @@ global_settings { assumed_gamma 1.0 }
 
 
 
-#macro build_tiling (ttransinv, htilex, gtrans0, depth)
+build_ttransinv (signature, depth)
 
-//  #local i = 1;
-//  #while (i < 8)
-//    #declare SPobj[i] = object{spectre
-//      //texture {pigment {SPpigment[i]}}
-//      texture {pigment {SPpigment[3]}}
-//    }
-//    #local i = i + 1;
-//  #end
-
-  #if (fase <= 4)
-    SPrec_infl (htilex[depth], transform {ttransinv[depth] gtrans0}, depth)
-  #end
-  #if (fase >= 2)
-    #declare Seed=seed(123);
-    #declare darkenfactor = 1.0;
-    #if (fase >= 6) #declare darkenfactor = 0.3; #end
-    SPrec_infl2 (htilex[depth], transform {ttransinv[depth] gtrans0 translate 2*tile_thick*y}, depth, 1)
-  #end
-  #if (fase >= 6)
-    #declare Seed=seed(123);
-    SPrec_infl3 (htilex[depth], transform {ttransinv[depth] gtrans0 translate 4*tile_thick*y}, depth)
-  #end
-
+#if (fase <= 4)
+  SPrec_infl (htilex[depth], transform {ttransinv[depth] gtrans0}, depth)
+#end
+#if (fase >= 2 & fase <= 6)
+  #declare Seed=seed(123);
+  #declare darkenfactor = 1.0;
+  #if (fase >= 6) #declare darkenfactor = 0.3; #end
+  SPrec_infl2 (htilex[depth], transform {ttransinv[depth] gtrans0 translate 2*tile_thick*y}, depth, 1)
+#end
+#if (fase >= 6)
+  #declare Seed=seed(123);
+  SPrec_infl3 (htilex[depth], transform {ttransinv[depth] gtrans0 translate 4*tile_thick*y}, depth)
+#end
+#if (fase >= 7)
+  build_ttransinv (signature2, depth - 1)
+  #declare Seed=seed(123);
+  //SPrec_sparse (htilex[depth-1], transform {ttransinv[depth-1] gtrans0 scale <-1,1,1> translate 6*tile_thick*y+0*(2*x+z)}, depth-1)
+  SPrec_sparse (htilex[depth-1], transform {scale <-1,1,1> ttransinv[depth-1] gtrans0 translate 6*tile_thick*y-8.0*z+2.5*x}, depth-1)
+#end
+#if (fase >= 8)
+  #declare Seed=seed(123);
+  //SPrec_infl (htilex[depth-1], transform {ttransinv[depth-1] gtrans0 scale <-1,1,1> translate 6*tile_thick*y+20*(2*x-z)}, depth-1)
+  SPrec_infl (htilex[depth-1], transform {ttransinv[depth-1] gtrans0 scale <-1,1,1> translate 8*tile_thick*y}, depth-1)
 #end
 
-build_ttransinv (signature, depth)
-build_tiling (ttransinv, htilex, gtrans0, depth)
+
+//build_tiling (ttransinv, htilex, gtrans0, depth)
 
 //#declare textfont = "LiberationMono-Regular.ttf"
 
