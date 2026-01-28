@@ -146,7 +146,7 @@ global_settings { assumed_gamma 1.0 }
     #if (fase >= 4)
       #if (tid != 0 & tid != 3)
         object { tile11
-          texture {pigment {rgb rndpigment}}
+          texture {pigment {rgb darkenfactor*rndpigment}}
           finish {tile_Finish}
           transform {trsf}
         }
@@ -154,7 +154,7 @@ global_settings { assumed_gamma 1.0 }
     #end
     #if (fase >= 5 & tid = 3 & ptid != 0)
         object { tile11
-          texture {pigment {rgb 0.7*rndpigment}}
+          texture {pigment {rgb 0.7*darkenfactor*rndpigment}}
           finish {tile_Finish}
           transform {trsf}
         }
@@ -234,9 +234,13 @@ global_settings { assumed_gamma 1.0 }
 //    #local i = i + 1;
 //  #end
 
-  SPrec_infl (htilex[depth], transform {ttransinv[depth] gtrans0}, depth)
+  #if (fase <= 4)
+    SPrec_infl (htilex[depth], transform {ttransinv[depth] gtrans0}, depth)
+  #end
   #if (fase >= 2)
     #declare Seed=seed(123);
+    #declare darkenfactor = 1.0;
+    #if (fase >= 6) #declare darkenfactor = 0.3; #end
     SPrec_infl2 (htilex[depth], transform {ttransinv[depth] gtrans0 translate 2*tile_thick*y}, depth, 1)
   #end
   #if (fase >= 6)
