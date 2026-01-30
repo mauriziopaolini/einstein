@@ -507,12 +507,27 @@ spectrefractalsub.png: spectrebd.pov spectresubdivision.inc
 
 spectreinflationfasi=1 2 3 4 5 6 7 8
 spectreinflation=$(spectreinflationfasi:%=spectreinflation_%.png)
+spectreinflation_d2=$(spectreinflationfasi:%=spectreinflation_%_d2.png)
+spectreinflation_d3=$(spectreinflationfasi:%=spectreinflation_%_d3.png)
+spectreinflation_d4=$(spectreinflationfasi:%=spectreinflation_%_d4.png)
 spectreinflationpngs: $(spectreinflation)
+spectreinflationpngs_d2: $(spectreinflation_d2)
+spectreinflationpngs_d3: $(spectreinflation_d3)
+spectreinflationpngs_d4: $(spectreinflation_d4)
 
 povoptsinfl = -D +a Declare=AspectWide=1 +W1280 +H720
 
 $(spectreinflation):spectreinflation_%.png:spectreinflation.pov
 	povray $(povoptsinfl) $< Declare=fase=$* +O$@
+
+$(spectreinflation_d2):spectreinflation_%_d2.png:spectreinflation.pov
+	povray $(povoptsinfl) $< Declare=depth=2 Declare=fase=$* +O$@
+
+$(spectreinflation_d3):spectreinflation_%_d3.png:spectreinflation.pov
+	povray $(povoptsinfl) $< Declare=depth=3 Declare=fase=$* +O$@
+
+$(spectreinflation_d4):spectreinflation_%_d4.png:spectreinflation.pov
+	povray $(povoptsinfl) $< Declare=depth=4 Declare=fase=$* +O$@
 
 #
 #

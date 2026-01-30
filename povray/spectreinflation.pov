@@ -286,6 +286,13 @@ build_ttransinv (signature, depth)
 
 //#declare textfont = "LiberationMono-Regular.ttf"
 
+cylinder {
+  <0,0,0>
+  <0,1,0>
+  0.3
+  texture {pigment {Black}}
+}
+
 background {White}
 
 #declare skycam = z;
