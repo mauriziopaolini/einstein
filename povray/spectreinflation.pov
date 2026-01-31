@@ -186,6 +186,7 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
     #end
   #else
     #if (fase >= 4 & d = 0) rndcol (Seed) #end
+    #if (fase >= 4 & d = 0 & i = 0) rndcol (Seed) #end
     #local i = 0;
     #while (i < 8)
       #if (tid != 0 | i != 3)
