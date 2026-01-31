@@ -8,6 +8,13 @@
  * a signature is a string of digits taken from
  * the set {0,1,2,3,4,5,6,7} and the pair 03 is forbidden
  */
+/*
+#finalclock 164
+#numseconds 164
+#durata 165
+#coda 1
+#titolo 5
+ */
 
 #version 3.7;
 
@@ -30,6 +37,11 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (minterp) #declare minterp = 1; #end
 
 #ifndef (fase) #declare fase = 1; #end
+
+#if (fase = 7.5)
+  #declare minterp = clock;
+  #declare fase = 8;
+#end
 
 #macro buildsigs (sigh, sigl, sigh2, sigl2)
   #local sig = sigl;
@@ -134,6 +146,7 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
 //#declare darkenvalue = 0.8;
 
 #declare Seed=seed(123);
+#declare Seedm=seed(123);
 
 #macro rndcol (myseed)
   #declare rndpigment = <rand(myseed), rand(myseed), rand(myseed)>;
@@ -256,6 +269,7 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
 #macro SPrec_motion (tid, trsf, depth)
   #local d = depth-1;
   #if (depth = 0)
+    #local zrise = 0.1*rand(Seedm)*y;
     #if (tid = 0)
       object { tile11
         transform {mystic_tr}
@@ -263,7 +277,7 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
         texture {pigment {rgb rndpigment}} finish {tile_Finish}
         //transform {trsf}
         //transform {scale scale_it translate move_it trsf}
-        transform {scale (minterp + (1-minterp)*scale_it) translate (1-minterp)*move_it trsf}
+        transform {scale (minterps + (1-minterps)*scale_it) translate (1-minterpm)*move_it trsf translate zrise}
       }
     #end
     object {spectre
@@ -271,7 +285,7 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
       texture {pigment {rgb rndpigment}} finish {tile_Finish}
       //transform {trsf}
       //transform {scale scale_it translate move_it trsf}
-      transform {scale (minterp + (1-minterp)*scale_it) translate (1-minterp)*move_it trsf}
+      transform {scale (minterps + (1-minterps)*scale_it) translate (1-minterpm)*move_it trsf translate zrise}
     }
 
   #else
@@ -279,7 +293,7 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
     #while (i < 8)
       #if (tid != 0 | i != 3)
         SPrec_motion (i, transform {rotate rots[i]*y
-            translate (minterp*Stran[i][d]+(1-minterp)*Stran[i][d+1]) scale <-1,1,1> trsf}, d)
+            translate (minterpm*Stran[i][d]+(1-minterpm)*Stran[i][d+1]) scale <-1,1,1> trsf}, d)
       #end
       #local i = i + 1;
     #end
@@ -309,10 +323,21 @@ build_ttransinv (signature, depth)
   #if (minterp = 1)
     SPrec_infl (htilex[depth], transform {ttransinv2[depth-1] gtrans0 scale <-1,1,1> scale blow_up_scale translate 4*tile_thick*y}, depth-1)
   #else
+    #declare minterpm = minterp;
+    #declare minterps = minterp;
+/*
+    #if (minterp < 0.5)
+      #declare minterpm = 2*minterp;
+      #declare minterps = 0;
+    #else
+      #declare minterpm = 1;
+      #declare minterps = 2*minterp - 1;
+    #end
+ */
     #local ttransoffset = vtransform (<0,0,0>, transform {ttransinv2[depth-1] scale <-1,1,1>})
                         - vtransform (<0,0,0>, transform {ttransinv[depth] scale <+1,1,1>});
-    SPrec_motion (htilex[depth], transform {ttransinv[depth] translate minterp*ttransoffset Str[0][0] gtrans0 scale <-1,1,1>
-        scale (1 - minterp + minterp*blow_up_scale) translate 4*tile_thick*y}, depth-1)
+    SPrec_motion (htilex[depth], transform {ttransinv[depth] translate minterpm*ttransoffset Str[0][0] gtrans0 scale <-1,1,1>
+        scale (1 - minterps + minterps*blow_up_scale) translate 4*tile_thick*y}, depth-1)
   #end
 #end
 
@@ -321,12 +346,14 @@ build_ttransinv (signature, depth)
 
 //#declare textfont = "LiberationMono-Regular.ttf"
 
+/*
 cylinder {
   <0,0,0>
   <0,1,0>
   0.3
   texture {pigment {Black}}
 }
+ */
 
 background {White}
 

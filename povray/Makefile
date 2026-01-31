@@ -551,9 +551,16 @@ $(spectreinflationm_d3):spectreinflation_8pre%_d3.png:spectreinflation.pov
 $(spectreinflationm_d4):spectreinflation_8pre%_d4.png:spectreinflation.pov
 	povray $(povoptsinfl) $< Declare=depth=4 Declare=fase=8 Declare=minterp=0.$* +O$@
 
+
 #
+# spectre inflation animation of the assembly
 #
-#
+
+frames/spectre_inflation_7.5/DONE: frames/%/DONE: spectreinflation.pov
+	povray $< $(povoptsani) Declare=fase=7.5 +ki0 +kf1 +kff120 +Oframes/$*/frame
+	for i in `seq 121 145`; do cp frames/$*/frame120.png frames/$*/frame$${i}.png; done
+	touch $@
+
 
 $(hatholes): hathole_z%.png: hathole.pov
 	povray $(povoptspng) $< Declare=depth=5 Declare=zoomout=$* +O$@
