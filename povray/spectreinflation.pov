@@ -65,6 +65,8 @@ global_settings { assumed_gamma 1.0 }
 #declare signature2 = array[12]
 buildsigs (Sigh, Sigl, Sigh2, Sigl2)
 
+#declare blow_up_scale = 2.805883701475779;
+
 //#declare darkenvalue = 0.5;
 
 #local sigstring=""
@@ -89,8 +91,8 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
 
 #declare gtrans0 = transform {scale <1,1,1>}
 
-#declare ttransinv = array[depth+1];
-#declare htilex = array[depth+1];
+#declare ttransinv = array[depth+2];
+#declare htilex = array[depth+2];
 
 #macro build_ttransinv (signature, depth)
  #local dpth = 0;
@@ -232,7 +234,7 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
 
 
 
-build_ttransinv (signature, depth)
+build_ttransinv (signature, depth+1)
 
 #if (fase <= 4)
   SPrec_infl (htilex[depth], transform {ttransinv[depth] gtrans0}, depth)
@@ -243,14 +245,15 @@ build_ttransinv (signature, depth)
   #if (fase >= 6) #declare darkenfactor = 0.3; #end
   SPrec_infl2 (htilex[depth], transform {ttransinv[depth] gtrans0 translate 2*tile_thick*y}, depth, 1)
 #end
-#if (fase >= 6)
+#if (fase = 6)
   #declare Seed=seed(123);
   SPrec_sparse (htilex[depth], transform {ttransinv[depth] gtrans0 translate 4*tile_thick*y}, depth-1)
 #end
 #if (fase >= 7)
   //build_ttransinv (signature2, depth - 1)
   #declare Seed=seed(123);
-  SPrec_infl (htilex[depth], transform {ttransinv[depth] gtrans0 translate 2*tile_thick*y + 15*x}, depth-1)
+  SPrec_infl (htilex[depth], transform {ttransinv[depth] gtrans0 scale blow_up_scale translate 4*tile_thick*y}, depth-1)
+  //SPrec_infl (htilex[depth+1], transform {ttransinv[depth+1] gtrans0 scale blow_up_scale translate 4*tile_thick*y}, depth)
 #end
 
 
