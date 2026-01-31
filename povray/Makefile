@@ -557,8 +557,8 @@ $(spectreinflationm_d4):spectreinflation_8pre%_d4.png:spectreinflation.pov
 #
 
 frames/spectre_inflation_7.5/DONE: frames/%/DONE: spectreinflation.pov
-	povray $< $(povoptsani) Declare=fase=7.5 +ki0 +kf1 +kff120 +Oframes/$*/frame
-	for i in `seq 121 145`; do cp frames/$*/frame120.png frames/$*/frame$${i}.png; done
+	povray $< $(povoptsani) Declare=fase=7.5 +ki0 +kf1 +kff120 +Oframes/$*/frame0
+	for i in `seq 121 145`; do cp frames/$*/frame0120.png frames/$*/frame0$${i}.png; done
 	touch $@
 
 
@@ -647,8 +647,9 @@ mp4listc=yellow_brick_road_emerald yellow_brick_road_witch
 mp4listd=spectre_deflations spectre_deflations_ws spectre_desert_walk5 spectre_desert_walk6
 mp4liste=hexfive_deflations hexfive_deflations_ws hex_brick_road5B hex_brick_road_aug5B hex_brick_road6 hex_brick_road_aug6
 mp4listf=hex_brick_road_emerald hex_brick_road_witch
+mp4listg=spectre_inflation_7.5
 
-mp4list = $(mp4lista) $(mp4listb) $(mp4listc) $(mp4listd) $(mp4liste) $(mp4listf)
+mp4list = $(mp4lista) $(mp4listb) $(mp4listc) $(mp4listd) $(mp4liste) $(mp4listf) $(mp4listg)
 
 $(mp4list:%=%.mp4): %.mp4: frames/%/DONE
 	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/$*/frame????.png' -c:v libx264 -pix_fmt yuv420p $@
