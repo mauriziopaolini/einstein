@@ -515,6 +515,16 @@ spectreinflationpngs_d2: $(spectreinflation_d2)
 spectreinflationpngs_d3: $(spectreinflation_d3)
 spectreinflationpngs_d4: $(spectreinflation_d4)
 
+spectreinflationmotion=2 4 6 8
+spectreinflationm=$(spectreinflationmotion:%=spectreinflation_8pre%.png)
+spectreinflationm_d2=$(spectreinflationmotion:%=spectreinflation_8pre%_d2.png)
+spectreinflationm_d3=$(spectreinflationmotion:%=spectreinflation_8pre%_d3.png)
+spectreinflationm_d4=$(spectreinflationmotion:%=spectreinflation_8pre%_d4.png)
+spectreinflationmpngs: $(spectreinflationm)
+spectreinflationmpngs_d2: $(spectreinflationm_d2)
+spectreinflationmpngs_d3: $(spectreinflationm_d3)
+spectreinflationmpngs_d4: $(spectreinflationm_d4)
+
 povoptsinfl = -D +a Declare=AspectWide=1 +W1280 +H720
 
 $(spectreinflation):spectreinflation_%.png:spectreinflation.pov
@@ -528,6 +538,18 @@ $(spectreinflation_d3):spectreinflation_%_d3.png:spectreinflation.pov
 
 $(spectreinflation_d4):spectreinflation_%_d4.png:spectreinflation.pov
 	povray $(povoptsinfl) $< Declare=depth=4 Declare=fase=$* +O$@
+
+$(spectreinflationm):spectreinflation_8pre%.png:spectreinflation.pov
+	povray $(povoptsinfl) $< Declare=fase=8 Declare=minterp=0.$* +O$@
+
+$(spectreinflationm_d2):spectreinflation_8pre%_d2.png:spectreinflation.pov
+	povray $(povoptsinfl) $< Declare=depth=2 Declare=fase=8 Declare=minterp=0.$* +O$@
+
+$(spectreinflationm_d3):spectreinflation_8pre%_d3.png:spectreinflation.pov
+	povray $(povoptsinfl) $< Declare=depth=3 Declare=fase=8 Declare=minterp=0.$* +O$@
+
+$(spectreinflationm_d4):spectreinflation_8pre%_d4.png:spectreinflation.pov
+	povray $(povoptsinfl) $< Declare=depth=4 Declare=fase=8 Declare=minterp=0.$* +O$@
 
 #
 #

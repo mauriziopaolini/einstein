@@ -39,7 +39,7 @@ global_settings { assumed_gamma 1.0 }
     #local sigq = int(sig/10);
     #local sigq2 = int(sig2/10);
     #declare signature[i] = sig - 10*sigq;
-    #declare signature2[i] = sig2 - 10*sigq2;
+//    #declare signature2[i] = sig2 - 10*sigq2;
     #local i = i + 1;
     #local sig = sigq;
     #local sig2 = sigq2;
@@ -76,7 +76,7 @@ global_settings { assumed_gamma 1.0 }
 #end
 
 #declare signature = array[12]
-#declare signature2 = array[12]
+//#declare signature2 = array[12]
 buildsigs (Sigh, Sigl, Sigh2, Sigl2)
 
 #declare blow_up_scale = 2.805883701475779;
@@ -106,6 +106,7 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
 #declare gtrans0 = transform {scale <1,1,1>}
 
 #declare ttransinv = array[depth+2];
+#declare ttransinv2 = array[depth+2];
 #declare htilex = array[depth+2];
 
 #macro build_ttransinv (signature, depth)
@@ -113,15 +114,19 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
  #while (dpth <= depth)
 
   #declare tiletrans = transform {scale <1,1,1>};
+  #declare tiletrans2 = transform {scale <1,1,1>};
   #local i = 0;
   #while (i < dpth)
     #local strx = Str[signature[dpth-i-1]][dpth-i-1];
+    #local strx2 = Str[signature[dpth-i]][dpth-i-1];
     #declare tiletrans = transform {strx tiletrans}
+    #declare tiletrans2 = transform {strx2 tiletrans2}
     #local i = i + 1;
   #end
 
   #declare htilex[dpth] = signature[dpth];
   #declare ttransinv[dpth] = transform {tiletrans inverse}
+  #declare ttransinv2[dpth] = transform {tiletrans2 inverse}
   #local dpth = dpth + 1;
  #end
 #end
@@ -300,14 +305,15 @@ build_ttransinv (signature, depth)
 #end
 #if (fase >= 8)
   #declare Seed=seed(123);
-  build_ttransinv (signature2, depth - 1)
+  //build_ttransinv (signature2, depth - 1)
   #if (minterp = 1)
-    SPrec_infl (htilex[depth-1], transform {ttransinv[depth-1] gtrans0 scale <-1,1,1> scale blow_up_scale translate 4*tile_thick*y}, depth-1)
+    SPrec_infl (htilex[depth], transform {ttransinv2[depth-1] gtrans0 scale <-1,1,1> scale blow_up_scale translate 4*tile_thick*y}, depth-1)
   #else
-    SPrec_motion (htilex[depth-1], transform {ttransinv[depth-1] gtrans0 scale <-1,1,1>
+    #local ttransoffset = vtransform (<0,0,0>, transform {ttransinv2[depth-1] scale <-1,1,1>})
+                        - vtransform (<0,0,0>, transform {ttransinv[depth] scale <+1,1,1>});
+    SPrec_motion (htilex[depth], transform {ttransinv[depth] translate minterp*ttransoffset Str[0][0] gtrans0 scale <-1,1,1>
         scale (1 - minterp + minterp*blow_up_scale) translate 4*tile_thick*y}, depth-1)
   #end
-  //SPrec_infl (htilex[depth+1], transform {ttransinv[depth+1] gtrans0 scale blow_up_scale translate 4*tile_thick*y}, depth)
 #end
 
 
