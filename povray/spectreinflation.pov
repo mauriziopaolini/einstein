@@ -46,6 +46,21 @@ global_settings { assumed_gamma 1.0 }
   #end
 #end
 
+/*
+ * the rotational part of the tiles transformations is the same at all
+ * depth levels
+ */
+
+#declare rots = array[8]
+#declare rots[0] = 0;
+#declare rots[1] = 120;
+#declare rots[2] = 60;
+#declare rots[3] = 60;
+#declare rots[4] = 0;
+#declare rots[5] = -60;
+#declare rots[6] = -60;
+#declare rots[7] = -120;
+
 #declare signature = array[12]
 #declare signature2 = array[12]
 buildsigs (Sigh, Sigl, Sigh2, Sigl2)
@@ -109,23 +124,18 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
     #if (tid = 0)
       object { tile11
         transform {mystic_tr}
-        //texture {T_mystic finish {tile_Finish} }
         rndcol (Seed)
         texture {pigment {rgb rndpigment}} finish {tile_Finish}
         transform {trsf}
       }
-
-      //object {mystic transform {trsf}}
     #end
     object {spectre
-      //texture {pigment {SPpigment[1 + int(rand(Seed)*7)]}}
       rndcol (Seed)
       texture {pigment {rgb rndpigment}}
       transform {trsf}
     }
 
   #else
-    // SPrec (0, transform {Str[0][d] trsf}, d)
     #local i = 0;
     #while (i < 8)
       #if (tid != 0 | i != 3)
@@ -133,41 +143,6 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
       #end
       #local i = i + 1;
     #end
-    //#if (d >= colors-1) SProtcolorshue (deltahue) SPbuildtiles() #end
-  #end
-#end
-
-#macro SPrec_sparse (tid, trsf, depth)
-  #local d = depth-1;
-  #if (depth = 0)
-    #if (tid = 0)
-      object { tile11
-        transform {mystic_tr}
-        texture {T_mystic finish {tile_Finish} }
-        //rndcol (Seed)
-        //texture {pigment {rgb rndpigment}} finish {tile_Finish}
-        transform {trsf}
-      }
-
-      //object {mystic transform {trsf}}
-    #end
-    object {spectre
-      //texture {pigment {SPpigment[1 + int(rand(Seed)*7)]}}
-      rndcol (Seed)
-      texture {pigment {rgb rndpigment}}
-      transform {trsf}
-    }
-
-  #else
-    // SPrec (0, transform {Str[0][d] trsf}, d)
-    #local i = 0;
-    #while (i < 8)
-      #if (tid != 0 | i != 3)
-        SPrec_sparse (i, transform {Str[i][d+1] trsf}, d)
-      #end
-      #local i = i + 1;
-    #end
-    //#if (d >= colors-1) SProtcolorshue (deltahue) SPbuildtiles() #end
   #end
 #end
 
@@ -221,31 +196,33 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
   #end
 #end
 
+#declare move_it = 3.0*x + 1.0*z;
+#declare scale_it = 1.3;
 
-#macro SPrec_infl3 (tid, trsf, depth)
+#macro SPrec_sparse (tid, trsf, depth)
   #local d = depth-1;
-  #if (depth = 1)
-    rndcol (Seed)
+  #if (depth = 0)
     #if (tid = 0)
-      object { mystic
-        //texture {pigment {rgb rndpigment}}
-        finish {tile_Finish}
-        scale 1.5                          // ADJUST!
-        transform {Str[0][0] trsf}
-      }
-    #else
       object { tile11
-        texture {pigment {rgb rndpigment}}
-        finish {tile_Finish}
-        scale 1.5                          // ADJUST!
-        transform {Str[0][0] trsf}
+        transform {mystic_tr}
+        rndcol (Seed)
+        texture {T_mystic finish {tile_Finish} }
+        transform {scale scale_it translate move_it trsf}
+        //transform {Str[tid][d+1] trsf}
       }
     #end
+    object {spectre
+      rndcol (Seed)
+      texture {pigment {rgb rndpigment}}
+      transform {scale scale_it translate move_it trsf}
+      //transform {Str[tid][d+1] trsf}
+    }
+
   #else
     #local i = 0;
     #while (i < 8)
       #if (tid != 0 | i != 3)
-        SPrec_infl3 (i, transform {Str[i][d] trsf}, d)
+        SPrec_sparse (i, transform {Str[i][d+1] trsf}, d)
       #end
       #local i = i + 1;
     #end
@@ -267,18 +244,12 @@ build_ttransinv (signature, depth)
 #end
 #if (fase >= 6)
   #declare Seed=seed(123);
-  SPrec_infl3 (htilex[depth], transform {ttransinv[depth] gtrans0 translate 4*tile_thick*y}, depth)
+  SPrec_sparse (htilex[depth], transform {ttransinv[depth] gtrans0 translate 4*tile_thick*y}, depth-1)
 #end
 #if (fase >= 7)
-  build_ttransinv (signature2, depth - 1)
+  //build_ttransinv (signature2, depth - 1)
   #declare Seed=seed(123);
-  //SPrec_sparse (htilex[depth-1], transform {ttransinv[depth-1] gtrans0 scale <-1,1,1> translate 6*tile_thick*y+0*(2*x+z)}, depth-1)
-  SPrec_sparse (htilex[depth-1], transform {scale <-1,1,1> ttransinv[depth-1] gtrans0 translate 6*tile_thick*y-8.0*z+2.5*x}, depth-1)
-#end
-#if (fase >= 8)
-  #declare Seed=seed(123);
-  //SPrec_infl (htilex[depth-1], transform {ttransinv[depth-1] gtrans0 scale <-1,1,1> translate 6*tile_thick*y+20*(2*x-z)}, depth-1)
-  SPrec_infl (htilex[depth-1], transform {ttransinv[depth-1] gtrans0 scale <-1,1,1> translate 8*tile_thick*y}, depth-1)
+  SPrec_infl (htilex[depth], transform {ttransinv[depth] gtrans0 translate 2*tile_thick*y + 15*x}, depth-1)
 #end
 
 
@@ -286,12 +257,14 @@ build_ttransinv (signature, depth)
 
 //#declare textfont = "LiberationMono-Regular.ttf"
 
+/*
 cylinder {
   <0,0,0>
   <0,1,0>
   0.3
   texture {pigment {Black}}
 }
+ */
 
 background {White}
 

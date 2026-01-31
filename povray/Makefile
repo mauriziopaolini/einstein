@@ -505,7 +505,7 @@ spectrefractalsub.png: spectrebd.pov spectresubdivision.inc
 # Spectre inflation
 #
 
-spectreinflationfasi=1 2 3 4 5 6 7 8
+spectreinflationfasi=1 2 3 4 5 6 7
 spectreinflation=$(spectreinflationfasi:%=spectreinflation_%.png)
 spectreinflation_d2=$(spectreinflationfasi:%=spectreinflation_%_d2.png)
 spectreinflation_d3=$(spectreinflationfasi:%=spectreinflation_%_d3.png)
