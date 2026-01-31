@@ -133,7 +133,7 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
     #end
     object {spectre
       rndcol (Seed)
-      texture {pigment {rgb rndpigment}}
+      texture {pigment {rgb rndpigment}} finish {tile_Finish}
       transform {trsf}
     }
 
@@ -154,7 +154,7 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
     #if (fase >= 4)
       #if (tid != 0 & tid != 3)
         object { tile11
-          texture {pigment {rgb darkenfactor*rndpigment}}
+          texture {pigment {rgb darkenfactor*rndpigment}} finish {tile_Finish}
           finish {tile_Finish}
           transform {trsf}
         }
@@ -162,7 +162,7 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
     #end
     #if (fase >= 5 & tid = 3 & ptid != 0)
         object { tile11
-          texture {pigment {rgb 0.7*darkenfactor*rndpigment}}
+          texture {pigment {rgb 0.7*darkenfactor*rndpigment}} finish {tile_Finish}
           finish {tile_Finish}
           transform {trsf}
         }
@@ -209,14 +209,15 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
       object { tile11
         transform {mystic_tr}
         rndcol (Seed)
-        texture {T_mystic finish {tile_Finish} }
+        //texture {T_mystic finish {tile_Finish} }
+        texture {pigment {rgb rndpigment}} finish {tile_Finish}
         transform {scale scale_it translate move_it trsf}
         //transform {Str[tid][d+1] trsf}
       }
     #end
     object {spectre
       rndcol (Seed)
-      texture {pigment {rgb rndpigment}}
+      texture {pigment {rgb rndpigment}} finish {tile_Finish}
       transform {scale scale_it translate move_it trsf}
       //transform {Str[tid][d+1] trsf}
     }
@@ -245,11 +246,11 @@ build_ttransinv (signature, depth+1)
   #if (fase >= 6) #declare darkenfactor = 0.3; #end
   SPrec_infl2 (htilex[depth], transform {ttransinv[depth] gtrans0 translate 2*tile_thick*y}, depth, 1)
 #end
-#if (fase = 6)
+#if (fase >= 6 & fase <= 7)
   #declare Seed=seed(123);
   SPrec_sparse (htilex[depth], transform {ttransinv[depth] gtrans0 translate 4*tile_thick*y}, depth-1)
 #end
-#if (fase >= 7)
+#if (fase >= 8)
   //build_ttransinv (signature2, depth - 1)
   #declare Seed=seed(123);
   SPrec_infl (htilex[depth], transform {ttransinv[depth] gtrans0 scale blow_up_scale translate 4*tile_thick*y}, depth-1)
