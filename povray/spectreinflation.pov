@@ -27,6 +27,7 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (Sigh2) #declare Sigh2 = 040404; #end
 #ifndef (depth) #declare depth = 5; #end
 #ifndef (zoomout) #declare zoomout = 2; #end
+#ifndef (minterp) #declare minterp = 1; #end
 
 #ifndef (fase) #declare fase = 1; #end
 
@@ -60,6 +61,19 @@ global_settings { assumed_gamma 1.0 }
 #declare rots[5] = -60;
 #declare rots[6] = -60;
 #declare rots[7] = -120;
+
+#declare Stran = array[8][maxdepth];
+
+#local i = 0;
+#while (i < maxdepth)
+  #local j = 0;
+  #while (j < 8)
+    #declare Stran[j][i] = vtransform (<0,0,0>, transform {Str[j][i] scale <-1,1,1>});
+    //#declare Str[j][i] = transform {rotate rots[j]*y translate Stran[j][i] scale <-1,1,1>};
+    #local j = j + 1;
+  #end
+  #local i = i + 1;
+#end
 
 #declare signature = array[12]
 #declare signature2 = array[12]
@@ -234,6 +248,39 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
 #end
 
 
+#macro SPrec_motion (tid, trsf, depth)
+  #local d = depth-1;
+  #if (depth = 0)
+    #if (tid = 0)
+      object { tile11
+        transform {mystic_tr}
+        rndcol (Seed)
+        texture {pigment {rgb rndpigment}} finish {tile_Finish}
+        //transform {trsf}
+        //transform {scale scale_it translate move_it trsf}
+        transform {scale (minterp + (1-minterp)*scale_it) translate (1-minterp)*move_it trsf}
+      }
+    #end
+    object {spectre
+      rndcol (Seed)
+      texture {pigment {rgb rndpigment}} finish {tile_Finish}
+      //transform {trsf}
+      //transform {scale scale_it translate move_it trsf}
+      transform {scale (minterp + (1-minterp)*scale_it) translate (1-minterp)*move_it trsf}
+    }
+
+  #else
+    #local i = 0;
+    #while (i < 8)
+      #if (tid != 0 | i != 3)
+        SPrec_motion (i, transform {rotate rots[i]*y
+            translate (minterp*Stran[i][d]+(1-minterp)*Stran[i][d+1]) scale <-1,1,1> trsf}, d)
+      #end
+      #local i = i + 1;
+    #end
+  #end
+#end
+
 
 //build_ttransinv (signature, depth+1)
 build_ttransinv (signature, depth)
@@ -252,9 +299,14 @@ build_ttransinv (signature, depth)
   SPrec_sparse (htilex[depth], transform {ttransinv[depth] gtrans0 translate 4*tile_thick*y}, depth-1)
 #end
 #if (fase >= 8)
-  build_ttransinv (signature2, depth - 1)
   #declare Seed=seed(123);
-  SPrec_infl (htilex[depth-1], transform {ttransinv[depth-1] gtrans0 scale <-1,1,1> scale blow_up_scale translate 4*tile_thick*y}, depth-1)
+  build_ttransinv (signature2, depth - 1)
+  #if (minterp = 1)
+    SPrec_infl (htilex[depth-1], transform {ttransinv[depth-1] gtrans0 scale <-1,1,1> scale blow_up_scale translate 4*tile_thick*y}, depth-1)
+  #else
+    SPrec_motion (htilex[depth-1], transform {ttransinv[depth-1] gtrans0 scale <-1,1,1>
+        scale (1 - minterp + minterp*blow_up_scale) translate 4*tile_thick*y}, depth-1)
+  #end
   //SPrec_infl (htilex[depth+1], transform {ttransinv[depth+1] gtrans0 scale blow_up_scale translate 4*tile_thick*y}, depth)
 #end
 
