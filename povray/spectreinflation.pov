@@ -235,7 +235,8 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
 
 
 
-build_ttransinv (signature, depth+1)
+//build_ttransinv (signature, depth+1)
+build_ttransinv (signature, depth)
 
 #if (fase <= 4)
   SPrec_infl (htilex[depth], transform {ttransinv[depth] gtrans0}, depth)
@@ -251,9 +252,9 @@ build_ttransinv (signature, depth+1)
   SPrec_sparse (htilex[depth], transform {ttransinv[depth] gtrans0 translate 4*tile_thick*y}, depth-1)
 #end
 #if (fase >= 8)
-  //build_ttransinv (signature2, depth - 1)
+  build_ttransinv (signature2, depth - 1)
   #declare Seed=seed(123);
-  SPrec_infl (htilex[depth], transform {ttransinv[depth] gtrans0 scale blow_up_scale translate 4*tile_thick*y}, depth-1)
+  SPrec_infl (htilex[depth-1], transform {ttransinv[depth-1] gtrans0 scale <-1,1,1> scale blow_up_scale translate 4*tile_thick*y}, depth-1)
   //SPrec_infl (htilex[depth+1], transform {ttransinv[depth+1] gtrans0 scale blow_up_scale translate 4*tile_thick*y}, depth)
 #end
 
@@ -262,14 +263,12 @@ build_ttransinv (signature, depth+1)
 
 //#declare textfont = "LiberationMono-Regular.ttf"
 
-/*
 cylinder {
   <0,0,0>
   <0,1,0>
   0.3
   texture {pigment {Black}}
 }
- */
 
 background {White}
 
