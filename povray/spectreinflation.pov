@@ -43,6 +43,12 @@ global_settings { assumed_gamma 1.0 }
   #declare fase = 8;
 #end
 
+#declare tile_Finishb = finish {
+        ambient 2*sambient diffuse 2*sdiffuse
+        specular 0.5 roughness 0.05
+        phong .75
+}
+
 #macro buildsigs (sigh, sigl, sigh2, sigl2)
   #local sig = sigl;
   #local sig2 = sigl2;
@@ -152,6 +158,10 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
   #declare rndpigment = <rand(myseed), rand(myseed), rand(myseed)>;
 #end
 
+#macro brighten (amount)
+  #declare rndpigment = <1,1,1> - amount*(<1,1,1> - rndpigment);
+#end
+
 #macro SPrec_infl (tid, trsf, depth)
   #local d = depth-1;
   #if (depth = 0)
@@ -183,6 +193,7 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
 #macro SPrec_infl2 (tid, trsf, depth, ptid)
   #local d = depth-1;
   #if (depth = 0)
+    rndcol (Seed)
     #if (fase >= 4)
       #if (tid != 0 & tid != 3)
         object { tile11
@@ -200,21 +211,22 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
         }
     #end
     #if (tid = 0)
+      //brighten (0.2)
       object { tile11
         transform {mystic_tr}
         //texture {T_mystic finish {tile_Finish} }
-        //rndcol (Seed)
-        texture {T_mystic finish {tile_Finish} }
+        texture {T_mysticb} finish {tile_Finishb}
         transform {trsf}
       }
+      rndcol (Seed)
       object { tile11
-        texture {T_mystic finish {tile_Finish} }
+        texture {T_mysticb} finish {tile_Finish}
         transform {trsf}
       }
     #end
     #if (tid = 5 & fase = 2)
       object {spectre
-        texture {T_mystic finish {tile_Finish} }
+        texture {T_mysticb} finish {tile_Finish}
         transform {trsf}
       }
     #end
