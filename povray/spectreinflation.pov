@@ -193,7 +193,7 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
 #macro SPrec_infl2 (tid, trsf, depth, ptid)
   #local d = depth-1;
   #if (depth = 0)
-    rndcol (Seed)
+    //rndcol (Seed)
     #if (fase >= 4)
       #if (tid != 0 & tid != 3)
         object { tile11
@@ -218,7 +218,7 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
         texture {T_mysticb} finish {tile_Finishb}
         transform {trsf}
       }
-      rndcol (Seed)
+      //rndcol (Seed)
       object { tile11
         texture {T_mysticb} finish {tile_Finish}
         transform {trsf}
