@@ -190,7 +190,7 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
   #end
 #end
 
-#macro SPrec_infl2 (tid, trsf, depth, ptid)
+#macro SPrec_infl2 (tid, trsf, depth, ptid, fase)
   #local d = depth-1;
   #if (depth = 0)
     //rndcol (Seed)
@@ -236,7 +236,7 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
     #local i = 0;
     #while (i < 8)
       #if (tid != 0 | i != 3)
-        SPrec_infl2 (i, transform {Str[i][d] trsf}, d, tid)
+        SPrec_infl2 (i, transform {Str[i][d] trsf}, d, tid, fase)
       #end
       #local i = i + 1;
     #end
@@ -323,13 +323,13 @@ build_ttransinv (signature, depth)
   #declare Seed=seed(123);
   #declare darkenfactor = 1.0;
   #if (fase >= 6) #declare darkenfactor = 0.3; #end
-  SPrec_infl2 (htilex[depth], transform {ttransinv[depth] gtrans0 translate 2*tile_thick*y}, depth, 1)
+  SPrec_infl2 (htilex[depth], transform {ttransinv[depth] gtrans0 translate 2*tile_thick*y}, depth, 1, fase)
 #end
 #if (fase >= 6 & fase <= 7)
   #declare Seed=seed(123);
   SPrec_sparse (htilex[depth], transform {ttransinv[depth] gtrans0 translate 4*tile_thick*y}, depth-1)
 #end
-#if (fase >= 8)
+#if (fase = 8)
   #declare Seed=seed(123);
   //build_ttransinv (signature2, depth - 1)
   #if (minterp = 1)
@@ -351,6 +351,16 @@ build_ttransinv (signature, depth)
     SPrec_motion (htilex[depth], transform {ttransinv[depth] translate minterpm*ttransoffset Str[0][0] gtrans0 scale <-1,1,1>
         scale (1 - minterps + minterps*blow_up_scale) translate 4*tile_thick*y}, depth-1)
   #end
+#end
+#if (fase >= 9)
+  #declare Seed=seed(123);
+    SPrec_infl (htilex[depth], transform {ttransinv2[depth-1] gtrans0 scale blow_up_scale}, depth-1)
+#end
+#if (fase >= 10 & fase <= 14)
+  #declare Seed=seed(123);
+  #declare darkenfactor = 1.0;
+  #if (fase >= 14) #declare darkenfactor = 0.3; #end
+  SPrec_infl2 (htilex[depth], transform {ttransinv2[depth-1] gtrans0 scale blow_up_scale  translate 2*tile_thick*y}, depth-1, 1, fase - 8)
 #end
 
 
