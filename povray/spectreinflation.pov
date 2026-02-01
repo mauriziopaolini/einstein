@@ -424,7 +424,7 @@ build_ttransinv (signature, depth)
     #local ttransoffset = vtransform (<0,0,0>, transform {ttransinv4[depth-3] scale <-1,1,1>})
                         - vtransform (<0,0,0>, transform {ttransinv3[depth-2] scale <+1,1,1>});
     SPrec_motion (htilex[depth], transform {ttransinv3[depth-2] translate minterpm*ttransoffset Str[0][0] gtrans0 scale <-1,1,1>
-        scale (1 - minterps + minterps*blow_up_scale*blow_up_scale*blow_up_scale) translate 4*tile_thick*y}, depth-3)
+        scale (1 - minterps + minterps*blow_up_scale) translate 4*tile_thick*y}, depth-3)
   #end
 #end
 #if (fase - 3*deltafase >= 1 & fase - 3*deltafase <= 4)
