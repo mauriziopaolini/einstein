@@ -37,10 +37,21 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (minterp) #declare minterp = 1; #end
 
 #ifndef (fase) #declare fase = 1; #end
+#declare deltafase = 8;
 
 #if (fase = 7.5)
   #declare minterp = clock;
   #declare fase = 8;
+#end
+
+#if (fase = 7.5 + deltafase)
+  #declare minterp = clock;
+  #declare fase = 8+deltafase;
+#end
+
+#if (fase = 7.5 + 2*deltafase)
+  #declare minterp = clock;
+  #declare fase = 8+2*deltafase;
 #end
 
 #declare tile_Finishb = finish {
@@ -79,8 +90,6 @@ global_settings { assumed_gamma 1.0 }
 #declare rots[5] = -60;
 #declare rots[6] = -60;
 #declare rots[7] = -120;
-
-#declare deltafase = 8;
 
 #declare Stran = array[8][maxdepth];
 
@@ -385,9 +394,9 @@ build_ttransinv (signature, depth)
   #else
     #declare minterpm = minterp;
     #declare minterps = minterp;
-    #local ttransoffset = vtransform (<0,0,0>, transform {ttransinv3[depth-2] scale <+1,1,1>})
-                        - vtransform (<0,0,0>, transform {ttransinv2[depth-1] scale <-1,1,1>});
-    SPrec_motion (htilex[depth], transform {ttransinv2[depth-1] translate minterpm*ttransoffset Str[0][0] gtrans0 scale <-1,1,1>
+    #local ttransoffset = vtransform (<0,0,0>, transform {ttransinv3[depth-2] scale <-1,1,1>})
+                        - vtransform (<0,0,0>, transform {ttransinv2[depth-1] scale <+1,1,1>});
+    SPrec_motion (htilex[depth], transform {ttransinv2[depth-1] translate minterpm*ttransoffset Str[0][0] scale blow_up_scale gtrans0 scale <-1,1,1>
         scale (1 - minterps + minterps*blow_up_scale*blow_up_scale) translate 4*tile_thick*y}, depth-2)
   #end
 #end

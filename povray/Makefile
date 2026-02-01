@@ -561,6 +561,16 @@ frames/spectre_inflation_7.5/DONE: frames/%/DONE: spectreinflation.pov
 	for i in `seq 121 145`; do cp frames/$*/frame0120.png frames/$*/frame0$${i}.png; done
 	touch $@
 
+frames/spectre_inflation_15.5/DONE: frames/%/DONE: spectreinflation.pov
+	povray $< $(povoptsani) Declare=fase=15.5 +ki0 +kf1 +kff120 +Oframes/$*/frame0
+	for i in `seq 121 145`; do cp frames/$*/frame0120.png frames/$*/frame0$${i}.png; done
+	touch $@
+
+frames/spectre_inflation_23.5/DONE: frames/%/DONE: spectreinflation.pov
+	povray $< $(povoptsani) Declare=fase=23.5 +ki0 +kf1 +kff120 +Oframes/$*/frame0
+	for i in `seq 121 145`; do cp frames/$*/frame0120.png frames/$*/frame0$${i}.png; done
+	touch $@
+
 
 $(hatholes): hathole_z%.png: hathole.pov
 	povray $(povoptspng) $< Declare=depth=5 Declare=zoomout=$* +O$@
@@ -647,7 +657,7 @@ mp4listc=yellow_brick_road_emerald yellow_brick_road_witch
 mp4listd=spectre_deflations spectre_deflations_ws spectre_desert_walk5 spectre_desert_walk6
 mp4liste=hexfive_deflations hexfive_deflations_ws hex_brick_road5B hex_brick_road_aug5B hex_brick_road6 hex_brick_road_aug6
 mp4listf=hex_brick_road_emerald hex_brick_road_witch
-mp4listg=spectre_inflation_7.5
+mp4listg=spectre_inflation_7.5 spectre_inflation_15.5 spectre_inflation_23.5
 
 mp4list = $(mp4lista) $(mp4listb) $(mp4listc) $(mp4listd) $(mp4liste) $(mp4listf) $(mp4listg)
 
