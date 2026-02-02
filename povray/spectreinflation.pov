@@ -134,43 +134,39 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
 
 #declare gtrans0 = transform {scale <1,1,1>}
 
-#declare ttransinv = array[depth+2];
-#declare ttransinv2 = array[depth+2];
-#declare ttransinv3 = array[depth+2];
-#declare ttransinv4 = array[depth+2];
+#declare ttransinv = array[depth][depth+2];
+#declare tiletrans = array[depth];
 #declare htilex = array[depth+2];
 
 #macro build_ttransinv (signature, depth)
- #local dpth = 0;
- #while (dpth <= depth)
+  #local dpth = 0;
+  #while (dpth <= depth)
 
-  #declare tiletrans = transform {scale <1,1,1>};
-  #declare tiletrans2 = transform {scale <1,1,1>};
-  #declare tiletrans3 = transform {scale <1,1,1>};
-  #declare tiletrans4 = transform {scale <1,1,1>};
-  #local i = 0;
-  #while (i < dpth)
-    #local strx = Str[signature[dpth-i-1]][dpth-i-1];
-    #local strx2 = Str[signature[dpth-i]][dpth-i-1];
-    #local strx3 = Str[signature[dpth-i+1]][dpth-i-1];
-    #local strx4 = Str[signature[dpth-i+2]][dpth-i-1];
-    #declare tiletrans = transform {strx tiletrans}
-    #declare tiletrans2 = transform {strx2 tiletrans2}
-    #declare tiletrans3 = transform {strx3 tiletrans3}
-    #declare tiletrans4 = transform {strx4 tiletrans4}
-    #local i = i + 1;
+    #local k = 0;
+    #while (k < depth)
+      #declare tiletrans[k] = transform {scale <1,1,1>};
+      #local k = k + 1;
+    #end
+    #local i = 0;
+    #while (i < dpth)
+      #local k = 0;
+      #while (k < depth)
+        #local strx = Str[signature[dpth-i-1+k]][dpth-i-1];
+        #declare tiletrans[k] = transform {strx tiletrans[k]}
+        #local k = k + 1;
+      #end
+      #local i = i + 1;
+    #end
+
+    #declare htilex[dpth] = signature[dpth];
+    #local k = 0;
+    #while (k < depth)
+      #declare ttransinv[k][dpth] = transform {tiletrans[k] inverse}
+      #local k = k + 1;
+    #end
+    #local dpth = dpth + 1;
   #end
-
-  #declare htilex[dpth] = signature[dpth];
-  #declare ttransinv[dpth] = transform {tiletrans inverse}
-  #declare ttransinv2[dpth] = transform {tiletrans2 inverse}
-  #declare ttransinv3[dpth] = transform {tiletrans3 inverse}
-  #declare ttransinv4[dpth] = transform {tiletrans4 inverse}
-  #local dpth = dpth + 1;
- #end
 #end
-
-//#declare darkenvalue = 0.8;
 
 #declare Seed=seed(123);
 #declare Seedm=seed(123);
@@ -334,107 +330,45 @@ buildsigs (Sigh, Sigl, Sigh2, Sigl2)
 #end
 
 
-//build_ttransinv (signature, depth+1)
 build_ttransinv (signature, depth)
 
-#if (fase <= 4)
-  SPrec_infl (htilex[depth], transform {ttransinv[depth] gtrans0}, depth)
-#end
-#if (fase >= 2 & fase <= 6)
-  #declare Seed=seed(123);
-  #declare darkenfactor = 1.0;
-  #if (fase >= 6) #declare darkenfactor = 0.3; #end
-  SPrec_infl2 (htilex[depth], transform {ttransinv[depth] gtrans0 translate 2*tile_thick*y}, depth, 1, fase)
-#end
-#if (fase >= 6 & fase <= 7)
-  #declare Seed=seed(123);
-  SPrec_sparse (htilex[depth], transform {ttransinv[depth] gtrans0 translate 4*tile_thick*y}, depth-1)
-#end
-#if (fase = 8)
-  #declare Seed=seed(123);
-  //build_ttransinv (signature2, depth - 1)
-  #if (minterp = 1)
-    SPrec_infl (htilex[depth], transform {ttransinv2[depth-1] gtrans0 scale <-1,1,1> scale blow_up_scale translate 4*tile_thick*y}, depth-1)
-  #else
-    #declare minterpm = minterp;
-    #declare minterps = minterp;
-/*
-    #if (minterp < 0.5)
-      #declare minterpm = 2*minterp;
-      #declare minterps = 0;
+#local blowup_scale_c = 1;
+#local ciclo = 0;
+#while (ciclo < 4)
+  #if (fase - ciclo*deltafase >= 1 & fase - ciclo*deltafase <= 4)
+    #declare Seed=seed(123);
+    SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c}, depth-ciclo)
+  #end
+  #if (fase - ciclo*deltafase >= 2 & fase - ciclo*deltafase <= 6)
+    #declare Seed=seed(123);
+    #declare darkenfactor = 1.0;
+    #if (fase - ciclo*deltafase >= 6) #declare darkenfactor = 0.3; #end
+    SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*y},
+        depth-ciclo, 1, fase - ciclo*deltafase)
+  #end
+  #if (fase - ciclo*deltafase >= 6 & fase - ciclo*deltafase <= 7)
+    #declare Seed=seed(123);
+    SPrec_sparse (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 4*tile_thick*y}, depth-ciclo-1)
+  #end
+  #if (fase - ciclo*deltafase = 8)
+    #declare Seed=seed(123);
+    #if (minterp = 1) 
+      SPrec_infl (htilex[depth], transform {ttransinv[ciclo+1][depth-ciclo-1] gtrans0 scale <-1,1,1>
+          scale blowup_scale_c*blow_up_scale translate 4*tile_thick*y}, depth-ciclo-1)
     #else
-      #declare minterpm = 1;
-      #declare minterps = 2*minterp - 1;
+      #declare minterpm = minterp;
+      #declare minterps = minterp;
+      #local ttransoffset = vtransform (<0,0,0>, transform {ttransinv[ciclo+1][depth-ciclo-1] scale <-1,1,1>})
+                          - vtransform (<0,0,0>, transform {ttransinv[ciclo][depth-ciclo] scale <+1,1,1>});
+      SPrec_motion (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] translate minterpm*ttransoffset Str[0][0]
+          scale blowup_scale_c gtrans0 scale <-1,1,1>
+          scale (1 - minterps + minterps*blow_up_scale) translate 4*tile_thick*y}, depth-ciclo-1)
+
     #end
- */
-    #local ttransoffset = vtransform (<0,0,0>, transform {ttransinv2[depth-1] scale <-1,1,1>})
-                        - vtransform (<0,0,0>, transform {ttransinv[depth] scale <+1,1,1>});
-    SPrec_motion (htilex[depth], transform {ttransinv[depth] translate minterpm*ttransoffset Str[0][0] gtrans0 scale <-1,1,1>
-        scale (1 - minterps + minterps*blow_up_scale) translate 4*tile_thick*y}, depth-1)
   #end
+  #local blowup_scale_c = blowup_scale_c*blow_up_scale;
+  #local ciclo = ciclo + 1;
 #end
-#if (fase - deltafase >= 1 & fase - deltafase <= 4)
-  #declare Seed=seed(123);
-    SPrec_infl (htilex[depth], transform {ttransinv2[depth-1] gtrans0 scale blow_up_scale}, depth-1)
-#end
-#if (fase - deltafase >= 2 & fase - deltafase <= 6)
-  #declare Seed=seed(123);
-  #declare darkenfactor = 1.0;
-  #if (fase - deltafase >= 6) #declare darkenfactor = 0.3; #end
-  SPrec_infl2 (htilex[depth], transform {ttransinv2[depth-1] gtrans0 scale blow_up_scale translate 2*tile_thick*y}, depth-1, 1, fase - deltafase)
-#end
-#if (fase - deltafase >= 6 & fase - deltafase <= 7)
-  #declare Seed=seed(123);
-  SPrec_sparse (htilex[depth], transform {ttransinv2[depth-1] gtrans0 scale blow_up_scale translate 4*tile_thick*y}, depth-2)
-#end
-#if (fase - deltafase = 8)
-  #declare Seed=seed(123);
-  #if (minterp = 1) 
-    SPrec_infl (htilex[depth], transform {ttransinv3[depth-2] gtrans0 scale <-1,1,1> scale blow_up_scale*blow_up_scale translate 4*tile_thick*y}, depth-2)
-  #else
-    #declare minterpm = minterp;
-    #declare minterps = minterp;
-    #local ttransoffset = vtransform (<0,0,0>, transform {ttransinv3[depth-2] scale <-1,1,1>})
-                        - vtransform (<0,0,0>, transform {ttransinv2[depth-1] scale <+1,1,1>});
-    SPrec_motion (htilex[depth], transform {ttransinv2[depth-1] translate minterpm*ttransoffset Str[0][0] scale blow_up_scale gtrans0 scale <-1,1,1>
-        scale (1 - minterps + minterps*blow_up_scale) translate 4*tile_thick*y}, depth-2)
-  #end
-#end
-#if (fase - 2*deltafase >= 1 & fase - 2*deltafase <= 4)
-  #declare Seed=seed(123);
-    SPrec_infl (htilex[depth], transform {ttransinv3[depth-2] gtrans0 scale blow_up_scale*blow_up_scale}, depth-2)
-#end
-#if (fase - 2*deltafase >= 2 & fase - 2*deltafase <= 6)
-  #declare Seed=seed(123);
-  #declare darkenfactor = 1.0;
-  #if (fase - 2*deltafase >= 6) #declare darkenfactor = 0.3; #end
-  SPrec_infl2 (htilex[depth], transform {ttransinv3[depth-2] gtrans0 scale blow_up_scale*blow_up_scale translate 2*tile_thick*y}, depth-2, 1, fase - 2*deltafase)
-#end
-#if (fase - 2*deltafase >= 6 & fase - 2*deltafase <= 7)
-  #declare Seed=seed(123);
-  SPrec_sparse (htilex[depth], transform {ttransinv3[depth-2] gtrans0 scale blow_up_scale*blow_up_scale translate 4*tile_thick*y}, depth-3)
-#end
-#if (fase - 2*deltafase = 8)
-  #declare Seed=seed(123);
-  #if (minterp = 1)
-    SPrec_infl (htilex[depth], transform {ttransinv4[depth-3] gtrans0 scale <-1,1,1> scale blow_up_scale*blow_up_scale*blow_up_scale translate 4*tile_thick*y}, depth-3)
-  #else
-    #declare minterpm = minterp;
-    #declare minterps = minterp;
-    #local ttransoffset = vtransform (<0,0,0>, transform {ttransinv4[depth-3] scale <-1,1,1>})
-                        - vtransform (<0,0,0>, transform {ttransinv3[depth-2] scale <+1,1,1>});
-    SPrec_motion (htilex[depth], transform {ttransinv3[depth-2] translate minterpm*ttransoffset Str[0][0] scale blow_up_scale*blow_up_scale gtrans0 scale <-1,1,1>
-        scale (1 - minterps + minterps*blow_up_scale) translate 4*tile_thick*y}, depth-3)
-  #end
-#end
-#if (fase - 3*deltafase >= 1 & fase - 3*deltafase <= 4)
-  #declare Seed=seed(123);
-    SPrec_infl (htilex[depth], transform {ttransinv4[depth-3] gtrans0 scale blow_up_scale*blow_up_scale*blow_up_scale}, depth-3)
-#end
-
-
-
-//build_tiling (ttransinv, htilex, gtrans0, depth)
 
 //#declare textfont = "LiberationMono-Regular.ttf"
 
