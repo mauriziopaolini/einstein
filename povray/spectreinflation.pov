@@ -30,8 +30,8 @@ global_settings { assumed_gamma 1.0 }
 
 #ifndef (Sigl) #declare Sigl = 404040; #end
 #ifndef (Sigh) #declare Sigh = 404040; #end
-#ifndef (Sigl2) #declare Sigl2 = 040404; #end
-#ifndef (Sigh2) #declare Sigh2 = 040404; #end
+//#ifndef (Sigl2) #declare Sigl2 = 040404; #end
+//#ifndef (Sigh2) #declare Sigh2 = 040404; #end
 #ifndef (depth) #declare depth = 5; #end
 #ifndef (zoomout) #declare zoomout = 2; #end
 #ifndef (minterp) #declare minterp = 1; #end
@@ -60,19 +60,22 @@ global_settings { assumed_gamma 1.0 }
         phong .75
 }
 
-#macro buildsigs (sigh, sigl, sigh2, sigl2)
+//#macro buildsigs (sigh, sigl, sigh2, sigl2)
+#macro buildsig (sigh, sigl)
   #local sig = sigl;
-  #local sig2 = sigl2;
+//  #local sig2 = sigl2;
   #local i = 0;
   #while (i < 12)
     #local sigq = int(sig/10);
-    #local sigq2 = int(sig2/10);
+//    #local sigq2 = int(sig2/10);
     #declare signature[i] = sig - 10*sigq;
-//    #declare signature2[i] = sig2 - 10*sigq2;
     #local i = i + 1;
     #local sig = sigq;
-    #local sig2 = sigq2;
-    #if (i = 6) #local sig = sigh; #local sig2 = sigh2; #end
+//    #local sig2 = sigq2;
+    #if (i = 6)
+      #local sig = sigh;
+//      #local sig2 = sigh2;
+    #end
   #end
 #end
 
@@ -105,8 +108,8 @@ global_settings { assumed_gamma 1.0 }
 #end
 
 #declare signature = array[12]
-//#declare signature2 = array[12]
-buildsigs (Sigh, Sigl, Sigh2, Sigl2)
+//buildsigs (Sigh, Sigl, Sigh2, Sigl2)
+buildsig (Sigh, Sigl)
 
 #declare blow_up_scale = 2.805883701475779;
 
