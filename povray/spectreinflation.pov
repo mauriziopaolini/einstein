@@ -418,7 +418,8 @@ build_ttransinv (signature, depth)
 #while (ciclo < 4)
   #if (fase - ciclo*deltafase >= 1 & fase - ciclo*deltafase <= 4)
     #declare Seed=seed(123);
-    #local zlift = max(200*(1-minterp),0);
+    #local zlift = 0;
+    #if (ciclo = 0 & minterp < 1) #local zlift = max(200*(1-minterp),0); #end
     SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate zlift*y}, depth-ciclo)
   #end
   #if (fase - ciclo*deltafase >= 2 & fase - ciclo*deltafase <= 6)
@@ -436,7 +437,7 @@ build_ttransinv (signature, depth)
     #declare Seed=seed(123);
     #if (minterp = 1) 
       SPrec_infl (htilex[depth], transform {ttransinv[ciclo+1][depth-ciclo-1] gtrans0 scale <-1,1,1>
-          scale blowup_scale_c*blow_up_scale translate 4*tile_thick*blowup_scale_cy}, depth-ciclo-1)
+          scale blowup_scale_c*blow_up_scale translate 4*tile_thick*blowup_scale_c*y}, depth-ciclo-1)
     #else
 #debug concat ("--------------- FASE 8 ------- minterp: ", str(minterp,0,-1), "\n")
       #declare minterpm = minterp;
