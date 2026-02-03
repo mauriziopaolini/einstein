@@ -61,18 +61,26 @@ global_settings { assumed_gamma 1.0 }
  * times (tprex and tx) indicate the END time of the relative stage
  */
 
-#debug concat ("=============== tpre1 = ", str(tpre1,0,0), "\n")
-#debug concat ("=============== tpre2 = ", str(tpre2,0,0), "\n")
-#debug concat ("=============== tpre3 = ", str(tpre3,0,0), "\n")
-#debug concat ("=============== tpre8 = ", str(tpre8,0,0), "\n")
-#debug concat ("=============== tpre9 = ", str(tpre9,0,0), "\n")
-#debug concat ("=============== tpre10 = ", str(tpre10,0,0), "\n")
-#debug concat ("=============== tpre11 = ", str(tpre11,0,0), "\n")
-#debug concat ("=============== tpre16 = ", str(tpre16,0,0), "\n")
-#debug concat ("=============== tpre17 = ", str(tpre17,0,0), "\n")
-#debug concat ("=============== tpre24 = ", str(tpre24,0,0), "\n")
-#debug concat ("=============== tpre25 = ", str(tpre25,0,0), "\n")
-#debug concat ("=============== Total duration in seconds: ", str(t25,0,0), "\n")
+#debug concat ("=============== tpre1 = ", str(tpre1,0,-1), "\n")
+#debug concat ("=============== tpre2 = ", str(tpre2,0,-1), "\n")
+#debug concat ("=============== tpre3 = ", str(tpre3,0,-1), "\n")
+#debug concat ("=============== tpre4 = ", str(tpre4,0,-1), "\n")
+#debug concat ("=============== tpre5 = ", str(tpre5,0,-1), "\n")
+#debug concat ("=============== tpre8 = ", str(tpre8,0,-1), "\n")
+#debug concat ("=============== tpre9 = ", str(tpre9,0,-1), "\n")
+#debug concat ("=============== tpre10 = ", str(tpre10,0,-1), "\n")
+#debug concat ("=============== tpre11 = ", str(tpre11,0,-1), "\n")
+#debug concat ("=============== tpre12 = ", str(tpre12,0,-1), "\n")
+#debug concat ("=============== tpre13 = ", str(tpre13,0,-1), "\n")
+#debug concat ("=============== tpre16 = ", str(tpre16,0,-1), "\n")
+#debug concat ("=============== tpre17 = ", str(tpre17,0,-1), "\n")
+#debug concat ("=============== tpre18 = ", str(tpre18,0,-1), "\n")
+#debug concat ("=============== tpre19 = ", str(tpre19,0,-1), "\n")
+#debug concat ("=============== tpre20 = ", str(tpre20,0,-1), "\n")
+#debug concat ("=============== tpre21 = ", str(tpre21,0,-1), "\n")
+#debug concat ("=============== tpre24 = ", str(tpre24,0,-1), "\n")
+#debug concat ("=============== tpre25 = ", str(tpre25,0,-1), "\n")
+#debug concat ("=============== Total duration in seconds: ", str(t25,0,-1), "\n")
 
 
 #declare minterp = 0;
@@ -327,6 +335,7 @@ buildsig (Sigh, Sigl)
           texture {pigment {rgb darkenfactor*rndpigment}} finish {tile_Finish}
           finish {tile_Finish}
           transform {trsf}
+	  translate blowup_scale_c*ylift2*y
         }
       #end
     #end
@@ -335,6 +344,8 @@ buildsig (Sigh, Sigl)
           texture {pigment {rgb 0.7*darkenfactor*rndpigment}} finish {tile_Finish}
           finish {tile_Finish}
           transform {trsf}
+	  translate blowup_scale_c*ylift3*y
+//#debug concat ("blowup_scale_c*ylift3*y: ", str(blowup_scale_c*ylift2,0,-1), "\n")
         }
     #end
     #if (tid = 0)
@@ -452,10 +463,11 @@ build_ttransinv (signature, depth)
 #while (ciclo < 4)
   #declare falsemysticdown = -4*blowup_scale_c*tile_thick;
   #declare darkenfactor = 1.0;
+  #local ylift2 = 0; #local ylift3 = 0;
   #local fasemod = fase - ciclo*deltafase;
   #if (fasemod = 1)
     #declare Seed=seed(123);
-    #local ylift = 0; #local zrot = 0;
+    #local ylift = 0; #local zrot = 0; #local ylift2 = 0; #local ylift3 = 0;
     #if (ciclo = 0 & minterp > 0) #local ylift = 200*minterp; #end
     #if (ciclo > 0 & minterp > 0) #local zrot = 180*minterp; #local ylift = (1-minterp)*tile_thick*blowup_scale_c; #end
     #if (ciclo > 0 & minterp > 0.5) #declare gtrans0 = transform {scale <1,-1,1> translate tile_thick*y gtrans0}; #end
@@ -484,11 +496,14 @@ build_ttransinv (signature, depth)
     SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c}, depth-ciclo)
 
     #declare Seed=seed(123);
+    #local ylift2 = updown(minterp).y - 3*minterp*tile_thick;
     SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*blowup_scale_c*y},
         depth-ciclo, 1, fasemod)
   #end
   #if (fasemod = 5)
     #declare Seed=seed(123);
+    #local ylift3 = updown(minterp).y - 3*minterp*tile_thick;
+#debug concat("minterp: ", str(minterp,0,-1), "\n")
     SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*blowup_scale_c*y},
         depth-ciclo, 1, fasemod)
   #end
