@@ -38,22 +38,22 @@ global_settings { assumed_gamma 1.0 }
 #local duration_pre8 = 5; #local tpre8 = t7 + duration_pre8; #local duration_8 = 5; #local t8 = tpre8 + duration_8;
 
 #local duration_pre9 = 2; #local tpre9 = t8 + duration_pre9; #local duration_9 = 5; #local t9 = tpre9 + duration_9;
-#local duration_pre10 = 2; #local tpre10 = t9 + duration_pre10; #local duration_10 = 5; #local t10 = tpre10 + duration_10;
-#local duration_pre11 = 2; #local tpre11 = t10 + duration_pre11; #local duration_11 = 5; #local t11 = tpre11 + duration_11;
-#local duration_pre12 = 2; #local tpre12 = t11 + duration_pre12; #local duration_12 = 5; #local t12 = tpre12 + duration_12;
-#local duration_pre13 = 2; #local tpre13 = t12 + duration_pre13; #local duration_13 = 5; #local t13 = tpre13 + duration_13;
-#local duration_pre14 = 2; #local tpre14 = t13 + duration_pre14; #local duration_14 = 5; #local t14 = tpre14 + duration_14;
-#local duration_pre15 = 2; #local tpre15 = t14 + duration_pre15; #local duration_15 = 5; #local t15 = tpre15 + duration_15;
-#local duration_pre16 = 5; #local tpre16 = t15 + duration_pre16; #local duration_16 = 5; #local t16 = tpre16 + duration_16;
+#local duration_pre10 = 1.5; #local tpre10 = t9 + duration_pre10; #local duration_10 = 4; #local t10 = tpre10 + duration_10;
+#local duration_pre11 = 1.5; #local tpre11 = t10 + duration_pre11; #local duration_11 = 4; #local t11 = tpre11 + duration_11;
+#local duration_pre12 = 1.5; #local tpre12 = t11 + duration_pre12; #local duration_12 = 4; #local t12 = tpre12 + duration_12;
+#local duration_pre13 = 1.5; #local tpre13 = t12 + duration_pre13; #local duration_13 = 4; #local t13 = tpre13 + duration_13;
+#local duration_pre14 = 1.5; #local tpre14 = t13 + duration_pre14; #local duration_14 = 4; #local t14 = tpre14 + duration_14;
+#local duration_pre15 = 1.5; #local tpre15 = t14 + duration_pre15; #local duration_15 = 4; #local t15 = tpre15 + duration_15;
+#local duration_pre16 = 4; #local tpre16 = t15 + duration_pre16; #local duration_16 = 4; #local t16 = tpre16 + duration_16;
 
-#local duration_pre17 = 2; #local tpre17 = t16 + duration_pre17; #local duration_17 = 5; #local t17 = tpre17 + duration_17;
-#local duration_pre18 = 2; #local tpre18 = t17 + duration_pre18; #local duration_18 = 5; #local t18 = tpre18 + duration_18;
-#local duration_pre19 = 2; #local tpre19 = t18 + duration_pre19; #local duration_19 = 5; #local t19 = tpre19 + duration_19;
-#local duration_pre20 = 2; #local tpre20 = t19 + duration_pre20; #local duration_20 = 5; #local t20 = tpre20 + duration_20;
-#local duration_pre21 = 2; #local tpre21 = t20 + duration_pre21; #local duration_21 = 5; #local t21 = tpre21 + duration_21;
-#local duration_pre22 = 2; #local tpre22 = t21 + duration_pre22; #local duration_22 = 5; #local t22 = tpre22 + duration_22;
-#local duration_pre23 = 2; #local tpre23 = t22 + duration_pre23; #local duration_23 = 5; #local t23 = tpre23 + duration_23;
-#local duration_pre24 = 5; #local tpre24 = t23 + duration_pre24; #local duration_24 = 5; #local t24 = tpre24 + duration_24;
+#local duration_pre17 = 2; #local tpre17 = t16 + duration_pre17; #local duration_17 = 4; #local t17 = tpre17 + duration_17;
+#local duration_pre18 = 1; #local tpre18 = t17 + duration_pre18; #local duration_18 = 3; #local t18 = tpre18 + duration_18;
+#local duration_pre19 = 1; #local tpre19 = t18 + duration_pre19; #local duration_19 = 3; #local t19 = tpre19 + duration_19;
+#local duration_pre20 = 1; #local tpre20 = t19 + duration_pre20; #local duration_20 = 3; #local t20 = tpre20 + duration_20;
+#local duration_pre21 = 1; #local tpre21 = t20 + duration_pre21; #local duration_21 = 3; #local t21 = tpre21 + duration_21;
+#local duration_pre22 = 1; #local tpre22 = t21 + duration_pre22; #local duration_22 = 3; #local t22 = tpre22 + duration_22;
+#local duration_pre23 = 1; #local tpre23 = t22 + duration_pre23; #local duration_23 = 3; #local t23 = tpre23 + duration_23;
+#local duration_pre24 = 3; #local tpre24 = t23 + duration_pre24; #local duration_24 = 4; #local t24 = tpre24 + duration_24;
 
 #local duration_pre25 = 2; #local tpre25 = t24 + duration_pre25; #local duration_25 = 5; #local t25 = tpre25 + duration_25;
 

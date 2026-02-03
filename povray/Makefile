@@ -863,5 +863,5 @@ frames/spectre_inflation_23.5/DONE: frames/%/DONE: spectreinflation.pov
 	touch $@
 
 frames/spectre_inflation/DONE: frames/%/DONE: spectreinflation.pov
-	povray $< $(povoptsani) Declare=animate=1 +kf185 +kff4625 +Oframes/$*/frame
+	povray $< $(povoptsani) Declare=animate=1 +kf152 +kff3800 +Oframes/$*/frame
 	touch $@
