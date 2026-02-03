@@ -552,26 +552,6 @@ $(spectreinflationm_d4):spectreinflation_8pre%_d4.png:spectreinflation.pov
 	povray $(povoptsinfl) $< Declare=depth=4 Declare=fase=8 Declare=minterp=0.$* +O$@
 
 
-#
-# spectre inflation animation of the assembly
-#
-
-frames/spectre_inflation_7.5/DONE: frames/%/DONE: spectreinflation.pov
-	povray $< $(povoptsani) Declare=fase=7.5 +ki0 +kf1 +kff120 +Oframes/$*/frame0
-	for i in `seq 121 145`; do cp frames/$*/frame0120.png frames/$*/frame0$${i}.png; done
-	touch $@
-
-frames/spectre_inflation_15.5/DONE: frames/%/DONE: spectreinflation.pov
-	povray $< $(povoptsani) Declare=fase=15.5 +ki0 +kf1 +kff120 +Oframes/$*/frame0
-	for i in `seq 121 145`; do cp frames/$*/frame0120.png frames/$*/frame0$${i}.png; done
-	touch $@
-
-frames/spectre_inflation_23.5/DONE: frames/%/DONE: spectreinflation.pov
-	povray $< $(povoptsani) Declare=fase=23.5 +ki0 +kf1 +kff120 +Oframes/$*/frame0
-	for i in `seq 121 145`; do cp frames/$*/frame0120.png frames/$*/frame0$${i}.png; done
-	touch $@
-
-
 $(hatholes): hathole_z%.png: hathole.pov
 	povray $(povoptspng) $< Declare=depth=5 Declare=zoomout=$* +O$@
 
@@ -657,7 +637,10 @@ mp4listc=yellow_brick_road_emerald yellow_brick_road_witch
 mp4listd=spectre_deflations spectre_deflations_ws spectre_desert_walk5 spectre_desert_walk6
 mp4liste=hexfive_deflations hexfive_deflations_ws hex_brick_road5B hex_brick_road_aug5B hex_brick_road6 hex_brick_road_aug6
 mp4listf=hex_brick_road_emerald hex_brick_road_witch
-mp4listg=spectre_inflation_7.5 spectre_inflation_15.5 spectre_inflation_23.5
+mp4sipre1l=0.5 8.5 16.5
+mp4sipre8l=7.5 15.5 23.5
+mp4siprexl=$(mp4sipre1l) $(mp4sipre8l)
+mp4listg=$(mp4siprexl:%=spectre_inflation_%) spectre_inflation
 
 mp4list = $(mp4lista) $(mp4listb) $(mp4listc) $(mp4listd) $(mp4liste) $(mp4listf) $(mp4listg)
 
@@ -833,3 +816,53 @@ frames/hex_brick_road_witch/DONE: frames/%/DONE: hex_brick_road.pov
 	for i in `seq 3701 3725`; do cp frames/$*/frame3700.png frames/$*/frame$${i}.png; done
 	touch $@
 
+#
+# spectre inflation animation of the assembly
+#
+
+#mp4sipre1l=0.5 8.5 16.5
+#mp4sipre8l=7.5 15.5 23.5
+#mp4siprexl=$(mp4sipre1l) $(mp4sipre8l)
+#mp4listg=$(mp4siprexl:spectre_inflation_%)
+
+#spectre_inflation_pre8l=7.5 15.5 23.5
+spectre_inflation_pre8=$(mp4sipre8l:%=spectre_inflation_%.mp4)
+spectre_inflation_pre8_mp4=$(spectre_inflation_pre8)
+
+framessipre1=$(mp4sipre1l:%=frames/spectre_inflation_%/DONE)
+
+frames/spectre_inflation_0.5/DONE: frames/%/DONE: spectreinflation.pov
+	povray $< $(povoptsani) Declare=fase=0.5 +ki0 +kf1 +kff60 +Oframes/$*/frame00
+	for i in `seq 61 85`; do cp frames/$*/frame0060.png frames/$*/frame00$${i}.png; done
+	touch $@
+
+frames/spectre_inflation_8.5/DONE: frames/%/DONE: spectreinflation.pov
+	povray $< $(povoptsani) Declare=fase=8.5 +ki0 +kf1 +kff60 +Oframes/$*/frame00
+	for i in `seq 61 85`; do cp frames/$*/frame0060.png frames/$*/frame00$${i}.png; done
+	touch $@
+
+frames/spectre_inflation_16.5/DONE: frames/%/DONE: spectreinflation.pov
+	povray $< $(povoptsani) Declare=fase=16.5 +ki0 +kf1 +kff60 +Oframes/$*/frame00
+	for i in `seq 61 85`; do cp frames/$*/frame0060.png frames/$*/frame00$${i}.png; done
+	touch $@
+
+
+frames/spectre_inflation_7.5/DONE: frames/%/DONE: spectreinflation.pov
+	povray $< $(povoptsani) Declare=fase=7.5 +ki0 +kf1 +kff120 +Oframes/$*/frame0
+	for i in `seq 121 145`; do cp frames/$*/frame0120.png frames/$*/frame0$${i}.png; done
+	touch $@
+
+frames/spectre_inflation_15.5/DONE: frames/%/DONE: spectreinflation.pov
+	povray $< $(povoptsani) Declare=fase=15.5 +ki0 +kf1 +kff120 +Oframes/$*/frame0
+	for i in `seq 121 145`; do cp frames/$*/frame0120.png frames/$*/frame0$${i}.png; done
+	touch $@
+
+frames/spectre_inflation_23.5/DONE: frames/%/DONE: spectreinflation.pov
+	povray $< $(povoptsani) Declare=fase=23.5 +ki0 +kf1 +kff120 +Oframes/$*/frame0
+	for i in `seq 121 145`; do cp frames/$*/frame0120.png frames/$*/frame0$${i}.png; done
+	touch $@
+
+frames/spectre_inflation/DONE: frames/%/DONE: spectreinflation.pov
+	povray $< $(povoptsani) Declare=animate=1 +kf180 +kff4500 +Oframes/$*/frame
+	for i in `seq 4501 4525`; do cp frames/$*/frame4500.png frames/$*/frame$${i}.png; done
+	touch $@

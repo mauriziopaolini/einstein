@@ -28,6 +28,80 @@ global_settings { assumed_gamma 1.0 }
 #include "spectresubdivision.inc"
 #include "ambiente.inc"
 
+#local duration_pre1 = 3; #local tpre1 = duration_pre1; #local duration_1 = 5; #local t1 = tpre1 + duration_1;
+#local duration_pre2 = 2; #local tpre2 = t1 + duration_pre2; #local duration_2 = 5; #local t2 = tpre2 + duration_2;
+#local duration_pre3 = 2; #local tpre3 = t2 + duration_pre3; #local duration_3 = 5; #local t3 = tpre3 + duration_3;
+#local duration_pre4 = 2; #local tpre4 = t3 + duration_pre4; #local duration_4 = 5; #local t4 = tpre4 + duration_4;
+#local duration_pre5 = 2; #local tpre5 = t4 + duration_pre5; #local duration_5 = 5; #local t5 = tpre5 + duration_5;
+#local duration_pre6 = 2; #local tpre6 = t5 + duration_pre6; #local duration_6 = 5; #local t6 = tpre6 + duration_6;
+#local duration_pre7 = 2; #local tpre7 = t6 + duration_pre7; #local duration_7 = 5; #local t7 = tpre7 + duration_7;
+#local duration_pre8 = 5; #local tpre8 = t7 + duration_pre8; #local duration_8 = 5; #local t8 = tpre8 + duration_8;
+
+#local duration_pre9 = 2; #local tpre9 = t8 + duration_pre9; #local duration_9 = 5; #local t9 = tpre9 + duration_9;
+#local duration_pre10 = 2; #local tpre10 = t9 + duration_pre10; #local duration_10 = 5; #local t10 = tpre10 + duration_10;
+#local duration_pre11 = 2; #local tpre11 = t10 + duration_pre11; #local duration_11 = 5; #local t11 = tpre11 + duration_11;
+#local duration_pre12 = 2; #local tpre12 = t11 + duration_pre12; #local duration_12 = 5; #local t12 = tpre12 + duration_12;
+#local duration_pre13 = 2; #local tpre13 = t12 + duration_pre13; #local duration_13 = 5; #local t13 = tpre13 + duration_13;
+#local duration_pre14 = 2; #local tpre14 = t13 + duration_pre14; #local duration_14 = 5; #local t14 = tpre14 + duration_14;
+#local duration_pre15 = 2; #local tpre15 = t14 + duration_pre15; #local duration_15 = 5; #local t15 = tpre15 + duration_15;
+#local duration_pre16 = 5; #local tpre16 = t15 + duration_pre16; #local duration_16 = 5; #local t16 = tpre16 + duration_16;
+
+#local duration_pre17 = 2; #local tpre17 = t16 + duration_pre17; #local duration_17 = 5; #local t17 = tpre17 + duration_17;
+#local duration_pre18 = 2; #local tpre18 = t17 + duration_pre18; #local duration_18 = 5; #local t18 = tpre18 + duration_18;
+#local duration_pre19 = 2; #local tpre19 = t18 + duration_pre19; #local duration_19 = 5; #local t19 = tpre19 + duration_19;
+#local duration_pre20 = 2; #local tpre20 = t19 + duration_pre20; #local duration_20 = 5; #local t20 = tpre20 + duration_20;
+#local duration_pre21 = 2; #local tpre21 = t20 + duration_pre21; #local duration_21 = 5; #local t21 = tpre21 + duration_21;
+#local duration_pre22 = 2; #local tpre22 = t21 + duration_pre22; #local duration_22 = 5; #local t22 = tpre22 + duration_22;
+#local duration_pre23 = 2; #local tpre23 = t22 + duration_pre23; #local duration_23 = 5; #local t23 = tpre23 + duration_23;
+#local duration_pre24 = 5; #local tpre24 = t23 + duration_pre24; #local duration_24 = 5; #local t24 = tpre24 + duration_24;
+
+#local duration_pre25 = 2; #local tpre25 = t24 + duration_pre25; #local duration_25 = 5; #local t25 = tpre25 + duration_25;
+
+#debug concat ("=============== tpre8 = ", str(tpre8,0,0), "\n")
+#debug concat ("=============== tpre16 = ", str(tpre16,0,0), "\n")
+#debug concat ("=============== tpre24 = ", str(tpre24,0,0), "\n")
+#debug concat ("=============== Total duration in seconds: ", str(tpre25,0,0), "\n")
+
+
+
+
+
+#ifdef (animate)
+  #local time = clock;
+  #if (time < tpre1) #declare minterp = time/duration_pre1; #declare fase = 1; #elseif (time < t1) #declare fase = 1;;
+  #elseif (time < tpre2) #declare minterp = (time-t1)/duration_pre2; #declare fase = 2; #elseif (time < t2) #declare fase = 2;
+  #elseif (time < tpre3) #declare minterp = (time-t2)/duration_pre3; #declare fase = 3; #elseif (time < t3) #declare fase = 3;
+  #elseif (time < tpre4) #declare minterp = (time-t3)/duration_pre4; #declare fase = 4; #elseif (time < t4) #declare fase = 4;
+  #elseif (time < tpre5) #declare minterp = (time-t4)/duration_pre5; #declare fase = 5; #elseif (time < t5) #declare fase = 5;
+  #elseif (time < tpre6) #declare minterp = (time-t5)/duration_pre6; #declare fase = 6; #elseif (time < t6) #declare fase = 6;
+  #elseif (time < tpre7) #declare minterp = (time-t6)/duration_pre7; #declare fase = 7; #elseif (time < t7) #declare fase = 7;
+  #elseif (time < tpre8) #declare minterp = (time-t7)/duration_pre8; #declare fase = 8; #elseif (time < t8) #declare fase = 8;
+
+  #elseif (time < tpre9) #declare minterp = (time-t8)/duration_pre9; #declare fase = 9; #elseif (time < t9) #declare fase = 9;
+  #elseif (time < tpre10) #declare minterp = (time-t9)/duration_pre10; #declare fase = 10; #elseif (time < t10) #declare fase = 10;
+  #elseif (time < tpre11) #declare minterp = (time-t10)/duration_pre11; #declare fase = 11; #elseif (time < t11) #declare fase = 11;
+  #elseif (time < tpre12) #declare minterp = (time-t11)/duration_pre12; #declare fase = 12; #elseif (time < t12) #declare fase = 12;
+  #elseif (time < tpre13) #declare minterp = (time-t12)/duration_pre13; #declare fase = 13; #elseif (time < t13) #declare fase = 13;
+  #elseif (time < tpre14) #declare minterp = (time-t13)/duration_pre14; #declare fase = 14; #elseif (time < t14) #declare fase = 14;
+  #elseif (time < tpre15) #declare minterp = (time-t14)/duration_pre15; #declare fase = 15; #elseif (time < t15) #declare fase = 15;
+  #elseif (time < tpre16) #declare minterp = (time-t15)/duration_pre16; #declare fase = 16; #elseif (time < t16) #declare fase = 16;
+
+  #elseif (time < tpre17) #declare minterp = (time-t16)/duration_pre17; #declare fase = 17; #elseif (time < t17) #declare fase = 17;
+  #elseif (time < tpre18) #declare minterp = (time-t17)/duration_pre18; #declare fase = 18; #elseif (time < t18) #declare fase = 18;
+  #elseif (time < tpre19) #declare minterp = (time-t18)/duration_pre19; #declare fase = 19; #elseif (time < t19) #declare fase = 19;
+  #elseif (time < tpre20) #declare minterp = (time-t19)/duration_pre20; #declare fase = 20; #elseif (time < t20) #declare fase = 20;
+  #elseif (time < tpre21) #declare minterp = (time-t20)/duration_pre21; #declare fase = 21; #elseif (time < t21) #declare fase = 21;
+  #elseif (time < tpre22) #declare minterp = (time-t21)/duration_pre22; #declare fase = 22; #elseif (time < t22) #declare fase = 22;
+  #elseif (time < tpre23) #declare minterp = (time-t22)/duration_pre23; #declare fase = 23; #elseif (time < t23) #declare fase = 23;
+  #elseif (time < tpre24) #declare minterp = (time-t23)/duration_pre24; #declare fase = 24; #elseif (time < t24) #declare fase = 24;
+
+  #elseif (time < tpre25) #declare minterp = (time-t24)/duration_pre25; #declare fase = 25; #elseif (time < t25) #declare fase = 25;
+
+  #end
+
+#end
+
+
 #ifndef (Sigl) #declare Sigl = 404040; #end
 #ifndef (Sigh) #declare Sigh = 404040; #end
 //#ifndef (Sigl2) #declare Sigl2 = 040404; #end
@@ -38,6 +112,10 @@ global_settings { assumed_gamma 1.0 }
 
 #ifndef (fase) #declare fase = 1; #end
 #declare deltafase = 8;
+
+#if (fase = 0.5) #declare minterp = clock; #declare fase = 1; #end
+#if (fase = 0.5 + deltafase) #declare minterp = clock; #declare fase = 1+deltafase; #end
+#if (fase = 0.5 + 2*deltafase) #declare minterp = clock; #declare fase = 1+2*deltafase; #end
 
 #if (fase = 7.5)
   #declare minterp = clock;
@@ -340,7 +418,8 @@ build_ttransinv (signature, depth)
 #while (ciclo < 4)
   #if (fase - ciclo*deltafase >= 1 & fase - ciclo*deltafase <= 4)
     #declare Seed=seed(123);
-    SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c}, depth-ciclo)
+    #local zlift = max(200*(1-minterp),0);
+    SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate zlift*y}, depth-ciclo)
   #end
   #if (fase - ciclo*deltafase >= 2 & fase - ciclo*deltafase <= 6)
     #declare Seed=seed(123);
@@ -359,6 +438,7 @@ build_ttransinv (signature, depth)
       SPrec_infl (htilex[depth], transform {ttransinv[ciclo+1][depth-ciclo-1] gtrans0 scale <-1,1,1>
           scale blowup_scale_c*blow_up_scale translate 4*tile_thick*y}, depth-ciclo-1)
     #else
+#debug concat ("--------------- FASE 8 ------- minterp: ", str(minterp,0,-1), "\n")
       #declare minterpm = minterp;
       #declare minterps = minterp;
       #local ttransoffset = vtransform (<0,0,0>, transform {ttransinv[ciclo+1][depth-ciclo-1] scale <-1,1,1>})
