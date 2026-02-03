@@ -863,6 +863,5 @@ frames/spectre_inflation_23.5/DONE: frames/%/DONE: spectreinflation.pov
 	touch $@
 
 frames/spectre_inflation/DONE: frames/%/DONE: spectreinflation.pov
-	povray $< $(povoptsani) Declare=animate=1 +kf180 +kff4500 +Oframes/$*/frame
-	for i in `seq 4501 4525`; do cp frames/$*/frame4500.png frames/$*/frame$${i}.png; done
+	povray $< $(povoptsani) Declare=animate=1 +kf185 +kff4625 +Oframes/$*/frame
 	touch $@
