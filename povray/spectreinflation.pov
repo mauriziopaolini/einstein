@@ -64,7 +64,7 @@ global_settings { assumed_gamma 1.0 }
 
 
 
-
+#declare minterp = 1;
 
 #ifdef (animate)
   #local time = clock;
@@ -425,18 +425,18 @@ build_ttransinv (signature, depth)
     #declare Seed=seed(123);
     #declare darkenfactor = 1.0;
     #if (fase - ciclo*deltafase >= 6) #declare darkenfactor = 0.3; #end
-    SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*y},
+    SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*blowup_scale_c*y},
         depth-ciclo, 1, fase - ciclo*deltafase)
   #end
   #if (fase - ciclo*deltafase >= 6 & fase - ciclo*deltafase <= 7)
     #declare Seed=seed(123);
-    SPrec_sparse (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 4*tile_thick*y}, depth-ciclo-1)
+    SPrec_sparse (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 4*tile_thick*blowup_scale_c*y}, depth-ciclo-1)
   #end
   #if (fase - ciclo*deltafase = 8)
     #declare Seed=seed(123);
     #if (minterp = 1) 
       SPrec_infl (htilex[depth], transform {ttransinv[ciclo+1][depth-ciclo-1] gtrans0 scale <-1,1,1>
-          scale blowup_scale_c*blow_up_scale translate 4*tile_thick*y}, depth-ciclo-1)
+          scale blowup_scale_c*blow_up_scale translate 4*tile_thick*blowup_scale_cy}, depth-ciclo-1)
     #else
 #debug concat ("--------------- FASE 8 ------- minterp: ", str(minterp,0,-1), "\n")
       #declare minterpm = minterp;
@@ -445,7 +445,7 @@ build_ttransinv (signature, depth)
                           - vtransform (<0,0,0>, transform {ttransinv[ciclo][depth-ciclo] scale <+1,1,1>});
       SPrec_motion (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] translate minterpm*ttransoffset Str[0][0]
           scale blowup_scale_c gtrans0 scale <-1,1,1>
-          scale (1 - minterps + minterps*blow_up_scale) translate 4*tile_thick*y}, depth-ciclo-1)
+          scale (1 - minterps + minterps*blow_up_scale) translate 4*tile_thick*blowup_scale_c*y}, depth-ciclo-1)
 
     #end
   #end
