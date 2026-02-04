@@ -88,6 +88,13 @@ global_settings { assumed_gamma 1.0 }
 #debug concat ("=============== tpre25 = ", str(tpre25,0,-1), "\n")
 #debug concat ("=============== Total duration in seconds: ", str(t25,0,-1), "\n")
 
+#declare deftilerotaterate = 10;
+#ifndef (tilerotate)
+  #declare tilerotate = 0;
+  #ifdef (animate)
+    #if (animate > 1) #declare tilerotate = deftilerotaterate; #end // 20 degres per second 
+  #end
+#end
 
 #declare minterp = 0;
 
@@ -129,7 +136,11 @@ global_settings { assumed_gamma 1.0 }
   #else #declare fase = 25;
   #end
 
+  #declare gtrans0 = transform {rotate tilerotate*clock*y}
+#else
+  #declare gtrans0 = transform {rotate tilerotate*y}
 #end
+
 
 /*
  * splines definitions =================================================================
@@ -256,8 +267,6 @@ buildsig (Sigh, Sigl)
 #ifdef (zoomout)
   #declare mag = pow(magstep,zoomout);
 #end
-
-#declare gtrans0 = transform {scale <1,1,1>}
 
 #declare ttransinv = array[depth][depth+2];
 #declare tiletrans = array[depth];
@@ -480,7 +489,8 @@ build_ttransinv (signature, depth)
     #if (ciclo = 0 & minterp > 0) #local ylift = 200*minterp; #end
     #if (ciclo > 0 & minterp > 0) #local zrot = 180*minterp; #local ylift = (1-minterp)*tile_thick*blowup_scale_c; #end
     #if (ciclo > 0 & minterp > 0.5) #declare gtrans0 = transform {scale <1,-1,1> translate tile_thick*y gtrans0}; #end
-    SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c rotate zrot*z translate ylift*y}, depth-ciclo)
+//    SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c rotate zrot*z translate ylift*y}, depth-ciclo)
+    SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] scale blowup_scale_c rotate zrot*z gtrans0 translate ylift*y}, depth-ciclo)
   #end
   #if (fasemod = 2)
     #declare Seed=seed(123);
@@ -527,12 +537,14 @@ build_ttransinv (signature, depth)
     SPrec_sparse (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 4*tile_thick*blowup_scale_c*y}, depth-ciclo-1)
   #end
   #if (fasemod = 7)
-    #declare Seed=seed(123);
-    #declare darkenfactor = 0.3;
-    #declare mytransmit = 1-minterp;
+    #if (minterp > 0)
 //#debug concat("minterp: ", str(minterp,0,-1), "\n")
-    SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*blowup_scale_c*y},
-        depth-ciclo, 1, fasemod)
+      #declare Seed=seed(123);
+      #declare darkenfactor = 0.3;
+      #declare mytransmit = 1-minterp;
+      SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*blowup_scale_c*y},
+          depth-ciclo, 1, fasemod)
+    #end
 
     #declare Seed=seed(123);
     SPrec_sparse (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 4*tile_thick*blowup_scale_c*y}, depth-ciclo-1)
@@ -540,16 +552,16 @@ build_ttransinv (signature, depth)
   #if (fasemod = 8)
     #declare Seed=seed(123);
     #if (minterp <= 0) 
-      SPrec_infl (htilex[depth], transform {ttransinv[ciclo+1][depth-ciclo-1] gtrans0 scale <-1,1,1>
-          scale blowup_scale_c*blow_up_scale translate 4*tile_thick*blowup_scale_c*y}, depth-ciclo-1)
+      SPrec_infl (htilex[depth], transform {ttransinv[ciclo+1][depth-ciclo-1] scale <-1,1,1>
+          scale blowup_scale_c*blow_up_scale gtrans0 translate 4*tile_thick*blowup_scale_c*y}, depth-ciclo-1)
     #else
       #declare minterpm = 1 - minterp;
       #declare minterps = 1 - minterp;
       #local ttransoffset = vtransform (<0,0,0>, transform {ttransinv[ciclo+1][depth-ciclo-1] scale <-1,1,1>})
                           - vtransform (<0,0,0>, transform {ttransinv[ciclo][depth-ciclo] scale <+1,1,1>});
       SPrec_motion (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] translate minterpm*ttransoffset Str[0][0]
-          scale blowup_scale_c gtrans0 scale <-1,1,1>
-          scale (1 - minterps + minterps*blow_up_scale) translate 4*tile_thick*blowup_scale_c*y}, depth-ciclo-1)
+          scale blowup_scale_c scale <-1,1,1>
+          scale (1 - minterps + minterps*blow_up_scale) gtrans0 translate 4*tile_thick*blowup_scale_c*y}, depth-ciclo-1)
 
     #end
   #end
