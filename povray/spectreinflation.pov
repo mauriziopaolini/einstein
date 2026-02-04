@@ -66,18 +66,24 @@ global_settings { assumed_gamma 1.0 }
 #debug concat ("=============== tpre3 = ", str(tpre3,0,-1), "\n")
 #debug concat ("=============== tpre4 = ", str(tpre4,0,-1), "\n")
 #debug concat ("=============== tpre5 = ", str(tpre5,0,-1), "\n")
+#debug concat ("=============== tpre6 = ", str(tpre6,0,-1), "\n")
+#debug concat ("=============== tpre7 = ", str(tpre7,0,-1), "\n")
 #debug concat ("=============== tpre8 = ", str(tpre8,0,-1), "\n")
 #debug concat ("=============== tpre9 = ", str(tpre9,0,-1), "\n")
 #debug concat ("=============== tpre10 = ", str(tpre10,0,-1), "\n")
 #debug concat ("=============== tpre11 = ", str(tpre11,0,-1), "\n")
 #debug concat ("=============== tpre12 = ", str(tpre12,0,-1), "\n")
 #debug concat ("=============== tpre13 = ", str(tpre13,0,-1), "\n")
+#debug concat ("=============== tpre14 = ", str(tpre14,0,-1), "\n")
+#debug concat ("=============== tpre15 = ", str(tpre15,0,-1), "\n")
 #debug concat ("=============== tpre16 = ", str(tpre16,0,-1), "\n")
 #debug concat ("=============== tpre17 = ", str(tpre17,0,-1), "\n")
 #debug concat ("=============== tpre18 = ", str(tpre18,0,-1), "\n")
 #debug concat ("=============== tpre19 = ", str(tpre19,0,-1), "\n")
 #debug concat ("=============== tpre20 = ", str(tpre20,0,-1), "\n")
 #debug concat ("=============== tpre21 = ", str(tpre21,0,-1), "\n")
+#debug concat ("=============== tpre22 = ", str(tpre22,0,-1), "\n")
+#debug concat ("=============== tpre23 = ", str(tpre23,0,-1), "\n")
 #debug concat ("=============== tpre24 = ", str(tpre24,0,-1), "\n")
 #debug concat ("=============== tpre25 = ", str(tpre25,0,-1), "\n")
 #debug concat ("=============== Total duration in seconds: ", str(t25,0,-1), "\n")
@@ -120,6 +126,7 @@ global_settings { assumed_gamma 1.0 }
 
   #elseif (time < tpre25) #declare minterp = (tpre25-time)/duration_pre25; #declare fase = 25; #elseif (time < t25) #declare fase = 25;
 
+  #else #declare fase = 25;
   #end
 
 #end
@@ -332,7 +339,7 @@ buildsig (Sigh, Sigl)
     #if (fase >= 4)
       #if (tid != 0 & tid != 3)
         object { tile11
-          texture {pigment {rgb darkenfactor*rndpigment}} finish {tile_Finish}
+          texture {pigment {rgb darkenfactor*rndpigment transmit mytransmit}} finish {tile_Finish}
           finish {tile_Finish}
           transform {trsf}
 	  translate blowup_scale_c*ylift2*y
@@ -341,11 +348,10 @@ buildsig (Sigh, Sigl)
     #end
     #if (fase >= 5 & tid = 3 & ptid != 0)
         object { tile11
-          texture {pigment {rgb 0.7*darkenfactor*rndpigment}} finish {tile_Finish}
+          texture {pigment {rgb 0.7*darkenfactor*rndpigment transmit mytransmit}} finish {tile_Finish}
           finish {tile_Finish}
           transform {trsf}
 	  translate blowup_scale_c*ylift3*y
-//#debug concat ("blowup_scale_c*ylift3*y: ", str(blowup_scale_c*ylift2,0,-1), "\n")
         }
     #end
     #if (tid = 0)
@@ -399,6 +405,7 @@ buildsig (Sigh, Sigl)
         //texture {T_mystic finish {tile_Finish} }
         texture {pigment {rgb rndpigment}} finish {tile_Finish}
         transform {scale scale_it translate move_it trsf}
+	translate blowup_scale_c*ylift4*y
         //transform {Str[tid][d+1] trsf}
       }
     #end
@@ -406,6 +413,7 @@ buildsig (Sigh, Sigl)
       rndcol (Seed)
       texture {pigment {rgb rndpigment}} finish {tile_Finish}
       transform {scale scale_it translate move_it trsf}
+      translate blowup_scale_c*ylift4*y
       //transform {Str[tid][d+1] trsf}
     }
 
@@ -463,11 +471,12 @@ build_ttransinv (signature, depth)
 #while (ciclo < 4)
   #declare falsemysticdown = -4*blowup_scale_c*tile_thick;
   #declare darkenfactor = 1.0;
-  #local ylift2 = 0; #local ylift3 = 0;
+  #local ylift = 0; #local ylift2 = 0; #local ylift3 = 0; #local ylift4 = 0;
+  #local mytransmit = 0;
   #local fasemod = fase - ciclo*deltafase;
   #if (fasemod = 1)
     #declare Seed=seed(123);
-    #local ylift = 0; #local zrot = 0; #local ylift2 = 0; #local ylift3 = 0;
+    #local zrot = 0; //    #local ylift2 = 0; #local ylift3 = 0;
     #if (ciclo = 0 & minterp > 0) #local ylift = 200*minterp; #end
     #if (ciclo > 0 & minterp > 0) #local zrot = 180*minterp; #local ylift = (1-minterp)*tile_thick*blowup_scale_c; #end
     #if (ciclo > 0 & minterp > 0.5) #declare gtrans0 = transform {scale <1,-1,1> translate tile_thick*y gtrans0}; #end
@@ -478,6 +487,7 @@ build_ttransinv (signature, depth)
     SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c}, depth-ciclo)
 
     #declare Seed=seed(123);
+//#debug concat ("minterp = ", str(minterp,0,-1), "\n")
     #local ylift = updown(minterp).y + 2*(1-1.5*minterp)*tile_thick;
     SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate blowup_scale_c*ylift*y},
         depth-ciclo, 1, fasemod)
@@ -503,20 +513,27 @@ build_ttransinv (signature, depth)
   #if (fasemod = 5)
     #declare Seed=seed(123);
     #local ylift3 = updown(minterp).y - 3*minterp*tile_thick;
-#debug concat("minterp: ", str(minterp,0,-1), "\n")
     SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*blowup_scale_c*y},
         depth-ciclo, 1, fasemod)
   #end
   #if (fasemod = 6)
     #declare Seed=seed(123);
-    #declare darkenfactor = 0.3;
+    #declare darkenfactor = (1-minterp)*0.3 + minterp;
     SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*blowup_scale_c*y},
         depth-ciclo, 1, fasemod)
 
+    #local ylift4 = 2*updown(minterp).y - 5*minterp*tile_thick;
     #declare Seed=seed(123);
     SPrec_sparse (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 4*tile_thick*blowup_scale_c*y}, depth-ciclo-1)
   #end
   #if (fasemod = 7)
+    #declare Seed=seed(123);
+    #declare darkenfactor = 0.3;
+    #declare mytransmit = 1-minterp;
+//#debug concat("minterp: ", str(minterp,0,-1), "\n")
+    SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*blowup_scale_c*y},
+        depth-ciclo, 1, fasemod)
+
     #declare Seed=seed(123);
     SPrec_sparse (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 4*tile_thick*blowup_scale_c*y}, depth-ciclo-1)
   #end
@@ -540,7 +557,7 @@ build_ttransinv (signature, depth)
   #local ciclo = ciclo + 1;
 #end
 
-//#declare textfont = "LiberationMono-Regular.ttf"
+#declare textfont = "LiberationMono-Regular.ttf"
 
 /*
 cylinder {
@@ -551,7 +568,7 @@ cylinder {
 }
  */
 
-background {White}
+background {Gray}
 
 #declare skycam = z;
 #declare camerapos = 30*mag*y;
@@ -565,14 +582,40 @@ camera {
   #else
     angle 20
   #end
-  location camerapos
-  look_at lookatpos
-  sky skycam
+  #ifdef (animate)
+    location camerapos - 20*mag*z
+    look_at lookatpos
+  #else
+    location camerapos
+    look_at lookatpos
+    sky skycam
+  #end
 }
 
 light_source { 100*<20, 20, -20> color White }
 //light_source { 2*20*<1, 1, 1> color White }
-  
-#ifdef (sfondobianco) 
-  background {White}
+
+#ifdef (annotate)
+  #local ciclo = int(fase / deltafase);
+  #local fasemod = fase - ciclo*deltafase;
+  text {
+    ttf textfont concat (
+        "Fase: ", str(fase,1,0),
+        " = ", str(ciclo,1,0),
+        "*", str(deltafase,1,0),
+        " + ", str(fasemod,1,0) ) 0.4, 0
+    pigment { Black }
+    rotate 90*x
+    scale 5
+    translate -25*x + 10*y
+    no_shadow
+  }
+
+  text {ttf textfont concat ("Tempo: ", str(time,0,2), "/", str(t25,0,2) ) 0.4, 0
+    pigment { Black }
+    rotate 90*x
+    scale 5
+    translate -25*x + 10*y - 5*z
+    no_shadow
+  }
 #end
