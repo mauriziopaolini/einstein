@@ -36,7 +36,9 @@ global_settings { assumed_gamma 1.0 }
 #local duration_pre6 = 2; #local tpre6 = t5 + duration_pre6; #local duration_6 = 5; #local t6 = tpre6 + duration_6;
 #local duration_pre7 = 2; #local tpre7 = t6 + duration_pre7; #local duration_7 = 5; #local t7 = tpre7 + duration_7;
 #local duration_pre8 = 5; #local tpre8 = t7 + duration_pre8; #local duration_8 = 5; #local t8 = tpre8 + duration_8;
+//#local duration_pre8 = 5; #local tpre8 = t7 + duration_pre8; #local duration_8 = 6; #local t8 = tpre8 + duration_8;
 
+//#local duration_pre9 = 0; #local tpre9 = t8 + duration_pre9; #local duration_9 = 6; #local t9 = tpre9 + duration_9;
 #local duration_pre9 = 2; #local tpre9 = t8 + duration_pre9; #local duration_9 = 5; #local t9 = tpre9 + duration_9;
 #local duration_pre10 = 1.5; #local tpre10 = t9 + duration_pre10; #local duration_10 = 4; #local t10 = tpre10 + duration_10;
 #local duration_pre11 = 1.5; #local tpre11 = t10 + duration_pre11; #local duration_11 = 4; #local t11 = tpre11 + duration_11;
@@ -488,7 +490,11 @@ build_ttransinv (signature, depth)
     #local zrot = 0; //    #local ylift2 = 0; #local ylift3 = 0;
     #if (ciclo = 0 & minterp > 0) #local ylift = 200*minterp; #end
     #if (ciclo > 0 & minterp > 0) #local zrot = 180*minterp; #local ylift = (1-minterp)*tile_thick*blowup_scale_c; #end
-    #if (ciclo > 0 & minterp > 0.5) #declare gtrans0 = transform {scale <1,-1,1> translate tile_thick*y gtrans0}; #end
+    #if (ciclo > 0 & minterp > 0.5) #declare gtrans0 = transform {
+//        rotate -tilerotate*clock*y
+        scale <1,-1,1>
+//        rotate tilerotate*clock*y
+        translate tile_thick*y gtrans0}; #end
 //    SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c rotate zrot*z translate ylift*y}, depth-ciclo)
     SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] scale blowup_scale_c rotate zrot*z gtrans0 translate ylift*y}, depth-ciclo)
   #end
