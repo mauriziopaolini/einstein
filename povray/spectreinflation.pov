@@ -356,7 +356,7 @@ buildsig (Sigh, Sigl)
     #if (fase >= 4)
       #if (tid != 0 & tid != 3)
         object { tile11
-          texture {pigment {rgb darkenfactor*rndpigment transmit mytransmit}} finish {tile_Finish}
+          texture {pigment {rgb darkenfactor*rndpigment transmit (mytransmit+mytransmit2)}} finish {tile_Finish}
           finish {tile_Finish}
           transform {trsf}
 	  translate blowup_scale_c*ylift2*y
@@ -492,10 +492,12 @@ build_ttransinv (signature, depth)
 #local ciclo = 0;
 #while (ciclo < 4)
   #declare falsemysticdown = -4*blowup_scale_c*tile_thick;
+  #declare mytransmit2 = 0;
   #declare darkenfactor = 1.0;
   #local ylift = 0; #local ylift2 = 0; #local ylift3 = 0; #local ylift4 = 0;
   #local mytransmit = 0;
   #local fasemod = fase - ciclo*deltafase;
+
   #if (fasemod = 1)
     #declare Seed=seed(123);
     #local zrot = 0; //    #local ylift2 = 0; #local ylift3 = 0;
@@ -511,6 +513,7 @@ build_ttransinv (signature, depth)
                                           rotate zrot*z
                                           gtrans0 translate ylift*y}, depth-ciclo)
   #end
+
   #if (fasemod = 2)
     #declare Seed=seed(123);
     SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c}, depth-ciclo)
@@ -521,6 +524,7 @@ build_ttransinv (signature, depth)
     SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate blowup_scale_c*ylift*y},
         depth-ciclo, 1, fasemod)
   #end
+
   #if (fasemod = 3)
     #declare Seed=seed(123);
     SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c}, depth-ciclo)
@@ -530,15 +534,18 @@ build_ttransinv (signature, depth)
     SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*blowup_scale_c*y},
         depth-ciclo, 1, fasemod)
   #end
+
   #if (fasemod = 4)
     #declare Seed=seed(123);
     SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c}, depth-ciclo)
 
     #declare Seed=seed(123);
-    #local ylift2 = updown(minterp).y - 3*minterp*tile_thick;
+    #local ylift2 = 0.4*updown(minterp).y - 1.9*minterp*tile_thick;
+    #declare mytransmit2 = minterp;
     SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*blowup_scale_c*y},
         depth-ciclo, 1, fasemod)
   #end
+
   #if (fasemod = 5)
     #declare Seed=seed(123);
     #local ylift3 = updown(minterp).y - 3*minterp*tile_thick;
