@@ -9,9 +9,9 @@
  * the set {0,1,2,3,4,5,6,7} and the pair 03 is forbidden
  */
 /*
-#finalclock 164
-#numseconds 164
-#durata 165
+#finalclock 152
+#numseconds 152
+#durata 152
 #coda 1
 #titolo 5
  */
@@ -90,11 +90,11 @@ global_settings { assumed_gamma 1.0 }
 #debug concat ("=============== tpre25 = ", str(tpre25,0,-1), "\n")
 #debug concat ("=============== Total duration in seconds: ", str(t25,0,-1), "\n")
 
-#declare deftilerotaterate = 10;
+#declare deftilerotaterate = 6;
 #ifndef (tilerotate)
   #declare tilerotate = 0;
   #ifdef (animate)
-    #if (animate > 1) #declare tilerotate = deftilerotaterate; #end // 20 degres per second 
+    #if (animate > 1) #declare tilerotate = deftilerotaterate; #end // one full revolution when reverting upside-down
   #end
 #end
 
@@ -631,7 +631,7 @@ camera {
 }
 
 light_source { 100*<20, 20, -20> color White }
-//light_source { 2*20*<1, 1, 1> color White }
+light_source { 100*20*<1, 1, 0.5> color White }
 
 #ifdef (annotate)
   #local ciclo = int(fase / deltafase);
