@@ -501,13 +501,15 @@ build_ttransinv (signature, depth)
     #local zrot = 0; //    #local ylift2 = 0; #local ylift3 = 0;
     #if (ciclo = 0 & minterp > 0) #local ylift = 200*minterp; #end
     #if (ciclo > 0 & minterp > 0) #local zrot = 180*minterp; #local ylift = (1-minterp)*tile_thick*blowup_scale_c; #end
-    #if (ciclo > 0 & minterp > 0.5) #declare gtrans0 = transform {
-//        rotate -tilerotate*clock*y
-        scale <1,-1,1>
-//        rotate tilerotate*clock*y
-        translate tile_thick*y gtrans0}; #end
-//    SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c rotate zrot*z translate ylift*y}, depth-ciclo)
-    SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] scale blowup_scale_c rotate zrot*z gtrans0 translate ylift*y}, depth-ciclo)
+    #declare revert = transform {scale 1}
+    #if (ciclo > 0 & minterp > 0.5)
+      #declare revert = transform {scale <1,-1,1> translate -tile_thick*y}
+    #end
+    SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo]
+                                          revert
+                                          scale blowup_scale_c
+                                          rotate zrot*z
+                                          gtrans0 translate ylift*y}, depth-ciclo)
   #end
   #if (fasemod = 2)
     #declare Seed=seed(123);
