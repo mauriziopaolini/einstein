@@ -307,13 +307,26 @@ buildsig (Sigh, Sigl)
 #declare Seed=seed(123);
 #declare Seedm=seed(123);
 
+#declare colorbottom = 0.1;
+#declare colortop = 0.75;
+#declare colorrange = colortop - colorbottom;
+#declare colormaxsum = 2.5;
+
 #macro rndcol (myseed)
-  #declare rndpigment = <rand(myseed), rand(myseed), rand(myseed)>;
+  #declare rndpigment = <1,1,1>;
+  #while (rndpigment.red + rndpigment.green + rndpigment.blue > colormaxsum)
+    #declare rndpigment = colorbottom + (1 - colorbottom)*<rand(myseed),rand(myseed),rand(myseed)>;
+  #end
+  //#local hue = 180*rand(myseed);
+  //#local sat = 0.25 + 0.75*rand(myseed);
+  //#local lig = 0.5;
+  //#local rndp = CHSL2RGB (<hue,sat,lig>);
+  //#declare rndpigment = <rndp.red,rndp.green,rndp.blue>;
 #end
 
-#macro brighten (amount)
-  #declare rndpigment = <1,1,1> - amount*(<1,1,1> - rndpigment);
-#end
+//#macro brighten (amount)
+//  #declare rndpigment = <1,1,1> - amount*(<1,1,1> - rndpigment);
+//#end
 
 /*
  * =====================================================================================
@@ -606,7 +619,7 @@ cylinder {
 }
  */
 
-background {Gray}
+background {Black}
 
 #declare skycam = z;
 #declare camerapos = 30*mag*y;
@@ -630,8 +643,13 @@ camera {
   #end
 }
 
-light_source { 100*<20, 20, -20> color White }
-light_source { 100*20*<1, 1, 0.5> color White }
+#ifdef (animate)
+  light_source { 100*<20, 20, -20> color White }
+  light_source { 100*20*<1, 1, 0.5> color 0.75*White }
+#else
+  light_source { 100*<20, 20, -20> color White }
+  light_source { 100*20*<1, 1, 0.5> color 0.25*White }
+#end
 
 #ifdef (annotate)
   #local ciclo = int(fase / deltafase);
