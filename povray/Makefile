@@ -406,6 +406,30 @@ spectreconwaysig[4][4][4]_d6z.png: spectreconwaysig.pov
 spectreconwaysig[4][4][4]_d6zz.png: spectreconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=444444 Declare=Sigl=444444 Declare=Sigh2=444444 Declare=Sigl2=444444 Declare=Sigh3=444444 Declare=Sigl3=444444 Declare=up2=05 Declare=down2=27 Declare=up3=17 Declare=down3=07 Declare=depth=6 Declare=zoomout=2 Declare=bdthick=0.3 Declare=nocyl=1 +O- >$@
 
+
+spectreconwaysig[14][36]_d6.png: spectreconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=141414 Declare=Sigl=141414 Declare=Sigh2=363636 Declare=Sigl2=363636 Declare=up2=04 Declare=down2=27 Declare=depth=6 Declare=zoomout=6 Declare=bdthick=3 +O- >$@
+
+spectreconwaysig[14][36]_d6z.png: spectreconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=141414 Declare=Sigl=141414 Declare=Sigh2=363636 Declare=Sigl2=363636 Declare=up2=04 Declare=down2=27 Declare=depth=6 Declare=zoomout=4 Declare=bdthick=2 +O- >$@
+
+spectreconwaysig[14][36]_d6zz.png: spectreconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=141414 Declare=Sigl=141414 Declare=Sigh2=363636 Declare=Sigl2=363636 Declare=up2=04 Declare=down2=27 Declare=depth=6 Declare=zoomout=2 Declare=bdthick=0.3 +O- >$@
+
+
+spectreconwaysig[41][63]_d6.png: spectreconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=414141 Declare=Sigl=414141 Declare=Sigh2=636363 Declare=Sigl2=636363 Declare=up2=27 Declare=down2=06 Declare=depth=6 Declare=zoomout=6 Declare=bdthick=3 +O- >$@
+
+spectreconwaysig[41][63]_d6z.png: spectreconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=414141 Declare=Sigl=414141 Declare=Sigh2=636363 Declare=Sigl2=636363 Declare=up2=27 Declare=down2=06 Declare=depth=6 Declare=zoomout=4 Declare=bdthick=3 +O- >$@
+
+spectreconwaysig[41][63]_d6zz.png: spectreconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=414141 Declare=Sigl=414141 Declare=Sigh2=636363 Declare=Sigl2=636363 Declare=up2=27 Declare=down2=06 Declare=depth=6 Declare=zoomout=2 Declare=bdthick=3 +O- >$@
+
+
+spectreconwaysig[14][36]_d6z.png: spectreconwaysig.pov
+
+
 $(spectresigpngd6):spectreconwaysig%_d6.png:spectreconwaysig.pov spectresig2povopt.sh
 	./spectresig2povopt.sh -q $* povray Declare=depth=6 $(povoptspng) +O- >$@
 
