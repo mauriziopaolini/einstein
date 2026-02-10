@@ -175,17 +175,17 @@ global_settings { assumed_gamma 1.0 }
 #if (fase = 0.5 + 2*deltafase) #declare minterp = clock; #declare fase = 1+2*deltafase; #end
 
 #if (fase = 7.5)
-  #declare minterp = clock;
+  #declare minterp = 1-clock;
   #declare fase = 8;
 #end
 
 #if (fase = 7.5 + deltafase)
-  #declare minterp = clock;
+  #declare minterp = 1-clock;
   #declare fase = 8+deltafase;
 #end
 
 #if (fase = 7.5 + 2*deltafase)
-  #declare minterp = clock;
+  #declare minterp = 1-clock;
   #declare fase = 8+2*deltafase;
 #end
 
@@ -422,7 +422,9 @@ buildsig (Sigh, Sigl)
   #end
 #end
 
-#declare move_it = 3.0*x + 1.0*z;
+#ifndef (rotate_it) #declare rotate_it = 90; #end
+//#declare move_it = 3.0*x + 1.0*z;
+#declare move_it = -0.0*x + 3.0*z;
 #declare scale_it = 1.3;
 
 #macro SPrec_sparse (tid, trsf, depth)
@@ -434,7 +436,7 @@ buildsig (Sigh, Sigl)
         rndcol (Seed)
         //texture {T_mystic finish {tile_Finish} }
         texture {pigment {rgb rndpigment}} finish {tile_Finish}
-        transform {scale scale_it translate move_it trsf}
+        transform {rotate rotate_it*y scale scale_it translate move_it trsf}
 	translate blowup_scale_c*ylift4*y
         //transform {Str[tid][d+1] trsf}
       }
@@ -442,7 +444,7 @@ buildsig (Sigh, Sigl)
     object {spectre
       rndcol (Seed)
       texture {pigment {rgb rndpigment}} finish {tile_Finish}
-      transform {scale scale_it translate move_it trsf}
+      transform {rotate rotate_it*y scale scale_it translate move_it trsf}
       translate blowup_scale_c*ylift4*y
       //transform {Str[tid][d+1] trsf}
     }
@@ -470,7 +472,9 @@ buildsig (Sigh, Sigl)
         texture {pigment {rgb rndpigment}} finish {tile_Finish}
         //transform {trsf}
         //transform {scale scale_it translate move_it trsf}
-        transform {scale (minterps + (1-minterps)*scale_it) translate (1-minterpm)*move_it trsf translate zrise}
+        transform {rotate (1-minterpr)*rotate_it*y
+                   scale (minterps + (1-minterps)*scale_it)
+                   translate (1-minterpm)*move_it trsf translate zrise}
       }
     #end
     object {spectre
@@ -478,7 +482,9 @@ buildsig (Sigh, Sigl)
       texture {pigment {rgb rndpigment}} finish {tile_Finish}
       //transform {trsf}
       //transform {scale scale_it translate move_it trsf}
-      transform {scale (minterps + (1-minterps)*scale_it) translate (1-minterpm)*move_it trsf translate zrise}
+      transform {rotate (1-minterpr)*rotate_it*y
+                 scale (minterps + (1-minterps)*scale_it)
+                 translate (1-minterpm)*move_it trsf translate zrise}
     }
 
   #else
@@ -520,6 +526,8 @@ build_ttransinv (signature, depth)
     #if (ciclo > 0 & minterp > 0.5)
       #declare revert = transform {scale <1,-1,1> translate -tile_thick*y}
     #end
+    #declare gtrans0 = transform {rotate -ciclo*rotate_it*y gtrans0}
+#debug concat("ciclo*rotate_it = ", str(ciclo*rotate_it,0,-1), "\n")
     SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo]
                                           revert
                                           scale blowup_scale_c
@@ -529,6 +537,7 @@ build_ttransinv (signature, depth)
 
   #if (fasemod = 2)
     #declare Seed=seed(123);
+    #declare gtrans0 = transform {rotate -ciclo*rotate_it*y gtrans0}
     SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c}, depth-ciclo)
 
     #declare Seed=seed(123);
@@ -540,6 +549,7 @@ build_ttransinv (signature, depth)
 
   #if (fasemod = 3)
     #declare Seed=seed(123);
+    #declare gtrans0 = transform {rotate -ciclo*rotate_it*y gtrans0}
     SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c}, depth-ciclo)
 
     #declare Seed=seed(123);
@@ -550,6 +560,7 @@ build_ttransinv (signature, depth)
 
   #if (fasemod = 4)
     #declare Seed=seed(123);
+    #declare gtrans0 = transform {rotate -ciclo*rotate_it*y gtrans0}
     SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c}, depth-ciclo)
 
     #declare Seed=seed(123);
@@ -561,21 +572,25 @@ build_ttransinv (signature, depth)
 
   #if (fasemod = 5)
     #declare Seed=seed(123);
+    #declare gtrans0 = transform {rotate -ciclo*rotate_it*y gtrans0}
     #local ylift3 = updown(minterp).y - 3*minterp*tile_thick;
     SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*blowup_scale_c*y},
         depth-ciclo, 1, fasemod)
   #end
   #if (fasemod = 6)
     #declare Seed=seed(123);
+    #declare gtrans0 = transform {rotate -ciclo*rotate_it*y gtrans0}
     #declare darkenfactor = (1-minterp)*0.3 + minterp;
     SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*blowup_scale_c*y},
         depth-ciclo, 1, fasemod)
 
     #local ylift4 = 2*updown(minterp).y - 5*minterp*tile_thick;
     #declare Seed=seed(123);
+
     SPrec_sparse (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 4*tile_thick*blowup_scale_c*y}, depth-ciclo-1)
   #end
   #if (fasemod = 7)
+    #declare gtrans0 = transform {rotate -ciclo*rotate_it*y gtrans0}
     #if (minterp > 0)
 //#debug concat("minterp: ", str(minterp,0,-1), "\n")
       #declare Seed=seed(123);
@@ -589,15 +604,19 @@ build_ttransinv (signature, depth)
     SPrec_sparse (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 4*tile_thick*blowup_scale_c*y}, depth-ciclo-1)
   #end
   #if (fasemod = 8)
+    #declare gtrans0 = transform {rotate -ciclo*rotate_it*y gtrans0}
     #declare Seed=seed(123);
     #if (minterp <= 0) 
+      #declare gtrans0 = transform {rotate -rotate_it*y gtrans0}
       SPrec_infl (htilex[depth], transform {ttransinv[ciclo+1][depth-ciclo-1] scale <-1,1,1>
           scale blowup_scale_c*blow_up_scale gtrans0 translate 4*tile_thick*blowup_scale_c*y}, depth-ciclo-1)
     #else
       #declare minterpm = 1 - minterp;
       #declare minterps = 1 - minterp;
+      #declare minterpr = 1 - minterp;
       #local ttransoffset = vtransform (<0,0,0>, transform {ttransinv[ciclo+1][depth-ciclo-1] scale <-1,1,1>})
                           - vtransform (<0,0,0>, transform {ttransinv[ciclo][depth-ciclo] scale <+1,1,1>});
+      #declare gtrans0 = transform {rotate -minterpr*rotate_it*y gtrans0}
       SPrec_motion (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] translate minterpm*ttransoffset Str[0][0]
           scale blowup_scale_c scale <-1,1,1>
           scale (1 - minterps + minterps*blow_up_scale) gtrans0 translate 4*tile_thick*blowup_scale_c*y}, depth-ciclo-1)
@@ -623,6 +642,12 @@ background {Black}
 
 #declare skycam = z;
 #declare camerapos = 30*mag*y;
+#ifdef (animate)
+  #ifndef (topview)
+    #declare camerapos = camerapos - 20*mag*z;
+    #declare skycam = y;
+  #end
+#end
 //#declare camerapos = 600*y;
 #declare lookatpos = <0,0,0>;
 
@@ -633,14 +658,9 @@ camera {
   #else
     angle 20
   #end
-  #ifdef (animate)
-    location camerapos - 20*mag*z
-    look_at lookatpos
-  #else
-    location camerapos
-    look_at lookatpos
-    sky skycam
-  #end
+  location camerapos
+  look_at lookatpos
+  sky skycam
 }
 
 #ifdef (animate)
