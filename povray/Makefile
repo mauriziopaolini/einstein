@@ -54,7 +54,7 @@ hatholepngs: $(hatholes)
 # CONWAY SIGNATURES: SPECTRE
 #
 
-spectresignatures=[0] [1] [2] [3] [4] [5] [6] [7] [04] [40]
+spectresignatures=[0] [1] [2] [3] [4] [5] [6] [7] [04] [40] [13] [14] [24] [34] [36] [67] [31] [41] [42] [43] [63] [76]
 spectresigpngd6=${spectresignatures:%=spectreconwaysig%_d6.png}
 spectresigpngd6z=${spectresignatures:%=spectreconwaysig%_d6z.png}
 spectresigpngd6zz=${spectresignatures:%=spectreconwaysig%_d6zz.png}

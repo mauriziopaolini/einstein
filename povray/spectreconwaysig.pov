@@ -153,9 +153,12 @@ global_settings { assumed_gamma 1.0 }
 build_ttransinv (signature, depth)
 build_tiling (ttransinv, htilex, gtrans0, depth)
 
+#local cylradius = 1.0;
+#if (zoomout = 3) #local cylradius = 5; #end
+
 #ifndef (nocyl)
   cylinder {
-    0*y, 20*tile_thick*y, 1.0
+    0*y, 20*tile_thick*y, cylradius
     pigment {color Black}
     finish {tile_Finish}
     transform gtrans0
