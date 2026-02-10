@@ -243,12 +243,9 @@ global_settings { assumed_gamma 1.0 }
 #end
 
 #declare signature = array[12]
-//buildsigs (Sigh, Sigl, Sigh2, Sigl2)
 buildsig (Sigh, Sigl)
 
 #declare blow_up_scale = 2.805883701475779;
-
-//#declare darkenvalue = 0.5;
 
 #local sigstring=""
 #local i = depth+1;
@@ -317,16 +314,7 @@ buildsig (Sigh, Sigl)
   #while (rndpigment.red + rndpigment.green + rndpigment.blue > colormaxsum)
     #declare rndpigment = colorbottom + (1 - colorbottom)*<rand(myseed),rand(myseed),rand(myseed)>;
   #end
-  //#local hue = 180*rand(myseed);
-  //#local sat = 0.25 + 0.75*rand(myseed);
-  //#local lig = 0.5;
-  //#local rndp = CHSL2RGB (<hue,sat,lig>);
-  //#declare rndpigment = <rndp.red,rndp.green,rndp.blue>;
 #end
-
-//#macro brighten (amount)
-//  #declare rndpigment = <1,1,1> - amount*(<1,1,1> - rndpigment);
-//#end
 
 /*
  * =====================================================================================
@@ -423,7 +411,6 @@ buildsig (Sigh, Sigl)
 #end
 
 #ifndef (rotate_it) #declare rotate_it = 90; #end
-//#declare move_it = 3.0*x + 1.0*z;
 #declare move_it = -0.0*x + 3.0*z;
 #declare scale_it = 1.3;
 
@@ -470,8 +457,6 @@ buildsig (Sigh, Sigl)
         transform {mystic_tr}
         rndcol (Seed)
         texture {pigment {rgb rndpigment}} finish {tile_Finish}
-        //transform {trsf}
-        //transform {scale scale_it translate move_it trsf}
         transform {rotate (1-minterpr)*rotate_it*y
                    scale (minterps + (1-minterps)*scale_it)
                    translate (1-minterpm)*move_it trsf translate zrise}
@@ -527,7 +512,7 @@ build_ttransinv (signature, depth)
       #declare revert = transform {scale <1,-1,1> translate -tile_thick*y}
     #end
     #declare gtrans0 = transform {rotate -ciclo*rotate_it*y gtrans0}
-#debug concat("ciclo*rotate_it = ", str(ciclo*rotate_it,0,-1), "\n")
+//#debug concat("ciclo*rotate_it = ", str(ciclo*rotate_it,0,-1), "\n")
     SPrec_infl (htilex[depth], transform {ttransinv[ciclo][depth-ciclo]
                                           revert
                                           scale blowup_scale_c
@@ -543,8 +528,9 @@ build_ttransinv (signature, depth)
     #declare Seed=seed(123);
 //#debug concat ("minterp = ", str(minterp,0,-1), "\n")
     #local ylift = updown(minterp).y + 2*(1-1.5*minterp)*tile_thick;
-    SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate blowup_scale_c*ylift*y},
-        depth-ciclo, 1, fasemod)
+    SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo]
+                                           gtrans0 scale blowup_scale_c
+                                           translate blowup_scale_c*ylift*y}, depth-ciclo, 1, fasemod)
   #end
 
   #if (fasemod = 3)
@@ -554,8 +540,9 @@ build_ttransinv (signature, depth)
 
     #declare Seed=seed(123);
     #local falsemysticdown = blowup_scale_c*updown(minterp).y - 3*blowup_scale_c*(1-minterp)*tile_thick;
-    SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*blowup_scale_c*y},
-        depth-ciclo, 1, fasemod)
+    SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo]
+                                           gtrans0 scale blowup_scale_c
+                                           translate 2*tile_thick*blowup_scale_c*y}, depth-ciclo, 1, fasemod)
   #end
 
   #if (fasemod = 4)
@@ -566,28 +553,33 @@ build_ttransinv (signature, depth)
     #declare Seed=seed(123);
     #local ylift2 = 0.4*updown(minterp).y - 1.9*minterp*tile_thick;
     #declare mytransmit2 = minterp;
-    SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*blowup_scale_c*y},
-        depth-ciclo, 1, fasemod)
+    SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo]
+                                           gtrans0 scale blowup_scale_c
+                                           translate 2*tile_thick*blowup_scale_c*y}, depth-ciclo, 1, fasemod)
   #end
 
   #if (fasemod = 5)
     #declare Seed=seed(123);
     #declare gtrans0 = transform {rotate -ciclo*rotate_it*y gtrans0}
     #local ylift3 = updown(minterp).y - 3*minterp*tile_thick;
-    SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*blowup_scale_c*y},
-        depth-ciclo, 1, fasemod)
+    SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo]
+                                           gtrans0 scale blowup_scale_c
+                                           translate 2*tile_thick*blowup_scale_c*y}, depth-ciclo, 1, fasemod)
   #end
   #if (fasemod = 6)
     #declare Seed=seed(123);
     #declare gtrans0 = transform {rotate -ciclo*rotate_it*y gtrans0}
     #declare darkenfactor = (1-minterp)*0.3 + minterp;
-    SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 2*tile_thick*blowup_scale_c*y},
-        depth-ciclo, 1, fasemod)
+    SPrec_infl2 (htilex[depth], transform {ttransinv[ciclo][depth-ciclo]
+                                           gtrans0 scale blowup_scale_c
+                                           translate 2*tile_thick*blowup_scale_c*y}, depth-ciclo, 1, fasemod)
 
     #local ylift4 = 2*updown(minterp).y - 5*minterp*tile_thick;
     #declare Seed=seed(123);
 
-    SPrec_sparse (htilex[depth], transform {ttransinv[ciclo][depth-ciclo] gtrans0 scale blowup_scale_c translate 4*tile_thick*blowup_scale_c*y}, depth-ciclo-1)
+    SPrec_sparse (htilex[depth], transform {ttransinv[ciclo][depth-ciclo]
+                                            gtrans0 scale blowup_scale_c
+                                            translate 4*tile_thick*blowup_scale_c*y}, depth-ciclo-1)
   #end
   #if (fasemod = 7)
     #declare gtrans0 = transform {rotate -ciclo*rotate_it*y gtrans0}
