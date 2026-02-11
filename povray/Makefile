@@ -454,7 +454,7 @@ spectreconwaysig[34][67]_d6z.png: spectreconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=343434 Declare=Sigl=343434 Declare=Sigh2=676767 Declare=Sigl2=676767 Declare=up2=27 Declare=down2=06 Declare=depth=6 Declare=zoomout=4 Declare=bdthick=2 +O- >$@
 
 spectreconwaysig[34][67]_d6zz.png: spectreconwaysig.pov
-	povray $(povoptspng) $< Declare=Sigh=343434 Declare=Sigl=343434 Declare=Sigh2=676767 Declare=Sigl2=676767 Declare=up2=27 Declare=down2=06 Declare=depth=6 Declare=zoomout=2 Declare=bdthick=0.3 +O- >$@
+	povray $(povoptspng) $< Declare=Sigh=343434 Declare=Sigl=343434 Declare=Sigh2=676767 Declare=Sigl2=676767 Declare=up2=27 Declare=down2=05 Declare=depth=6 Declare=zoomout=2 Declare=bdthick=0.3 +O- >$@
 
 
 spectreconwaysig[43][76]_d6.png: spectreconwaysig.pov
