@@ -13,6 +13,15 @@
  *  Declare=up2=xy Declare=down2=zt
  * transform the second tiling as if the first tiling were transformed with signature xy
  * and the second tiling with signature zt
+ *
+ * To get the relative positioning of the base tiles of two tilings corresponding to given values
+ * of up2 and down2 you can use options "Declare=depth=0 Declare=zoomout=0.7 Declare=bdthick=0.1"
+ *
+ * some useful values of up2 and down2 are:
+ *  04 27          : back-to-back
+ *  05 27 or 27 05 : head-to-nape
+ *  06 27 or 27 06 : head-to-throath
+ *  03 02 or 02 03 : tower
  */
 
 #version 3.7;
@@ -156,13 +165,25 @@ build_tiling (ttransinv, htilex, gtrans0, depth)
 #local cylradius = 1.0;
 #if (zoomout = 3) #local cylradius = 5; #end
 
+#declare textfont = "LiberationMono-Regular.ttf"
+
 #ifndef (nocyl)
-  cylinder {
-    0*y, 20*tile_thick*y, cylradius
-    pigment {color Black}
-    finish {tile_Finish}
-    transform gtrans0
-  }
+  #if (depth > 0)
+    cylinder {
+      0*y, 20*tile_thick*y, cylradius
+      pigment {color Black}
+      finish {tile_Finish}
+      transform gtrans0
+    }
+  #else
+    text {ttf textfont str(down2,0,0) 0.02, 0
+      rotate 90*x
+      scale 0.5*mag*<1,1,1>
+      pigment {color Black}
+      transform gtrans0
+      translate 20*y
+    }
+  #end
 #end
 
 #macro build_up_down (upl, downl)
@@ -193,6 +214,7 @@ build_tiling (ttransinv, htilex, gtrans0, depth)
 
   #ifndef (up2) #declare up2=0; #end
   #ifndef (down2) #declare down2=0; #end
+  #local up2s = up2;
   build_up_down (up2, down2)
   #declare uptransfinv = transform {uptransf inverse}
   #declare placeit = transform {downtransf uptransfinv}
@@ -204,13 +226,24 @@ build_tiling (ttransinv, htilex, gtrans0, depth)
   build_ttransinv (signature2, depth)
   build_tiling (ttransinv, htilex, transform {placeit gtrans0}, depth)
   #ifndef (nocyl)
-    cylinder {
-      0*y, 20*tile_thick*y, 1.0
-      pigment {color Black}
-      finish {tile_Finish}
-      transform placeit
-      transform gtrans0
-    }
+    #if (depth > 0)
+      cylinder {
+        0*y, 20*tile_thick*y, 1.0
+        pigment {color Black}
+        finish {tile_Finish}
+        transform placeit
+        transform gtrans0
+      }
+    #else
+      text {ttf textfont str(up2s,0,0) 0.02, 0
+        rotate 90*x
+        scale 0.5*mag*<1,1,1>
+        pigment {color Blue}
+        transform placeit
+        transform gtrans0
+        translate 20*y
+      }
+    #end
   #end
 #end
 
@@ -242,39 +275,39 @@ build_tiling (ttransinv, htilex, gtrans0, depth)
   #end
 #end
 
-#declare textfont = "LiberationMono-Regular.ttf"
-
-text {ttf textfont sigstring 0.02, 0
-  rotate 90*x
-  scale 0.5*mag*<1,1,1>
-  pigment {color Black}
-  translate mag*(-4*x+3*z)
-  translate 20*y
-  no_shadow
-}
-
-#ifdef (sigstring2)
-  text {ttf textfont sigstring2 0.02, 0
+#if (depth > 0)
+  text {ttf textfont sigstring 0.02, 0
     rotate 90*x
-    translate -z
     scale 0.5*mag*<1,1,1>
     pigment {color Black}
     translate mag*(-4*x+3*z)
     translate 20*y
     no_shadow
   }
-#end
 
-#ifdef (sigstring3)
-  text {ttf textfont sigstring3 0.02, 0
-    rotate 90*x
-    translate -2*z
-    scale 0.5*mag*<1,1,1>
-    pigment {color Black}
-    translate mag*(-4*x+3*z)
-    translate 20*y
-    no_shadow
-  }
+  #ifdef (sigstring2)
+    text {ttf textfont sigstring2 0.02, 0
+      rotate 90*x
+      translate -z
+      scale 0.5*mag*<1,1,1>
+      pigment {color Black}
+      translate mag*(-4*x+3*z)
+      translate 20*y
+      no_shadow
+    }
+  #end
+
+  #ifdef (sigstring3)
+    text {ttf textfont sigstring3 0.02, 0
+      rotate 90*x
+      translate -2*z
+      scale 0.5*mag*<1,1,1>
+      pigment {color Black}
+      translate mag*(-4*x+3*z)
+      translate 20*y
+      no_shadow
+    }
+  #end
 #end
 
 background {White}

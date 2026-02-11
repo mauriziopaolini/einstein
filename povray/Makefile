@@ -427,7 +427,15 @@ spectreconwaysig[41][63]_d6zz.png: spectreconwaysig.pov
 	povray $(povoptspng) $< Declare=Sigh=414141 Declare=Sigl=414141 Declare=Sigh2=636363 Declare=Sigl2=636363 Declare=up2=27 Declare=down2=06 Declare=depth=6 Declare=zoomout=2 Declare=bdthick=0.3 +O- >$@
 
 
-spectreconwaysig[14][36]_d6z.png: spectreconwaysig.pov
+spectreconwaysig[31][42]_d6.png: spectreconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=313131 Declare=Sigl=313131 Declare=Sigh2=424242 Declare=Sigl2=424242 Declare=up2=27 Declare=down2=06 Declare=depth=6 Declare=zoomout=6 Declare=bdthick=3 +O- >$@
+
+spectreconwaysig[31][42]_d6z.png: spectreconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=313131 Declare=Sigl=313131 Declare=Sigh2=424242 Declare=Sigl2=424242 Declare=up2=27 Declare=down2=06 Declare=depth=6 Declare=zoomout=4 Declare=bdthick=2 +O- >$@
+
+spectreconwaysig[31][42]_d6zz.png: spectreconwaysig.pov
+	povray $(povoptspng) $< Declare=Sigh=313131 Declare=Sigl=313131 Declare=Sigh2=424242 Declare=Sigl2=424242 Declare=up2=27 Declare=down2=06 Declare=depth=6 Declare=zoomout=2 Declare=bdthick=0.3 +O- >$@
+
 
 
 $(spectresigpngd6):spectreconwaysig%_d6.png:spectreconwaysig.pov spectresig2povopt.sh
