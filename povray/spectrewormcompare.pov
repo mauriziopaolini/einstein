@@ -1,5 +1,11 @@
 /*
+ * We try here to compare a tiling originating from a spectre (with given focus
+ * described by its Conway signature), of which we only display boundaries, with
+ * the result of reverting all tiles along the main worm and also rotating the
+ * whole result with respect to the focus.
  *
+ * The focus should be a tile along the worm, here the default for depth = 3 is
+ * 246.
  */
 
 #version 3.7;
@@ -69,7 +75,8 @@ SPrec (SPid, transform {transform {basetrinv reltoworm} transform {gtras} transl
     #local i = 0;
     #while (i < 8)
       #if (tid != 0 | i != 3)
-        #if (bitwise_and (SPshow, pow(2,i)) & (tid != 0 | i != 3)) SPbgen (i, transform {Str[i][depth-1] trsf}, depth-1) #end
+        //#if (bitwise_and (SPshow, pow(2,i)) & (tid != 0 | i != 3)) SPbgen (i, transform {Str[i][depth-1] trsf}, depth-1) #end
+        SPbgen (i, transform {Str[i][depth-1] trsf}, depth-1)
       #end
       #local i = i + 1;
     #end
