@@ -18,15 +18,14 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (depth) #declare depth = 3; #end // must coincide with the number of digits in signatures
 #ifndef (tipsig) #declare tipsig = 333; #end
 #ifndef (focussig) #declare focussig=246; #end
+#ifndef (level) #declare level = 1; #end
 #ifndef (SPid) #declare SPid = 1; #end
 #ifndef (colors) #declare colors = depth; #end
 #if (colors <= 0) #declare colors = depth + colors; #end
 #ifndef (tailsig) #declare tailsig = 00000; #end
-#ifndef (tailsigw) #declare tailsigw = 00000; #end
-#ifndef (tailsigw2) #declare tailsigw2 = 00000; #end
-#ifndef (rotworm)
-  #declare rotworm = 180*clock;
-#end
+//#ifndef (tailsigw) #declare tailsigw = 00000; #end
+//#ifndef (tailsigw2) #declare tailsigw2 = 00000; #end
+#ifndef (rotworm) #declare rotworm = 180; #end
 
 #declare magstep = sqrt(4+sqrt(15));
 #declare magdepth = pow (magstep, depth);
@@ -62,6 +61,7 @@ worm_init (2000)
 #declare spectrerot_center = <-5/4-ap/2,0,9/4-ap/2>;
 #declare tower_tr = SPbd[5] - SPbd[9];
 #declare reltowormtr = spectrerot_center - 0.5*tower_tr;
+#ifdef (reltowormvar) #declare reltowormtr = spectrerot_center; #end
 //#declare reltoworm = transform {SProtspectre (-rotworm)}
 #declare reltoworm = transform {translate -reltowormtr rotate -rotworm*y translate reltowormtr}
 
@@ -69,21 +69,7 @@ SPrec (SPid, transform {transform {basetrinv reltoworm} transform {gtras} transl
 
 #declare bdthick=0.2;
 
-#local trsf = transform {transform {basetrinv} transform {gtras} translate lift+2*tile_thick*y}
-#local tid = SPid;
-
-    #local i = 0;
-    #while (i < 8)
-      #if (tid != 0 | i != 3)
-        //#if (bitwise_and (SPshow, pow(2,i)) & (tid != 0 | i != 3)) SPbgen (i, transform {Str[i][depth-1] trsf}, depth-1) #end
-        SPbgen (i, transform {Str[i][depth-1] trsf}, depth-1)
-      #end
-      #local i = i + 1;
-    #end
-//    #if (d >= colors-1) SProtcolorshue (deltahue) SPbuildtiles() #end
-
-
-//SPbgen (SPid, transform {transform {basetrinv} transform {gtras} translate lift+3*tile_thick*y}, depth)
+SPskelrec (SPid, transform {transform {basetrinv} transform {gtras} translate lift+2*tile_thick*y}, depth, level)
 
 #local lift = lift + tile_thick*y;
 

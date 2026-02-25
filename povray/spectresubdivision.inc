@@ -315,6 +315,24 @@ getD (QA[0], QB[0], QC[0])
   #end
 #end
 
+/*
+ * draw only tile boundaries, stopping recursion at "level" level of tiles deflation
+ */
+  
+#macro SPskelrec (tid, trsf, depth, level)
+  #if (depth <= level)
+    SPbgen (tid, transform {trsf}, depth)
+  #else
+    #local i = 0;
+    #while (i < 8)
+      #if (tid != 0 | i != 3)
+        SPskelrec (i, transform {Str[i][depth-1] trsf}, depth-1, level)
+      #end
+      #local i = i + 1;
+    #end
+  #end 
+#end
+
 #macro SPbrec (btid, trsf, depth)
   #local d = depth-1;
   #if (depth = 0)

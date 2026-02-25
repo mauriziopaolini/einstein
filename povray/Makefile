@@ -83,6 +83,8 @@ spectrehydras: spectrehydra.png spectrehydra_o.png spectrehydra_z.png spectrehyd
 
 spectretripods: spectretripod.png spectretripod_o.png spectretripod_z.png spectretripodw.png spectretripodw_o.png spectretripodw_z.png
 
+spwormscmp: spwormscmp_d3a.png spwormscmp_d3b.png spwormscmp_d4a.png spwormscmp_d4b.png spwormscmp_d4c.png spwormscmp_d5a.png spwormscmp_d5b.png spwormscmp_d5c.png spwormscmp_d5d.png
+
 spectreworms: $(spectreworms0) $(spectrehydras)
 
 spectrefractals: spectrefractal.png mysticfractal.png spectrefractalsub.png
@@ -551,6 +553,34 @@ spectretripodw_o.png: spectreworm.pov
 
 spectretripodw_z.png: spectreworm.pov
 	povray +a $(povoptspng) $< Declare=depth=6 Declare=zoomout=2 Declare=tipsigw=333333 Declare=focussig=040404 Declare=tipsigw2=633333 Declare=tailsigw2=0 +O$@
+
+spwormscmp_d3a.png: spectrewormcompare.pov
+	povray +a $(povoptspng) $< Declare=depth=3 Declare=zoomout=2.5 Declare=tipsig=333 Declare=focussig=246 Declare=level=0 +O$@
+
+spwormscmp_d3b.png: spectrewormcompare.pov
+	povray +a $(povoptspng) $< Declare=depth=3 Declare=zoomout=2.5 Declare=tipsig=333 Declare=focussig=246 Declare=level=1 +O$@
+
+spwormscmp_d4a.png: spectrewormcompare.pov
+	povray +a $(povoptspng) $< Declare=depth=4 Declare=zoomout=2.5 Declare=tipsig=3333 Declare=focussig=246 Declare=level=0 +O$@
+
+spwormscmp_d4b.png: spectrewormcompare.pov
+	povray +a $(povoptspng) $< Declare=depth=4 Declare=zoomout=2.5 Declare=tipsig=3333 Declare=focussig=246 Declare=level=1 +O$@
+
+spwormscmp_d4c.png: spectrewormcompare.pov
+	povray +a $(povoptspng) $< Declare=depth=4 Declare=zoomout=2.5 Declare=tipsig=3333 Declare=focussig=5646 Declare=level=1 +O$@
+
+spwormscmp_d5a.png: spectrewormcompare.pov
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=zoomout=2.5 Declare=tipsig=33333 Declare=focussig=20246 Declare=level=1 +O$@
+
+spwormscmp_d5b.png: spectrewormcompare.pov
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=zoomout=4 Declare=tipsig=33333 Declare=focussig=20246 Declare=level=2 +O$@
+
+spwormscmp_d5c.png: spectrewormcompare.pov
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=zoomout=2.5 Declare=tipsig=33333 Declare=focussig=24602 Declare=level=1 Declare=reltowormvar=1 +O$@
+
+spwormscmp_d5d.png: spectrewormcompare.pov
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=zoomout=4 Declare=tipsig=33333 Declare=focussig=24602 Declare=level=2 Declare=reltowormvar=1 +O$@
+
 
 spectrefractal.png: spectrebd.pov spectresubdivision.inc
 	povray +a $(povoptspng) $< Declare=depth=7 Declare=bdthick=6 Declare=zoomout=6.7 Declare=panup=1 Declare=panright=0.5 Declare=ptsize=100 Declare=draw4ipoints=1 +O$@
