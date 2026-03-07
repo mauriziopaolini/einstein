@@ -956,3 +956,6 @@ frames/spectre_inflation_23.5/DONE: frames/%/DONE: spectreinflation.pov
 frames/spectre_inflation/DONE: frames/%/DONE: spectreinflation.pov
 	povray $< $(povoptsani) Declare=animate=2 +kf152 +kff3800 +Oframes/$*/frame
 	touch $@
+
+wormchain: wormchain.c
+	cc -Wall $< -o $@

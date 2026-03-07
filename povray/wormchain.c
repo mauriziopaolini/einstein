@@ -8,6 +8,7 @@
  */
 
 int prec_in_worm (int sig, int wriggly);
+void usage (int argc, char *argv[]);
 
 /*
  */
@@ -22,6 +23,11 @@ main (int argc, char *argv[])
   int tipsig = 0;
   int i, sig;
 
+  if (argc <= 1)
+  {
+    usage (argc, argv);
+    exit (0);
+  }
   assert (argc > 1);
   while (iarg < argc)
   {
@@ -60,6 +66,13 @@ main (int argc, char *argv[])
     sig = prec_in_worm (sig, wriggly);
     printf ("%d\n", sig);
   }
+}
+
+void
+usage (int argc, char *argv[])
+{
+  printf ("usage: %s [-w] tile-signature\n", argv[0]);
+  return;
 }
 
 /*
