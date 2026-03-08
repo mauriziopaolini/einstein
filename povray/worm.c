@@ -7,6 +7,9 @@
 #define COMMAND_FOLLOW 1
 #define COMMAND_HELP 2
 #define COMMAND_CHECK 3
+#define COMMAND_INFLATE 4
+#define COMMAND_DEFLATE 5
+#define COMMAND_CHECKWORM 6
 
 /*
  * data structure to hold a periodic signature
@@ -23,25 +26,35 @@ struct signature {
  * prototypes
  */
 
-int prec_in_worm (int sig, int wriggly);
+long long int prec_in_worm (long long int sig, int wriggly);
 void usage (int argc, char *argv[]);
 void printsig (struct signature *sig);
 struct signature *readsig (char *repr);
+void inflate (struct signature *sig);
+struct signature *deflate (struct signature *sig, int newdigit);
+long long int flatten (struct signature *sig);
+int check (struct signature *sig);
+int checkworm (struct signature *sig, int wriggly);
+struct signature *sigcopy (struct signature *sig);
 
 /*
  */
 
 double follow_eo[2][7];
+int follow_eox3[2][7];
 
 int
 main (int argc, char *argv[])
 {
   int iarg = 1;
   int wriggly = 0;
-  int tipsig = 0;
-  int i, sig;
+  long long int tipsig = 0;
+  long long int sig;
+  int i;
   int command = 0;
+  int digit = 0;
   struct signature *rsig = 0;
+  struct signature *rsig2;
 
   if (argc <= 1)
   {
@@ -56,8 +69,10 @@ main (int argc, char *argv[])
       if (strcmp (argv[iarg], "-w") == 0 || strcmp (argv[iarg], "--wriggly") == 0)
       {
         wriggly++;
-      } else
-      {
+      } else if (strcmp (argv[iarg], "--digit") == 0) {
+        iarg++;
+        digit = atoi (argv[iarg]);
+      } else {
         fprintf (stderr, "Invalid option %s\n", argv[iarg]);
         exit (1);
       }
@@ -65,8 +80,14 @@ main (int argc, char *argv[])
     {
       if (strcmp (argv[iarg], "follow") == 0) {
         command = COMMAND_FOLLOW;
+      } else if (strcmp (argv[iarg], "inflate") == 0) {
+        command = COMMAND_INFLATE;
+      } else if (strcmp (argv[iarg], "deflate") == 0) {
+        command = COMMAND_DEFLATE;
       } else if (strcmp (argv[iarg], "check") == 0) {
         command = COMMAND_CHECK;
+      } else if (strcmp (argv[iarg], "checkworm") == 0) {
+        command = COMMAND_CHECKWORM;
       } else if (strcmp (argv[iarg], "help") == 0) {
         command = COMMAND_HELP;
       } else {
@@ -90,16 +111,16 @@ main (int argc, char *argv[])
 
   if (wriggly) printf ("Option wriggly is ON\n");
 
-  for (i = 0; i < 7; i++) follow_eo[0][i] = follow_eo[1][i] = 0;
+  for (i = 0; i < 7; i++) follow_eox3[0][i] = follow_eox3[1][i] = 0;
 
-  follow_eo[0][2] = 0.43333333;
-  follow_eo[0][3] = 2.33333333;
-  follow_eo[0][5] = 0.46333333;
-  follow_eo[0][6] = 5.33333333;
+  follow_eo[0][2] = 13./30.;
+  follow_eo[0][3] = 70./30.;
+  follow_eo[0][5] = 139./300.;
+  follow_eo[0][6] = 16./3.;
 
-  follow_eo[1][3] = 4.63333333;
-  follow_eo[1][4] = 5.63333333;
-  follow_eo[1][5] = 0.23333333;
+  follow_eo[1][3] = 139./30;
+  follow_eo[1][4] = 169./30.;
+  follow_eo[1][5] = 7./30.;
 
   switch (command) {
     case COMMAND_HELP:
@@ -107,24 +128,135 @@ main (int argc, char *argv[])
     break;
 
     case COMMAND_FOLLOW:
+      tipsig = flatten (rsig);
+      if (tipsig < 0)
+      {
+        printf ("Must have a 'finite' signature: [0]*.\n");
+        exit (10);
+      }
+
       sig = tipsig;
-      printf ("%d\n", sig);
+      printf ("%lld\n", sig);
       while (sig)
       {
         sig = prec_in_worm (sig, wriggly);
-        printf ("%d\n", sig);
+        printf ("%lld\n", sig);
       }
     break;
 
+    case COMMAND_INFLATE:
+      inflate (rsig);
+      printsig (rsig); printf ("\n");
+    break;
+
+    case COMMAND_DEFLATE:
+      rsig2 = deflate (rsig, digit);
+      free (rsig);
+      rsig = rsig2;
+      printsig (rsig2); printf ("\n");
+    break;
+
     case COMMAND_CHECK:
-      printf ("Not implemented\n");
+      if (check (rsig))
+      {
+        printf ("This is a valid signature\n");
+      } else {
+        printf ("This signatue is invalid\n");
+      }
+    break;
+
+    case COMMAND_CHECKWORM:
+      if (checkworm (rsig, wriggly))
+      {
+        printf ("This tile belongs to a potential%s worm\n", (wriggly)?" wriggly":"");
+      } else {
+        printf ("This tile CANNOT belong to a%s worm\n", (wriggly)?" wriggly":"");
+      }
     break;
 
     default:
       printf ("Unknown command code: %d\n", command);
       exit (4);
   }
+  free (rsig);
+}
 
+/*
+ * flatten: a 'finite' signature with at most 18 digits
+ * is converted to a decimal integer
+ */
+
+long long int
+flatten (struct signature *sig)
+{
+  int i;
+  long long int result = 0;
+
+  assert (sig->periodlength > 0);
+  if (sig->periodlength != 1) return (-1);
+  if (sig->digits[0] != 0) return (-1);
+  if (sig->totlength > 19)
+  {
+    printf ("Too many digits, they do not fit in a long long integer\n");
+    return (-1);
+  }
+
+  for (i = 1; i < sig->totlength; i++)
+  {
+    result *= 10;
+    result += sig->digits[i];
+  }
+  return (result);
+}
+
+/*
+ * inflate modifies the argument!
+ */
+
+void
+inflate (struct signature *sig)
+{
+  int i, rightmost;
+
+  assert (sig->periodlength >= 1);
+
+  if (sig->totlength > sig->periodlength)
+  {
+    sig->totlength--;
+    return;
+  }
+
+  /* rotate period right */
+  rightmost = sig->digits[sig->periodlength - 1];
+  for (i = sig->periodlength - 1; i > 0; i--)
+  {
+    sig->digits[i] = sig->digits[i-1];
+  }
+  sig->digits[0] = rightmost;
+  return;
+}
+
+/*
+ * deflate create a new signature!
+ */
+
+struct signature *
+deflate (struct signature *sig, int newdigit)
+{
+  int i;
+  struct signature *dsig;
+
+  assert (sig->periodlength >= 1);
+
+  dsig = (struct signature *) malloc (sizeof (struct signature) + (sig->totlength + 1)*sizeof(int));
+  dsig->allocated = sig->totlength + 1;
+
+  for (i = 0; i < sig->totlength; i++) dsig->digits[i] = sig->digits[i];
+  dsig->digits[sig->totlength] = newdigit;
+  dsig->totlength = sig->totlength + 1;
+  dsig->periodlength = sig->periodlength;
+
+  return dsig;
 }
 
 struct signature *
@@ -133,6 +265,7 @@ readsig (char *chars)
   int length;
   char *chpt;
   int endperiodfound = 0;
+  int i;
   struct signature *sig;
 
   for (chpt = chars, length = 0; *chpt; chpt++)
@@ -141,9 +274,11 @@ readsig (char *chars)
     if (*chpt == ']') endperiodfound++;
   }
 
-  sig = (struct signature *) malloc (sizeof (struct signature) + length*sizeof (int));
+  sig = (struct signature *) malloc (sizeof (struct signature) + (length+1)*sizeof (int));
 
-  sig->totlength = sig->allocated = length;
+  sig->allocated = length + 1;
+  sig->totlength = length;
+
   sig->periodlength = 0; /* this would indicate an actual period of [0] */
   for (chpt = chars, length = 0; *chpt; chpt++)
   {
@@ -155,14 +290,98 @@ readsig (char *chars)
     if (*chpt == ']') sig->periodlength = length;
   }
 
+  if (endperiodfound == 0)
+  {
+    assert (sig->periodlength == 0);
+    assert (sig->allocated > sig->totlength);
+
+    for (i = sig->totlength; i > 0; i--)
+    {
+      sig->digits[i] = sig->digits[i-1];
+    }
+    sig->digits[0] = 0;
+    sig->totlength++;
+    sig->periodlength++;
+  }
+
   return (sig);
 }
+
+/*
+ * check for a valid signature
+ */
 
 int
 check (struct signature *sig)
 {
-  printf ("NOT IMPLEMENTED\n");
-  return (0);
+  int i;
+
+  for (i = 0; i < sig->totlength; i++)
+  {
+    if (sig->digits[i] < 0 || sig->digits[i] > 7) {printf ("Digits cannot be negative nor larger then 7\n"); return (0);}
+  }
+  for (i = 0; i < sig->totlength - 1; i++)
+  {
+    if (sig->digits[i] == 0 && sig->digits[i+1] == 3) {printf ("\"..03..\" is not allowed in signature\n"); return (0);}
+  }
+  if (sig->digits[0] == 3 && sig->digits[sig->periodlength - 1] == 0)
+  {
+    printf ("\"..03..\" is not allowed in signature: [3..0]..\n"); return (0);
+  }
+  return (1);
+}
+
+/*
+ * checkworm
+ */
+
+int
+checkworm (struct signature *sig, int wriggly)
+{
+  int ok, i, lastdigit;
+  struct signature *csig;
+
+  assert (wriggly == 0 || wriggly == 1);
+  csig = sigcopy (sig);
+
+  ok = 1;
+  for (i = 0; i < csig->totlength + csig->periodlength + 1; i++)
+  {
+    lastdigit = csig->digits[csig->totlength - 1];
+printf ("csig: "); printsig (csig); printf (" wriggly=%d, lastdigit: %d\n", wriggly, lastdigit);
+    switch (lastdigit)
+    {
+      case 0:
+      case 3:
+      case 5:
+      break;
+
+      case 1:
+      case 7:
+        ok = 0;
+      break;
+
+      case 2:
+      case 6:
+        if (wriggly) ok = 0;
+      break;
+
+      case 4:
+        if (wriggly == 0) ok = 0;
+      break;
+
+      default:
+        printf ("Invalid digit %d\n", lastdigit);
+      break;
+    }
+
+    if (ok == 0) break;
+    inflate (csig);
+    wriggly = 1 - wriggly;
+  }
+
+  free (csig);
+  return (ok);
 }
 
 void
@@ -204,11 +423,11 @@ usage (int argc, char *argv[])
  * compute prec_in_worm
  */
 
-int
-prec_in_worm (int sig, int wriggly)
+long long int
+prec_in_worm (long long int sig, int wriggly)
 {
-  int tenpow = 1;
-  int sigh = sig;
+  long long int tenpow = 1;
+  long long int sigh = sig;
   int eo = wriggly;
   int sym;
 
@@ -231,7 +450,28 @@ prec_in_worm (int sig, int wriggly)
 
 
   printf ("Case sym = 0 is not dealt with yet\n");
-  printf ("called with sig = %d, wriggly = %d\n", sig, wriggly);
+  printf ("called with sig = %lld, wriggly = %d\n", sig, wriggly);
 
   return (0);
+}
+
+/*
+ * copy a signature
+ */
+
+struct signature *
+sigcopy (struct signature *sig)
+{
+  int i;
+  struct signature *rsig;
+
+  rsig = (struct signature *) malloc (sizeof (struct signature) + sig->allocated*sizeof (int));
+
+  rsig->allocated = sig->allocated;
+  rsig->totlength = sig->totlength;
+  rsig->periodlength = sig->periodlength;
+
+  for (i = 0; i < sig->totlength; i++) rsig->digits[i] = sig->digits[i];
+
+  return rsig;
 }
