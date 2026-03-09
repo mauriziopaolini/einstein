@@ -16,7 +16,7 @@ global_settings { assumed_gamma 1.0 }
 #include "spectreworm.inc"
 
 #ifndef (depth) #declare depth = 3; #end // must coincide with the number of digits in signatures
-#ifndef (tipsig) #declare tipsig = 333333; #end
+#ifndef (tipsig) #declare tipsig = 33333333; #end
 #ifndef (focussig) #declare focussig=0; #end
 //#ifndef (level) #declare level = 1; #end
 #ifndef (SPid) #declare SPid = 1; #end
@@ -61,40 +61,75 @@ global_settings { assumed_gamma 1.0 }
 
 #declare textfont = "LiberationMono-Regular.ttf"
 
-#declare cursor = <2.0, 0, 3.0>;
-#declare linefeed = -0.5*z;
+#declare cursor = <2.0, 3*tile_thick, 2.7>;
+#declare linefeed = -0.45*z;
 
-#declare scaletext = 0.5;
+#declare scaletext = 0.35;
 text {ttf textfont concat ("depth: ", str(depth, 0, 0)) 0.02 0
   scale scaletext
   rotate 90*x
   translate cursor
-  pigment {color Black}
+  pigment {color Blue}
 }
 
 #declare cursor = cursor + linefeed;
 
-text {ttf textfont concat ("tip: ", str (tipsig,0,0)) 0.02 0
+text {ttf textfont concat ("tip ", str (tipsig,0,0)) 0.02 0
   scale scaletext
   rotate 90*x
   translate cursor
-  pigment {Black}
+  pigment {Blue}
 }
 
 #declare cursor = cursor + linefeed;
 
 #if (wriggly = 1)
   text {ttf textfont "wriggly" 0.02 0
-    scale 0.5
+    scale scaletext
     rotate 90*x
     translate cursor
-    pigment {color Black}
+    pigment {color Blue}
   }
 #end
 
+object {spectre
+  scale 0.3
+  rotate 65*y
+  translate -0.3*x
+  #if (mod (depth, 2) = 1)
+    scale <-1,1,1>
+  #end
+  translate <3.4, 0, -2.8>
+}
 
 
-worm_init (2000)
+#macro putmark (marksig, markradius, markcolor)
+  #declare wormi = 0;
+  newwormtile (marksig)
+  #local markpos = vtransform (0*x, transform {wormtr[0] translate 2*tile_thick*y gtras});
+  sphere {
+    markpos
+    markradius
+    pigment {markcolor}
+    finish {tile_Finish}
+  } 
+#end
+
+#if (depth >= 7)
+  worm_init (20000)
+#else
+  worm_init (2000)
+#end
+
+#declare ballradius = 0.08;
+
+putmark (tipsig, ballradius, Yellow)
+putmark (0, ballradius, Blue)
+#ifdef (marksig)
+  #declare marksig = mod (marksig, pow(10,depth));
+  putmark (marksig, ballradius, Red)
+#end
+
 #declare wormi = 0;
 
 #ifdef (focussig)
@@ -184,6 +219,7 @@ createworm (wormlen, transform {translate lift gtras}, 0)
 
 #local lift = lift + tile_thick*y;
 
+/*
 #ifndef (nocyl)
   cylinder {
     0*y
@@ -193,6 +229,7 @@ createworm (wormlen, transform {translate lift gtras}, 0)
     transform {gtras}
   }
 #end
+ */
 
 #declare lookatpos = <0,0,0>;
 #declare mylocation = 7*mag*<0,1,0>;

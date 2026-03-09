@@ -75,13 +75,29 @@
             #local tenpow = 10*tenpow;  //100000
             #local eo = 1 - eo; // odd
             #if (sym = 0)
-              #debug concat ("WARNING: Cannot compute prec of ", str(sig,0,-1), "\n")
-              sig;
-            #else
-              #local sym = int(100000*follow_eo[eo][sym]);
-              #local newsig = 1000000*sigh + sym;
-              #local tenpow = 10*tenpow;  //1000000
+              #local sym = mod(sigh,10);
+              #local sigh = int (sigh/10);
+              #local tenpow = 10*tenpow;  //100000
               #local eo = 1 - eo; // even
+              #if (sym = 0)
+                #debug concat ("WARNING: Cannot compute prec of ", str(sig,0,-1), "\n")
+                sig;
+              #else
+                //#local sym = int(1000000*follow_eo[eo][sym]);
+                //#local newsig = 10000000*sigh + sym;
+                #local sym = int(tenpow*follow_eo[eo][sym]);
+                #local newsig = 10*tenpow*sigh + sym;
+                //#local tenpow = 10*tenpow;  //1000000
+                //#local eo = 1 - eo; // even
+                newsig;
+              #end
+            #else
+              //#local sym = int(100000*follow_eo[eo][sym]);
+              //#local newsig = 1000000*sigh + sym;
+              #local sym = int(tenpow*follow_eo[eo][sym]);
+              #local newsig = 10*tenpow*sigh + sym;
+              //#local tenpow = 10*tenpow;  //1000000
+              //#local eo = 1 - eo; // even
               newsig;
             #end
           #else
