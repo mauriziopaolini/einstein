@@ -554,6 +554,19 @@ spectretripodw_o.png: spectreworm.pov
 spectretripodw_z.png: spectreworm.pov
 	povray +a $(povoptspng) $< Declare=depth=6 Declare=zoomout=2 Declare=tipsigw=333333 Declare=focussig=040404 Declare=tipsigw2=633333 Declare=tailsigw2=0 +O$@
 
+#
+# spectrewormdeflate.pov
+#
+
+spwormdeflate_d3a.png: spectrewormdeflate.pov
+	povray +a $(povoptspng) $< Declare=depth=3 Declare=tipsig=3333333 +O$@
+
+
+
+#
+# spectrewormcompare.pov
+#
+
 spwormscmp_d3a.png: spectrewormcompare.pov
 	povray +a $(povoptspng) $< Declare=depth=3 Declare=zoomout=2.5 Declare=tipsig=333 Declare=focussig=246 Declare=level=0 +O$@
 
