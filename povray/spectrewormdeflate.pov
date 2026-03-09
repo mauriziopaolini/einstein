@@ -23,8 +23,6 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (colors) #declare colors = depth; #end
 #if (colors <= 0) #declare colors = depth + colors; #end
 #ifndef (tailsig) #declare tailsig = 00000; #end
-//#ifndef (tailsigw) #declare tailsigw = 00000; #end
-//#ifndef (tailsigw2) #declare tailsigw2 = 00000; #end
 #ifndef (dontshowall) #declare showall = 1; #end
 
 #declare tipsig = mod (tipsig, pow(10,depth));
@@ -35,6 +33,9 @@ global_settings { assumed_gamma 1.0 }
 //#declare mag = magdepth;
 #declare mag = 1;
 
+//#declare bdthick=0.02*magdepth;
+#declare bdthick=0.02*pow (0.8*magstep, depth);
+
 #ifndef (zoomout) #declare zoomout=0; #end
 
 
@@ -42,18 +43,56 @@ global_settings { assumed_gamma 1.0 }
   #declare mag = pow(magstep,zoomout);
 #end
 
-#declare gtras = transform {scale 1/magdepth translate -1*z};
+#declare gtras = transform {scale 1.5/magdepth rotate -40*y};
 
 #ifndef (wriggly) #declare wriggly = 0; #end
 
 #if (mod (depth, 2) = 0)
-  #declare gtras = transform {gtras scale <-1,1,1>}
+  //#declare gtras = transform {gtras scale <-1,1,1>}
   #declare wriggly = 1 - wriggly;
+  #declare gtras = transform {gtras rotate 70*y}
 #end
+
+#declare gtras = transform {gtras translate -1.6*z};
 
 #ifdef (rot) #declare gtras = transform {rotate rot*y} #end
 
 #ifdef (zoom) #declare zoomfactor = 1/zoom*zoomfactor; #end
+
+#declare textfont = "LiberationMono-Regular.ttf"
+
+#declare cursor = <2.0, 0, 3.0>;
+#declare linefeed = -0.5*z;
+
+#declare scaletext = 0.5;
+text {ttf textfont concat ("depth: ", str(depth, 0, 0)) 0.02 0
+  scale scaletext
+  rotate 90*x
+  translate cursor
+  pigment {color Black}
+}
+
+#declare cursor = cursor + linefeed;
+
+text {ttf textfont concat ("tip: ", str (tipsig,0,0)) 0.02 0
+  scale scaletext
+  rotate 90*x
+  translate cursor
+  pigment {Black}
+}
+
+#declare cursor = cursor + linefeed;
+
+#if (wriggly = 1)
+  text {ttf textfont "wriggly" 0.02 0
+    scale 0.5
+    rotate 90*x
+    translate cursor
+    pigment {color Black}
+  }
+#end
+
+
 
 worm_init (2000)
 #declare wormi = 0;
@@ -64,22 +103,23 @@ worm_init (2000)
   newwormtile (0)
 #end
 
-#declare basetr = wormtr[0];
-#declare basetrinv = transform {basetr inverse}
+//#declare basetrinv = transform {scale 1}
 
 #local lift = 0;
 
-#declare bdthick=0.2;
 #if (SPid = 0)
-  SPbmystic (transform {basetrinv translate lift gtras}, depth)
+  //SPbmystic (transform {basetrinv translate lift gtras}, depth)
+  SPbmystic (transform {translate lift gtras}, depth)
 #else
-  SPbspectre (transform {basetrinv translate lift gtras}, depth)
+  //SPbspectre (transform {basetrinv translate lift gtras}, depth)
+  SPbspectre (transform {translate lift gtras}, depth)
 #end
 
 #local lift = lift + tile_thick*y;
 
 #ifdef (showall)
-  SPwormrec (SPid, transform {basetrinv translate lift gtras}, depth)
+  //SPwormrec (SPid, transform {basetrinv translate lift gtras}, depth)
+  SPwormrec (SPid, transform {translate lift gtras}, depth)
   #local lift = lift + tile_thick*y;
 #end
 
@@ -137,7 +177,8 @@ worm_init (2000)
 #end
 
 #declare wormlen = wormi;
-createworm (wormlen, transform {basetrinv translate lift gtras}, 0)
+//createworm (wormlen, transform {basetrinv translate lift gtras}, 0)
+createworm (wormlen, transform {translate lift gtras}, 0)
 
 #if (wormlen > 0) #local lift = lift + tile_thick*y; #end
 
@@ -154,12 +195,11 @@ createworm (wormlen, transform {basetrinv translate lift gtras}, 0)
 #end
 
 #declare lookatpos = <0,0,0>;
-//#declare mylocation = 0.8*mag*<0,10,0>;
 #declare mylocation = 7*mag*<0,1,0>;
 
 #ifdef (panup)
-  #declare lookatpos = lookatpos+magdepth*panup*z;
-  #declare mylocation = mylocation+magdepth*panup*z;
+  #declare lookatpos = lookatpos+panup*z;
+  #declare mylocation = mylocation+panup*z;
 #end
 
 #ifdef (panright)
