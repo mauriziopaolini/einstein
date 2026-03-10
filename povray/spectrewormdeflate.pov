@@ -72,14 +72,16 @@ text {ttf textfont concat ("depth: ", str(depth, 0, 0)) 0.02 0
   pigment {color Blue}
 }
 
-#declare cursor = cursor + linefeed;
+#if (tipsig > 0)
+  #declare cursor = cursor + linefeed;
 
-text {ttf textfont concat ("tip ", str (tipsig,0,0)) 0.02 0
-  scale scaletext
-  rotate 90*x
-  translate cursor
-  pigment {Blue}
-}
+  text {ttf textfont concat ("tip ", str (tipsig,0,0)) 0.02 0
+    scale scaletext
+    rotate 90*x
+    translate cursor
+    pigment {Blue}
+  }
+#end
 
 #declare cursor = cursor + linefeed;
 
@@ -121,9 +123,12 @@ object {spectre
   worm_init (2000)
 #end
 
-#declare ballradius = 0.08;
+#declare ballradius = 0.14;
 
-putmark (tipsig, ballradius, Yellow)
+#if (tipsig > 0)
+  putmark (tipsig, ballradius, Yellow)
+#end
+
 putmark (0, ballradius, Blue)
 #ifdef (marksig)
   #declare marksig = mod (marksig, pow(10,depth));
@@ -213,7 +218,9 @@ putmark (0, ballradius, Blue)
 
 #declare wormlen = wormi;
 //createworm (wormlen, transform {basetrinv translate lift gtras}, 0)
-createworm (wormlen, transform {translate lift gtras}, 0)
+#if (tipsig > 0)
+  createworm (wormlen, transform {translate lift gtras}, 0)
+#end
 
 #if (wormlen > 0) #local lift = lift + tile_thick*y; #end
 

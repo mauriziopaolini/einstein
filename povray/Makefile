@@ -558,8 +558,41 @@ spectretripodw_z.png: spectreworm.pov
 # spectrewormdeflate.pov
 #
 
+spwormdeflate_d2a.png: spectrewormdeflate.pov
+	povray +a $(povoptspng) $< Declare=depth=2 Declare=tipsig=333333 +O$@
+
 spwormdeflate_d3a.png: spectrewormdeflate.pov
-	povray +a $(povoptspng) $< Declare=depth=3 Declare=tipsig=3333333 +O$@
+	povray +a $(povoptspng) $< Declare=depth=3 Declare=tipsig=333333 +O$@
+
+spwormdeflate_d4a.png: spectrewormdeflate.pov
+	povray +a $(povoptspng) $< Declare=depth=4 Declare=tipsig=333333 +O$@
+
+spwormdeflate_d5a.png: spectrewormdeflate.pov
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=tipsig=333333 +O$@
+
+spwormdeflate_d6a.png: spectrewormdeflate.pov
+	povray +a $(povoptspng) $< Declare=depth=6 Declare=tipsig=333333 +O$@
+
+spwormdeflate_d7a.png: spectrewormdeflate.pov
+	povray +a $(povoptspng) $< Declare=depth=7 Declare=tipsig=0 +O$@
+
+spwormdeflate_d2b.png: spectrewormdeflate.pov
+	povray +a $(povoptspng) $< Declare=depth=2 Declare=tipsig=0 Declare=wriggly=1 +O$@
+
+spwormdeflate_d3b.png: spectrewormdeflate.pov
+	povray +a $(povoptspng) $< Declare=depth=3 Declare=tipsig=0 Declare=wriggly=1 +O$@
+
+spwormdeflate_d4b.png: spectrewormdeflate.pov
+	povray +a $(povoptspng) $< Declare=depth=4 Declare=tipsig=0 Declare=wriggly=1 +O$@
+
+spwormdeflate_d5b.png: spectrewormdeflate.pov
+	povray +a $(povoptspng) $< Declare=depth=5 Declare=tipsig=0 Declare=wriggly=1 +O$@
+
+spwormdeflate_d6b.png: spectrewormdeflate.pov
+	povray +a $(povoptspng) $< Declare=depth=6 Declare=tipsig=0 Declare=wriggly=1 +O$@
+
+spwormdeflate_d7b.png: spectrewormdeflate.pov
+	povray +a $(povoptspng) $< Declare=depth=7 Declare=tipsig=0 Declare=wriggly=1 +O$@
 
 
 
