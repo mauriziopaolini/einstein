@@ -21,6 +21,9 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (rotworm)
   #declare rotworm = 180*clock;
 #end
+#ifndef (rotwormw)
+  #declare rotwormw = 180*clock;
+#end
 //#ifndef (tipsig2) #declare tipsig2 = 63636; #end
 //#ifndef (tailsig2) #declare tailsig2 = 04500; #end
 
@@ -113,6 +116,7 @@ SPrec (SPid, transform {transform {basetrinv} transform {gtras} translate lift},
       #end
       transform {wormtr[i]}
       transform {ltrans}
+      translate wormid[i]*0.05*tile_thick*y
     }
     #local i = i + 1;
   #end
@@ -157,6 +161,7 @@ SPrec (SPid, transform {transform {basetrinv} transform {gtras} translate lift},
       #end
       transform wormtr[i]
       transform {ltrans}
+      translate wormid[i]*0.05*tile_thick*y
     }
     #local i = i + 1;
   #end

@@ -33,16 +33,63 @@
 
 #declare follow_eo = array[2][7];
 
-#declare follow_eo[0][2] = 0.43333;
-#declare follow_eo[0][3] = 2.33333;
-#declare follow_eo[0][5] = 0.46333;
-#declare follow_eo[0][6] = 5.33333;
+/*
+#declare follow_eo[0][2] = 0.433333;
+#declare follow_eo[0][3] = 2.333333;
+#declare follow_eo[0][5] = 0.463333;
+#declare follow_eo[0][6] = 5.333333;
 
-#declare follow_eo[1][3] = 4.63333;
-#declare follow_eo[1][4] = 5.63333;
-#declare follow_eo[1][5] = 0.23333;
+#declare follow_eo[1][3] = 4.633333;
+#declare follow_eo[1][4] = 5.633333;
+#declare follow_eo[1][5] = 0.233333;
+ */
 
-#macro prec_in_worm (sig,wriggly)
+#declare follow_eo[0][2] = 1.3/3;  //0.433333;
+#declare follow_eo[0][3] = 7/3;    //2.333333;
+#declare follow_eo[0][5] = 1.39/3; //0.463333;
+#declare follow_eo[0][6] = 16/3;   //5.333333;
+
+#declare follow_eo[1][3] = 13.9/3; //4.633333;
+#declare follow_eo[1][4] = 16.9/3; //5.633333;
+#declare follow_eo[1][5] = 0.7/3;  //0.233333;
+
+#macro prec_in_worm (sig, wriggly)
+  #local tenpow = 1;
+  #local sigh = sig;
+  #local eo = wriggly; // even if less-wriggly
+  #local newsig = -1;
+  #while (sigh > 0)
+
+    #local sym = mod(sigh,10);
+    #local sigh = int (sigh/10);
+
+    #if (sym > 0)
+      #if (follow_eo[eo][sym] = 0)
+        #debug concat ("WARNING: undefined follow_eo[", str(eo,0,0), ",", str(sym,0,0), "], sig = ", str(sig,0,0), "\n")
+      #end
+      #local sym = int(tenpow*follow_eo[eo][sym]);
+      #local newsig = 10*tenpow*sigh + sym;
+      #break
+    #end
+    #local tenpow = 10*tenpow;
+    #local eo = 1 - eo;
+    #if (newsig >= 0) #break #end
+  #end
+
+  #if (newsig < 0)
+    #debug concat ("WARNING: Cannot compute prec of ", str(sig,0,-1), "\n")
+    0;
+  #else
+    newsig;
+  #end
+
+#end
+
+/*
+ * the following can be removed as soon as we are confident on the above
+ */
+
+#macro prec_in_worm_old (sig,wriggly)
   #local tenpow = 1;
   #local sigh = sig;
   #local eo = wriggly; // even if less-wriggly
@@ -127,60 +174,6 @@
   #end
 #end
 
-/*
-#macro prec_in_worm (sig)
-  #local sig10 = int (sig/10);
-  #local sym = sig - 10*sig10;
-  #if (sym != 0)
-    #local sym = int(follow_e[sym]);
-    #local newsig = 10*sig10 + sym;
-    newsig;
-  #else
-    #local sig100 = int (sig10/10);
-    #local sym = sig10 - 10*sig100;
-    #if (sym != 0)
-      #local sym = int(10*follow_o[sym]);
-      #local newsig = 100*sig100 + sym;
-      newsig;
-    #else
-      #local sig1000 = int (sig100/10);
-      #local sym = sig100 - 10*sig1000;
-      #if (sym != 0)
-        #local sym = int(100*follow_e[sym]);
-        #local newsig = 1000*sig1000 + sym;
-        newsig;
-      #else
-        #local sig10000 = int (sig1000/10);
-        #local sym = sig1000 - 10*sig10000;
-        #if (sym != 0)
-          #local sym = int(1000*follow_o[sym]);
-          #local newsig = 10000*sig10000 + sym;
-          newsig;
-        #else
-          #local sig100000 = int (sig10000/10);
-          #local sym = sig10000 - 10*sig100000;
-          #if (sym != 0)
-            #local sym = int(10000*follow_e[sym]);
-            #local newsig = 100000*sig100000 + sym;
-            newsig;
-          #else
-            #local sig1000000 = int (sig100000/10);
-            #local sym = sig100000 - 10*sig1000000;
-            #if (sym != 0)
-              #local sym = int(100000*follow_o[sym]);
-              #local newsig = 1000000*sig1000000 + sym;
-              newsig;
-            #else
-              #debug concat ("WARNING: Cannot compute prec of ", str(sig,0,-1), "\n")
-              sig;
-            #end
-          #end
-        #end
-      #end
-    #end
-  #end
-#end
- */
 
 #declare tripod_center_s = <0,0,2>;
 #declare tripod_center = vtransform (tripod_center_s, transform {mystic_tr});
