@@ -791,12 +791,12 @@ povoptsROADS = Declare=ROADS=1 Declare=ROADSIGNS=1 Declare=CASTLES=1
 
 frames/spectreworm_rotate/DONE: frames/%/DONE: spectreworm.pov
 	povray $< -D +a +W800 +H600 +ki0 +kfi0 +kf1 +kff175 Declare=depth=6 Declare=zoomout=1.5 Declare=showall=1 Declare=tipsig=333333 Declare=focussig=23333 Declare=colors=5 Declare=deltahue=10 +Oframes/$*/frame0
-	for i in `seq 176 181`; do cp frames/$*/frame0175.png frames/$*/frame0$${i}.png; done
+	for i in `seq 176 201`; do cp frames/$*/frame0175.png frames/$*/frame0$${i}.png; done
 	touch $@
 
 frames/spectrewworm_rotate/DONE: frames/%/DONE: spectreworm.pov
 	povray $< -D +a +W800 +H600 +ki0 +kfi0 +kf1 +kff175 Declare=depth=6 Declare=zoomout=1.5 Declare=showallw=1 Declare=tipsigw=333333 Declare=focussig=43333 Declare=colors=5 Declare=deltahue=10 +Oframes/$*/frame0
-	for i in `seq 176 181`; do cp frames/$*/frame0175.png frames/$*/frame0$${i}.png; done
+	for i in `seq 176 201`; do cp frames/$*/frame0175.png frames/$*/frame0$${i}.png; done
 	touch $@
 
 frames/five_deflations/DONE: frames/%/DONE: five_deflations.pov
