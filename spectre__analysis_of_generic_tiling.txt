@@ -1,4 +1,3 @@
-
 Pensiamo allo SPECTRE come ad un poligono (non convesso) di 14 lati tutti di uguale
 lunghezza, quindi esiste un angolo al vertice di 180 gradi.  Tutti gli altri angoli ai
 vertici assumono valori \pm 90  o \pm 120.  I lati sono numerati in senso antiorario
