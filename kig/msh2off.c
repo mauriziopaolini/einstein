@@ -63,7 +63,7 @@ writeoff (double h, int nv, int nt, int ne)
   nf3d = 2*nt + 2*ne;
   ne3d = nv3d + nf3d - 2;
 
-  printf ("OFF\n#\n# created by msh2stl --off\n#\n");
+  printf ("OFF\n#\n# created by msh2off --off\n#\n");
   printf ("%d %d %d\n", nv3d, nf3d, ne3d);
 
   for (i = 0; i < nv; i++)

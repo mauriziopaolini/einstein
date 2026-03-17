@@ -1,0 +1,15 @@
+Start with the "realspectre.kig" file
+
+From kig export it to an "asy" file
+
+./asy2list.sh <realspectre.asy | ./erode 0.02 | ./eroded2tmg.sh 2 >realspectre.tmg
+
+[substitute: writemsh .msh -> writemsh realspectre.msh]
+
+./msh2off 0.25 <realspectre.msh >realspectre.off
+
+./off2stl <realspectre.off >realspectre.stl
+
+Pero' cura non riesce ad aprire tale stl (ascii)
+
+Con blender però può essere aperto e riconvertito
