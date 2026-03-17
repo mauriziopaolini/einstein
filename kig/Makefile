@@ -30,7 +30,7 @@ height = 0.25
 #
 scale = 15
 
-all: realspectre.stl
+all: realspectre.stl realpropeller.stl
 
 erode: erode.c
 	cc -Wall $< -o $@ -lm
