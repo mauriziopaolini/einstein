@@ -30,7 +30,14 @@ height = 0.25
 #
 scale = 15
 
-all: realspectre.stl realpropeller.stl
+reals=realspectre realmystic realpropeller realbowtie realH7 realH8
+reals_off=${reals:%=%.off}
+reals_stl=${reals:%=%.stl}
+
+
+all: $(reals_off) $(reals_stl)
+
+#all: realspectre.stl realpropeller.stl
 
 erode: erode.c
 	cc -Wall $< -o $@ -lm
