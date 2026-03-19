@@ -36,6 +36,7 @@ function filter0 ()
     cat $tempfile
     countcc=$[ $countcc + 1 ]
   done
+  echo "0"
   echo "$countcc"
 }
 

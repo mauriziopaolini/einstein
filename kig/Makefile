@@ -41,7 +41,10 @@ msh2off: msh2off.c
 %.list: %.asy asy2list.sh
 	./asy2list.sh <$< >$@
 
-%.eroded: %.list erode
+%.list1: %.list polygon_union
+	cat $< | ./polygon_union >$@
+
+%.eroded: %.list1 erode
 #	./erode 0.03 <$< | tac >$@
 	./erode $(erosion) <$< >$@
 
