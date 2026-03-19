@@ -39,6 +39,9 @@ all: $(reals_off) $(reals_stl)
 
 #all: realspectre.stl realpropeller.stl
 
+polygon_union: polygon_union.c
+	cc -Wall $< -o $@
+
 erode: erode.c
 	cc -Wall $< -o $@ -lm
 
