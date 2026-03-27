@@ -1016,5 +1016,5 @@ frames/spectre_inflation/DONE: frames/%/DONE: spectreinflation.pov
 worm: worm.c
 	cc -Wall $< -o $@
 
-wormchain: wormchain.c
+worm_old: worm_old.c
 	cc -Wall $< -o $@
