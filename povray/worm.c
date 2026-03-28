@@ -41,6 +41,7 @@ int check (struct signature *sig);
 int checkworm (struct signature *sig, int wriggly);
 struct signature *sigcopy (struct signature *sig);
 int isorigin (struct signature *sig);
+int isfinite (struct signature *sig);
 
 /*
  */
@@ -49,6 +50,7 @@ double follow_eo[2][7];
 int follow_eox3[2][7];
 static int quiet = 0;
 static int precnum = 1000; // default length of follow iterations
+static int shortfinite = 0;
 
 int
 main (int argc, char *argv[])
@@ -81,6 +83,8 @@ main (int argc, char *argv[])
       } else if (strcmp (argv[iarg], "--precnum") == 0) {
         iarg++;
         precnum = atoi (argv[iarg]);
+      } else if (strcmp (argv[iarg], "--short") == 0) {
+        shortfinite++;
       } else if (strcmp (argv[iarg], "-q") == 0) {
         quiet++;
       } else {
@@ -149,8 +153,7 @@ main (int argc, char *argv[])
       {
         rsig = prec_in_worm (rsig, wriggly);
         printsig (rsig); printf ("\n");
-//printf ("i = %d\n", i);
-        i++;
+        //i++;
         if (i > precnum && precnum >= 0) break;
       }
     break;
@@ -495,10 +498,34 @@ isorigin (struct signature *sig)
   return (1);
 }
 
+int
+isfinite (struct signature *sig)
+{
+  int i;
+
+  if (sig->periodlength == 0) return (1);
+  for (i = 0; i < sig->periodlength; i++)
+  {
+    if (sig->digits[i] != 0) return (0);
+  }
+  return (1);
+}
+
 void
 printsig (struct signature *sig)
 {
   int i;
+
+  if (shortfinite)
+  {
+    if (isorigin (sig)) {printf ("0"); return;}
+    if (isfinite (sig))
+    {
+      for (i = 0; i < sig->totlength && sig->digits[i] == 0; i++);
+      while (i < sig->totlength) printf ("%d", sig->digits[i++]);
+      return;
+    }
+  }
 
   if (sig->periodlength == 0)
   {
@@ -668,7 +695,7 @@ prec_digit (int digit, int wriggly)
         return (0);
       break;
       default:
-        printf ("Invalid last digit for wriggly worm\n");
+        fprintf (stderr, "Invalid last digit for wriggly worm\n");
         exit (11);
     }
   }
@@ -687,7 +714,7 @@ prec_digit (int digit, int wriggly)
       return (0);
     break;
     default:
-      printf ("Invalid last digit for worm\n");
+      fprintf (stderr, "Invalid last digit for worm\n");
       exit (11);
   }
 }
