@@ -148,12 +148,12 @@ main (int argc, char *argv[])
       assert (rsig);
       assert (rsig->periodlength > 0);
       printsig (rsig); printf ("\n");
-      i = 2;
+      i = 1;
       while (!isorigin (rsig))
       {
         rsig = prec_in_worm (rsig, wriggly);
         printsig (rsig); printf ("\n");
-        //i++;
+        i++;
         if (i > precnum && precnum >= 0) break;
       }
     break;
