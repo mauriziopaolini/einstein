@@ -12,22 +12,25 @@ global_settings { assumed_gamma 1.0 }
 #include "spectreworm.inc"
 
 #ifndef (depth) #declare depth = 3; #end // must coincide with the number of digits in signatures
-#ifndef (tipsig) #declare tipsig = 333; #end
-#ifndef (focussig) #declare focussig=246; #end
-#ifndef (level) #declare level = 1; #end
+#ifndef (t1sig) #declare t1sig = 233; #end
+#ifndef (t2sig) #declare t2sig = 300; #end
+#ifndef (focussig) #declare focussig=t1sig; #end
+#ifndef (t1sigh) #declare t1sigh = 0; #end
+#ifndef (t2sigh) #declare t2sigh = 0; #end
+#ifndef (focussigh) #declare focussigh=t1sigh; #end
+#ifndef (level) #declare level = depth - 1; #end
 #ifndef (SPid) #declare SPid = 1; #end
 #ifndef (colors) #declare colors = depth; #end
 #if (colors <= 0) #declare colors = depth + colors; #end
 #ifndef (tailsig) #declare tailsig = 00000; #end
-//#ifndef (tailsigw) #declare tailsigw = 00000; #end
-//#ifndef (tailsigw2) #declare tailsigw2 = 00000; #end
 #ifndef (rotworm) #declare rotworm = 0; #end
+#ifndef (dontshowall) #declare showall = 1; #end
 
 #declare magstep = sqrt(4+sqrt(15));
 #declare magdepth = pow (magstep, depth);
 #declare mag = magdepth;
 
-#ifndef (zoomout) #declare zoomout=2.5; #end
+#ifndef (zoomout) #declare zoomout=1; #end
 
 
 #ifdef (zoomout)
@@ -40,13 +43,60 @@ global_settings { assumed_gamma 1.0 }
 
 #ifdef (zoom) #declare zoomfactor = 1/zoom*zoomfactor; #end
 
+
+
+#macro newwormtilex (sig, sigh)
+  #local sigloc = sig;
+  #local sigtail = mod (sigloc, 10);
+  #declare wormid[wormi] = sigtail;
+  #declare wormtr[wormi] = transform {
+  #local ii = 0;
+  //#while (sigloc)
+  #while (ii < 6)
+    #local sigtail = mod (sigloc, 10);
+    transform Str[sigtail][ii]
+    #local sigloc = int (sigloc/10);
+    #local ii = ii + 1;
+  #end
+  #local sigloc = sigh;
+  #local sigtail = mod (sigloc, 10);
+  #while (sigloc)
+    #local sigtail = mod (sigloc, 10);
+    transform Str[sigtail][ii]
+    #local sigloc = int (sigloc/10);
+    #local ii = ii + 1;
+  #end
+  }
+  #declare wormi = wormi + 1;
+#end
+
+/*
+#macro newwormtilex (sig, sigh)
+  #local sigloc = sig;
+  #local sigtail = mod (sigloc, 10);
+  #declare wormid[wormi] = sigtail;
+  #declare wormtr[wormi] = transform {
+  #local ii = 0;
+  //#while (sigloc)
+  #while (ii < depth)
+    #local sigtail = mod (sigloc, 10);
+    transform Str[sigtail][ii]
+    #local sigloc = int (sigloc/10);
+    #local ii = ii + 1;
+  #end
+  }
+  #declare wormi = wormi + 1;
+#end
+ */
+
+
 worm_init (2000)
 #declare wormi = 0;
 
 #ifdef (focussig)
-  newwormtile (focussig)
+  newwormtilex (focussig, focussigh)
 #else
-  newwormtile (0)
+  newwormtilex (0, 0)
 #end
 
 #declare basetr = wormtr[0];
@@ -70,7 +120,7 @@ worm_init (2000)
 
 //SPrec (SPid, transform {transform {basetrinv reltoworm} transform {gtras} translate lift}, depth)
 
-#declare bdthick=0.2;
+#declare bdthick=0.1;
 
 SPskelrec (SPid, transform {transform {basetrinv} transform {gtras} translate lift+2*tile_thick*y}, depth, level)
 
@@ -84,17 +134,9 @@ SPskelrec (SPid, transform {transform {basetrinv} transform {gtras} translate li
 
 #declare wormi = 0;
 
-#ifdef (tipsig)
-  newwormtile (tipsig)
-  #local sig = tipsig;
-  #while (sig != tailsig & sig != 0)
-    #local sig = prec_in_worm (sig,0)
-    #if (mod (sig,1000) = 0)
-      #debug concat ("Milestone sig: ", str(sig,0,0), "\n")
-    #end
-    newwormtile (sig)
-  #end
-#end
+newwormtilex (t1sig, t1sigh)
+newwormtilex (t2sig, t2sigh)
+
 
 #macro createworm (wormlen, ltrans, rotworm)
   #local i = 0;
@@ -124,16 +166,6 @@ SPskelrec (SPid, transform {transform {basetrinv} transform {gtras} translate li
 /*
  * there is still a glitch (see spectreholepropellerw...)
  */
-
-#ifdef (HACK)
-  #local hack1 = 10;
-  #local hack2 = 39;
-  #local hack3 = 50;
-#else
-  #local hack1 = -1;
-  #local hack2 = -2;
-  #local hack3 = -3;
-#end
 
 #declare wormlen = wormi;
 #ifndef (rotworm) #declare rotworm = 0; #end
