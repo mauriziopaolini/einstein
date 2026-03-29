@@ -1,0 +1,54 @@
+
+      Computing the Conway signature of the tile preceding a worm or a wriggle-worm tile
+
+
+σ is a sequence of digits in {0 .. 7}, infinite to the left
+"σ ." is a Conway signature of a tile in a (partial) spectre tiling ("σ ." ∈ S)
+if the ordered pair "03" never appears in σ.
+
+The digits in σ are indexed by a natural number i with the rightmost digit
+indexed by i=0.
+
+W₀ ⊆ S denotes the set of potentially worm tiles, defined by:
+"σ ." ∈ W if each digit e/o in a generic even/odd position satisfies
+
+    e ∈ {0,2,3,5,6}, o ∈ {0,3,4,5} .
+
+W₁ ⊆ S denotes the set of potentially wriggle-worm tiles if its digits
+satisfy the same requirement above with the role even/odd exchanges:
+    o ∈ {0,2,3,5,6}, e ∈ {0,3,4,5} .
+
+The flag ε ∈ {0,1} will be used to denote "worm" (ε = 0) or "wriggle worm"
+(ε = 1)
+
+We wish to define a function prec(σ,ε) : W_ε \ {0} → W_ε for ε ∈ {0,1} (where
+"0" denotes the signature with all digits = 0) that computes the Conway signature
+of the preceding tile in a worm or in a wriggly-worm.
+
+First define a function p(·,ε) defined on a single non-zero digit
+
+    p(·,0) : 3 ↦ 2 ↦ 0       single digit (worm)
+    p(·,0) : 6 ↦ 5 ↦ 0
+    p(·,1) : 3 ↦ 4 ↦ 5 ↦ 0  (wriggly worm)
+
+In what follows d* denotes a nonzero digit, σ is an infinite-to-the-left generic
+sequence of digits, 0k is a sequence of k zeros with k ≥ 0.
+
+    prec ("σ d* .", ε) = "σ p(d*,ε) ."
+
+    prec ("σ d* 0k 0 .", ε) = "prec (σ d* 0k, 1-ε) τ ."
+
+where:
+
+    τ = 3 if k ≥ 2 or
+             k = 1 and ε = 1 or
+             k = 1, ε = 0 and d* ∈ {2,3,6} or
+             k = 0, ε = 1 and d* ∈ {3,6}
+
+    τ = 6 if k = 1, ε = 0 and d* = 5 or
+             k = 0, ε = 0 and d* ∈ {3,4}
+
+    τ = 4 if k = 0, ε = 1 and d* ∈ {2,5}
+
+    τ = 2 if k = 0, ε = 0 and d* = 5
+
