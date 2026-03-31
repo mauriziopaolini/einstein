@@ -18,6 +18,19 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (depth) #declare depth = 3; #end // must coincide with the number of digits in signatures
 #ifndef (wriggly) #declare wriggly = 0; #end
 #ifndef (t1sig) #declare t1sig = 233; #end
+
+#ifndef (velocity) #declare velocity = 1; #end
+#if (clock > 0)
+  #declare time = clock;
+  #declare nsteps = int (time/velocity);
+  #declare interp = time - velocity*nsteps;
+  #local i = 0;
+  #while (i < nsteps)
+    #declare t1sig = prec_in_worm (t1sig, wriggly)
+    #local i = i + 1;
+  #end
+#end
+
 #ifndef (t2sig) #declare t2sig = prec_in_worm (t1sig, wriggly) #end  // WARNING: this does not work if t1sigh > 0!
 #ifndef (t1sigh) #declare t1sigh = 0; #end
 #ifndef (t2sigh) #declare t2sigh = 0; #end
