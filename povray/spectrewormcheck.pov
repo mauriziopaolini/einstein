@@ -1,4 +1,8 @@
 /*
+ * WARNING: non funziona il posizionamento dei due tasselli se depth è dispari
+ */
+
+/*
  * We display two tiles by their signature, one is the reference tile (focussig),
  * the other is given by its tipsig
  * specifically this is for checking adjacency of tiles along a worm
@@ -14,10 +18,10 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (depth) #declare depth = 3; #end // must coincide with the number of digits in signatures
 #ifndef (t1sig) #declare t1sig = 233; #end
 #ifndef (t2sig) #declare t2sig = 300; #end
-#ifndef (focussig) #declare focussig=t1sig; #end
+//#ifndef (focussig) #declare focussig=t1sig; #end
 #ifndef (t1sigh) #declare t1sigh = 0; #end
 #ifndef (t2sigh) #declare t2sigh = 0; #end
-#ifndef (focussigh) #declare focussigh=t1sigh; #end
+//#ifndef (focussigh) #declare focussigh=t1sigh; #end
 #ifndef (level) #declare level = depth - 1; #end
 #ifndef (SPid) #declare SPid = 1; #end
 #ifndef (colors) #declare colors = depth; #end
@@ -130,6 +134,7 @@ global_settings { assumed_gamma 1.0 }
 //onetile (wormid[1], wormtr[1], transform {basetrinv gtras translate lift})
 
 #declare tile1rot = sig2rot (t1sig, t1sigh);
+#debug concat ("tile1rot = ", str(tile1rot,0,-1), "\n")
 #declare tile2rot = sig2rot (t2sig, t2sigh);
 
 /*
@@ -144,11 +149,22 @@ worm_init (2000)
 #declare wormi = 0;
 
 #ifdef (focussig)
+  #ifndef (focussigh) #declare focussigh = 0; #end
   //newwormtilex (focussig, focussigh)
   #declare basetr = sig2tr (focussig, focussigh);
 #else
   //newwormtilex (0, 0)
-  #declare basetr = sig2tr (0, 0);
+  #declare basetr = sig2tr (t1sig, t1sigh);
+  #declare basetrn = vtransform (<0,0,0>, basetr);
+  #declare tilerot = tile1rot;
+  #ifdef (interp)
+    #declare basetr2 = sig2tr (t2sig, t2sigh);
+    #declare basetrn2 = vtransform (<0,0,0>, basetr2);
+    #declare basetrn = (1 - interp)*basetrn + interp*basetrn2;
+    #declare tilerot = (1 - interp)*tile1rot + interp*tile2rot;
+  #end
+  // does not work eg with t1sig=430, t2sig=437, depth=3
+  //#declare basetr = transform {rotate tilerot*y translate basetrn};
 #end
 
 //#declare basetr = wormtr[0];

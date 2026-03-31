@@ -43,7 +43,7 @@
   #local ii = 0;
   #while (ii < 6)
     #local sigtail = mod (sigloc, 10);
-    #local myrot = myrot + Srot[sigtail];
+    #local myrot = Srot[sigtail] - myrot; // difference is to compensate for mirroring
     #local sigloc = int (sigloc/10);
     #local ii = ii + 1;
   #end
@@ -51,7 +51,7 @@
   #local sigtail = mod (sigloc, 10);
   #while (sigloc)
     #local sigtail = mod (sigloc, 10);
-    #local myrot = myrot + Srot[sigtail];
+    #local myrot = Srot[sigtail] - myrot;
     #local sigloc = int (sigloc/10);
     #local ii = ii + 1;
   #end
