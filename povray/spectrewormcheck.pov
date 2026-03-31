@@ -43,7 +43,31 @@ global_settings { assumed_gamma 1.0 }
 
 #ifdef (zoom) #declare zoomfactor = 1/zoom*zoomfactor; #end
 
+#macro sig2id (sig)
+  mod (sig, 10)
+#end
 
+#macro sig2tr (sig, sigh)
+  #local sigloc = sig;
+  #local sigtail = mod (sigloc, 10);
+  transform {
+  #local ii = 0;
+  #while (ii < 6)
+    #local sigtail = mod (sigloc, 10);
+    Str[sigtail][ii]
+    #local sigloc = int (sigloc/10);
+    #local ii = ii + 1;
+  #end
+  #local sigloc = sigh;
+  #local sigtail = mod (sigloc, 10);
+  #while (sigloc)
+    #local sigtail = mod (sigloc, 10);
+    Str[sigtail][ii]
+    #local sigloc = int (sigloc/10);
+    #local ii = ii + 1;
+  #end
+  }
+#end
 
 #macro newwormtilex (sig, sigh)
   #local sigloc = sig;
@@ -94,12 +118,15 @@ worm_init (2000)
 #declare wormi = 0;
 
 #ifdef (focussig)
-  newwormtilex (focussig, focussigh)
+  //newwormtilex (focussig, focussigh)
+  #declare basetr = sig2tr (focussig, focussigh);
 #else
-  newwormtilex (0, 0)
+  //newwormtilex (0, 0)
+  #declare basetr = sig2tr (0, 0);
 #end
 
-#declare basetr = wormtr[0];
+//#declare basetr = wormtr[0];
+
 #declare basetrinv = transform {basetr inverse}
 
 #local lift = 0;
@@ -110,13 +137,11 @@ worm_init (2000)
 //#ifdef (reltowormvar) #declare reltowormtr = spectrerot_center; #end
 //#declare reltoworm = transform {translate -reltowormtr rotate -rotworm*y translate reltowormtr}
 
-#if (SPid = 0)
-  SPbmystic (transform {basetrinv translate lift gtras}, depth)
-  //SPbmystic (transform {translate lift gtras}, depth)
-#else
-  SPbspectre (transform {basetrinv translate lift gtras}, depth)
-  //SPbspectre (transform {translate lift gtras}, depth)
-#end
+//#if (SPid = 0)
+//  SPbmystic (transform {basetrinv translate lift gtras}, depth)
+//#else
+//  SPbspectre (transform {basetrinv translate lift gtras}, depth)
+//#end
 
 //SPrec (SPid, transform {transform {basetrinv reltoworm} transform {gtras} translate lift}, depth)
 
@@ -132,11 +157,30 @@ SPskelrec (SPid, transform {transform {basetrinv} transform {gtras} translate li
   #local lift = lift + tile_thick*y;
 #end
 
-#declare wormi = 0;
+//#declare wormi = 0;
 
-newwormtilex (t1sig, t1sigh)
-newwormtilex (t2sig, t2sigh)
+//newwormtilex (t1sig, t1sigh)
+//newwormtilex (t2sig, t2sigh)
 
+
+#macro onetile (tileid, tiletr, ltrans)
+  object {
+    #if (tileid = 0)
+      graymystic
+    #else
+      grayspectre
+    #end
+    transform {tiletr}
+    transform {ltrans}
+  }
+#end
+
+//onetile (wormid[0], wormtr[0], transform {basetrinv gtras translate lift})
+//onetile (wormid[1], wormtr[1], transform {basetrinv gtras translate lift})
+onetile (sig2id (t1sig), sig2tr (t1sig, t1sigh), transform {basetrinv gtras translate lift})
+onetile (sig2id (t2sig), sig2tr (t2sig, t2sigh), transform {basetrinv gtras translate lift})
+
+/* not used for now
 
 #macro createworm (wormlen, ltrans, rotworm)
   #local i = 0;
@@ -162,19 +206,15 @@ newwormtilex (t2sig, t2sigh)
     #local i = i + 1;
   #end
 #end
-
-/*
- * there is still a glitch (see spectreholepropellerw...)
  */
 
-#declare wormlen = wormi;
-#ifndef (rotworm) #declare rotworm = 0; #end
-//createworm (wormlen, transform {basetrinv reltoworm gtras translate lift}, rotworm)
-createworm (wormlen, transform {basetrinv gtras translate lift}, rotworm)
+//#declare wormlen = wormi;
+//#ifndef (rotworm) #declare rotworm = 0; #end
+//createworm (wormlen, transform {basetrinv gtras translate lift}, rotworm)
 
-#if (wormlen > 0) #local lift = lift + tile_thick*y; #end
+//#if (wormlen > 0) #local lift = lift + tile_thick*y; #end
 
-#local lift = lift + tile_thick*y;
+//#local lift = lift + tile_thick*y;
 
 #ifndef (nocyl)
   cylinder {
