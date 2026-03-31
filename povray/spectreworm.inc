@@ -10,6 +10,54 @@
   #declare wormid = array[wormdim]
 #end
 
+#macro sig2id (sig)
+  mod (sig, 10)
+#end
+
+#macro sig2tr (sig, sigh)
+  #local sigloc = sig;
+  #local sigtail = mod (sigloc, 10);
+  transform {
+  #local ii = 0;
+  #while (ii < 6)
+    #local sigtail = mod (sigloc, 10);
+    Str[sigtail][ii]
+    #local sigloc = int (sigloc/10);
+    #local ii = ii + 1;
+  #end
+  #local sigloc = sigh;
+  #local sigtail = mod (sigloc, 10);
+  #while (sigloc)
+    #local sigtail = mod (sigloc, 10);
+    Str[sigtail][ii]
+    #local sigloc = int (sigloc/10);
+    #local ii = ii + 1;
+  #end
+  }
+#end
+
+#macro sig2rot (sig, sigh)
+  #local sigloc = sig;
+  #local sigtail = mod (sigloc, 10);
+  #local myrot = 0;
+  #local ii = 0;
+  #while (ii < 6)
+    #local sigtail = mod (sigloc, 10);
+    #local myrot = myrot + Srot[sigtail];
+    #local sigloc = int (sigloc/10);
+    #local ii = ii + 1;
+  #end
+  #local sigloc = sigh;
+  #local sigtail = mod (sigloc, 10);
+  #while (sigloc)
+    #local sigtail = mod (sigloc, 10);
+    #local myrot = myrot + Srot[sigtail];
+    #local sigloc = int (sigloc/10);
+    #local ii = ii + 1;
+  #end
+  myrot
+#end
+
 #macro newwormtile (sig)
   #local sigloc = sig;
   #local sigtail = mod (sigloc, 10);

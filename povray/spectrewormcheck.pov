@@ -114,6 +114,32 @@ global_settings { assumed_gamma 1.0 }
  */
 
 
+#macro onetile (tileid, tiletr, ltrans)
+  object {
+    #if (tileid = 0)
+      graymystic
+    #else
+      grayspectre
+    #end
+    transform {tiletr}
+    transform {ltrans}
+  }
+#end
+
+//onetile (wormid[0], wormtr[0], transform {basetrinv gtras translate lift})
+//onetile (wormid[1], wormtr[1], transform {basetrinv gtras translate lift})
+
+#declare tile1rot = sig2rot (t1sig, t1sigh);
+#declare tile2rot = sig2rot (t2sig, t2sigh);
+
+/*
+ * FUTURE: use tile1rot and tile2rot to build the basetrinv transformation
+ * by interpolation between tile1 and tile2
+ */
+
+
+
+
 worm_init (2000)
 #declare wormi = 0;
 
@@ -160,23 +186,9 @@ SPskelrec (SPid, transform {transform {basetrinv} transform {gtras} translate li
 //newwormtilex (t1sig, t1sigh)
 //newwormtilex (t2sig, t2sigh)
 
-
-#macro onetile (tileid, tiletr, ltrans)
-  object {
-    #if (tileid = 0)
-      graymystic
-    #else
-      grayspectre
-    #end
-    transform {tiletr}
-    transform {ltrans}
-  }
-#end
-
-//onetile (wormid[0], wormtr[0], transform {basetrinv gtras translate lift})
-//onetile (wormid[1], wormtr[1], transform {basetrinv gtras translate lift})
 onetile (sig2id (t1sig), sig2tr (t1sig, t1sigh), transform {basetrinv gtras translate lift})
 onetile (sig2id (t2sig), sig2tr (t2sig, t2sigh), transform {basetrinv gtras translate lift})
+
 
 /* not used for now
 

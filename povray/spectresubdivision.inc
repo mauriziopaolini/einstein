@@ -35,6 +35,11 @@ getD (QA[0], QB[0], QC[0])
 #end
 
 #declare Str = array[8][maxdepth];
+
+#declare Srot = array[8];
+#declare Srot[0] = 0; #declare Srot[1] = 120; #declare Srot[2] = 60; #declare Srot[3] = 60;
+#declare Srot[4] = 0; #declare Srot[5] = -60; #declare Srot[6] = -60; #declare Srot[7] = -120;
+
 #ifndef (colors) #declare colors = 100; #end
 #ifndef (deltahue) #declare deltahue = 360*phi*phi; #end
 
