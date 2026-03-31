@@ -152,13 +152,11 @@ SPskelrec (SPid, transform {transform {basetrinv} transform {gtras} translate li
 #local lift = lift + tile_thick*y;
 
 #ifdef (showall)
-  //SPwormrec (SPid, transform {transform {basetrinv reltoworm} translate lift transform {gtras}}, depth)
   SPwormrec (SPid, transform {transform {basetrinv} translate lift transform {gtras}}, depth)
   #local lift = lift + tile_thick*y;
 #end
 
 //#declare wormi = 0;
-
 //newwormtilex (t1sig, t1sigh)
 //newwormtilex (t2sig, t2sigh)
 
