@@ -16,12 +16,11 @@ global_settings { assumed_gamma 1.0 }
 #include "spectreworm.inc"
 
 #ifndef (depth) #declare depth = 3; #end // must coincide with the number of digits in signatures
+#ifndef (wriggly) #declare wriggly = 0; #end
 #ifndef (t1sig) #declare t1sig = 233; #end
-#ifndef (t2sig) #declare t2sig = 300; #end
-//#ifndef (focussig) #declare focussig=t1sig; #end
+#ifndef (t2sig) #declare t2sig = prec_in_worm (t1sig, wriggly) #end  // WARNING: this does not work if t1sigh > 0!
 #ifndef (t1sigh) #declare t1sigh = 0; #end
 #ifndef (t2sigh) #declare t2sigh = 0; #end
-//#ifndef (focussigh) #declare focussigh=t1sigh; #end
 #ifndef (level) #declare level = depth - 1; #end
 #ifndef (SPid) #declare SPid = 1; #end
 #ifndef (colors) #declare colors = depth; #end
@@ -47,6 +46,7 @@ global_settings { assumed_gamma 1.0 }
 
 #ifdef (zoom) #declare zoomfactor = 1/zoom*zoomfactor; #end
 
+/*
 #macro sig2id (sig)
   mod (sig, 10)
 #end
@@ -72,6 +72,7 @@ global_settings { assumed_gamma 1.0 }
   #end
   }
 #end
+ */
 
 #macro newwormtilex (sig, sigh)
   #local sigloc = sig;
@@ -133,9 +134,9 @@ global_settings { assumed_gamma 1.0 }
 //onetile (wormid[0], wormtr[0], transform {basetrinv gtras translate lift})
 //onetile (wormid[1], wormtr[1], transform {basetrinv gtras translate lift})
 
-#declare tile1rot = sig2rot (t1sig, t1sigh);
+#declare tile1rot = sig2rot (t1sig, t1sigh, depth);
 #debug concat ("tile1rot = ", str(tile1rot,0,-1), "\n")
-#declare tile2rot = sig2rot (t2sig, t2sigh);
+#declare tile2rot = sig2rot (t2sig, t2sigh, depth);
 
 /*
  * FUTURE: use tile1rot and tile2rot to build the basetrinv transformation
@@ -151,20 +152,20 @@ worm_init (2000)
 #ifdef (focussig)
   #ifndef (focussigh) #declare focussigh = 0; #end
   //newwormtilex (focussig, focussigh)
-  #declare basetr = sig2tr (focussig, focussigh);
+  #declare basetr = sig2tr (focussig, focussigh, depth);
 #else
   //newwormtilex (0, 0)
-  #declare basetr = sig2tr (t1sig, t1sigh);
+  #declare basetr = sig2tr (t1sig, t1sigh, depth);
   #declare basetrn = vtransform (<0,0,0>, basetr);
   #declare tilerot = tile1rot;
   #ifdef (interp)
-    #declare basetr2 = sig2tr (t2sig, t2sigh);
+    #declare basetr2 = sig2tr (t2sig, t2sigh, depth);
     #declare basetrn2 = vtransform (<0,0,0>, basetr2);
     #declare basetrn = (1 - interp)*basetrn + interp*basetrn2;
     #declare tilerot = (1 - interp)*tile1rot + interp*tile2rot;
   #end
   // does not work eg with t1sig=430, t2sig=437, depth=3
-  //#declare basetr = transform {rotate tilerot*y translate basetrn};
+  #declare basetr = transform {rotate -tilerot*y translate basetrn};
 #end
 
 //#declare basetr = wormtr[0];
@@ -185,7 +186,7 @@ worm_init (2000)
 //  SPbspectre (transform {basetrinv translate lift gtras}, depth)
 //#end
 
-//SPrec (SPid, transform {transform {basetrinv reltoworm} transform {gtras} translate lift}, depth)
+//SPrec (SPid, transform {transform {basetrinv} transform {gtras} translate lift}, depth)
 
 #declare bdthick=0.1;
 
@@ -202,8 +203,10 @@ SPskelrec (SPid, transform {transform {basetrinv} transform {gtras} translate li
 //newwormtilex (t1sig, t1sigh)
 //newwormtilex (t2sig, t2sigh)
 
-onetile (sig2id (t1sig), sig2tr (t1sig, t1sigh), transform {basetrinv gtras translate lift})
-onetile (sig2id (t2sig), sig2tr (t2sig, t2sigh), transform {basetrinv gtras translate lift})
+//SPrec (7, transform {Str[7][0] transform {basetrinv} transform {gtras} translate lift}, 0)
+//SPrec (7, transform {sig2tr (t1sig, t1sigh, depth) transform {basetrinv} transform {gtras} translate lift}, 0)
+onetile (sig2id (t1sig), sig2tr (t1sig, t1sigh, depth), transform {basetrinv gtras translate lift})
+onetile (sig2id (t2sig), sig2tr (t2sig, t2sigh, depth), transform {basetrinv gtras translate lift})
 
 
 /* not used for now

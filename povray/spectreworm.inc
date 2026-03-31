@@ -14,12 +14,12 @@
   mod (sig, 10)
 #end
 
-#macro sig2tr (sig, sigh)
+#macro sig2tr (sig, sigh, dpth)
   #local sigloc = sig;
   #local sigtail = mod (sigloc, 10);
   transform {
   #local ii = 0;
-  #while (ii < 6)
+  #while (ii < 6 & ii < dpth)
     #local sigtail = mod (sigloc, 10);
     Str[sigtail][ii]
     #local sigloc = int (sigloc/10);
@@ -27,7 +27,7 @@
   #end
   #local sigloc = sigh;
   #local sigtail = mod (sigloc, 10);
-  #while (sigloc)
+  #while (ii < dpth)
     #local sigtail = mod (sigloc, 10);
     Str[sigtail][ii]
     #local sigloc = int (sigloc/10);
@@ -36,12 +36,12 @@
   }
 #end
 
-#macro sig2rot (sig, sigh)
+#macro sig2rot (sig, sigh, dpth)
   #local sigloc = sig;
   #local sigtail = mod (sigloc, 10);
   #local myrot = 0;
   #local ii = 0;
-  #while (ii < 6)
+  #while (ii < 6 & ii < dpth)
     #local sigtail = mod (sigloc, 10);
     #local myrot = Srot[sigtail] - myrot; // difference is to compensate for mirroring
     #local sigloc = int (sigloc/10);
@@ -49,7 +49,7 @@
   #end
   #local sigloc = sigh;
   #local sigtail = mod (sigloc, 10);
-  #while (sigloc)
+  #while (ii < dpth)
     #local sigtail = mod (sigloc, 10);
     #local myrot = Srot[sigtail] - myrot;
     #local sigloc = int (sigloc/10);
