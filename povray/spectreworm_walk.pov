@@ -38,7 +38,7 @@ text {ttf textfont str(t1sig,0,0) 0.1, 0
   rotate 90*x
   scale 3
   //translate -25*x + 10*y
-  translate -14*x + 8.5*z
+  translate -14*x + 8.5*z + 3.5*tile_thick*y
   no_shadow
 }
 
