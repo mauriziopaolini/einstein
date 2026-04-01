@@ -778,7 +778,7 @@ mp4sipre1l=0.5 8.5 16.5
 mp4sipre8l=7.5 15.5 23.5
 mp4siprexl=$(mp4sipre1l) $(mp4sipre8l)
 mp4listg=$(mp4siprexl:%=spectre_inflation_%) spectre_inflation spectreworm_rotate spectrewworm_rotate
-mp4listh=spectreworm_walk_d6 spectreworm_walk_d4
+mp4listh=spectreworm_walk_d6 spectreworm_walk_d4 spectreworm_walk_d4w
 
 mp4list = $(mp4lista) $(mp4listb) $(mp4listc) $(mp4listd) $(mp4liste) $(mp4listf) $(mp4listg) $(mp4listh)
 
@@ -807,6 +807,11 @@ frames/spectreworm_walk_d6/DONE: frames/%/DONE: spectreworm_walk.pov
 
 frames/spectreworm_walk_d4/DONE: frames/%/DONE: spectreworm_walk.pov
 	povray $< $(povoptsani) Declare=depth=4 Declare=t1sig=3333 Declare=level=1 +kf108 +kff1970 +Oframes/$*/frame
+	for i in `seq 1971 1999`; do cp frames/$*/frame1970.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/spectreworm_walk_d4w/DONE: frames/%/DONE: spectreworm_walk.pov
+	povray $< $(povoptsani) Declare=depth=4 Declare=t1sig=6333 Declare=level=1 Declare=wriggly=1 +kf109 +kff1970 +Oframes/$*/frame
 	for i in `seq 1971 1999`; do cp frames/$*/frame1970.png frames/$*/frame$${i}.png; done
 	touch $@
 
