@@ -31,6 +31,17 @@ global_settings { assumed_gamma 1.0 }
   #end
 #end
 
+#declare textfont = "LiberationMono-Regular.ttf"
+
+text {ttf textfont str(t1sig,0,0) 0.1, 0
+  pigment {Brown}
+  rotate 90*x
+  scale 3
+  //translate -25*x + 10*y
+  translate -14*x + 8.5*z
+  no_shadow
+}
+
 #ifndef (t2sig) #declare t2sig = prec_in_worm (t1sig, wriggly) #end  // WARNING: this does not work if t1sigh > 0!
 #ifndef (t1sigh) #declare t1sigh = 0; #end
 #ifndef (t2sigh) #declare t2sigh = 0; #end
@@ -87,6 +98,7 @@ global_settings { assumed_gamma 1.0 }
 #end
  */
 
+/*
 #macro newwormtilex (sig, sigh)
   #local sigloc = sig;
   #local sigtail = mod (sigloc, 10);
@@ -111,26 +123,7 @@ global_settings { assumed_gamma 1.0 }
   }
   #declare wormi = wormi + 1;
 #end
-
-/*
-#macro newwormtilex (sig, sigh)
-  #local sigloc = sig;
-  #local sigtail = mod (sigloc, 10);
-  #declare wormid[wormi] = sigtail;
-  #declare wormtr[wormi] = transform {
-  #local ii = 0;
-  //#while (sigloc)
-  #while (ii < depth)
-    #local sigtail = mod (sigloc, 10);
-    transform Str[sigtail][ii]
-    #local sigloc = int (sigloc/10);
-    #local ii = ii + 1;
-  #end
-  }
-  #declare wormi = wormi + 1;
-#end
  */
-
 
 #macro onetile (tileid, tiletr, ltrans)
   object {
@@ -148,7 +141,7 @@ global_settings { assumed_gamma 1.0 }
 //onetile (wormid[1], wormtr[1], transform {basetrinv gtras translate lift})
 
 #declare tile1rot = sig2rot (t1sig, t1sigh, depth);
-#debug concat ("tile1rot = ", str(tile1rot,0,-1), "\n")
+//#debug concat ("tile1rot = ", str(tile1rot,0,-1), "\n")
 #declare tile2rot = sig2rot (t2sig, t2sigh, depth);
 
 /*

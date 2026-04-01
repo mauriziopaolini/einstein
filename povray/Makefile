@@ -778,8 +778,9 @@ mp4sipre1l=0.5 8.5 16.5
 mp4sipre8l=7.5 15.5 23.5
 mp4siprexl=$(mp4sipre1l) $(mp4sipre8l)
 mp4listg=$(mp4siprexl:%=spectre_inflation_%) spectre_inflation spectreworm_rotate spectrewworm_rotate
+mp4listh=spectreworm_walk_d6 spectreworm_walk_d4
 
-mp4list = $(mp4lista) $(mp4listb) $(mp4listc) $(mp4listd) $(mp4liste) $(mp4listf) $(mp4listg)
+mp4list = $(mp4lista) $(mp4listb) $(mp4listc) $(mp4listd) $(mp4liste) $(mp4listf) $(mp4listg) $(mp4listh)
 
 $(mp4list:%=%.mp4): %.mp4: frames/%/DONE
 	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/$*/frame????.png' -c:v libx264 -pix_fmt yuv420p $@
@@ -797,6 +798,16 @@ frames/spectreworm_rotate/DONE: frames/%/DONE: spectreworm.pov
 frames/spectrewworm_rotate/DONE: frames/%/DONE: spectreworm.pov
 	povray $< -D +a +W800 +H600 +ki0 +kfi0 +kf1 +kff175 Declare=depth=6 Declare=zoomout=1.5 Declare=showallw=1 Declare=tipsigw=333333 Declare=focussig=43333 Declare=colors=5 Declare=deltahue=10 +Oframes/$*/frame0
 	for i in `seq 176 201`; do cp frames/$*/frame0175.png frames/$*/frame0$${i}.png; done
+	touch $@
+
+frames/spectreworm_walk_d6/DONE: frames/%/DONE: spectreworm_walk.pov
+	povray $< $(povoptsani) Declare=depth=6 Declare=t1sig=333333 Declare=level=2 +kf1078 +kff9970 +Oframes/$*/frame
+	for i in `seq 9971 9999`; do cp frames/$*/frame9970.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/spectreworm_walk_d4/DONE: frames/%/DONE: spectreworm_walk.pov
+	povray $< $(povoptsani) Declare=depth=4 Declare=t1sig=3333 Declare=level=1 +kf108 +kff1970 +Oframes/$*/frame
+	for i in `seq 1971 1999`; do cp frames/$*/frame1970.png frames/$*/frame$${i}.png; done
 	touch $@
 
 frames/five_deflations/DONE: frames/%/DONE: five_deflations.pov
