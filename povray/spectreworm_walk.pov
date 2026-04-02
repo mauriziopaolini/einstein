@@ -64,8 +64,8 @@ text {ttf textfont str(t1sig,0,0) 0.1, 0
   #declare mag = pow(magstep,zoomout);
 #end
 
-//#declare gtras = 0*x - 1.5*mag*z;
 #declare gtras = transform {rotate 0*y};
+#ifdef (mirror) #declare gtras = transform {gtras scale <-1, 1, 1>}; #end
 #ifdef (rot) #declare gtras = transform {rotate rot*y} #end
 
 #ifdef (zoom) #declare zoomfactor = 1/zoom*zoomfactor; #end
