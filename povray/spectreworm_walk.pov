@@ -31,7 +31,7 @@ global_settings { assumed_gamma 1.0 }
     #declare timeworm = (fase + timerescaled/(1 - fftrans))*flipflop;
     #declare rotworm = mod(fase,2)*180;
   #else
-    #declare timeworm = fase + flipflop;
+    #declare timeworm = fase*flipflop + flipflop;
     #declare fftau = (timerescaled + fftrans - 1)/fftrans;
     #if (mod(fase,2) = 0)
       #declare rotworm = 180*fftau;
