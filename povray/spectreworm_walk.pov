@@ -18,19 +18,39 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (depth) #declare depth = 3; #end // must coincide with the number of digits in signatures
 #ifndef (wriggly) #declare wriggly = 0; #end
 #ifndef (t1sig) #declare t1sig = 233; #end
+#ifndef (flipflop) #declare flipflop = 11; #end
+#ifndef (fftrans) #declare fftrans = 0.2; #end
 
 #ifndef (velocity) #declare velocity = 1; #end
+#declare precsig = t1sig;
 #if (clock > 0)
   #declare time = clock;
-  #declare nsteps = int (time/velocity);
-  #declare interp = time - velocity*nsteps;
+  #declare fase = int (time/flipflop);
+  #declare timerescaled = (time - fase*flipflop)/flipflop;  // in [0,1)
+  #if (timerescaled < 1 - fftrans)
+    #declare timeworm = (fase + timerescaled/(1 - fftrans))*flipflop;
+    #declare rotworm = mod(fase,2)*180;
+  #else
+    #declare timeworm = fase + flipflop;
+    #declare fftau = (timerescaled + fftrans - 1)/fftrans;
+    #if (mod(fase,2) = 0)
+      #declare rotworm = 180*fftau;
+    #else
+      #declare rotworm = 180*(1 - fftau);
+    #end
+  #end
+  #declare nsteps = int (timeworm/velocity);
+  #declare interp = timeworm - velocity*nsteps;
   #local i = 0;
   #while (i < nsteps)
+    #declare precsig = t1sig;
     #declare t1sig = prec_in_worm (t1sig, wriggly)
     #local i = i + 1;
   #end
+
 #end
 
+#declare precid = mod(precsig, 10);
 #declare textfont = "LiberationMono-Regular.ttf"
 
 text {ttf textfont str(t1sig,0,0) 0.1, 0
@@ -45,7 +65,8 @@ text {ttf textfont str(t1sig,0,0) 0.1, 0
 #ifndef (t2sig) #declare t2sig = prec_in_worm (t1sig, wriggly) #end  // WARNING: this does not work if t1sigh > 0!
 #ifndef (t1sigh) #declare t1sigh = 0; #end
 #ifndef (t2sigh) #declare t2sigh = 0; #end
-#ifndef (level) #declare level = depth - 1; #end
+#ifndef (level) #declare level = int (depth/3); #end
+#ifndef (soggettiva) #declare soggettiva = 0; #end
 #ifndef (SPid) #declare SPid = 1; #end
 #ifndef (colors) #declare colors = depth; #end
 #if (colors <= 0) #declare colors = depth + colors; #end
@@ -125,31 +146,31 @@ text {ttf textfont str(t1sig,0,0) 0.1, 0
 #end
  */
 
-#macro onetile (tileid, tiletr, ltrans)
+#macro onetile (tileid, tiletr, ltrans, rotworm, precid)
   object {
     #if (tileid = 0)
       graymystic
+      #if (rotworm != 0)
+        #local rotsign = 0;
+        #if (precid = 5) #local rotsign = 1; #end
+        #if (precid = 2) #local rotsign = -1; #end
+        SProtmystic (rotsign*rotworm/180*120)
+      #end
+
     #else
       grayspectre
+      #if (rotworm != 0)
+        SProtspectre (rotworm)
+      #end
     #end
     transform {tiletr}
     transform {ltrans}
   }
 #end
 
-//onetile (wormid[0], wormtr[0], transform {basetrinv gtras translate lift})
-//onetile (wormid[1], wormtr[1], transform {basetrinv gtras translate lift})
-
 #declare tile1rot = sig2rot (t1sig, t1sigh, depth);
 //#debug concat ("tile1rot = ", str(tile1rot,0,-1), "\n")
 #declare tile2rot = sig2rot (t2sig, t2sigh, depth);
-
-/*
- * FUTURE: use tile1rot and tile2rot to build the basetrinv transformation
- * by interpolation between tile1 and tile2
- */
-
-
 
 
 worm_init (2000)
@@ -177,6 +198,11 @@ worm_init (2000)
 //#declare basetr = wormtr[0];
 
 #declare basetrinv = transform {basetr inverse}
+
+#if (soggettiva = 0)
+  #declare starget = vtransform (<0,0,0>, basetr);
+  #declare basetrinv = transform {translate -starget};
+#end
 
 #local lift = 0;
 
@@ -211,8 +237,8 @@ SPskelrec (SPid, transform {transform {basetrinv} transform {gtras} translate li
 
 //SPrec (7, transform {Str[7][0] transform {basetrinv} transform {gtras} translate lift}, 0)
 //SPrec (7, transform {sig2tr (t1sig, t1sigh, depth) transform {basetrinv} transform {gtras} translate lift}, 0)
-onetile (sig2id (t1sig), sig2tr (t1sig, t1sigh, depth), transform {basetrinv gtras translate lift})
-onetile (sig2id (t2sig), sig2tr (t2sig, t2sigh, depth), transform {basetrinv gtras translate lift})
+onetile (sig2id (t1sig), sig2tr (t1sig, t1sigh, depth), transform {basetrinv gtras translate lift}, rotworm, precid)
+onetile (sig2id (t2sig), sig2tr (t2sig, t2sigh, depth), transform {basetrinv gtras translate lift+0.01*y}, rotworm, sig2id (t1sig))
 
 
 /* not used for now
@@ -251,7 +277,7 @@ onetile (sig2id (t2sig), sig2tr (t2sig, t2sigh, depth), transform {basetrinv gtr
 
 //#local lift = lift + tile_thick*y;
 
-#ifndef (nocyl)
+#ifdef (cyl)
   cylinder {
     0*y
     1.0*y
