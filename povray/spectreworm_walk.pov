@@ -154,13 +154,28 @@ text {ttf textfont str(t1sig,0,0) 0.1, 0
         #local rotsign = 0;
         #if (precid = 5) #local rotsign = 1; #end
         #if (precid = 2) #local rotsign = -1; #end
-        SProtmystic (rotsign*rotworm/180*120)
+        #if (wriggly = 0)
+          #local rotsign = 0;
+          #if (precid = 5) #local rotsign = 1; #end
+          #if (precid = 2) #local rotsign = -1; #end
+          SProtmystic (rotsign*rotworm/180*120)
+        #else
+          #local rotsign = 0;
+          #if (precid = 5) #local rotsign = 1; #end
+          SProtmysticw (rotsign*rotworm/180*150)
+        #end
       #end
 
     #else
       grayspectre
       #if (rotworm != 0)
-        SProtspectre (rotworm)
+        #if (wriggly = 0)
+          SProtspectre (rotworm)
+        #else
+          #local rotsign = -1;
+          #if (precid = 0 & hack = 0) #local rotsign = 1; #end
+          SProtspectrew (rotsign*rotworm/180*120)
+        #end
       #end
     #end
     transform {tiletr}
@@ -237,7 +252,11 @@ SPskelrec (SPid, transform {transform {basetrinv} transform {gtras} translate li
 
 //SPrec (7, transform {Str[7][0] transform {basetrinv} transform {gtras} translate lift}, 0)
 //SPrec (7, transform {sig2tr (t1sig, t1sigh, depth) transform {basetrinv} transform {gtras} translate lift}, 0)
+#declare hack = 0;
+#if (mod(precsig,1000) = 450) #declare hack = 1; #end
 onetile (sig2id (t1sig), sig2tr (t1sig, t1sigh, depth), transform {basetrinv gtras translate lift}, rotworm, precid)
+#declare hack = 0;
+#if (mod(t1sig,1000) = 450) #declare hack = 1; #end
 onetile (sig2id (t2sig), sig2tr (t2sig, t2sigh, depth), transform {basetrinv gtras translate lift+0.01*y}, rotworm, sig2id (t1sig))
 
 
