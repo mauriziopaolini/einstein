@@ -66,8 +66,7 @@ text {ttf textfont str(t1sig,0,0) 0.1, 0
 #ifndef (t1sigh) #declare t1sigh = 0; #end
 #ifndef (t2sigh) #declare t2sigh = 0; #end
 #ifndef (level) #declare level = int (depth/3); #end
-#ifndef (patchlevel) #declare patchlevel = 2; #end
-#if (patchlevel > depth) #declare patchlevel = depth; #end
+//#ifndef (patchlevel) #declare patchlevel = 2; #end
 #ifndef (soggettiva) #declare soggettiva = 0; #end
 #ifndef (SPid) #declare SPid = 1; #end
 #ifndef (colors) #declare colors = depth; #end
@@ -229,16 +228,16 @@ worm_init (2000)
 //#ifdef (reltowormvar) #declare reltowormtr = spectrerot_center; #end
 //#declare reltoworm = transform {translate -reltowormtr rotate -rotworm*y translate reltowormtr}
 
-//#declare patchlevel = 1;
-#declare patchsig = t1sig - mod (t1sig, pow (10, patchlevel));
-#declare patchid = mod (int (t1sig/pow(10, patchlevel)), 10);
-#declare patchscale = <1,1,1>;
-#if (mod (patchlevel,2) = 1) #declare patchscale = <-1,1,1>; #end
-#debug concat ("t1sig = ", str(t1sig,0,0), "\n")
-#debug concat ("patchsig = ", str(patchsig,0,0), "\n")
-#debug concat ("pow(10,patchlevel) = ", str(pow(10,patchlevel),0,0), "\n")
-  //SPrec (SPid, transform {transform {gtras} translate lift}, depth)
-SPrec (patchid, transform {scale patchscale sig2tr (patchsig, 0, depth) gtras translate lift}, patchlevel)
+#ifdef (patchlevel)
+  #if (patchlevel > depth) #declare patchlevel = depth; #end
+  #declare patchsig = t1sig - mod (t1sig, pow (10, patchlevel));
+  #declare patchid = mod (int (t1sig/pow(10, patchlevel)), 10);
+  #declare patchscale = <1,1,1>;
+  #if (mod (patchlevel,2) = 1) #declare patchscale = <-1,1,1>; #end
+  SPrec (patchid, transform {scale patchscale sig2tr (patchsig, 0, depth) gtras translate lift}, patchlevel)
+#end
+
+//SPrec (SPid, transform {transform {gtras} translate lift}, depth)
 
 #declare bdthick=0.1;
 
