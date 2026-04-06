@@ -66,6 +66,8 @@ text {ttf textfont str(t1sig,0,0) 0.1, 0
 #ifndef (t1sigh) #declare t1sigh = 0; #end
 #ifndef (t2sigh) #declare t2sigh = 0; #end
 #ifndef (level) #declare level = int (depth/3); #end
+#ifndef (patchlevel) #declare patchlevel = 2; #end
+#if (patchlevel > depth) #declare patchlevel = depth; #end
 #ifndef (soggettiva) #declare soggettiva = 0; #end
 #ifndef (SPid) #declare SPid = 1; #end
 #ifndef (colors) #declare colors = depth; #end
@@ -227,22 +229,25 @@ worm_init (2000)
 //#ifdef (reltowormvar) #declare reltowormtr = spectrerot_center; #end
 //#declare reltoworm = transform {translate -reltowormtr rotate -rotworm*y translate reltowormtr}
 
-//#if (SPid = 0)
-//  SPbmystic (transform {basetrinv translate lift gtras}, depth)
-//#else
-//  SPbspectre (transform {basetrinv translate lift gtras}, depth)
-//#end
-
-//SPrec (SPid, transform {transform {basetrinv} transform {gtras} translate lift}, depth)
+//#declare patchlevel = 1;
+#declare patchsig = t1sig - mod (t1sig, pow (10, patchlevel));
+#declare patchid = mod (int (t1sig/pow(10, patchlevel)), 10);
+#declare patchscale = <1,1,1>;
+#if (mod (patchlevel,2) = 1) #declare patchscale = <-1,1,1>; #end
+#debug concat ("t1sig = ", str(t1sig,0,0), "\n")
+#debug concat ("patchsig = ", str(patchsig,0,0), "\n")
+#debug concat ("pow(10,patchlevel) = ", str(pow(10,patchlevel),0,0), "\n")
+  //SPrec (SPid, transform {transform {gtras} translate lift}, depth)
+SPrec (patchid, transform {scale patchscale sig2tr (patchsig, 0, depth) gtras translate lift}, patchlevel)
 
 #declare bdthick=0.1;
 
-SPskelrec (SPid, transform {transform {basetrinv} transform {gtras} translate lift+2*tile_thick*y}, depth, level)
+SPskelrec (SPid, transform {transform {gtras} translate lift+2*tile_thick*y}, depth, level)
 
 #local lift = lift + tile_thick*y;
 
 #ifdef (showall)
-  SPwormrec (SPid, transform {transform {basetrinv} translate lift transform {gtras}}, depth)
+  SPwormrec (SPid, transform {translate lift transform {gtras}}, depth)
   #local lift = lift + tile_thick*y;
 #end
 
@@ -250,16 +255,16 @@ SPskelrec (SPid, transform {transform {basetrinv} transform {gtras} translate li
 //newwormtilex (t1sig, t1sigh)
 //newwormtilex (t2sig, t2sigh)
 
-//SPrec (7, transform {Str[7][0] transform {basetrinv} transform {gtras} translate lift}, 0)
-//SPrec (7, transform {sig2tr (t1sig, t1sigh, depth) transform {basetrinv} transform {gtras} translate lift}, 0)
+//SPrec (7, transform {Str[7][0] transform {gtras} translate lift}, 0)
+//SPrec (7, transform {sig2tr (t1sig, t1sigh, depth) transform {gtras} translate lift}, 0)
 #declare hack = 0;
 //#if (mod(precsig,1000) = 450) #declare hack = 1; #end
 #if (mod(precsig,100) = 50) #declare hack = 1; #end
-onetile (sig2id (t1sig), sig2tr (t1sig, t1sigh, depth), transform {basetrinv gtras translate lift}, rotworm, precid)
+onetile (sig2id (t1sig), sig2tr (t1sig, t1sigh, depth), transform {gtras translate lift}, rotworm, precid)
 #declare hack = 0;
 //#if (mod(t1sig,1000) = 450) #declare hack = 1; #end
 #if (mod(t1sig,100) = 50) #declare hack = 1; #end
-onetile (sig2id (t2sig), sig2tr (t2sig, t2sigh, depth), transform {basetrinv gtras translate lift+0.01*y}, rotworm, sig2id (t1sig))
+onetile (sig2id (t2sig), sig2tr (t2sig, t2sigh, depth), transform {gtras translate lift+0.01*y}, rotworm, sig2id (t1sig))
 
 
 /* not used for now
@@ -292,7 +297,7 @@ onetile (sig2id (t2sig), sig2tr (t2sig, t2sigh, depth), transform {basetrinv gtr
 
 //#declare wormlen = wormi;
 //#ifndef (rotworm) #declare rotworm = 0; #end
-//createworm (wormlen, transform {basetrinv gtras translate lift}, rotworm)
+//createworm (wormlen, transform {gtras translate lift}, rotworm)
 
 //#if (wormlen > 0) #local lift = lift + tile_thick*y; #end
 
@@ -310,6 +315,8 @@ onetile (sig2id (t2sig), sig2tr (t2sig, t2sigh, depth), transform {basetrinv gtr
 
 #declare lookatpos = <0,0,0>;
 #declare mylocation = 0.8*mag*<0,10,0>;
+#declare lookatpos = vtransform (lookatpos, basetr);
+#declare mylocation = vtransform (mylocation, basetr);
 
 #ifdef (panup)
   #declare lookatpos = lookatpos+magdepth*panup*z;
