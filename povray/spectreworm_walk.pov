@@ -21,7 +21,16 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (flipflop) #declare flipflop = 11; #end
 #ifndef (fftrans) #declare fftrans = 0.2; #end
 
+#macro create_patch (tilesig, ggtras, patchlev)
+  #local patchsig = tilesig - mod (tilesig, pow (10, patchlev));
+  #local patchid = mod (int (tilesig/pow (10, patchlev)), 10);
+  #local patchscale = <1,1,1>;
+  #if (mod (patchlev,2) = 1) #local patchscale = <-1,1,1>; #end
+  SPrec (patchid, transform {scale patchscale sig2tr (patchsig, 0, depth) ggtras}, patchlev)
+#end
+
 #ifndef (velocity) #declare velocity = 1; #end
+#declare startsig = t1sig;
 #declare precsig = t1sig;
 #if (clock > 0)
   #declare time = clock;
@@ -47,26 +56,18 @@ global_settings { assumed_gamma 1.0 }
     #declare t1sig = prec_in_worm (t1sig, wriggly)
     #local i = i + 1;
   #end
-
 #end
 
 #declare precid = mod(precsig, 10);
 #declare textfont = "LiberationMono-Regular.ttf"
 
-text {ttf textfont str(t1sig,0,0) 0.1, 0
-  pigment {Brown}
-  rotate 90*x
-  scale 3
-  //translate -25*x + 10*y
-  translate -14*x + 8.5*z + 3.5*tile_thick*y
-  no_shadow
-}
-
 #ifndef (t2sig) #declare t2sig = prec_in_worm (t1sig, wriggly) #end  // WARNING: this does not work if t1sigh > 0!
 #ifndef (t1sigh) #declare t1sigh = 0; #end
 #ifndef (t2sigh) #declare t2sigh = 0; #end
 #ifndef (level) #declare level = int (depth/3); #end
+#ifndef (nopatch) #declare patchlevel = 4; #end
 //#ifndef (patchlevel) #declare patchlevel = 2; #end
+#ifdef (patchlevel) #if (patchlevel > depth) #declare patchlevel = depth; #end #end
 #ifndef (soggettiva) #declare soggettiva = 0; #end
 #ifndef (SPid) #declare SPid = 1; #end
 #ifndef (colors) #declare colors = depth; #end
@@ -79,16 +80,32 @@ text {ttf textfont str(t1sig,0,0) 0.1, 0
 #declare magdepth = pow (magstep, depth);
 #declare mag = magdepth;
 
+#declare gtras = transform {rotate 0*y};
+#ifdef (mirror) #declare gtras = transform {gtras scale <-1, 1, 1>}; #end
+#ifdef (rot) #declare gtras = transform {rotate rot*y} #end
+#local lift = 0;
+
+#ifdef (patchlevel)
+  #if (patchlevel = depth)
+    SPrec (SPid, transform {transform {gtras} translate lift}, depth)
+  #else
+    #local tsig = startsig;
+    #while (tsig)
+      #if (mod (tsig, pow(10, patchlevel)) = 0)
+        create_patch (tsig, transform {gtras translate lift}, patchlevel)
+      #end
+      #local tsig = prec_in_worm (tsig, wriggly)
+    #end
+    create_patch (0, transform {gtras translate lift}, patchlevel)
+  #end
+#end
+
 #ifndef (zoomout) #declare zoomout=1; #end
 
 
 #ifdef (zoomout)
   #declare mag = pow(magstep,zoomout);
 #end
-
-#declare gtras = transform {rotate 0*y};
-#ifdef (mirror) #declare gtras = transform {gtras scale <-1, 1, 1>}; #end
-#ifdef (rot) #declare gtras = transform {rotate rot*y} #end
 
 #ifdef (zoom) #declare zoomfactor = 1/zoom*zoomfactor; #end
 
@@ -220,22 +237,20 @@ worm_init (2000)
   #declare basetrinv = transform {translate -starget};
 #end
 
-#local lift = 0;
-
-//#declare spectrerot_center = <-5/4-ap/2,0,9/4-ap/2>;
-//#declare tower_tr = SPbd[5] - SPbd[9];
-//#declare reltowormtr = spectrerot_center - 0.5*tower_tr;
-//#ifdef (reltowormvar) #declare reltowormtr = spectrerot_center; #end
-//#declare reltoworm = transform {translate -reltowormtr rotate -rotworm*y translate reltowormtr}
-
-#ifdef (patchlevel)
-  #if (patchlevel > depth) #declare patchlevel = depth; #end
-  #declare patchsig = t1sig - mod (t1sig, pow (10, patchlevel));
-  #declare patchid = mod (int (t1sig/pow(10, patchlevel)), 10);
-  #declare patchscale = <1,1,1>;
-  #if (mod (patchlevel,2) = 1) #declare patchscale = <-1,1,1>; #end
-  SPrec (patchid, transform {scale patchscale sig2tr (patchsig, 0, depth) gtras translate lift}, patchlevel)
+/*
+#macro create_patch (tilesig, ggtras, patchlev)
+  #local patchsig = tilesig - mod (tilesig, pow (10, patchlev));
+  #local patchid = mod (int (tilesig/pow (10, patchlev)), 10);
+  #local patchscale = <1,1,1>;
+  #if (mod (patchlev,2) = 1) #local patchscale = <-1,1,1>; #end
+  SPrec (patchid, transform {scale patchscale sig2tr (patchsig, 0, depth) ggtras}, patchlev)
 #end
+ */
+
+
+//#ifdef (patchlevel)
+//  create_patch (t1sig, transform {gtras translate lift}, patchlevel)
+//#end
 
 //SPrec (SPid, transform {transform {gtras} translate lift}, depth)
 
@@ -308,14 +323,21 @@ onetile (sig2id (t2sig), sig2tr (t2sig, t2sigh, depth), transform {gtras transla
     1.0*y
     0.4
     pigment {color Black}
-    transform {gtras}
+    transform {basetr gtras}
   }
 #end
 
 #declare lookatpos = <0,0,0>;
 #declare mylocation = 0.8*mag*<0,10,0>;
-#declare lookatpos = vtransform (lookatpos, basetr);
-#declare mylocation = vtransform (mylocation, basetr);
+#declare mysky = <0,0,1>;
+
+#ifdef (overview)
+  #declare mylocation = <0,5.0*magdepth,0>;
+  #declare mysky = <0,0,1>;
+#else
+  #declare lookatpos = vtransform (lookatpos, basetr);
+  #declare mylocation = vtransform (mylocation, basetr);
+#end
 
 #ifdef (panup)
   #declare lookatpos = lookatpos+magdepth*panup*z;
@@ -327,14 +349,25 @@ onetile (sig2id (t2sig), sig2tr (t2sig, t2sigh, depth), transform {gtras transla
   #declare mylocation = mylocation+magdepth*panright*x;
 #end
 
+text {ttf textfont str(t1sig,0,0) 0.1, 0
+  pigment {Brown}
+  rotate 90*x
+  scale 3
+  //translate -25*x + 10*y
+  translate vtransform (<0,0,0>, basetr)
+  translate -14*x + 8.5*z
+  translate 3.5*tile_thick*y
+  no_shadow
+}
+
 camera {
   location mylocation
-  sky <0,0,1>
+  sky mysky
   look_at lookatpos
 }
 
-light_source { mag*<20, 20, -50> color White }
-light_source { mag*<-50, 100, -100> color 0.5*White }
+light_source { 20*mag*<20, 20, -50> color White }
+light_source { 20*mag*<-50, 100, -100> color 0.5*White }
 //light_source { 2*20*<1, 1, 1> color White }
 
 background {White}
