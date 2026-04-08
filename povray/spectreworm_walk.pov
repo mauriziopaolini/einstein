@@ -339,8 +339,8 @@ onetile (sig2id (t2sig), sig2tr (t2sig, t2sigh, depth), transform {gtras transla
   #declare mylocation = <0,5.0*magdepth,0>;
   #declare mysky = <0,0,1>;
 #else
-  #declare lookatpos = vtransform (lookatpos, basetr);
-  #declare mylocation = vtransform (mylocation, basetr);
+  #declare lookatpos = vtransform (lookatpos, transform {basetr gtras});
+  #declare mylocation = vtransform (mylocation, transform {basetr gtras});
 #end
 
 #ifdef (panup)
