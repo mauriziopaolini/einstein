@@ -358,7 +358,7 @@ text {ttf textfont str(t1sig,0,0) 0.1, 0
   rotate 90*x
   scale 3
   //translate -25*x + 10*y
-  translate vtransform (<0,0,0>, basetr)
+  translate vtransform (<0,0,0>, transform {basetr gtras})
   translate -14*x + 8.5*z
   translate 3.5*tile_thick*y
   no_shadow
