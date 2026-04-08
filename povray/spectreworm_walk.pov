@@ -86,6 +86,8 @@ global_settings { assumed_gamma 1.0 }
 #local lift = 0;
 
 #ifdef (patchlevel)
+  SProtcolorshue (250)
+  SPbuildtiles ()
   #if (patchlevel = depth)
     SPrec (SPid, transform {transform {gtras} translate lift}, depth)
   #else
@@ -168,6 +170,7 @@ global_settings { assumed_gamma 1.0 }
   object {
     #if (tileid = 0)
       graymystic
+      //whitemystic
       #if (rotworm != 0)
         #local rotsign = 0;
         #if (precid = 5) #local rotsign = 1; #end
@@ -186,6 +189,7 @@ global_settings { assumed_gamma 1.0 }
 
     #else
       grayspectre
+      //whitespectre
       #if (rotworm != 0)
         #if (wriggly = 0)
           SProtspectre (rotworm)
