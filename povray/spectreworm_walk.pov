@@ -1,8 +1,4 @@
 /*
- * WARNING: non funziona il posizionamento dei due tasselli se depth è dispari
- */
-
-/*
  * We display two tiles by their signature, one is the reference tile (focussig),
  * the other is given by its tipsig
  * specifically this is for checking adjacency of tiles along a worm
