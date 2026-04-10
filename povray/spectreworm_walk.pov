@@ -16,6 +16,7 @@ global_settings { assumed_gamma 1.0 }
 #ifndef (t1sig) #declare t1sig = 233; #end
 #ifndef (flipflop) #declare flipflop = 11; #end
 #ifndef (fftrans) #declare fftrans = 0.2; #end
+#ifndef (noplaceholder) #declare placeholder = 1; #end
 
 #macro create_patch (tilesig, ggtras, patchlev)
   #local patchsig = tilesig - mod (tilesig, pow (10, patchlev));
@@ -233,6 +234,7 @@ worm_init (2000)
 #declare basetrinv = transform {basetr inverse}
 
 #if (soggettiva = 0)
+  // basetrinv is not used at the moment
   #declare starget = vtransform (<0,0,0>, basetr);
   #declare basetrinv = transform {translate -starget};
 #end
@@ -327,9 +329,32 @@ onetile (sig2id (t2sig), sig2tr (t2sig, t2sigh, depth), transform {gtras transla
   }
 #end
 
+#local phradius = 0.6;
+#declare phcenter = z + (phradius+lift)*y;
+#ifdef (placeholder)
+  sphere {
+    //<1,0,0>, phradius
+    phcenter, phradius
+    pigment {color Black}
+    //translate lift*y + rsph*y
+    //scale <-1,1,1>
+    //rotate 90*y
+    transform {basetr gtras}
+  }
+#end
+
 #declare lookatpos = <0,0,0>;
 #declare mylocation = 0.8*mag*<0,10,0>;
 #declare mysky = <0,0,1>;
+
+#ifdef (soggettiva)
+  //#declare mylocation = <0,10,-20>;
+  //#declare mylocation = 5*y + 10*x;
+  #declare lookatpos = phcenter;
+  #declare mylocation = 5*y - 10*x;
+  #ifdef (mirror) #declare mylocation = 5*y + 10*x; #end
+  #declare mysky = y;
+#end
 
 #ifdef (overview)
   #declare mylocation = <0,5.0*magdepth,0>;
@@ -361,13 +386,24 @@ text {ttf textfont str(t1sig,0,0) 0.1, 0
 }
 
 camera {
+  #ifdef (AspectWide)
+    //angle 20*4/3
+    right 16/9*x
+  //#else
+  //  angle 20
+  #end
   location mylocation
   sky mysky
   look_at lookatpos
 }
 
-light_source { 20*mag*<20, 20, -50> color White }
-light_source { 20*mag*<-50, 100, -100> color 0.5*White }
-//light_source { 2*20*<1, 1, 1> color White }
+#if (soggettiva)
+  light_source { 20*mag*<5, 40, -10> color White }
+  light_source { 20*mag*<-25, 100, -40> color 0.5*White }
+#else
+  light_source { 20*mag*<20, 20, 50> color White }
+  light_source { 20*mag*<-50, 100, 100> color 0.5*White }
+  //light_source { 2*20*<1, 1, 1> color White }
+#end
 
 background {White}
