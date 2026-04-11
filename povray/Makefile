@@ -778,7 +778,7 @@ mp4sipre1l=0.5 8.5 16.5
 mp4sipre8l=7.5 15.5 23.5
 mp4siprexl=$(mp4sipre1l) $(mp4sipre8l)
 mp4listg=$(mp4siprexl:%=spectre_inflation_%) spectre_inflation spectreworm_rotate spectrewworm_rotate
-walkl=6 6w 5 5w 5s 4 4w 4s
+walkl=6 6w 6s 6ws 5 5w 5s 5ws 4 4w 4s 4ws
 mp4listh=$(walkl:%=spectreworm_walk_d%)
 
 mp4list = $(mp4lista) $(mp4listb) $(mp4listc) $(mp4listd) $(mp4liste) $(mp4listf) $(mp4listg) $(mp4listh)
