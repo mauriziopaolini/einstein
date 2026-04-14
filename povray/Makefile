@@ -786,6 +786,9 @@ mp4list = $(mp4lista) $(mp4listb) $(mp4listc) $(mp4listd) $(mp4liste) $(mp4listf
 $(mp4list:%=%.mp4): %.mp4: frames/%/DONE
 	ffmpeg -y -framerate 25 -pattern_type glob -i 'frames/$*/frame????.png' -c:v libx264 -pix_fmt yuv420p $@
 
+pippo:
+	echo $(mp4list)
+
 mp4concatlist = yellow_brick_road_path01 yellow_brick_road_path023
 
 povoptsani = -D +a Declare=AspectWide=1 +W1280 +H720 +ki0 +kfi0
@@ -806,8 +809,18 @@ frames/spectreworm_walk_d6/DONE: frames/%/DONE: spectreworm_walk.pov
 	for i in `seq 9971 9999`; do cp frames/$*/frame9970.png frames/$*/frame$${i}.png; done
 	touch $@
 
+frames/spectreworm_walk_d6s/DONE: frames/%/DONE: spectreworm_walk.pov
+	povray $< $(povoptsani) Declare=depth=6 Declare=t1sig=333333 Declare=level=2 Declare=soggettiva=1 +kf1078 +kff9970 +Oframes/$*/frame
+	for i in `seq 9971 9999`; do cp frames/$*/frame9970.png frames/$*/frame$${i}.png; done
+	touch $@
+
 frames/spectreworm_walk_d6w/DONE: frames/%/DONE: spectreworm_walk.pov
 	povray $< $(povoptsani) Declare=wriggly=1 Declare=depth=6 Declare=t1sig=633333 Declare=level=2 +kf1079 +kff9970 +Oframes/$*/frame
+	for i in `seq 9971 9999`; do cp frames/$*/frame9970.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/spectreworm_walk_d6ws/DONE: frames/%/DONE: spectreworm_walk.pov
+	povray $< $(povoptsani) Declare=wriggly=1 Declare=depth=6 Declare=t1sig=633333 Declare=soggettiva=1 Declare=level=2 +kf1079 +kff9970 +Oframes/$*/frame
 	for i in `seq 9971 9999`; do cp frames/$*/frame9970.png frames/$*/frame$${i}.png; done
 	touch $@
 
@@ -826,6 +839,11 @@ frames/spectreworm_walk_d5w/DONE: frames/%/DONE: spectreworm_walk.pov
 	for i in `seq 3971 3999`; do cp frames/$*/frame3970.png frames/$*/frame$${i}.png; done
 	touch $@
 
+frames/spectreworm_walk_d5ws/DONE: frames/%/DONE: spectreworm_walk.pov
+	povray $< $(povoptsani) Declare=wriggly=1 Declare=depth=5 Declare=t1sig=33333 Declare=level=1 Declare=mirror=1 Declare=soggettiva=1 +kf396 +kff3970 +Oframes/$*/frame
+	for i in `seq 3971 3999`; do cp frames/$*/frame3970.png frames/$*/frame$${i}.png; done
+	touch $@
+
 frames/spectreworm_walk_d4/DONE: frames/%/DONE: spectreworm_walk.pov
 	povray $< $(povoptsani) Declare=depth=4 Declare=t1sig=3333 Declare=level=1 +kf108 +kff1970 +Oframes/$*/frame
 	for i in `seq 1971 1999`; do cp frames/$*/frame1970.png frames/$*/frame$${i}.png; done
@@ -838,6 +856,11 @@ frames/spectreworm_walk_d4s/DONE: frames/%/DONE: spectreworm_walk.pov
 
 frames/spectreworm_walk_d4w/DONE: frames/%/DONE: spectreworm_walk.pov
 	povray $< $(povoptsani) Declare=depth=4 Declare=t1sig=6333 Declare=level=1 Declare=wriggly=1 +kf109 +kff1970 +Oframes/$*/frame
+	for i in `seq 1971 1999`; do cp frames/$*/frame1970.png frames/$*/frame$${i}.png; done
+	touch $@
+
+frames/spectreworm_walk_d4ws/DONE: frames/%/DONE: spectreworm_walk.pov
+	povray $< $(povoptsani) Declare=depth=4 Declare=t1sig=6333 Declare=level=1 Declare=wriggly=1 Declare=soggettiva=1 +kf108 +kff1970 +Oframes/$*/frame
 	for i in `seq 1971 1999`; do cp frames/$*/frame1970.png frames/$*/frame$${i}.png; done
 	touch $@
 
