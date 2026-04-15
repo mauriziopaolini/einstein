@@ -59,8 +59,10 @@ global_settings { assumed_gamma 1.0 }
 #declare textfont = "LiberationMono-Regular.ttf"
 
 #ifndef (t2sig) #declare t2sig = prec_in_worm (t1sig, wriggly) #end  // WARNING: this does not work if t1sigh > 0!
+#ifndef (t3sig) #declare t3sig = prec_in_worm (t2sig, wriggly) #end  // WARNING: this does not work if t1sigh > 0!
 #ifndef (t1sigh) #declare t1sigh = 0; #end
 #ifndef (t2sigh) #declare t2sigh = 0; #end
+#ifndef (t3sigh) #declare t3sigh = 0; #end
 #ifndef (level) #declare level = int (depth/3); #end
 #ifndef (nopatch) #declare patchlevel = 4; #end
 //#ifndef (patchlevel) #declare patchlevel = 2; #end
@@ -205,6 +207,7 @@ global_settings { assumed_gamma 1.0 }
 #declare tile1rot = sig2rot (t1sig, t1sigh, depth);
 //#debug concat ("tile1rot = ", str(tile1rot,0,-1), "\n")
 #declare tile2rot = sig2rot (t2sig, t2sigh, depth);
+#declare tile3rot = sig2rot (t3sig, t3sigh, depth);
 
 
 worm_init (2000)
@@ -281,6 +284,9 @@ onetile (sig2id (t1sig), sig2tr (t1sig, t1sigh, depth), transform {gtras transla
 //#if (mod(t1sig,1000) = 450) #declare hack = 1; #end
 #if (mod(t1sig,100) = 50) #declare hack = 1; #end
 onetile (sig2id (t2sig), sig2tr (t2sig, t2sigh, depth), transform {gtras translate lift+0.01*y}, rotworm, sig2id (t1sig))
+#declare hack = 0;
+#if (mod(t2sig,100) = 50) #declare hack = 1; #end
+onetile (sig2id (t3sig), sig2tr (t3sig, t3sigh, depth), transform {gtras translate lift+0.02*y}, rotworm, sig2id (t2sig))
 
 
 /* not used for now
