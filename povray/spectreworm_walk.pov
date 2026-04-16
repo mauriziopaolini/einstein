@@ -357,8 +357,10 @@ onetile (sig2id (t3sig), sig2tr (t3sig, t3sigh, depth), transform {gtras transla
   //#declare mylocation = <0,10,-20>;
   //#declare mylocation = 5*y + 10*x;
   #declare lookatpos = phcenter;
-  #declare mylocation = 5*y - 10*x;
-  #ifdef (mirror) #declare mylocation = 5*y + 10*x; #end
+  #declare mysign = 1;
+  #ifdef (mirror) #declare mysign = -1; #end
+  #declare mylocation = 5*y - mysign*10*x;
+  #if (wriggly) #declare mylocation = 5*y + 10*z + 0*mysign*10*x; #end
   #declare mysky = y;
 #end
 
@@ -392,12 +394,10 @@ text {ttf textfont str(t1sig,0,0) 0.1, 0
 }
 
 camera {
-  #ifdef (AspectWide)
-    //angle 20*4/3
-    right 16/9*x
-  //#else
-  //  angle 20
-  #end
+  //#ifdef (AspectWide)
+    //right 16/9*x
+    right image_width/image_height*x
+  //#end
   location mylocation
   sky mysky
   look_at lookatpos
