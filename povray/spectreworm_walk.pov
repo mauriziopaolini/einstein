@@ -361,6 +361,7 @@ onetile (sig2id (t3sig), sig2tr (t3sig, t3sigh, depth), transform {gtras transla
   #ifdef (mirror) #declare mysign = -1; #end
   #declare mylocation = 5*y - mysign*10*x;
   #if (wriggly) #declare mylocation = 5*y + 10*z + 0*mysign*10*x; #end
+  #declare mylocation_pre = mylocation;
   #declare mysky = y;
 #end
 
@@ -382,16 +383,51 @@ onetile (sig2id (t3sig), sig2tr (t3sig, t3sigh, depth), transform {gtras transla
   #declare mylocation = mylocation+magdepth*panright*x;
 #end
 
+#declare infobox = 
 text {ttf textfont str(t1sig,0,0) 0.1, 0
   pigment {Brown}
   rotate 90*x
   scale 3
-  //translate -25*x + 10*y
-  translate vtransform (<0,0,0>, transform {basetr gtras})
-  translate -14*x + 8.5*z
   translate 3.5*tile_thick*y
   no_shadow
 }
+
+#if (soggettiva)
+  object {infobox
+    #if (wriggly = 0)
+      #ifndef (mirror)
+        scale 0.10
+        translate -1.25*x+0.9*z
+        rotate -80*x
+        rotate 70*y
+      #else
+        scale 0.10
+        translate -1.15*x+0.9*z
+        rotate -80*x
+        rotate 110*y
+      #end
+    #else
+      #ifndef (mirror)
+        scale 0.10
+        translate -1.15*x+0.8*z
+        rotate -80*x
+        rotate 180*y
+      #else
+        scale 0.10
+        translate -1.05*x+0.8*z
+        rotate -90*x
+        rotate 10*y
+      #end
+    #end
+    translate 0.8*mylocation_pre
+    transform {basetr gtras}
+  }
+#else
+  object {infobox
+    translate vtransform (<0,0,0>, transform {basetr gtras})
+    translate -14*x + 8.5*z
+  }
+#end
 
 camera {
   //#ifdef (AspectWide)
